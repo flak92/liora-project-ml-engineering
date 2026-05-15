@@ -15,7 +15,7 @@ Retail investors who want to pick individual stocks usually have to choose betwe
 The pipeline is split into three steps:
 
 1. **Clustering** — group the stock universe by historical risk/return profile (volatility, Sharpe ratio, beta vs. index, max drawdown, sector) using K-Means or hierarchical clustering. This yields natural groups: stable dividend payers, growth tech, cyclicals, defensive low-beta names, etc.
-2. **Return ranking** — train a regression model (linear regression as baseline, then Random Forest / Gradient Boosting) to estimate the expected 12-month return from fundamentals and a few technical features. The goal is not to beat the market — only to rank stocks *within* each cluster.
+2. **Return ranking** — train a regression model (linear regression as baseline, then Random Forest / Gradient Boosting) to estimate the expected 12-month return from fundamentals and a few technical features. The goal is not to beat the market — only to rank stocks _within_ each cluster.
 3. **Recommendation** — map the user's questionnaire to a target risk profile, pick the relevant clusters, and return the top-N stocks per cluster, with the constraint that **no single sector exceeds 30%** of the portfolio.
 
 The whole thing is wrapped in a **Streamlit** web app so the questionnaire can be played with interactively and the recommended portfolio is shown together with the metrics that support each pick.
@@ -43,24 +43,24 @@ The whole thing is wrapped in a **Streamlit** web app so the questionnaire can b
 
 Mentor: **Paul Grolier**. Framing meeting tentatively scheduled for **Wednesday 2026-05-13** afternoon (Zoom). Original kickoff message: [Slack thread](https://dstinternatio-d5c8877.slack.com/archives/C0B2TU0HJM9/p1778517743660219).
 
-| Step | Deliverable | Deadline |
-|------|-------------|----------|
-| 0 | Framing meeting | Week of 2026-05-11 |
-| 1 | Data mining + DataViz | **2026-05-27** |
-| 2 | Pre-processing + feature engineering → **Rendering 1**: data exploration, data viz and pre-processing report | **2026-06-03** |
-| 3.1 | Modeling — baseline models, first iterations | **2026-06-10** |
-| 3.2 | Modeling — ML metrics, optimization, model comparison | **2026-06-24** |
-| 3.3 | Modeling — bagging/boosting, Deep Learning, interpretability → **Rendering 2**: modeling report | **2026-07-01** |
-| 4 | Final report + clean commented code on GitHub | **2026-07-08** |
-| 5 | Streamlit application + oral defense | **2026-07-23 – 2026-07-21** |
+| Step | Deliverable                                                                                                  | Deadline                    |
+| ---- | ------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| 0    | Framing meeting                                                                                              | Week of 2026-05-11          |
+| 1    | Data mining + DataViz                                                                                        | **2026-05-27**              |
+| 2    | Pre-processing + feature engineering → **Rendering 1**: data exploration, data viz and pre-processing report | **2026-06-03**              |
+| 3.1  | Modeling — baseline models, first iterations                                                                 | **2026-06-10**              |
+| 3.2  | Modeling — ML metrics, optimization, model comparison                                                        | **2026-06-24**              |
+| 3.3  | Modeling — bagging/boosting, Deep Learning, interpretability → **Rendering 2**: modeling report              | **2026-07-01**              |
+| 4    | Final report + clean commented code on GitHub                                                                | **2026-07-08**              |
+| 5    | Streamlit application + oral defense                                                                         | **2026-07-23 – 2026-07-21** |
 
 ### Step requirements
 
-- **Step 1 — Data mining + DataViz** *(due 2026-05-27)*: define context and scope, near-exhaustive dataset analysis to highlight structure, difficulties and biases. Use the *TEMPLATE - Data Audit*. Deliver **at least 5 relevant visualizations**, each with a precise commentary providing a *business* opinion **and** validated by data manipulation or a statistical test.
-- **Step 2 — Pre-processing + feature engineering** *(due 2026-06-03)*: cleaning, transformations, feature engineering, dataset enrichment. End state: dataset ready for in-depth analysis / ML / DL modeling. After Rendering 1, the mentor will instantiate the official GitHub repo for the group following the provided template.
-- **Step 3 — Modeling** *(2026-06-10 → 2026-07-01)*: baseline → optimization → advanced (bagging/boosting + Deep Learning) → interpretability + scientific & business conclusions.
-- **Step 4 — Final report** *(due 2026-07-08)*: merges Renderings 1 & 2, adds conclusion and opening, plus clean commented code on GitHub.
-- **Step 5 — Defense** *(2026-07-23 → 2026-07-21)*: 20 min presentation + 10 min jury Q&A. Either Powerpoint + Streamlit demo, or the entire presentation through the Streamlit app. The app must be aesthetically pleasing with several tabs, carefully coded (no re-training of the model at runtime) and bug-free.
+- **Step 1 — Data mining + DataViz** _(due 2026-05-27)_: define context and scope, near-exhaustive dataset analysis to highlight structure, difficulties and biases. Use the _TEMPLATE - Data Audit_. Deliver **at least 5 relevant visualizations**, each with a precise commentary providing a _business_ opinion **and** validated by data manipulation or a statistical test.
+- **Step 2 — Pre-processing + feature engineering** _(due 2026-06-03)_: cleaning, transformations, feature engineering, dataset enrichment. End state: dataset ready for in-depth analysis / ML / DL modeling. After Rendering 1, the mentor will instantiate the official GitHub repo for the group following the provided template.
+- **Step 3 — Modeling** _(2026-06-10 → 2026-07-01)_: baseline → optimization → advanced (bagging/boosting + Deep Learning) → interpretability + scientific & business conclusions.
+- **Step 4 — Final report** _(due 2026-07-08)_: merges Renderings 1 & 2, adds conclusion and opening, plus clean commented code on GitHub.
+- **Step 5 — Defense** _(2026-07-23 → 2026-07-21)_: 20 min presentation + 10 min jury Q&A. Either Powerpoint + Streamlit demo, or the entire presentation through the Streamlit app. The app must be aesthetically pleasing with several tabs, carefully coded (no re-training of the model at runtime) and bug-free.
 
 > Intermediate and final reports must include illustrations, a proper layout and no spelling mistakes. **Reports not up to standard or delivered late will not validate the project.**
 
@@ -76,5 +76,9 @@ Mentor: **Paul Grolier**. Framing meeting tentatively scheduled for **Wednesday 
 
 ## Bibliography
 
-- Aroussi, R. — *[yfinance documentation](https://ranaroussi.github.io/yfinance/)*.
-- López de Prado, M. (2018). *Advances in Financial Machine Learning*. Wiley.
+- Aroussi, R. — _[yfinance documentation](https://ranaroussi.github.io/yfinance/)_.
+- López de Prado, M. (2018). _Advances in Financial Machine Learning_. Wiley.
+
+## Actions
+
+[ ] Decide which source of information we will use for the project. [*GA*: I propose we use yfinance for S&P500 & DAX40] - Deadline (Friday, May 22nd)
