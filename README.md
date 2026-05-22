@@ -22,10 +22,11 @@ The whole thing is wrapped in a **Streamlit** web app so the questionnaire can b
 
 ## Data sources
 
-- **[yfinance](https://pypi.org/project/yfinance/)** — historical prices, fundamentals, dividends, sector metadata.
-- **S&P 500 + DAX 40 constituents** — from Wikipedia / [datahub.io](https://datahub.io/core/s-and-p-500-companies). ~540 tickers total.
+- **[Alpaca Markets](https://alpaca.markets/)** (free IEX feed) — **primary** source for daily OHLCV. Selected on 2026-05-22 with mentor approval (see [`meeting_notes/2026-05-22.md`](meeting_notes/2026-05-22.md)). Rationale: broker-grade validated data pipeline, richer programmatic API, and compatibility with backtesting tools like QuantConnect. A side-by-side audit against yfinance (`data provider choose.html`) showed ~99.5% similarity on overlapping (ticker, date) pairs.
+- **[yfinance](https://pypi.org/project/yfinance/)** — kept as a fallback / cross-check source only. Observed limitations: unvalidated data quality and occasional incorrect average-close values on some days.
+- **S&P 500 constituents** — scraped from Wikipedia; ~503 tickers. _Note:_ Alpaca's free tier does **not** cover DAX 40, so the initial universe is S&P 500 only. The clustering / ranking methodology is market-agnostic, so DAX 40 can be re-added later via a different provider if needed.
 - **[Alpha Vantage](https://www.alphavantage.co/)** (free tier) — backup source for P/E, EPS, dividend yield.
-- **[Kaggle Huge Stock Market Dataset](https://www.kaggle.com/datasets/borismarjanovic/price-volume-data-for-all-us-stocks-etfs)** — ~7,000 US tickers with daily OHLCV; offline backup if Yahoo Finance rate-limits.
+- **[Kaggle Huge Stock Market Dataset](https://www.kaggle.com/datasets/borismarjanovic/price-volume-data-for-all-us-stocks-etfs)** — ~7,000 US tickers with daily OHLCV; offline backup.
 - **[FRED](https://fred.stlouisfed.org/)** — risk-free rate (10-year US Treasury) for the Sharpe ratio.
 
 ## Tech stack
@@ -134,4 +135,10 @@ Mentor: **Paul Grolier**. Framing meeting tentatively scheduled for **Wednesday 
 
 ## Actions
 
-[ ] Decide which source of information we will use for the project. [*GA*: I propose we use yfinance for S&P500 & DAX40] - Deadline (Friday, May 22nd)
+- [x] **Decide the project's data source** — _Decided 2026-05-22 (mentor-approved): **Alpaca free IEX feed** for S&P 500 daily OHLCV; yfinance kept as fallback. DAX 40 deferred (not covered by Alpaca's free tier)._
+- [ ] Migrate `fetch_data.py` from yfinance to the Alpaca API — by next meeting (**2026-05-28**).
+- [ ] Set up a **Streamlit** project skeleton for presentation plots.
+- [ ] Produce **5 initial visualizations** + fill the **Data Audit** Excel sheet — Deadline **2026-05-27**.
+- [ ] Full data-exploration / DataViz / pre-processing **report (Rendering 1)** — Deadline **2026-06-03**.
+
+> Mentor unavailable the first week of June 2026. Next meeting: **Thursday 2026-05-28, 09:00**.
