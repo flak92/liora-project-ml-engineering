@@ -1,6 +1,6 @@
 """Fetch historical daily OHLCV data for S&P 500 constituents from Alpaca Markets.
 
-Primary data source for the Liora Stock portfolio recommender (mentor-approved
+Primary data source for the Stocks Recommender Based on User Profile (mentor-approved
 2026-05-22). Uses Alpaca's free IEX feed via alpaca-py and the REST bars API.
 
 Outputs (written under ./data/):
