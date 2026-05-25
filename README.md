@@ -1,4 +1,4 @@
-# Liora Stock — Stock Portfolio Recommender
+# Stocks Recommender Based on User Profile
 
 A beginner-friendly stock portfolio recommender that turns a short questionnaire about the investor (experience, time horizon, loss tolerance, monthly budget, sector preferences) into a small portfolio of 5–10 stocks picked from a known universe (S&P 500 + DAX 40), along with the risk metrics that justify each pick.
 
@@ -94,6 +94,16 @@ A full run covers **503 S&P 500 tickers** and takes roughly **8–10 minutes** w
 **History depth note:** the script requests a 10-year window, but Alpaca's free IEX feed currently returns daily bars back to **~July 2020** (~1,460 trading days per symbol), not the full 10 calendar years. This is a feed/tier limit, not a script bug. For deeper history, use the Kaggle offline backup listed under **Data sources** or upgrade to a paid SIP feed.
 
 **Verified (2026-05-24):** smoke test (`--limit 3`) and full run (503 tickers, 726,018 rows, 0 failures) both completed successfully on Python 3.14 with the IEX feed.
+
+### 5. Run the exploration dashboard (Streamlit)
+
+Follows the **module 117** pattern: one **Exploration** page (`head`, `describe`, missing values) and one **DataViz** page with 4 Seaborn plots taught in class (`countplot`, `boxplot`, `histplot`, `lineplot`).
+
+```bash
+source .venv/bin/activate
+pip install -r requirements.txt
+streamlit run app.py
+```
 
 ### Troubleshooting
 

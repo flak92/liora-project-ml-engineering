@@ -1,6 +1,6 @@
 # Data Audit — Alpaca S&P 500 daily OHLCV dataset
 
-**Project:** Liora Stock — Stock Portfolio Recommender  
+**Project:** Stocks Recommender Based on User Profile  
 **Source:** Alpaca Markets, free IEX feed (`fetch_data.py`, 2026-05-24)  
 **Files audited:** `data/tickers.csv`, `data/prices_long.csv` (rebuilt from `data/by_ticker/SP500/*.csv`)  
 **Template reference:** [Liora — TEMPLATE Data Audit](https://docs.google.com/spreadsheets/d/1JI7_DBcSXJl5UxB8VY-Ybyr3T1NdK0PCDkO1t-ZRjj8/edit?gid=0#gid=0)
