@@ -143,7 +143,7 @@ Mentor: **Paul Grolier**. Framing meeting tentatively scheduled for **Wednesday 
 - **Step 4 — Final report** _(due 2026-07-08)_: merges Renderings 1 & 2, adds conclusion and opening, plus clean commented code on GitHub.
 - **Step 5 — Defense** _(2026-07-23 → 2026-07-21)_: 20 min presentation + 10 min jury Q&A. Either Powerpoint + Streamlit demo, or the entire presentation through the Streamlit app. The app must be aesthetically pleasing with several tabs, carefully coded (no re-training of the model at runtime) and bug-free.
 
-> Intermediate and final reports must include illustrations, a proper layout and no spelling mistakes. **Reports not up to standard or delivered late will not validate the project.**
+> Intermediate and final reports must include illustrations, a proper layout and no spelling mistakes. **Reports not up to standard or delivered late will not validate the project.** Mentor confirmed 2026-05-28: deliverable format is **PDF**, template flexible (Markdown, Overleaf, …). Mentor will provide written feedback on Renderings 1 & 2 so refinements land in the final report.
 
 ## Reference documents (provided by Liora)
 
@@ -165,7 +165,12 @@ Mentor: **Paul Grolier**. Framing meeting tentatively scheduled for **Wednesday 
 - [x] **Decide the project's data source** — _Decided 2026-05-22 (mentor-approved): **Alpaca free IEX feed** for S&P 500 daily OHLCV; yfinance kept as fallback. DAX 40 deferred (not covered by Alpaca's free tier)._
 - [x] Migrate `fetch_data.py` from yfinance to the Alpaca API — _Done 2026-05-24._
 - [x] Set up a **Streamlit** project skeleton for presentation plots.
-- [x] Produce **5 initial visualizations** + fill the **Data Audit** Excel sheet — Deadline **2026-05-27**. ℹ️ **INFO:** We have 6 plots in place.
-- [ ] Full data-exploration / DataViz / pre-processing **report (Rendering 1)** — Deadline **2026-06-03**.
+- [x] Produce **5 initial visualizations** + fill the **Data Audit** Excel sheet — Deadline **2026-05-27**. ℹ️ **INFO:** 6 plots in place (sector counts, mean daily volume, daily returns, price line, **correlation heatmap**, **risk/return scatter**) — mentor-reviewed 2026-05-28.
+- [ ] Full data-exploration / DataViz / pre-processing **report (Rendering 1)** — Deadline **2026-06-03** · **PDF format**, template flexible (Markdown, Overleaf, …).
+- [ ] Add **per-ticker history-length** column to EDA — flag new entrants like **SNDK** (1.2 yrs of history; 342% return / 98% risk outlier in the scatter plot).
+- [ ] Design **with-vs.-without outliers** modeling comparison (mentor 2026-05-28: train both, document impact, don't drop blindly).
+- [ ] Cover **failed approaches** in the report narrative (mentor 2026-05-28: yfinance → Alpaca migration, outlier debate, etc.).
+- [ ] Pre-baked **XGBoost vs. Random Forest** model comparison across data preparations (mentor 2026-05-28).
+- [ ] Attend Paul's **"Introduction to Deep Learning"** masterclass on **2026-06-11** (neural networks + Keras).
 
-> Mentor unavailable the first week of June 2026. Next meeting: **Thursday 2026-05-28, 09:00**.
+> Mentor unavailable the week of 2026-06-01 (Slack only). Next mentor meeting: **Monday 2026-06-08, 10:00**. See [`meeting_notes/2026-05-28.md`](meeting_notes/2026-05-28.md).
