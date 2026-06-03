@@ -4,6 +4,8 @@ data/by_ticker/
 
 # Report PDFs (regenerate locally via reports/build_pdf.sh)
 reports/*.pdf
+# ...but keep the versioned milestone deliverables under version control
+!reports/report_v*.pdf
 
 # Python
 __pycache__/

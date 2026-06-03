@@ -231,7 +231,7 @@ Mentor: **Paul Grolier**. Framing meeting tentatively scheduled for **Wednesday 
 - [x] Migrate `fetch_data.py` from yfinance to the Alpaca API — _Done 2026-05-24._
 - [x] Set up a **Streamlit** project skeleton for presentation plots.
 - [x] Produce **5 initial visualizations** + fill the **Data Audit** Excel sheet — Deadline **2026-05-27**. ℹ️ **INFO:** 6 plots in place (sector counts, mean daily volume, daily returns, price line, **correlation heatmap**, **risk/return scatter**) — mentor-reviewed 2026-05-28.
-- [ ] Full data-exploration / DataViz / pre-processing **report (Rendering 1)** — Deadline **2026-06-03** · **PDF format**, template flexible (Markdown, Overleaf, …). Draft in [`reports/REPORT.md`](reports/REPORT.md) — see [**Building the report PDF**](#building-the-report-pdf) for setup + build command.
+- [x] Full data-exploration / DataViz / pre-processing **report (Rendering 1)** — Deadline **2026-06-03** · **PDF format**. ✅ **Delivered 2026-06-03** as [`reports/report_v1_June_03_2026.pdf`](reports/report_v1_June_03_2026.pdf) (source [`reports/REPORT.md`](reports/REPORT.md), 6 EDA figures embedded; see [**Building the report PDF**](#building-the-report-pdf)).
 - [ ] Add **per-ticker history-length** column to EDA — flag new entrants like **SNDK** (1.2 yrs of history; 342% return / 98% risk outlier in the scatter plot).
 - [ ] Design **with-vs.-without outliers** modeling comparison (mentor 2026-05-28: train both, document impact, don't drop blindly).
 - [ ] Cover **failed approaches** in the report narrative (mentor 2026-05-28: yfinance → Alpaca migration, outlier debate, etc.).
