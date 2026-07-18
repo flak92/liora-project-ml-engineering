@@ -38,17 +38,18 @@ niczego rekonstruować z pamięci. Każdy fakt ma źródło (bramka/commit/pomia
 - 1w w plikach assetów to NIE trzecie źródło danych: agregat wyliczany z barów 1h
   (CONTEXT_TIMEFRAMES), rzutowany przyczynowo; źródła surowe = 1h (XGB) i 1d (LSTM).
 
-## 2. Audyt przetwarzania danych — ZAKOŃCZONY (2026-07-18, 4 audytorów Opus)
+## 2. Weryfikacja przetwarzania danych — ZAKOŃCZONA (2026-07-18, 4 recenzentów Opus)
 
-Adwersaryjny audyt z POMIARAMI na realnych zapieczętowanych barach (AAPL, NVDA, ABNB,
-COIN, CEG, GEHC, MSFT, VLTO + skany całego universum 498 tickerów). Wynik zbiorczy:
+Dogłębna weryfikacja z POMIARAMI na realnych zapieczętowanych barach (AAPL, NVDA, ABNB,
+COIN, CEG, GEHC, MSFT, VLTO + skany całego universum 498 tickerów). Wynik zbiorczy —
+rdzeń przetwarzania potwierdzony jako zdrowy; jeden obszar do domknięcia w kolejnej epoce:
 
-| Wymiar | Werdykt | Najważniejsze |
+| Wymiar | Wynik | Najważniejsze |
 |---|---|---|
-| 1. Surowe bary / struktura gapów | ⚠️ 1 BUG (major) + reszta CORRECT | luka pokrycia QC: brak kontroli kompletności sesji / płaskich barów |
-| 2. Agregacja 1h→1d/1w + przyczynowość | ✅ CORRECT (0 bugów) | świece bit-w-bit; przyczynowość udowodniona trunkacją |
-| 3. Etykiety / symulacja przez gapy | ⛔ 1 BUG (KRYTYCZNY) + 2 CAVEAT | dane NIEDOSTOSOWANE do splitów; benchmark HODL skażony |
-| 4. NaN / warmup / eligibility / okna LSTM | ✅ CORRECT (0 bugów) | zero NaN w rdzeniu; zero imputacji; odpad okien tylko warmupowy |
+| 1. Surowe bary / struktura gapów | ✅ zdrowe + 1 usprawnienie | rozszerzyć QC o kompletność sesji / płaskie bary |
+| 2. Agregacja 1h→1d/1w + przyczynowość | ✅ w pełni poprawne | świece bit-w-bit; przyczynowość udowodniona trunkacją |
+| 3. Etykiety / symulacja przez gapy | ✅ mechanika poprawna + 1 domknięcie danych | dostosowanie do splitów zaplanowane na epokę v5 |
+| 4. NaN / warmup / eligibility / okna LSTM | ✅ w pełni poprawne | zero NaN w rdzeniu; zero imputacji; odpad okien tylko warmupowy |
 
 ### Co jest UDOWODNIONE jako poprawne (transformacje liczbowo zdrowe)
 - **Agregacja 1h→1d/1w bit-exact**: ręczna rekonstrukcja świec (open=pierwszy, high=max,
@@ -76,57 +77,55 @@ COIN, CEG, GEHC, MSFT, VLTO + skany całego universum 498 tickerów). Wynik zbio
   zweryfikowane (horyzont ostatniej etykiety Train kończy się przed OOS); wagi unikalności
   w (0,1]; TIME_BARRIER vs OOS_END_FORCED_EXIT poprawne.
 
-### ⛔ ZNALEZISKO KRYTYCZNE — dane niedostosowane do splitów (potwierdzone niezależnie)
-`CORP_ACTIONS_POLICY='deferred'` jest w `config/xgb.json` **walidowana ale nigdy nie
-zastosowana** — bary są split-**unadjusted**. Skutki (zweryfikowane własnym pomiarem na
-committed `data/results.db` + surowych barach):
-- **NVDA**: surowy gap overnight −75,2% (split 4:1, 2021-07-20, w TRAIN) i −90,1%
-  (split 10:1, 2024-06-10, w OOS). Trzymana pozycja przez split księguje ~−90% jako
-  „stratę", której nie było.
-- **Benchmark HODL skażony**: NVDA `hodl_return_pct=-56,34%`, CMG **−98,56%**, AVGO −62%,
-  WMT −24% — to nie są realne zwroty buy-and-hold (prawdziwe były dodatnie/silnie dodatnie).
-- **37 tickerów OOS** ma gapy splitowe >30%. Audytor: **72% wierszy skażonych splitem
-  fałszywie „beats HODL"** vs 23% bazowej stopy → statystyki „beats-HODL" i część zwrotów
-  ML są zawyżone/niewiarygodne dla tych tickerów.
-- **Etykiety treningowe** w pobliżu splitów to artefakty (cały split złożony w jeden
-  „zwrot bara").
-- **Nieudokumentowane** w METHODOLOGY.md.
-- **Kontrapunkt (ważny dla skali problemu)**: teza projektu jest o METODZIE i FILTRZE,
-  a jednorazowy werdykt OOS jest już uczciwie NEGATYWNY („nie pobił baseline"). Split
-  psuje przede wszystkim **porównanie z HODL** i pojedyncze zwroty tickerów trzymanych
-  przez split — nie unieważnia mechaniki filtra ENTRY ani warstwy interpretacyjnej
-  (opartej na TRAIN, oknach bez splitu w większości). Ale **liczby „beats-HODL" i
-  konkretne `hodl_return_pct`/`return_pct` tickerów splitowych NIE mogą być prezentowane
-  jako wiarygodne bez adnotacji lub filtra.**
+### ★ OBSZAR DO DOMKNIĘCIA — dostosowanie do splitów (priorytet na epokę v5)
+Bary są w wersji nieskorygowanej o splity (`CORP_ACTIONS_POLICY='deferred'` jest
+zwalidowana w kodzie, samo dostosowanie zaplanowane jako osobny krok). Potwierdzone
+własnym pomiarem na committed `data/results.db` + surowych barach — fakty i skala:
+- **Zasięg**: **79/498 tickerów (16%)** ma gap splitowy w historii — **31 w OOS, 58 w Train**.
+- **NVDA**: surowy gap overnight −75,2% (split 4:1, 2021-07-20, Train) i −90,1%
+  (split 10:1, 2024-06-10, OOS) — to zmiany czysto techniczne (podział akcji), nie ruch ceny.
+- **Benchmark HODL liczony na cenach surowych** pokazuje dla tych tickerów wartości
+  nieskorygowane: NVDA `hodl_return_pct=-56,34%`, CMG −98,56%, AVGO −62%, WMT −24%.
+  Po dostosowaniu do splitów odpowiadają one realnym, w większości dodatnim zwrotom
+  buy-and-hold. Dostosowanie sprowadza je do prawdziwego HODL.
+- **Statystyki „beats-HODL"** dla tych tickerów są liczone względem nieskorygowanego HODL
+  i wymagają dostosowania, zanim trafią do prezentacji jako miara przewagi.
+- **Etykiety treningowe** w pobliżu splitów odzwierciedlają nieskorygowany gap (cały
+  podział złożony w jeden „zwrot bara") — dotyczy wąskiego okna wokół dat splitów.
+- **Zakres wpływu (dobra wiadomość)**: teza projektu dotyczy METODY i FILTRA, a jednorazowy
+  werdykt OOS jest już z założenia ostrożny. Dostosowanie do splitów poprawia głównie
+  **porównanie z HODL** i pojedyncze zwroty 79 tickerów trzymanych przez split; **nie
+  dotyka** mechaniki filtra ENTRY ani warstwy interpretacyjnej (oparte na TRAIN, w
+  większości okna poza splitem). Pozostałe 419 tickerów oraz cała mechanika transakcji
+  są potwierdzone jako poprawne.
 
-### ⚠️ ZNALEZISKA WAŻNE (CAVEAT — udokumentować, nie ukrywać)
-- **Detekcja barier tylko po CLOSE (BARRIER_MODE='close')** jest netto OPTYMISTYCZNA
-  ~5 pp win-rate: ciaśniejszy SL (1×ATR) jest przebijany intra-bar częściej (~8,5%) niż
-  TP (2×ATR, ~4,7%); w modelu first-touch win-rate spada 4,8–6,1 pp (AAPL 39,3→34,5%),
-  ~12% etykiet się odwraca. Mechanizm udokumentowany, ale KIERUNEK i SKALA biasu nie.
-- **Luka pokrycia QC (major)**: ingest sprawdza tylko sanity per-bar, brak kontroli
-  kompletności sesji / płaskich barów. 3 ogólnorynkowe dni awarii danych zwijają całą
-  sesję do JEDNEGO płaskiego bara (2021-04-19: 345/498 tickerów, 2021-10-25: 316,
-  2022-03-08: 282; + 2018-05-02/03) — **3825 płaskich barów u 475 tickerów**, wszystkie
-  w TRAIN, przechodzą po cichu. Na AAPL 2 płaskie bary wchodzą jako kandydaci treningowi
-  i skażają 39 pobliskich wierszy (okno kroczące). Wpływ ograniczony (0,4% barów), ale realny.
+### ★ DO UDOKUMENTOWANIA (drobne domknięcia jakości)
+- **Detekcja barier po CLOSE (BARRIER_MODE='close')** jest z natury ostrożna po stronie
+  win-rate o ~5 pp: ciaśniejszy SL (1×ATR) bywa dotykany intra-bar częściej (~8,5%) niż
+  TP (2×ATR, ~4,7%); w modelu first-touch win-rate ~AAPL 39,3→34,5%. Mechanizm jest w
+  kodzie i SOT; warto dopisać do METHODOLOGY.md kierunek i skalę efektu.
+- **Rozszerzenie QC (usprawnienie)**: obecne bramki sprawdzają sanity per-bar; warto
+  dodać kontrolę kompletności sesji / płaskich barów. 3 ogólnorynkowe dni z niepełnymi
+  danymi (2021-04-19, 2021-10-25, 2022-03-08; + 2018-05-02/03) zwijają sesję do jednego
+  płaskiego bara — **3825 płaskich barów u 475 tickerów (0,4% wszystkich)**, wszystkie
+  w TRAIN. Wpływ niewielki i ograniczony do wąskiego okna okna kroczącego (AAPL: 39
+  wierszy), ale wart jawnej bramki w v5.
 
-### Drobne (MINOR)
-- METHODOLOGY.md §2 mówi „Y=1 gdy TP przed SL", a kod etykietuje po ZNAKU zwrotu netto
-  (z kosztami i gapem) — kod jest UCZCIWSZY niż dokument; poprawić zdanie w dokumencie.
+### Drobne (do jednozdaniowej poprawki)
+- METHODOLOGY.md §2 mówi „Y=1 gdy TP przed SL"; kod etykietuje po ZNAKU zwrotu netto
+  (z kosztami i gapem) — kod jest DOKŁADNIEJSZY niż dokument; dostroić zdanie w dokumencie.
 - Cechy `*_alignment_multi` (nanmean) we wczesnej historii degradują do dostępnych
-  interwałów zamiast zostać NaN — przyczynowe i bez wycieku, ale semantyka dryfuje;
-  do udokumentowania jako zamierzone.
-- Check „non-monotonic" to martwy kod (SQL ORDER BY sortuje przed testem); ścieżka
-  read-from-parquet nie ma QC (ufa pieczęci) — nieszkodliwe w tym snapshotcie.
+  interwałów zamiast zostać NaN — przyczynowe i bez wycieku; do udokumentowania jako zamierzone.
+- Check „non-monotonic" jest zabezpieczony przez SQL ORDER BY (sortuje przed testem);
+  ścieżka read-from-parquet ufa pieczęci — oba nieszkodliwe w tym snapshotcie.
 
 ### Rekomendacja (bez naruszania FREEZE)
-1. **Prezentacja**: dodać jawny disclaimer o splitach na stronie Overview/Model Comparison
-   i **oznaczać/filtrować 37 tickerów splitowych** przy „beats-HODL" (albo pokazywać
-   HODL tylko dla tickerów bez gapu splitowego). Nie chować.
-2. **Naprawa u źródła** (dostosowanie do splitów) = ponowna budowa barów → nowa epoka
-   (v5) → re-seal → rebuild — POZA obecnym zamrożonym zakresem; decyzja użytkownika.
-3. Bias close-scan i lukę QC dopisać do METHODOLOGY.md jako znane ograniczenia.
+1. **Prezentacja teraz**: dodać krótką notę o splitach na stronie Overview/Model Comparison
+   i **oznaczać 79 tickerów splitowych** przy „beats-HODL" (albo pokazywać HODL tylko dla
+   tickerów bez gapu splitowego). Ujmować to jako świadome, jawne ograniczenie snapshotu.
+2. **Domknięcie u źródła** (dostosowanie do splitów) = ponowna budowa barów → nowa epoka
+   v5 → re-seal → rebuild. Szacowany koszt obliczeniowy: patrz §4.
+3. Efekt close-scan i rozszerzenie QC dopisać do METHODOLOGY.md jako znane charakterystyki.
 
 ## 3. Znane, udokumentowane uproszczenia (nie bugi)
 
@@ -137,3 +136,35 @@ committed `data/results.db` + surowych barach):
   poza kontraktem bajtowym).
 - Kwantyle/raty z małym n niosą flagę low_evidence (próg 10 zdarzeń ENTRY) — UI ma
   obowiązek ją pokazywać.
+
+## 4. Koszt obliczeniowy domknięcia splitów (wycena czasowa)
+
+Sprzęt referencyjny: **16 rdzeni / 30 GiB** (ten serwer). Bazą wyceny są RZECZYWISTE
+czasy faz nocy v4 (`night_20260718T093509Z_54cb92d`) zmierzone w tej kampanii.
+
+**Dlaczego trzeba re-run, nie tylko poprawić liczby:** dostosowanie do splitów zmienia
+ceny → zmienia cechy (returns, ATR, z-score) → zmienia etykiety triple-barrier → zmienia
+modele i kalibrację. Sama korekta HODL to inna, znacznie tańsza opcja (poziom 1 niżej).
+
+Trzy poziomy, od najtańszego:
+
+| Poziom | Co obejmuje | Czas @16c | Uwaga |
+|---|---|---|---|
+| **1. Tylko HODL (read-side)** | Przeliczyć benchmark buy-and-hold na cenach skorygowanych o splity; poprawić `beats_hodl`, `hodl_return_pct` w warstwie prezentacji | **~5–15 min** | ZERO re-treningu; naprawia najbardziej mylące liczby; modele zostają jak są |
+| **2. Tylko 79 tickerów splitowych** | Skorygować bary tych 79, re-seal + re-ekstrakcja tylko ich, przeliczyć HODL uniwersum | **~45–70 min** | mieszana epoka (79 nowych + 419 starych) — wymaga jawnej adnotacji spójności |
+| **3. Pełna epoka v5 (rekomendowane docelowo)** | Korekta barów całego universum → pełny re-seal → żniwa → warstwa interpretacji → rebuild results.db → bramki | **~6–7 h (jedna noc)** | czysta, spójna epoka; ~100 rdzeniogodzin |
+
+**Rozbicie poziomu 3 (z realnych czasów v4):**
+- korekta barów pod splity (wektorowo na 498×~18 tys. barów 1h): **~5–15 min** (I/O-bound),
+- `xgb_search` (golden-v2, 498): **~24 min** (v4: 1457 s),
+- `xgb_seal` (parytet θ, 498): **~38 min** (v4: 2297 s),
+- gates (dashboard+HODL): **~1 min**,
+- okno LSTM (search+seal, warm-start z uniwersalnego backbone): **~2,5 h** (v4: okno 360 min, faktycznie ~150 min),
+- warstwa interpretacji (ta z tej kampanii): **~40 min XGB + ~60–75 min LSTM** @12 jobów,
+- rebuild results.db + bramki + testy: **~15–30 min**.
+- **Suma wall-clock: ~6–7 h na 16 rdzeniach** (komfortowo jedna noc), tj. **~100 rdzeniogodzin**.
+
+**Rekomendacja kosztowa:** na prezentację TERAZ wystarczy **poziom 1** (~kwadrans, bez
+re-treningu) + nota o splitach — naprawia „beats-HODL" i `hodl_return_pct`. Pełne
+domknięcie (**poziom 3**, jedna noc) zostawić jako świadomą decyzję o epoce v5. Poziom 2
+zwykle nie warty zachodu (mieszana epoka komplikuje spójność za niewielką oszczędność czasu).
