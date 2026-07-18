@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "6024c434e026156028a60dfbc9771ce1e91b956f0d0ef3884c48d994b80c1c45",
+  "oof_log_growth": 0.07026521903940443,
+  "oof_trades": 12,
+  "theta_entry": 0.58,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.43138663841949904,
+  "cv_folds": 4,
+  "end_capital": 1433.9281173566533,
+  "losses": 0,
+  "max_drawdown_pct": 25.223594548551954,
+  "model_trades": 0,
+  "net_pnl_usd": 433.92811735665316,
+  "oof_log_growth": 0.07026521903940443,
+  "oof_trades": 12,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": null,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "HODL_FALLBACK_NO_MODEL_TRADES",
+  "return_pct": 43.39281173566534,
+  "start_capital": 1000.0,
+  "theta_entry": 0.58,
+  "ticker": "SPG",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 1,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "SPG"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 193270,
+   "sha256": "9240765855857b27b8c7689a62bcdf4e7d8629a0b4ef3c57781104f9820baf31"
+  },
+  "metrics.json": {
+   "bytes": 1107,
+   "sha256": "e9c4d56404161bf5415e6476c9046b6587b8c80f792cfc6afdb76c530c93a40f"
+  },
+  "parameters.json": {
+   "bytes": 5561,
+   "sha256": "941d2b1be9443520794cb7f2484e7fae190d16179648820118c5f1f14e67ba12"
+  },
+  "strategy_DHR.py": {
+   "bytes": 346491,
+   "sha256": "8fdfd481f86e2e753f3539da17bc8e1923349af2d6bd9aef5a28b102b9758574"
+  }
+ },
+ "folder_sha256": "05df1fed7ed17d99d49a40180a5958e8382b42a7a5cc7d7420d3199aeeebb9fc",
+ "model": "xgb",
+ "model_hash": "953cac5537e23808f2010c236e9af34bbab277ec1f2c9cda066a9120e4b4bce3",
+ "ticker": "DHR"
+}

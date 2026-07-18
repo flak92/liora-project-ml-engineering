@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "39f345d3c90da091b7b64c52a874292f3f2a2ca54cd71d796e5771b6bffaa5b4",
+  "oof_log_growth": 0.2784171701584784,
+  "oof_trades": 15,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.49495190163933916,
+  "cv_folds": 4,
+  "end_capital": 972.3646101164655,
+  "losses": 9,
+  "max_drawdown_pct": 15.775592291719567,
+  "model_trades": 16,
+  "net_pnl_usd": -27.635389883534458,
+  "oof_log_growth": 0.2784171701584784,
+  "oof_trades": 15,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.8873091806535618,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -2.7635389883534422,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "HON",
+  "time_in_market_pct": 20.0342,
+  "trade_floor_met": 1,
+  "trades": 16,
+  "win_rate_pct": 43.75,
+  "wins": 7
+ },
+ "ticker": "HON"
+}

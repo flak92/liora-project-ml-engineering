@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "69fa4c835a81699b633b185c0ddbf869105dd9179f14fa698ec42a6f9233eea6",
+  "oof_log_growth": 0.2103472903138111,
+  "oof_trades": 11,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.47668896910840447,
+  "cv_folds": 4,
+  "end_capital": 915.5586081042343,
+  "losses": 1,
+  "max_drawdown_pct": 12.18652849740934,
+  "model_trades": 1,
+  "net_pnl_usd": -84.44139189576572,
+  "oof_log_growth": 0.2103472903138111,
+  "oof_trades": 11,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.0,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_ONE_TRADE_LOW_EVIDENCE",
+  "return_pct": -8.444139189576571,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "UAL",
+  "time_in_market_pct": 1.7123,
+  "trade_floor_met": 1,
+  "trades": 1,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "UAL"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "d3ef2783fbb8d25d2c5a93de202ed3ba979a59d7aa8f5b5b1c824ab55e2688f2",
+  "oof_log_growth": 0.47733524310815767,
+  "oof_trades": 632,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.39888091780754176,
+  "cv_folds": 4,
+  "end_capital": 614.8462484839172,
+  "losses": 186,
+  "max_drawdown_pct": 52.03990191022589,
+  "model_trades": 287,
+  "net_pnl_usd": -385.1537515160828,
+  "oof_log_growth": 0.47733524310815767,
+  "oof_trades": 632,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.7964711636200256,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -38.515375151608275,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "TRMB",
+  "time_in_market_pct": 64.5863,
+  "trade_floor_met": 1,
+  "trades": 287,
+  "win_rate_pct": 35.19163763066202,
+  "wins": 101
+ },
+ "ticker": "TRMB"
+}

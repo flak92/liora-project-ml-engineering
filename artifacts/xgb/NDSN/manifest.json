@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 34890,
+   "sha256": "d49b4d74174549e5f946c3a831ceae5f72d571711126bc01bb578a851b8c3057"
+  },
+  "metrics.json": {
+   "bytes": 1109,
+   "sha256": "95fdfeaacd157a5fbe431c3e5eab8a4409e87243d45909087da3755cee2cc545"
+  },
+  "parameters.json": {
+   "bytes": 4645,
+   "sha256": "71cdce8b1a96e260a303ae7d42814667f570df04948e2d90484287e80143aedc"
+  },
+  "strategy_NDSN.py": {
+   "bytes": 265405,
+   "sha256": "88740412de28ada03eb2b1b145c87ac3d53883d4a97d85e18833d3bba4e8efc6"
+  }
+ },
+ "folder_sha256": "c665f3351cd3e50fa91287e3c2bca6cac8ae1b4a164109a41ca10b3f0565e30f",
+ "model": "xgb",
+ "model_hash": "f582f4b8ce97ce7fe1ec5f9bcac0bfb9778a86e1813430c79862eca56725c12a",
+ "ticker": "NDSN"
+}

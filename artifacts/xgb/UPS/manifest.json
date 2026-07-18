@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 27406,
+   "sha256": "b1fe20829243364b067cabd7e58608487ee1644a1fa780f0f62993cc4bab2200"
+  },
+  "metrics.json": {
+   "bytes": 1046,
+   "sha256": "e482c378784a972dc110e0a4fe5649e53caff4abbf68c37496fc4364104ee8ec"
+  },
+  "parameters.json": {
+   "bytes": 4630,
+   "sha256": "727cf2bca7fb6ada0e257c0a339c44a49c8f6eade59df6f4c5c6cbb0bd951476"
+  },
+  "strategy_UPS.py": {
+   "bytes": 187307,
+   "sha256": "80fee98e32f7b5f92e5fdc43f80e1dbdafcf0f215dfc9f57283e664522f2e70e"
+  }
+ },
+ "folder_sha256": "25b320496785268109f7133b26c49abf7095055c8b21e5c8c4d73ba3a615ecdf",
+ "model": "xgb",
+ "model_hash": "d66a05ca53a86b9abb3b27c3153c1f1f4426b808c1f169e0b23a41f22ca0ee81",
+ "ticker": "UPS"
+}

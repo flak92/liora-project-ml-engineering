@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 38424,
+   "sha256": "8bccf94ef9aa1742f9a4ae8087de7681f74234e02132d9a6c1a5200a30af45ac"
+  },
+  "metrics.json": {
+   "bytes": 1105,
+   "sha256": "fd0462e586e74b5588c685101e32fc180efb8b9cede31432ec5e541af172534a"
+  },
+  "parameters.json": {
+   "bytes": 5193,
+   "sha256": "0642c832636ffe656ac19588057fb823cf29a02b2f05c6abbaf1fce57eac8521"
+  },
+  "strategy_MPC.py": {
+   "bytes": 143834,
+   "sha256": "4a6b0d90f35425d64f3da044c02ba5d6e4984e2cf948a07de0bc8e8ecef4ce5e"
+  }
+ },
+ "folder_sha256": "4096f5201adb74542b3ce6c146d81c43b4acd6eb0a3b4a5f388c731487ed24a6",
+ "model": "xgb",
+ "model_hash": "70e502faea21f87990bd8788278086b0ab5a372c203d179c0f675f0441045f0c",
+ "ticker": "MPC"
+}

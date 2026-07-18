@@ -1,0 +1,241 @@
+{
+  "best_params": {
+    "max_depth": 4,
+    "eta": 0.2624654612582749,
+    "subsample": 0.628333415443798,
+    "colsample_bytree": 0.6367696289326548,
+    "min_child_weight": 1.249697731739629,
+    "reg_lambda": 0.5322687317052897,
+    "reg_alpha": 2.029115967249764,
+    "gamma": 0.23208398020944992,
+    "n_estimators": 259,
+    "kelly_fraction": null,
+    "theta_entry": 0.4
+  },
+  "feature_manifest": {
+    "schema_version": "simple_features.v1",
+    "ticker": "PSX",
+    "namespace_order": [
+      "1h",
+      "1h_ext",
+      "1d",
+      "1w",
+      "multi_tf"
+    ],
+    "active_namespaces": [
+      "1h",
+      "1d"
+    ],
+    "per_namespace": [
+      {
+        "namespace": "1h",
+        "id_range": "01-99",
+        "feature_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "feature_names": [
+          "direction",
+          "log_return_1",
+          "log_return_5",
+          "log_return_20",
+          "close_z_score_20",
+          "dist_to_sma_20",
+          "dist_to_sma_50",
+          "sma_20_sma_50_ratio",
+          "volume_z_score_20",
+          "atr_pct_14",
+          "realized_volatility_20",
+          "rsi_14",
+          "bollinger_percent_b_20_2",
+          "bollinger_bandwidth_20_2",
+          "macd_line_12_26_9",
+          "macd_signal_12_26_9",
+          "macd_hist_12_26_9"
+        ],
+        "feature_count": 17
+      },
+      {
+        "namespace": "1d",
+        "id_range": "101-199",
+        "feature_ids": [
+          102,
+          111
+        ],
+        "feature_names": [
+          "log_return_1_1d",
+          "realized_volatility_20_1d"
+        ],
+        "feature_count": 2
+      }
+    ],
+    "effective_feature_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      102,
+      111
+    ],
+    "effective_feature_names": [
+      "direction",
+      "log_return_1",
+      "log_return_5",
+      "log_return_20",
+      "close_z_score_20",
+      "dist_to_sma_20",
+      "dist_to_sma_50",
+      "sma_20_sma_50_ratio",
+      "volume_z_score_20",
+      "atr_pct_14",
+      "realized_volatility_20",
+      "rsi_14",
+      "bollinger_percent_b_20_2",
+      "bollinger_bandwidth_20_2",
+      "macd_line_12_26_9",
+      "macd_signal_12_26_9",
+      "macd_hist_12_26_9",
+      "log_return_1_1d",
+      "realized_volatility_20_1d"
+    ],
+    "effective_feature_count": 19,
+    "feature_selection_source": "config/feature_namespaces.json + data/per_asset_feature_overrides.json[PSX]"
+  },
+  "features": {
+    "ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      102,
+      111
+    ],
+    "names": [
+      "direction",
+      "log_return_1",
+      "log_return_5",
+      "log_return_20",
+      "close_z_score_20",
+      "dist_to_sma_20",
+      "dist_to_sma_50",
+      "sma_20_sma_50_ratio",
+      "volume_z_score_20",
+      "atr_pct_14",
+      "realized_volatility_20",
+      "rsi_14",
+      "bollinger_percent_b_20_2",
+      "bollinger_bandwidth_20_2",
+      "macd_line_12_26_9",
+      "macd_signal_12_26_9",
+      "macd_hist_12_26_9",
+      "log_return_1_1d",
+      "realized_volatility_20_1d"
+    ],
+    "active_namespaces": [
+      "1h",
+      "1d"
+    ],
+    "per_namespace": [
+      {
+        "namespace": "1h",
+        "id_range": "01-99",
+        "feature_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "feature_names": [
+          "direction",
+          "log_return_1",
+          "log_return_5",
+          "log_return_20",
+          "close_z_score_20",
+          "dist_to_sma_20",
+          "dist_to_sma_50",
+          "sma_20_sma_50_ratio",
+          "volume_z_score_20",
+          "atr_pct_14",
+          "realized_volatility_20",
+          "rsi_14",
+          "bollinger_percent_b_20_2",
+          "bollinger_bandwidth_20_2",
+          "macd_line_12_26_9",
+          "macd_signal_12_26_9",
+          "macd_hist_12_26_9"
+        ],
+        "feature_count": 17
+      },
+      {
+        "namespace": "1d",
+        "id_range": "101-199",
+        "feature_ids": [
+          102,
+          111
+        ],
+        "feature_names": [
+          "log_return_1_1d",
+          "realized_volatility_20_1d"
+        ],
+        "feature_count": 2
+      }
+    ]
+  },
+  "cv_auc_pr": 0.3859675282551944,
+  "cv_folds": 4,
+  "n_trials": 80
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 64866,
+   "sha256": "2f1f1ca63178d16a2452074104df5b71b606b6c975d0f94bdd39b70a943ea1d3"
+  },
+  "metrics.json": {
+   "bytes": 1045,
+   "sha256": "081348657c27fa77a2f8ba68b4b7302333ec345d6330e75c56b6895cd86c582f"
+  },
+  "parameters.json": {
+   "bytes": 2656,
+   "sha256": "d9fcc159b3b6a52fc562e5cf7f9308bfaec2f771742d3a70f07a03393b5054bc"
+  },
+  "strategy_BSX.py": {
+   "bytes": 80567,
+   "sha256": "4ff61ce6acb3cec3dbd698e6ddeae5801fe4e6cb6c90072a56cb49912a54df34"
+  }
+ },
+ "folder_sha256": "c3e6b9b4f819f2a17b56f74dc945f50d8bcedce3fc358826c94fe44388ea3ff5",
+ "model": "lstm",
+ "model_hash": "8a152630c5f91a64aa1dc2565aa0a75c4e58fa6648548ae50704c030548ff8c7",
+ "ticker": "BSX"
+}

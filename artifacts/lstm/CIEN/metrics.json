@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "2d0f0847038b9f907298882c9a2d8ece4cc65fbf3d8cba76baaeacca3d3df2a4",
+  "oof_log_growth": 0.22992864436167137,
+  "oof_trades": 67,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4240868414096955,
+  "cv_folds": 4,
+  "end_capital": 1388.35410422977,
+  "losses": 19,
+  "max_drawdown_pct": 26.2769161388311,
+  "model_trades": 33,
+  "net_pnl_usd": 388.35410422977,
+  "oof_log_growth": 0.22992864436167137,
+  "oof_trades": 67,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.2427508095782693,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 38.835410422977,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "CIEN",
+  "time_in_market_pct": 34.589,
+  "trade_floor_met": 1,
+  "trades": 33,
+  "win_rate_pct": 42.42424242424242,
+  "wins": 14
+ },
+ "ticker": "CIEN"
+}

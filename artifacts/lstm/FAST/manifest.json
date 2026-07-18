@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 102083,
+   "sha256": "8c15cc576a24ecf8e0b70a7f689dbd48614a078b0dcaa3b2e01d67accbcd1094"
+  },
+  "metrics.json": {
+   "bytes": 1041,
+   "sha256": "35054cd0177fbf0dccbd228a73e0d24700ff9580ef23ed92b797b507d406cb82"
+  },
+  "parameters.json": {
+   "bytes": 3134,
+   "sha256": "6ac17ab69f454fd648b081e923ca9a796cb2c3ed556b957ed9da2cd04c78b578"
+  },
+  "strategy_FAST.py": {
+   "bytes": 92937,
+   "sha256": "5eeb6f69d42943f75654cd83053f9ea18ef20bf9487dbc1f5968dc31b17c0406"
+  }
+ },
+ "folder_sha256": "56f9773fb4fc37d6c62a319e8b52693a6cc5eff2c9b44dbd608064e4b5ae1526",
+ "model": "lstm",
+ "model_hash": "9bda47b6b4e5c4d04776c07398d9829182ed12dc0d058736d5c296aefe52daf3",
+ "ticker": "FAST"
+}

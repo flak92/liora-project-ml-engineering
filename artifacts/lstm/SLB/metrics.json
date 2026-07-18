@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "da291ef40c0b1a522610a9fca21d5fd15701037a7acad14a327ad85f8cb8d4b8",
+  "oof_log_growth": 0.2995177555003158,
+  "oof_trades": 13,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.42712407752288206,
+  "cv_folds": 4,
+  "end_capital": 736.4686106175545,
+  "losses": 10,
+  "max_drawdown_pct": 33.87262137145179,
+  "model_trades": 13,
+  "net_pnl_usd": -263.53138938244547,
+  "oof_log_growth": 0.2995177555003158,
+  "oof_trades": 13,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.3265977115057779,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -26.35313893824455,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "SLB",
+  "time_in_market_pct": 15.0685,
+  "trade_floor_met": 1,
+  "trades": 13,
+  "win_rate_pct": 23.076923076923077,
+  "wins": 3
+ },
+ "ticker": "SLB"
+}

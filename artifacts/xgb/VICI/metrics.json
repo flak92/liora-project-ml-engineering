@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "aec6fdb305f75b9200386dac39d11724cf9c06064148a9d771e10abf5768d7f9",
+  "oof_log_growth": 0.8185184480478566,
+  "oof_trades": 386,
+  "theta_boundary": false,
+  "theta_entry": 0.44,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.42094828626608866,
+  "cv_folds": 4,
+  "end_capital": 974.4164520436374,
+  "losses": 26,
+  "max_drawdown_pct": 9.4671788050014,
+  "model_trades": 38,
+  "net_pnl_usd": -25.583547956362622,
+  "oof_log_growth": 0.8185184480478566,
+  "oof_trades": 386,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8927005444884863,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -2.558354795636264,
+  "start_capital": 1000.0,
+  "theta_entry": 0.44,
+  "ticker": "VICI",
+  "time_in_market_pct": 8.3931,
+  "trade_floor_met": 1,
+  "trades": 38,
+  "win_rate_pct": 31.57894736842105,
+  "wins": 12
+ },
+ "ticker": "VICI"
+}

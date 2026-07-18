@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "8d9dd1450596859cc6b80305a21985432be63c3619be78426b31b5f375e13e64",
+  "oof_log_growth": 1.0802385608132545,
+  "oof_trades": 323,
+  "theta_boundary": false,
+  "theta_entry": 0.48,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.43488195795960305,
+  "cv_folds": 4,
+  "end_capital": 1002.9941731282576,
+  "losses": 1,
+  "max_drawdown_pct": 1.6903914590747366,
+  "model_trades": 2,
+  "net_pnl_usd": 2.9941731282575574,
+  "oof_log_growth": 1.0802385608132545,
+  "oof_trades": 323,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.2405187860339333,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 0.2994173128257449,
+  "start_capital": 1000.0,
+  "theta_entry": 0.48,
+  "ticker": "AMZN",
+  "time_in_market_pct": 0.3348,
+  "trade_floor_met": 1,
+  "trades": 2,
+  "win_rate_pct": 50.0,
+  "wins": 1
+ },
+ "ticker": "AMZN"
+}

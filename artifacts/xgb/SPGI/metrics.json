@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "2ed0149bf1f0a41a8750b7a7924bbbdcbf589b8c4b55df202da8a8f43556fa96",
+  "oof_log_growth": 0.8890248930576719,
+  "oof_trades": 509,
+  "theta_boundary": false,
+  "theta_entry": 0.42,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4170430005494229,
+  "cv_folds": 4,
+  "end_capital": 815.8059600321636,
+  "losses": 138,
+  "max_drawdown_pct": 27.176461710461314,
+  "model_trades": 236,
+  "net_pnl_usd": -184.19403996783637,
+  "oof_log_growth": 0.8890248930576719,
+  "oof_trades": 509,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8775337518574736,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -18.419403996783636,
+  "start_capital": 1000.0,
+  "theta_entry": 0.42,
+  "ticker": "SPGI",
+  "time_in_market_pct": 54.5672,
+  "trade_floor_met": 1,
+  "trades": 236,
+  "win_rate_pct": 41.52542372881356,
+  "wins": 98
+ },
+ "ticker": "SPGI"
+}

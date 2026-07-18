@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "e2c631acbb95f021b05b9996ccd44ca66755990806cc5d95a9496404bdc424be",
+  "oof_log_growth": 0.2278968722248311,
+  "oof_trades": 57,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.46223703754383144,
+  "cv_folds": 4,
+  "end_capital": 1170.850056000462,
+  "losses": 3,
+  "max_drawdown_pct": 14.104833140932044,
+  "model_trades": 10,
+  "net_pnl_usd": 170.85005600046202,
+  "oof_log_growth": 0.2278968722248311,
+  "oof_trades": 57,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 2.158107354441005,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 17.0850056000462,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "SRE",
+  "time_in_market_pct": 14.2123,
+  "trade_floor_met": 1,
+  "trades": 10,
+  "win_rate_pct": 70.0,
+  "wins": 7
+ },
+ "ticker": "SRE"
+}

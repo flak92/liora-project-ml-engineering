@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 100854,
+   "sha256": "7fa0294dca8b69b25a3c435c61d16e8dbdb3f2a599221aff0a7b77cb334dae2c"
+  },
+  "metrics.json": {
+   "bytes": 1062,
+   "sha256": "50504572dd1ce6c3f421310f78a4121c7227d9b908ee2714a8f221c731ac764d"
+  },
+  "parameters.json": {
+   "bytes": 3109,
+   "sha256": "418fc8f1a489a6327f8c7d8840fa670dca3440a9d656836537769b842b1dc675"
+  },
+  "strategy_PCAR.py": {
+   "bytes": 92313,
+   "sha256": "ab24252d42cbfdf8b85e1dd114987b3d055454c26f567bed86d859910fb375da"
+  }
+ },
+ "folder_sha256": "538f0856812f23d2a5f562ba584a17c50ba8fba5aef941f4443689bbd4e894ad",
+ "model": "lstm",
+ "model_hash": "674db8e896bff74f3d85c9026159c24ab9de39437fa51b9229df99e2d4eef814",
+ "ticker": "PCAR"
+}

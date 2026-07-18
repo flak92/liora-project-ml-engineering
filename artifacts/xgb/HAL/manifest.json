@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25922,
+   "sha256": "c72e19ec7ff7a72aba16536ddc11f80a9cd31aa3ea0cae3b8de7c5dbdc367340"
+  },
+  "metrics.json": {
+   "bytes": 1082,
+   "sha256": "6d64d87ca40b8866db9af2aa79c3b32fac7abf915beb845fb90247f83955d418"
+  },
+  "parameters.json": {
+   "bytes": 4079,
+   "sha256": "8fb50ff0873d0ccba5fe544b66d3c87133f6a9c83e287f2eef5eeff365c8afc3"
+  },
+  "strategy_HAL.py": {
+   "bytes": 187043,
+   "sha256": "6431d0518c79732cf8f47ad57b9893489da810f1586658fc6c5710e7ce8922ff"
+  }
+ },
+ "folder_sha256": "9322049af2e6187cc9d0a70808cfd3958d15730dd4604f705ec0f23f16044686",
+ "model": "xgb",
+ "model_hash": "4d18134edefb8563ba5eb3b0478bc8ad9eab65efcb2800514eab9e74a1373d52",
+ "ticker": "HAL"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "d97b122901be2cd0fced79aaad3c4d7d1df7485e2eb1c67501324c08dcbe0c6c",
+  "oof_log_growth": 1.3263008402084944,
+  "oof_trades": 636,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.42330793309104314,
+  "cv_folds": 4,
+  "end_capital": 182.80125637617445,
+  "losses": 137,
+  "max_drawdown_pct": 90.1147802274014,
+  "model_trades": 255,
+  "net_pnl_usd": -817.1987436238255,
+  "oof_log_growth": 1.3263008402084944,
+  "oof_trades": 636,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.6385710810796076,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -81.71987436238255,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "AVGO",
+  "time_in_market_pct": 58.1779,
+  "trade_floor_met": 1,
+  "trades": 255,
+  "win_rate_pct": 46.27450980392157,
+  "wins": 118
+ },
+ "ticker": "AVGO"
+}

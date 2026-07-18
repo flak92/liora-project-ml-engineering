@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 85905,
+   "sha256": "f943224ed82f062dc4028011f1f3709968db51c1d4c6d1b0f07c7e6393c8a2a2"
+  },
+  "metrics.json": {
+   "bytes": 1057,
+   "sha256": "fb112b2ad67b1b4abce306069758192cb7b736e505523db27cfaab7eb85e9ea3"
+  },
+  "parameters.json": {
+   "bytes": 2755,
+   "sha256": "9b965298f9c622ef7926eb0403666475f91febf7f923674c6eecf61ba2d73a38"
+  },
+  "strategy_APTV.py": {
+   "bytes": 82076,
+   "sha256": "d913cc225bb364fe1310c7dcf62f569e9d4889b66a4b3cdfa5b2ab05118b9daf"
+  }
+ },
+ "folder_sha256": "12251d0d90a51b34d3c36fc2cf8bb9c46f94449b758c978a0c1a3bf976716f79",
+ "model": "lstm",
+ "model_hash": "801fb37116d6af4f531e0ca38fafdb98fcdb7f9a7ed05c0c004a3aada913ab5b",
+ "ticker": "APTV"
+}

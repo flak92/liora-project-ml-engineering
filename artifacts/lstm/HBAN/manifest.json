@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 61421,
+   "sha256": "b0facc3ca87f017e51ed6d78b4a28970ed39c0cea61da5d964c5451326e07857"
+  },
+  "metrics.json": {
+   "bytes": 1056,
+   "sha256": "0fc75b3f0cb5a40ee30fa790a716cffb6a18c2a7c50c1b34c5f99dd749117631"
+  },
+  "parameters.json": {
+   "bytes": 2537,
+   "sha256": "bc8025881ce0acbbac8f95623aa7fa446246cff061802ae8684c0e59a7dd018d"
+  },
+  "strategy_HBAN.py": {
+   "bytes": 76765,
+   "sha256": "71d5702f0bd2218b64f16e826728bda654e4a28201db25b3a9c724703cbd4db4"
+  }
+ },
+ "folder_sha256": "af0886a4cbf68927d4786b218cd29b340bb5dab6802178022538204ea1c18a14",
+ "model": "lstm",
+ "model_hash": "93ead227fe9caf140709e1eab683ba284bbf1722a17d6be12a41b5cd88e8700e",
+ "ticker": "HBAN"
+}

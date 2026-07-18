@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "c7ddbe6d0fb66c0d77cfaf1a8c7c3d2949891c916cea7ddca9df9e63d53fe4c2",
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "theta_boundary": true,
+  "theta_entry": 0.6,
+  "trade_floor_met": false
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.37728007128212104,
+  "cv_folds": 4,
+  "end_capital": 774.54613477529,
+  "losses": 0,
+  "max_drawdown_pct": 59.31083024757473,
+  "model_trades": 0,
+  "net_pnl_usd": -225.45386522471,
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "TRAIN_OOF_FLOOR_NOT_MET",
+  "return_pct": -22.545386522470988,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "DG",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 0,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "DG"
+}

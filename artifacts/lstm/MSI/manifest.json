@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75777,
+   "sha256": "1dd26fe7b192f1f2180755b5919a90a12911a000bd803cf975f980e78d2e0027"
+  },
+  "metrics.json": {
+   "bytes": 1061,
+   "sha256": "f5fec2ac7ea369ba9f47fce97220742c855ccbc828defdffde7a36107cadf536"
+  },
+  "parameters.json": {
+   "bytes": 2527,
+   "sha256": "b81e236018ac24bd87438f2d38ce97291dde299fb56928a9047e23eae86a5004"
+  },
+  "strategy_MSI.py": {
+   "bytes": 77151,
+   "sha256": "7feaed3f0f1094376851b81e43a9b7ed926e11bf37c1d951cd291bbff839f7d7"
+  }
+ },
+ "folder_sha256": "986bf6c053921d5d6ab689aae5ebdf3a2707e195421c83dc92f47e2cdaa8e3f5",
+ "model": "lstm",
+ "model_hash": "d9fd5b0d271f37d7b1df06ae52ee773750330b131e15a21ebb25bdbf0dc46332",
+ "ticker": "MSI"
+}

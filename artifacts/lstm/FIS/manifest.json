@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 71873,
+   "sha256": "fb2e779ce3ba21fb8017857c5e73eacf2adb6612055a312e4fbd50c3a6d54ab6"
+  },
+  "metrics.json": {
+   "bytes": 1035,
+   "sha256": "b0116e175ea4660b402bdc8f10eadf8134b24e176ec904ed1c1022e75356c07e"
+  },
+  "parameters.json": {
+   "bytes": 2513,
+   "sha256": "af8fbdabf996c51a6b848bba3857f67507021e8fce8facafe36b7ba4d430faed"
+  },
+  "strategy_FIS.py": {
+   "bytes": 77593,
+   "sha256": "595422742d88f8b55f0e1843b3ed75c168a9f0a66b19f95c321f1c5a0b29472a"
+  }
+ },
+ "folder_sha256": "79535df34c72dd01e8d5aca86a9d947646062fcdc01cd5a3fe590ee29930ca4f",
+ "model": "lstm",
+ "model_hash": "89921e04a5f020a7adae4d46143f5b36aa3cd4dbaebb0db24df8c06ec73cf678",
+ "ticker": "FIS"
+}

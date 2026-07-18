@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "3c096c375787a72652bda59b0328fe6d7068fdb73afca9436c2ca57e70601754",
+  "oof_log_growth": 0.7072549778447745,
+  "oof_trades": 385,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3916719407408082,
+  "cv_folds": 4,
+  "end_capital": 835.2882334765868,
+  "losses": 117,
+  "max_drawdown_pct": 32.37541706576143,
+  "model_trades": 184,
+  "net_pnl_usd": -164.7117665234132,
+  "oof_log_growth": 0.7072549778447745,
+  "oof_trades": 385,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9058785739687958,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -16.471176652341324,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "NUE",
+  "time_in_market_pct": 42.0851,
+  "trade_floor_met": 1,
+  "trades": 184,
+  "win_rate_pct": 36.41304347826087,
+  "wins": 67
+ },
+ "ticker": "NUE"
+}

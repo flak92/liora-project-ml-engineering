@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 85558,
+   "sha256": "0af5df0865e2dedf2ef75177cceff054467cf11b68fe2ba0a871c65edd8a3b2d"
+  },
+  "metrics.json": {
+   "bytes": 1035,
+   "sha256": "c240ef6dd2598886ca92914eee443e7b7792c3423e15e247fafd037b4b5d50ca"
+  },
+  "parameters.json": {
+   "bytes": 2777,
+   "sha256": "c22e54d1ba6fae7cb48a9ab2b027d752fbf4241e4cba90e13644189211abcfef"
+  },
+  "strategy_BA.py": {
+   "bytes": 83850,
+   "sha256": "ebf9081cdfdb6c5cb74ad68774f0fde00a701c024aaf5e52604286226ced65dc"
+  }
+ },
+ "folder_sha256": "7c8158c64b5a394b324af376170505cb20c94516324e3db6dfc7dc64256692fd",
+ "model": "lstm",
+ "model_hash": "bde851c2ea1289e03d9aa9a4073d12dd0e790f7c5bd7878907feaffd290eba9c",
+ "ticker": "BA"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "ac5562ca58a68e7459443c56e7ea8d2aaadc91a8d5e049d05163a1d27a8f974c",
+  "oof_log_growth": 0.22182885813977898,
+  "oof_trades": 167,
+  "theta_boundary": false,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.38395642800044416,
+  "cv_folds": 4,
+  "end_capital": 801.6094809817315,
+  "losses": 42,
+  "max_drawdown_pct": 23.694822988748246,
+  "model_trades": 57,
+  "net_pnl_usd": -198.3905190182685,
+  "oof_log_growth": 0.22182885813977898,
+  "oof_trades": 167,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.5990328228714515,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -19.839051901826853,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "KHC",
+  "time_in_market_pct": 11.9799,
+  "trade_floor_met": 1,
+  "trades": 57,
+  "win_rate_pct": 26.31578947368421,
+  "wins": 15
+ },
+ "ticker": "KHC"
+}

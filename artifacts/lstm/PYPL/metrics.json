@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "6e103800d2dd599ed86b14c8414d497676f69b6e1f1799d83754d23be98eafc0",
+  "oof_log_growth": 0.5549462636221119,
+  "oof_trades": 21,
+  "theta_entry": 0.6,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.49780203824400443,
+  "cv_folds": 4,
+  "end_capital": 966.5151446183579,
+  "losses": 1,
+  "max_drawdown_pct": 6.86253934942288,
+  "model_trades": 1,
+  "net_pnl_usd": -33.48485538164209,
+  "oof_log_growth": 0.5549462636221119,
+  "oof_trades": 21,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.0,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_ONE_TRADE_LOW_EVIDENCE",
+  "return_pct": -3.3484855381642142,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "PYPL",
+  "time_in_market_pct": 1.7123,
+  "trade_floor_met": 1,
+  "trades": 1,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "PYPL"
+}

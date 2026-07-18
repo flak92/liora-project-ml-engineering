@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 80971,
+   "sha256": "87bbd2b3333044f03a76341f4590a35af6c319f709629f0fcfe0fe0cf193db81"
+  },
+  "metrics.json": {
+   "bytes": 1062,
+   "sha256": "bfaafcf5b623a142d670d942502b025d20595b5779d161924090853ed16febaa"
+  },
+  "parameters.json": {
+   "bytes": 2638,
+   "sha256": "b352fdbb3ee52cc97c03638db5e3c6df02fd9e4a77b61fd2ef6c09423998059b"
+  },
+  "strategy_AXP.py": {
+   "bytes": 80057,
+   "sha256": "1c35a8180b4b1cc09cd97504b5273963371576e88f96a9d2377611a05f7a945f"
+  }
+ },
+ "folder_sha256": "4a7ccafdbb9cb6a7c65287799f7cc6ff6a62404242e958bb59ccf20790ac09bb",
+ "model": "lstm",
+ "model_hash": "8780f524eb6a3a9a0fd9f9689abd8a6dc4ee917d4812fbfa97456206aff89564",
+ "ticker": "AXP"
+}

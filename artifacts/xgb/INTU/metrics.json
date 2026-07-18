@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "d7cfd48fd505855b92217c62743e77d696d0d68bcd30b8f04bf85d1627c012b3",
+  "oof_log_growth": 0.7480990520081006,
+  "oof_trades": 735,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4471961330701233,
+  "cv_folds": 4,
+  "end_capital": 594.7409307798252,
+  "losses": 186,
+  "max_drawdown_pct": 56.732255190584645,
+  "model_trades": 304,
+  "net_pnl_usd": -405.25906922017475,
+  "oof_log_growth": 0.7480990520081006,
+  "oof_trades": 735,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8430492869951176,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -40.52590692201748,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "INTU",
+  "time_in_market_pct": 66.8341,
+  "trade_floor_met": 1,
+  "trades": 304,
+  "win_rate_pct": 38.81578947368421,
+  "wins": 118
+ },
+ "ticker": "INTU"
+}

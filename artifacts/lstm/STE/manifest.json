@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 84883,
+   "sha256": "f8e3bdfadab9484c08597cff9c69d659679fbda96055fcd7c239881d9a710d2d"
+  },
+  "metrics.json": {
+   "bytes": 1053,
+   "sha256": "21642c418c505d7ef86bb805d05a1914ca6878d93edfa3c97d314108166523f2"
+  },
+  "parameters.json": {
+   "bytes": 2763,
+   "sha256": "1924d3960c6313449daa8d3ecd3c7ee36c879ae44e5c74560c8ddd98fa5f8c16"
+  },
+  "strategy_STE.py": {
+   "bytes": 83575,
+   "sha256": "e3a5cbe3a95e1efe1940eeb835ea6597506eea0fa5fd5f3a93de20afa9f175a6"
+  }
+ },
+ "folder_sha256": "89677143d6e87cbd1afd969f1b91992f059e697b2e0caeae3554f50c6733daf3",
+ "model": "lstm",
+ "model_hash": "4e21eea8547108824c0ebfd9cbed8228653b535a4a9cbfdc182a191989c48d2d",
+ "ticker": "STE"
+}

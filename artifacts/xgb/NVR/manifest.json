@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 133445,
+   "sha256": "09a088bb441d2c399eba96e8788fdba3e88562e6dfbbe25f83e76a5fdd804f85"
+  },
+  "metrics.json": {
+   "bytes": 1107,
+   "sha256": "d56d1c7b44d6175641b0d6670b854ad67aded6cea64f602fd589bfc9152d22d7"
+  },
+  "parameters.json": {
+   "bytes": 4643,
+   "sha256": "b103550588846d9b275261460bf7486ff3c07a8b42e2573cc24bf8a2cbc3d7b9"
+  },
+  "strategy_NVR.py": {
+   "bytes": 355671,
+   "sha256": "d6d0ce5d968b5281901eef9fbe6371e18dab454f2e38a44a304403612cd2853e"
+  }
+ },
+ "folder_sha256": "1be3ae897a6799bba4ed4cef42c33ab3be99d07f2237fdcf1901268831b4e5b5",
+ "model": "xgb",
+ "model_hash": "cdbd8c86cf24b77e3b66d247b39dd16285f28e9ab1c22bfed96b4f483576d103",
+ "ticker": "NVR"
+}

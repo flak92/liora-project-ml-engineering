@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76743,
+   "sha256": "2a79fcb4de0c33ef2cc0245fcea5496215b0072f8a3944f24111d48ad8b76a71"
+  },
+  "metrics.json": {
+   "bytes": 1062,
+   "sha256": "2cfa4000e9cfdf49eabc93b27baa9b2cd554dbfa069f68a777b492d1326df25c"
+  },
+  "parameters.json": {
+   "bytes": 2516,
+   "sha256": "c8479d4c430cf669142466224619a682709a68c255d6a09496c8e09e42d98711"
+  },
+  "strategy_PEP.py": {
+   "bytes": 77779,
+   "sha256": "0626b57d8d82f039fbd2a81b9cae9f84da2541036ddd8023abca5bfdd2c14d82"
+  }
+ },
+ "folder_sha256": "041c7a8fb0b7a841c9ff4fbd49380a04e83fbca93d9a576b30a79789b0df8325",
+ "model": "lstm",
+ "model_hash": "1fdd80342f977c16a6440550e38252facb6d1042abd9e63a4370b98f05b0ff7c",
+ "ticker": "PEP"
+}

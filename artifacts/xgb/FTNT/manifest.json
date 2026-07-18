@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 122327,
+   "sha256": "cbcb2448e109d99ac217959c3541e00765a0f672af7af93966f7ca0d83655a9d"
+  },
+  "metrics.json": {
+   "bytes": 1109,
+   "sha256": "56207b3b1d7e731a660e17a97b81b5ab20a0d12c1451c80365bdfabc07323cdb"
+  },
+  "parameters.json": {
+   "bytes": 5151,
+   "sha256": "c9c884443f69b5c9b92506b2212982799bb4049a0442775c603afe809cd62f8d"
+  },
+  "strategy_FTNT.py": {
+   "bytes": 159539,
+   "sha256": "9179bbb935b51aa38fe7fb24a31155df161ecb7aec631b884c444445b50e58aa"
+  }
+ },
+ "folder_sha256": "2cedf1e712e97e2deb7b0b5bbd601a1ba45ba32efa5ac0ae50bdeef0b11474a0",
+ "model": "xgb",
+ "model_hash": "7360cf7d39ea1fa6c3ad54c3d2608da62e14b1498a3440e28d260bff74b7f414",
+ "ticker": "FTNT"
+}

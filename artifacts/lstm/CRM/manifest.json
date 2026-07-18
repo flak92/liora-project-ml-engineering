@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 74826,
+   "sha256": "1ce482ab47778716812beb91631f078648ad9eed8dec098468dfdea33b004208"
+  },
+  "metrics.json": {
+   "bytes": 1055,
+   "sha256": "a2613df84a54ef9fc0815ed3b801a9db04ef63049c0d972bcf28f0841c28b6a9"
+  },
+  "parameters.json": {
+   "bytes": 2508,
+   "sha256": "5d7f9b81894797bf5c1a77b5915abfe2793f4e40c7fc16b14a3ec43308c4f8ed"
+  },
+  "strategy_CRM.py": {
+   "bytes": 76186,
+   "sha256": "4232322dffa4a903811280f5cf56514015c68285da0721b5434fc24084e6925a"
+  }
+ },
+ "folder_sha256": "f2f16f027ddfd6b1b3c675b45285a8a613d72a78247829cf8a95f3be4e0b24ac",
+ "model": "lstm",
+ "model_hash": "483a099d0ace70c9a6326de9b60b07bd47239ff3d6df80a9e5401f0ffc590740",
+ "ticker": "CRM"
+}

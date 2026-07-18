@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "a144d41d9fd8fed5f97c99cfa976140d093f95bfd500bbf3e7185bd64497c2eb",
+  "oof_log_growth": 0.700165672411794,
+  "oof_trades": 76,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3953575299215348,
+  "cv_folds": 4,
+  "end_capital": 1025.7258517137493,
+  "losses": 29,
+  "max_drawdown_pct": 10.872125557938796,
+  "model_trades": 50,
+  "net_pnl_usd": 25.725851713749307,
+  "oof_log_growth": 0.700165672411794,
+  "oof_trades": 76,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.0552700473065457,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 2.5725851713749304,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "BMY",
+  "time_in_market_pct": 12.6734,
+  "trade_floor_met": 1,
+  "trades": 50,
+  "win_rate_pct": 42.0,
+  "wins": 21
+ },
+ "ticker": "BMY"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 84782,
+   "sha256": "ad3a4ecbb0d92bc051dbbf1469d7482e41e9c31b5352164a18b5045eecb4c740"
+  },
+  "metrics.json": {
+   "bytes": 1063,
+   "sha256": "fe58f4dfc7bf9d0dd81438dd1669fa495b7ed162eba2258f668c4cfd9c963317"
+  },
+  "parameters.json": {
+   "bytes": 2796,
+   "sha256": "38174aa37632b2322140ec77d924f5983aa24cc8600f468fb9d17d0cc342ddc1"
+  },
+  "strategy_CRWD.py": {
+   "bytes": 83246,
+   "sha256": "c32b6fb3c644a0371d18d7aee6ae98ef2a450028de3be37bc63c30c89d1d0e46"
+  }
+ },
+ "folder_sha256": "a6d8dd042d84f0fda0d8f203c0318a0ad6902ef8b5d59852f642055ea4ea77d1",
+ "model": "lstm",
+ "model_hash": "90aa9597e2f3b98250938572ef3e7ea4d9a3746735d5b021b9ed60ef1a5be02c",
+ "ticker": "CRWD"
+}

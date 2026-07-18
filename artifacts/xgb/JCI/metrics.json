@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": true,
+  "kelly_fraction": null,
+  "model_hash": "d9cb5509f59d11b4de0c7269104de7a2f9797ab17ba57d1b8c51904b3352cd39",
+  "oof_log_growth": -0.23928618449475936,
+  "oof_trades": 278,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3601906969824755,
+  "cv_folds": 4,
+  "end_capital": 2399.4967193683005,
+  "losses": 0,
+  "max_drawdown_pct": 23.04312002197201,
+  "model_trades": 0,
+  "net_pnl_usd": 1399.4967193683008,
+  "oof_log_growth": -0.23928618449475936,
+  "oof_trades": 278,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "HODL_FALLBACK_NO_MODEL_TRADES",
+  "return_pct": 139.94967193683004,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "JCI",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 1,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "JCI"
+}

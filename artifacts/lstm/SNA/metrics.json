@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "9439201ce5d40d76a31818363b53a3838fee05b8ffed99f8daf5e00353ecf5e2",
+  "oof_log_growth": 0.3340833231617858,
+  "oof_trades": 21,
+  "theta_entry": 0.58,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.48173993809003074,
+  "cv_folds": 4,
+  "end_capital": 817.7822600931191,
+  "losses": 6,
+  "max_drawdown_pct": 18.221773990688085,
+  "model_trades": 8,
+  "net_pnl_usd": -182.21773990688087,
+  "oof_log_growth": 0.3340833231617858,
+  "oof_trades": 21,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.12001842897698088,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -18.221773990688085,
+  "start_capital": 1000.0,
+  "theta_entry": 0.58,
+  "ticker": "SNA",
+  "time_in_market_pct": 9.4178,
+  "trade_floor_met": 1,
+  "trades": 8,
+  "win_rate_pct": 25.0,
+  "wins": 2
+ },
+ "ticker": "SNA"
+}

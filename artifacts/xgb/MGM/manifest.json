@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 243029,
+   "sha256": "085d1e94161e450e50351bf651f81b8847aa74aef11d017b92b9d50721df40f7"
+  },
+  "metrics.json": {
+   "bytes": 1108,
+   "sha256": "852404bdf1b92abf09cccf8159e61ff4141b8bf31be8a87c7f772b3bc7e5b8db"
+  },
+  "parameters.json": {
+   "bytes": 4087,
+   "sha256": "de221d75c897528bc8adca28d73502b723da6270b85f635c047c01d365f59f6f"
+  },
+  "strategy_MGM.py": {
+   "bytes": 354515,
+   "sha256": "d0e2b63012bd4c3cf0f299f8a8e7be755c622fc65c49e5f568047990748f7d16"
+  }
+ },
+ "folder_sha256": "b6eeba647a7e9dd6749d17d69897300388c3fe9601e081187d9a7b341c953f6b",
+ "model": "xgb",
+ "model_hash": "3128592bb7a5aa3e8683ed9136559516c483b384e7af2549e965fd9ab291713b",
+ "ticker": "MGM"
+}

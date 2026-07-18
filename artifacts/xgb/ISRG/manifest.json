@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 146010,
+   "sha256": "fe5fcebd35da134a8b64b38988372630f2c2591b50ed5e7d01771a0aad022f76"
+  },
+  "metrics.json": {
+   "bytes": 1109,
+   "sha256": "9ff8c5f75bbdeffd67aaee03ed676eb2bbb7aab2038108947ea6b450c220fbc2"
+  },
+  "parameters.json": {
+   "bytes": 4617,
+   "sha256": "cb452a8b9673bea830009b36b591a70320e940fa6fb2570a1ccc6e17bffe5693"
+  },
+  "strategy_ISRG.py": {
+   "bytes": 370457,
+   "sha256": "cdd7ea2b869c245eb20793164b5685778b53a900be55ae7fc1e2fdf44360de06"
+  }
+ },
+ "folder_sha256": "dbc010ddb0aa40b0b6eca523b0ee84e636250b7a9e5199a490bd0dc4e5d58e78",
+ "model": "xgb",
+ "model_hash": "29eb966310d5c920424a67b08cc7a8ea11c3414ca2703e3d93ccfc229d691531",
+ "ticker": "ISRG"
+}

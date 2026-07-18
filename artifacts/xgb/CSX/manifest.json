@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 67378,
+   "sha256": "955e8482485d7e131971eaab1ac29cdc1ef9af5fbd3bb3bdffa170a8bed950dd"
+  },
+  "metrics.json": {
+   "bytes": 1107,
+   "sha256": "b2e07427e3b93e256796433a36fd18c84adb3368afbc8a3a04ddb5eb3f47d00a"
+  },
+  "parameters.json": {
+   "bytes": 5162,
+   "sha256": "de8ac4c8a70199e7ef05d316fff42ea79aade3340c7480cf95adf1e507f0f207"
+  },
+  "strategy_CSX.py": {
+   "bytes": 298146,
+   "sha256": "6f0630f208447c30093057495c57300cc1f3c7c8d7419903325d6e5134d55b30"
+  }
+ },
+ "folder_sha256": "2f4331a2c8ad2f06c6fecfba4a681f5775040a012b0882dcc819025204341a0d",
+ "model": "xgb",
+ "model_hash": "88e9c3de9aa357f36a353062b53ce14d4bd308cc73a1f67ead19593ea463fa88",
+ "ticker": "CSX"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25920,
+   "sha256": "0a050288ea8f1a4b815a393c1f5ea5f9f57d627dbf58bde5eb12192849927882"
+  },
+  "metrics.json": {
+   "bytes": 1044,
+   "sha256": "f2e5b3eb321ba85ebaa935db021e3599a5d2b79832ad1ce7d16558027b098189"
+  },
+  "parameters.json": {
+   "bytes": 4077,
+   "sha256": "f42540128c7f467fbf8dbd42f05c073d09f88e358a78c785c2338daab80dc3ba"
+  },
+  "strategy_IFF.py": {
+   "bytes": 187021,
+   "sha256": "7cd66e324488f3a9809e69f83a1e8e5b94820fb8540c43c6c39a6602898f6344"
+  }
+ },
+ "folder_sha256": "55026a718bf12b99b6c688c391cd1bbf1aa9b82463ba4b21fa478e7889257442",
+ "model": "xgb",
+ "model_hash": "d9755754fcf394976e2e710ddc46ff3a898b4dbd7ab16c12cf67a6b073ed1bff",
+ "ticker": "IFF"
+}

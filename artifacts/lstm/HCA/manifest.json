@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 74817,
+   "sha256": "7f2f330bb128e21355b7826b329abc976c4d5ca3db879134679db9cdd0ea911e"
+  },
+  "metrics.json": {
+   "bytes": 1053,
+   "sha256": "8ca7450acf4f4a8a8664adbaba496f3f2f3479fe7c41083ebbcbac058ace6e70"
+  },
+  "parameters.json": {
+   "bytes": 2505,
+   "sha256": "6affbe24be025c59c4853b401d53a9c6fd2e1f23d6ca14506f693fef0dc85306"
+  },
+  "strategy_HCA.py": {
+   "bytes": 77063,
+   "sha256": "4b9cd9770f5b46b738e2de3843d953cd1ec2949ed84501674cf220205a166637"
+  }
+ },
+ "folder_sha256": "7b23a8135a7d50311e20f2d5a1ea1b43de304d59f6807fce88f09149d714e637",
+ "model": "lstm",
+ "model_hash": "e1b8d30794a9010c4c0bc309abab088f9cd4cc96bad62eae27d80d50c6b791e6",
+ "ticker": "HCA"
+}

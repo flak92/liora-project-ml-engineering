@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 38310,
+   "sha256": "10e79e27564dc004600756febf3acd838b4ce7b80b7bab1feb3d6f523af97fb2"
+  },
+  "metrics.json": {
+   "bytes": 1109,
+   "sha256": "314c0dd34c0d77a3a2499d6bf980a087c1684751f4581c87a157525175c71688"
+  },
+  "parameters.json": {
+   "bytes": 4618,
+   "sha256": "86a4cd4713e77389050f606ccde6ac310b65b02d8acb8018ea3bf3a5c30a873f"
+  },
+  "strategy_EQIX.py": {
+   "bytes": 67163,
+   "sha256": "a3e885cb4a6df004e0002e3e893fd686ff8aeb1099cdf020378b54005aab0b10"
+  }
+ },
+ "folder_sha256": "fd8d65a4e29c529bf2c29355ca2e0a5546b464ecd3bfc23683443c61b7d1b5b8",
+ "model": "xgb",
+ "model_hash": "12d4197507b6afbddf7b3ac461f67b6ba7e5f88ca18a1b702b220738b9040ca8",
+ "ticker": "EQIX"
+}

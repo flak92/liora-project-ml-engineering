@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "08bc399a7525ff875ac8d5e32bd7344059a6a1a2b256f2445372cba14d68b287",
+  "oof_log_growth": 0.6466670451720449,
+  "oof_trades": 379,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.412062875394808,
+  "cv_folds": 4,
+  "end_capital": 738.7919483032326,
+  "losses": 145,
+  "max_drawdown_pct": 34.05286808570176,
+  "model_trades": 220,
+  "net_pnl_usd": -261.20805169676737,
+  "oof_log_growth": 0.6466670451720449,
+  "oof_trades": 379,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8097606352405505,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -26.120805169676743,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "VRSK",
+  "time_in_market_pct": 44.4285,
+  "trade_floor_met": 1,
+  "trades": 220,
+  "win_rate_pct": 34.090909090909086,
+  "wins": 75
+ },
+ "ticker": "VRSK"
+}

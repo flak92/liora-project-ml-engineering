@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "9791afa991e5c62b6cf51c21fa77e3610e2b4f46b638f5275a2593f92e76a5fd",
+  "oof_log_growth": 0.5019267580633118,
+  "oof_trades": 111,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4699846889726309,
+  "cv_folds": 4,
+  "end_capital": 889.2255680534798,
+  "losses": 22,
+  "max_drawdown_pct": 33.826158352563574,
+  "model_trades": 37,
+  "net_pnl_usd": -110.77443194652017,
+  "oof_log_growth": 0.5019267580633118,
+  "oof_trades": 111,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.7968228428369721,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -11.077443194652014,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "CVX",
+  "time_in_market_pct": 44.6918,
+  "trade_floor_met": 1,
+  "trades": 37,
+  "win_rate_pct": 40.54054054054054,
+  "wins": 15
+ },
+ "ticker": "CVX"
+}

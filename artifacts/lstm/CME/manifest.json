@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 85904,
+   "sha256": "bce06451ce5c20472b465686653678cb3eb5eed8828384967843f740b1ad7493"
+  },
+  "metrics.json": {
+   "bytes": 1039,
+   "sha256": "0c4495b3bfbb9b71e1ee1994f07d3e7a64294ce8f8d6d03ccdfadbf066ee216e"
+  },
+  "parameters.json": {
+   "bytes": 2756,
+   "sha256": "d4ef1f75d5dfca75c534bd5578ce9d33d439f2fbadba2c4de309b5092f805e34"
+  },
+  "strategy_CME.py": {
+   "bytes": 82368,
+   "sha256": "0c2eee2a9f0b80d0f29e589f0dc24c05ee6d7c47e54821fe8c65a479cb91e688"
+  }
+ },
+ "folder_sha256": "554f13119e7e293c6e05a5d3f91f5e431ab763fd8a56e4373c0df7edd7f0c9d7",
+ "model": "lstm",
+ "model_hash": "36cbb2058f3c8fb8fd5e72efac833bf7884153e4933bd26ffb67990f1dbf4b9d",
+ "ticker": "CME"
+}

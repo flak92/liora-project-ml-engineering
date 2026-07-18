@@ -1,0 +1,241 @@
+{
+  "best_params": {
+    "max_depth": 2,
+    "eta": 0.23845300635671068,
+    "subsample": 0.9941301556919857,
+    "colsample_bytree": 0.7432974988974591,
+    "min_child_weight": 7.642640605647298,
+    "reg_lambda": 4.629188173329613,
+    "reg_alpha": 0.012478285405371636,
+    "gamma": 0.39331695108619236,
+    "n_estimators": 271,
+    "kelly_fraction": null,
+    "theta_entry": 0.44
+  },
+  "feature_manifest": {
+    "schema_version": "simple_features.v1",
+    "ticker": "RMD",
+    "namespace_order": [
+      "1h",
+      "1h_ext",
+      "1d",
+      "1w",
+      "multi_tf"
+    ],
+    "active_namespaces": [
+      "1h",
+      "1w"
+    ],
+    "per_namespace": [
+      {
+        "namespace": "1h",
+        "id_range": "01-99",
+        "feature_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "feature_names": [
+          "direction",
+          "log_return_1",
+          "log_return_5",
+          "log_return_20",
+          "close_z_score_20",
+          "dist_to_sma_20",
+          "dist_to_sma_50",
+          "sma_20_sma_50_ratio",
+          "volume_z_score_20",
+          "atr_pct_14",
+          "realized_volatility_20",
+          "rsi_14",
+          "bollinger_percent_b_20_2",
+          "bollinger_bandwidth_20_2",
+          "macd_line_12_26_9",
+          "macd_signal_12_26_9",
+          "macd_hist_12_26_9"
+        ],
+        "feature_count": 17
+      },
+      {
+        "namespace": "1w",
+        "id_range": "201-299",
+        "feature_ids": [
+          206,
+          213
+        ],
+        "feature_names": [
+          "dist_to_sma_20_1w",
+          "bollinger_percent_b_20_2_1w"
+        ],
+        "feature_count": 2
+      }
+    ],
+    "effective_feature_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      206,
+      213
+    ],
+    "effective_feature_names": [
+      "direction",
+      "log_return_1",
+      "log_return_5",
+      "log_return_20",
+      "close_z_score_20",
+      "dist_to_sma_20",
+      "dist_to_sma_50",
+      "sma_20_sma_50_ratio",
+      "volume_z_score_20",
+      "atr_pct_14",
+      "realized_volatility_20",
+      "rsi_14",
+      "bollinger_percent_b_20_2",
+      "bollinger_bandwidth_20_2",
+      "macd_line_12_26_9",
+      "macd_signal_12_26_9",
+      "macd_hist_12_26_9",
+      "dist_to_sma_20_1w",
+      "bollinger_percent_b_20_2_1w"
+    ],
+    "effective_feature_count": 19,
+    "feature_selection_source": "config/feature_namespaces.json + data/per_asset_feature_overrides.json[RMD]"
+  },
+  "features": {
+    "ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      206,
+      213
+    ],
+    "names": [
+      "direction",
+      "log_return_1",
+      "log_return_5",
+      "log_return_20",
+      "close_z_score_20",
+      "dist_to_sma_20",
+      "dist_to_sma_50",
+      "sma_20_sma_50_ratio",
+      "volume_z_score_20",
+      "atr_pct_14",
+      "realized_volatility_20",
+      "rsi_14",
+      "bollinger_percent_b_20_2",
+      "bollinger_bandwidth_20_2",
+      "macd_line_12_26_9",
+      "macd_signal_12_26_9",
+      "macd_hist_12_26_9",
+      "dist_to_sma_20_1w",
+      "bollinger_percent_b_20_2_1w"
+    ],
+    "active_namespaces": [
+      "1h",
+      "1w"
+    ],
+    "per_namespace": [
+      {
+        "namespace": "1h",
+        "id_range": "01-99",
+        "feature_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "feature_names": [
+          "direction",
+          "log_return_1",
+          "log_return_5",
+          "log_return_20",
+          "close_z_score_20",
+          "dist_to_sma_20",
+          "dist_to_sma_50",
+          "sma_20_sma_50_ratio",
+          "volume_z_score_20",
+          "atr_pct_14",
+          "realized_volatility_20",
+          "rsi_14",
+          "bollinger_percent_b_20_2",
+          "bollinger_bandwidth_20_2",
+          "macd_line_12_26_9",
+          "macd_signal_12_26_9",
+          "macd_hist_12_26_9"
+        ],
+        "feature_count": 17
+      },
+      {
+        "namespace": "1w",
+        "id_range": "201-299",
+        "feature_ids": [
+          206,
+          213
+        ],
+        "feature_names": [
+          "dist_to_sma_20_1w",
+          "bollinger_percent_b_20_2_1w"
+        ],
+        "feature_count": 2
+      }
+    ]
+  },
+  "cv_auc_pr": 0.42207575445648526,
+  "cv_folds": 4,
+  "n_trials": 80
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 38196,
+   "sha256": "f36aa3ea1664b4a83d1da1635ebe036bd9fe457ac8da6eff89c1e506a9d77b44"
+  },
+  "metrics.json": {
+   "bytes": 1108,
+   "sha256": "90b0a63679d2d14f25aa153d92faac95911da900bebaa25f0e1cb501d12510b6"
+  },
+  "parameters.json": {
+   "bytes": 4637,
+   "sha256": "196c563454eea172ff72d5ff7ce39b2ffeea2895a500d83d1eea228774e456a9"
+  },
+  "strategy_CDNS.py": {
+   "bytes": 249305,
+   "sha256": "1c10eea60f857354307f397f8618b2027ebe76e9547e9fe732a9569a6fed3501"
+  }
+ },
+ "folder_sha256": "11e6dbaa52e8dd0f00f03389d4b71fcee814acebbedec3dee7158ed86bb1fc69",
+ "model": "xgb",
+ "model_hash": "3b56c250f00dd588f1395c9566b0cca4593dd8c6809990310f1e3682c99debd8",
+ "ticker": "CDNS"
+}

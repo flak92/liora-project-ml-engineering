@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "241cbbec78ca4939c63f3323e52b98f2070dea03b9eba038c29e59f3b9fdd6e0",
+  "oof_log_growth": -0.12094856560661964,
+  "oof_trades": 42,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3837678050277862,
+  "cv_folds": 4,
+  "end_capital": 1074.4043325118978,
+  "losses": 2,
+  "max_drawdown_pct": 6.475667189952924,
+  "model_trades": 5,
+  "net_pnl_usd": 74.40433251189779,
+  "oof_log_growth": -0.12094856560661964,
+  "oof_trades": 42,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 2.0612441544639823,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 7.440433251189771,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "EQT",
+  "time_in_market_pct": 6.5068,
+  "trade_floor_met": 1,
+  "trades": 5,
+  "win_rate_pct": 60.0,
+  "wins": 3
+ },
+ "ticker": "EQT"
+}

@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "1a2853667938d6c2e5df7bfc298ec8ef607765e6fd93e4955609038d5fa496f3",
+  "oof_log_growth": -0.07136956699616376,
+  "oof_trades": 44,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4414505079898626,
+  "cv_folds": 4,
+  "end_capital": 790.4357972792354,
+  "losses": 9,
+  "max_drawdown_pct": 25.089991320325428,
+  "model_trades": 12,
+  "net_pnl_usd": -209.56420272076457,
+  "oof_log_growth": -0.07136956699616376,
+  "oof_trades": 44,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.2629625552232372,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -20.95642027207646,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "BEN",
+  "time_in_market_pct": 12.8425,
+  "trade_floor_met": 1,
+  "trades": 12,
+  "win_rate_pct": 25.0,
+  "wins": 3
+ },
+ "ticker": "BEN"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 103071,
+   "sha256": "73966a84ba037ca3dc8391f0d26d37402e2ecab4d17323343cc88e7930ba1a95"
+  },
+  "metrics.json": {
+   "bytes": 1037,
+   "sha256": "315a12aefc60973c2ff4e179a0542e1a283889fcf53111710bac1c9552d4454d"
+  },
+  "parameters.json": {
+   "bytes": 3114,
+   "sha256": "232106c0e1e7cbe78ec1f867a9282089c928cabf8f697eb08c0a17a46a4e3ebf"
+  },
+  "strategy_EA.py": {
+   "bytes": 93107,
+   "sha256": "d2647f96b312d3eff19da18c8b7046ef3718d39744cf506841ff2f01590417d9"
+  }
+ },
+ "folder_sha256": "b93c7dac6f99f87854841ebed11f42a7d7d921a200c8bc5d98e26d204183532a",
+ "model": "lstm",
+ "model_hash": "c69b68daef86f324e999214d7fa309576be5299c4c37f8874158f656692f2166",
+ "ticker": "EA"
+}

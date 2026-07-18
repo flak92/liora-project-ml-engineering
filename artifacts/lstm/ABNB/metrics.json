@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "f9fec91df4e6336219c2727cc20ca0c26f0c18af9f3853da6a22aa3f9164ace8",
+  "oof_log_growth": -0.13631876788928693,
+  "oof_trades": 41,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.47763647843327284,
+  "cv_folds": 4,
+  "end_capital": 1243.1523749710195,
+  "losses": 20,
+  "max_drawdown_pct": 20.805916076810256,
+  "model_trades": 40,
+  "net_pnl_usd": 243.15237497101953,
+  "oof_log_growth": -0.13631876788928693,
+  "oof_trades": 41,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.2758229434059947,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 24.31523749710196,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "ABNB",
+  "time_in_market_pct": 47.774,
+  "trade_floor_met": 1,
+  "trades": 40,
+  "win_rate_pct": 50.0,
+  "wins": 20
+ },
+ "ticker": "ABNB"
+}

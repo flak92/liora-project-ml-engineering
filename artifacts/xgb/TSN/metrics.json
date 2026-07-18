@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "b3db6f74a93707d82845b0d4bd5ca548ac3f241f0aebf9721bcbc3de565870da",
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "theta_boundary": true,
+  "theta_entry": 0.6,
+  "trade_floor_met": false
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3761610294340214,
+  "cv_folds": 4,
+  "end_capital": 1212.665206235189,
+  "losses": 0,
+  "max_drawdown_pct": 24.07185628742516,
+  "model_trades": 0,
+  "net_pnl_usd": 212.66520623518912,
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "TRAIN_OOF_FLOOR_NOT_MET",
+  "return_pct": 21.266520623518904,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "TSN",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 0,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "TSN"
+}

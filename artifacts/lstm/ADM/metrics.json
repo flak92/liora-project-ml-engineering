@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "2b8c59a5326f6b7720410418344c2de88eafd43e1ac5dffe00bde8913a6f277f",
+  "oof_log_growth": 0.1909169117214245,
+  "oof_trades": 18,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.5276076909540739,
+  "cv_folds": 4,
+  "end_capital": 910.7320510591966,
+  "losses": 11,
+  "max_drawdown_pct": 24.85431634202218,
+  "model_trades": 20,
+  "net_pnl_usd": -89.26794894080342,
+  "oof_log_growth": 0.1909169117214245,
+  "oof_trades": 18,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.7856575434325842,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -8.926794894080349,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "ADM",
+  "time_in_market_pct": 28.4247,
+  "trade_floor_met": 1,
+  "trades": 20,
+  "win_rate_pct": 45.0,
+  "wins": 9
+ },
+ "ticker": "ADM"
+}

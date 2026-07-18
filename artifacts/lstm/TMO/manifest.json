@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 85825,
+   "sha256": "41e0be6bc72a8463b98f5ff194f7fecd38a772a247c368beee6b8aa5c9ec9ddc"
+  },
+  "metrics.json": {
+   "bytes": 1063,
+   "sha256": "27c66936d34130bcdd7b1f8c725a0db94016e6989c6c4cdffb96ed92bdcbebce"
+  },
+  "parameters.json": {
+   "bytes": 2763,
+   "sha256": "8fb6e49d38c9b79b40d8a49cbf9b23f33e5c2930fa582f03edd1261ba748c7c3"
+  },
+  "strategy_TMO.py": {
+   "bytes": 83229,
+   "sha256": "d70955b9ceec012392c4de87e86f4d3f5419890439ed59094fc02d2486a7b67b"
+  }
+ },
+ "folder_sha256": "3caf5964f8d2a75307a1b52ffca2fd2d3323062217cc6f0a43feffe735a7a1bf",
+ "model": "lstm",
+ "model_hash": "c97b9ab69e834a7eae8eb7c66bc2c499e69ef2c8596c6e001e6937830b419f8f",
+ "ticker": "TMO"
+}

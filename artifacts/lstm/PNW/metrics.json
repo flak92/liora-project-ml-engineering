@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "63e7202dd69750facd44fc7149bee6213dc9c0327bbc85392c29d001f53fd8ff",
+  "oof_log_growth": 0.06451506540120171,
+  "oof_trades": 103,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4736501991594795,
+  "cv_folds": 4,
+  "end_capital": 1014.2222949821748,
+  "losses": 13,
+  "max_drawdown_pct": 12.976746384285914,
+  "model_trades": 28,
+  "net_pnl_usd": 14.222294982174844,
+  "oof_log_growth": 0.06451506540120171,
+  "oof_trades": 103,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.0446857333983595,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 1.4222294982174866,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "PNW",
+  "time_in_market_pct": 35.274,
+  "trade_floor_met": 1,
+  "trades": 28,
+  "win_rate_pct": 53.57142857142857,
+  "wins": 15
+ },
+ "ticker": "PNW"
+}

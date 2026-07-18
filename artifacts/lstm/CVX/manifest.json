@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 87322,
+   "sha256": "a7d6608794478b03f046b7c95ba2ca66eec000fc6d3d8c6d81eebf7c28ea61d0"
+  },
+  "metrics.json": {
+   "bytes": 1058,
+   "sha256": "27e52e099fa38f63be6e7bf2448e759e3fc56ef3e81feb18bdfbc694e1daa774"
+  },
+  "parameters.json": {
+   "bytes": 2765,
+   "sha256": "47e3ab305c974d145a72e6e0314ac3273f8d6418aadd025a2ee6d4309c8783ca"
+  },
+  "strategy_CVX.py": {
+   "bytes": 84612,
+   "sha256": "78c1a3ddb9f440419a3bb9c1cba27d54d47448ebf50c4dd259e641259b529fc0"
+  }
+ },
+ "folder_sha256": "3d3834ec08583987140018869ff7dff1747b58c53dd879dbe2c0de046e51bc48",
+ "model": "lstm",
+ "model_hash": "9791afa991e5c62b6cf51c21fa77e3610e2b4f46b638f5275a2593f92e76a5fd",
+ "ticker": "CVX"
+}

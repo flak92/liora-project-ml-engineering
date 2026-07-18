@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75322,
+   "sha256": "41a4d8b7fdb4ad6abb2c046eb54d08328e2423e9234889594d2568a9413c8d66"
+  },
+  "metrics.json": {
+   "bytes": 1036,
+   "sha256": "8c1b5d8a990e56b45590cd2fd99b67c904fa0db697ec31f62f2771535c4c267f"
+  },
+  "parameters.json": {
+   "bytes": 2536,
+   "sha256": "d6ded55efe34ac9c02c082339141a67f899ad66d3e6e56d9f8c63a93c0c20154"
+  },
+  "strategy_EW.py": {
+   "bytes": 77125,
+   "sha256": "093f865001ade012751a5736d7a5f829d643bc7c934d4f9aa7363305465f86a1"
+  }
+ },
+ "folder_sha256": "369620dfcd505df94c5f31047a7761d7e93582725149613e1bba575db867661b",
+ "model": "lstm",
+ "model_hash": "f89628075964c01aef58ff3afa8831998110a9e6c9efd889b713a225f102f4a8",
+ "ticker": "EW"
+}

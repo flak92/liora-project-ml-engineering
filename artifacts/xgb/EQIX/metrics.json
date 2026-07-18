@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "12d4197507b6afbddf7b3ac461f67b6ba7e5f88ca18a1b702b220738b9040ca8",
+  "oof_log_growth": 0.44090670607650384,
+  "oof_trades": 109,
+  "theta_boundary": false,
+  "theta_entry": 0.44,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4127716907442972,
+  "cv_folds": 4,
+  "end_capital": 981.3626067539162,
+  "losses": 34,
+  "max_drawdown_pct": 17.937140810846714,
+  "model_trades": 63,
+  "net_pnl_usd": -18.637393246083775,
+  "oof_log_growth": 0.44090670607650384,
+  "oof_trades": 109,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.96298998041288,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -1.8637393246083822,
+  "start_capital": 1000.0,
+  "theta_entry": 0.44,
+  "ticker": "EQIX",
+  "time_in_market_pct": 14.3233,
+  "trade_floor_met": 1,
+  "trades": 63,
+  "win_rate_pct": 46.03174603174603,
+  "wins": 29
+ },
+ "ticker": "EQIX"
+}

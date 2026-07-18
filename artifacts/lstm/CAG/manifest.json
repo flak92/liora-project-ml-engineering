@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76880,
+   "sha256": "6c874231736b2562f4d930e4855cf05ca639a1d18e9b9c47d41dfbc872850c3f"
+  },
+  "metrics.json": {
+   "bytes": 1061,
+   "sha256": "a1af2ee44d7dcb3bc5aac840a22d613388ee51b55e9c9d35e41cde2a5fe225f9"
+  },
+  "parameters.json": {
+   "bytes": 2549,
+   "sha256": "dd246d1ecb463151b4ac07e7167eed3dc8da3f94fe001ff4e53cdee2529fb733"
+  },
+  "strategy_CAG.py": {
+   "bytes": 76891,
+   "sha256": "eeb6d5566ee67dc1cafa47237db76ac27ec15d9424e3d622d242de4fca057acd"
+  }
+ },
+ "folder_sha256": "5a6e191f367177954c280b99ff70c5ffbb4b5616fb45ac544d3d44e9c8cd07d6",
+ "model": "lstm",
+ "model_hash": "6cae1fb2d10f09bb5d0b28e0f339851fd7d4b6697eec57d6660fbef053e3d033",
+ "ticker": "CAG"
+}

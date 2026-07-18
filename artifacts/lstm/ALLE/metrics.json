@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "f60faddbf34f1f46845ac0c75251fd16a4eee2873cab385815ffab93de2136c6",
+  "oof_log_growth": 0.07316167651771267,
+  "oof_trades": 22,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.44934732444581904,
+  "cv_folds": 4,
+  "end_capital": 952.9272894487365,
+  "losses": 9,
+  "max_drawdown_pct": 10.676872498464393,
+  "model_trades": 14,
+  "net_pnl_usd": -47.072710551263526,
+  "oof_log_growth": 0.07316167651771267,
+  "oof_trades": 22,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.7243482903333293,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -4.70727105512635,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "ALLE",
+  "time_in_market_pct": 17.8082,
+  "trade_floor_met": 1,
+  "trades": 14,
+  "win_rate_pct": 35.714285714285715,
+  "wins": 5
+ },
+ "ticker": "ALLE"
+}

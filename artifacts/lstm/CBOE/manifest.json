@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 68550,
+   "sha256": "cb9c35c0c5d3810e1ea891464b1c99dbe117270fe3892aa3393fde81cf4dc579"
+  },
+  "metrics.json": {
+   "bytes": 1057,
+   "sha256": "43d42db91b409c8f827856fb155107b4b3d3dea0cdd912b490b9c7f9bf65190b"
+  },
+  "parameters.json": {
+   "bytes": 2778,
+   "sha256": "398f36141204ff3a2a38254d747502fbfcb8339b95a5bf0b68b71f4b77ac219b"
+  },
+  "strategy_CBOE.py": {
+   "bytes": 83403,
+   "sha256": "fba08743f8bad3ebe61a646c4595f1ae0641003274358965c6c236371a8fef14"
+  }
+ },
+ "folder_sha256": "ad950c3fc2e980e8ed604d2816f723a02583a1cd80fd80d7d2abf633e017b817",
+ "model": "lstm",
+ "model_hash": "6ae9f6523d2d94b417a706f1e9c1028dd67a3df351b0c633336c5b20aef14ec0",
+ "ticker": "CBOE"
+}

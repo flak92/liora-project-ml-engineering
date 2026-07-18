@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 92430,
+   "sha256": "1de6e0131046507963fa15a9ba3cbd13ac9b67c8ffcedaa8ee56aa769c8c499b"
+  },
+  "metrics.json": {
+   "bytes": 1059,
+   "sha256": "ae28fb3221a780350d15b21fa4b31b20431ee99c5bdfbcc87b4930995ceab14b"
+  },
+  "parameters.json": {
+   "bytes": 2882,
+   "sha256": "05ea94ca3768c741cdc95323944bcafbb008ee4f04d8072c2133d9a6746a910c"
+  },
+  "strategy_AME.py": {
+   "bytes": 87374,
+   "sha256": "6bcaa49fc2ba6746dd656184c4680b2f80fa378105f4756408c1d5a24c7fd1ba"
+  }
+ },
+ "folder_sha256": "c60faa5cdc6208a40b4c8e4781fd018483e8a7e662214e9e2ae92565c9a867a4",
+ "model": "lstm",
+ "model_hash": "f5048e783c558f9d2cb6e55e5408740b505f47a2fc27c0520b61b00201d31bb5",
+ "ticker": "AME"
+}

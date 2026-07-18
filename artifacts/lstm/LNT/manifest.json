@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76382,
+   "sha256": "c130fb5042d82082cac585f6d368638c790c6650f682afa598cb3f4861db8258"
+  },
+  "metrics.json": {
+   "bytes": 1043,
+   "sha256": "ae00b5f89534adba97451eaa42d1a5e144dfdef404b82258f74cb3bd798ec104"
+  },
+  "parameters.json": {
+   "bytes": 2518,
+   "sha256": "7aa435704d706124ec1bcdd4610783297e3415a6b2470367344dd81dd675d98e"
+  },
+  "strategy_LNT.py": {
+   "bytes": 77249,
+   "sha256": "37933620d5864a7c3bd75e1f6131edb34d0e55ed5e91bca5a42eedfcc4af25e0"
+  }
+ },
+ "folder_sha256": "ce97534d6165e350cb9f3c39c8144924f4e200da1e364cbe1e59c4bb29bbeab1",
+ "model": "lstm",
+ "model_hash": "0666a8098e92137ab403e8fea4c83a93709c9db38e77edc1e34e5f68d2f01650",
+ "ticker": "LNT"
+}

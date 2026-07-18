@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25920,
+   "sha256": "076555270d56ab16e346369926aef225e92ec76f217baefc54880920cf7a4ea9"
+  },
+  "metrics.json": {
+   "bytes": 1041,
+   "sha256": "af52e6cdc21ba4ba9b502cf57b2b9f62a206e1a366b8bf5a5f4cce82fd6f51fe"
+  },
+  "parameters.json": {
+   "bytes": 4077,
+   "sha256": "abcdbecf0ed887467d30d4838caa385597030033b3be9b57ee831a58a3a003de"
+  },
+  "strategy_DIS.py": {
+   "bytes": 187036,
+   "sha256": "ff75e7d57bf94714de02fef8358355567112a24b39cf99a7665bb62618c32578"
+  }
+ },
+ "folder_sha256": "5aae7decb8cafec9fd1c9f4cf0c2a6dcf658e69bcc98b46c60574e5f7153427f",
+ "model": "xgb",
+ "model_hash": "2f8979c930fc58abef0d46b071ec7f32c4462f2e10184643d3a8897a3d0870ea",
+ "ticker": "DIS"
+}

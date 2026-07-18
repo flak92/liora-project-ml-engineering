@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "1074f988100d1bbba439b6fbc08707a53179862eb093352b165510e27483265a",
+  "oof_log_growth": 0.8048415940695834,
+  "oof_trades": 108,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4933574470596349,
+  "cv_folds": 4,
+  "end_capital": 1457.086446439267,
+  "losses": 20,
+  "max_drawdown_pct": 23.77231920200774,
+  "model_trades": 37,
+  "net_pnl_usd": 457.0864464392671,
+  "oof_log_growth": 0.8048415940695834,
+  "oof_trades": 108,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.4376183928320627,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 45.7086446439267,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "JBL",
+  "time_in_market_pct": 43.6644,
+  "trade_floor_met": 1,
+  "trades": 37,
+  "win_rate_pct": 45.94594594594595,
+  "wins": 17
+ },
+ "ticker": "JBL"
+}

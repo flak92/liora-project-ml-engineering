@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76275,
+   "sha256": "a9df9e7cd121de76cf97b15e03ffd797e24036f8002564c47931ced43d0de2d3"
+  },
+  "metrics.json": {
+   "bytes": 1034,
+   "sha256": "fd5854b462ca689a5aec94135830287e617892fdbf98ec2ca2d336a85f4b55b2"
+  },
+  "parameters.json": {
+   "bytes": 2522,
+   "sha256": "f3952cb2e667b222a3130a9fed9add6860c758437082229a13de600e67b98209"
+  },
+  "strategy_ESS.py": {
+   "bytes": 77183,
+   "sha256": "bc22e4a37cce9452dbff5aba0a979fe8eca8453fc18b99edca80aa47abe978d3"
+  }
+ },
+ "folder_sha256": "c48fa986c4b3a4ba4b920373420d1f0de1a7232dc4486ebb1b35ba7fce3a1ffc",
+ "model": "lstm",
+ "model_hash": "8285a94d01617f87d7ddb2fe98d5c0ecb740d340ba54b5fa1056ef6bf8632c48",
+ "ticker": "ESS"
+}

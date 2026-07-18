@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 63877,
+   "sha256": "f971c370c30067ceed555833a606bbca7eea564e54b205f78f5f23aa85c4151c"
+  },
+  "metrics.json": {
+   "bytes": 1053,
+   "sha256": "5ab903270c91917f7707aa68404e8d749b3b2f43f53b6f25ca0ee4a0fe52cd81"
+  },
+  "parameters.json": {
+   "bytes": 2628,
+   "sha256": "f735ec6cbdbd7f907ad160d35d06e6374fabba4ef3105bffa7643a243efe4ebf"
+  },
+  "strategy_CRL.py": {
+   "bytes": 80353,
+   "sha256": "2657d6694f71e8f67dfbbc7c92476a0d39dd01d7d800897ce316a418814b5058"
+  }
+ },
+ "folder_sha256": "88644458d44fc964f1cef9d3c2595a5b33e7d70051bcae18fa36a9394daffe54",
+ "model": "lstm",
+ "model_hash": "97852392beacbc6eda3dc4b098325f4530611e650503e5c866f2cc45605ffed8",
+ "ticker": "CRL"
+}

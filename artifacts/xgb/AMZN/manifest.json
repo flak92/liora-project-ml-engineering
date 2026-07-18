@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 64886,
+   "sha256": "697da9a5dc936313c31d615698b20e1f2989e6b9a89cc46a47b2dbd99c31e70b"
+  },
+  "metrics.json": {
+   "bytes": 1091,
+   "sha256": "1f4aed3f59bd4ee7d64fe6383c2571c50f0d5d6ffbb0ffa5b36cf37347a5a77e"
+  },
+  "parameters.json": {
+   "bytes": 4619,
+   "sha256": "cc1925f70091fed69b4ab6fd88b7c047095f7297b47dbeac4eb9fd65c3e17e22"
+  },
+  "strategy_AMZN.py": {
+   "bytes": 133689,
+   "sha256": "6939fe72a536a5c5a05ead11d44198193d04607822df1924b1dd641b5b119c01"
+  }
+ },
+ "folder_sha256": "cf1245976d81c514b72d532d58da34c13c898dc105173f653c61bed999e52bdc",
+ "model": "xgb",
+ "model_hash": "8d9dd1450596859cc6b80305a21985432be63c3619be78426b31b5f375e13e64",
+ "ticker": "AMZN"
+}

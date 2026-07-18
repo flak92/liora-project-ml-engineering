@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 31639,
+   "sha256": "21035b0047ddaad1953ba502aea4b77352e4f99d6980bac04193dec1e12dbea5"
+  },
+  "metrics.json": {
+   "bytes": 1111,
+   "sha256": "b35381153bda451b801d2f1babe610254b147528f8bfcbca65d7057f02ef1d10"
+  },
+  "parameters.json": {
+   "bytes": 4658,
+   "sha256": "51b08715d5bf7a54c845428d5bc3c221b044a324085e6c9d82fe41f1bed3b3f4"
+  },
+  "strategy_SNPS.py": {
+   "bytes": 221081,
+   "sha256": "48dcfa4d69402bb843ce69051d8f8642fd0c7255bd5fff61924b92be0e260389"
+  }
+ },
+ "folder_sha256": "596d7ea28b790b18240129dbc7dcc2c8fd9e2148e7e6827215bbae58539f52ab",
+ "model": "xgb",
+ "model_hash": "2d3a2c69036069f8a799f10b703cf6bf950f5d28396ef4c659ed8a14ecc1d342",
+ "ticker": "SNPS"
+}

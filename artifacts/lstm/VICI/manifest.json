@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75627,
+   "sha256": "0502c3524565694951cc0fcdcfdd4d3752a2be0a6a62c48223a5fda7d895fa1e"
+  },
+  "metrics.json": {
+   "bytes": 1058,
+   "sha256": "cbc222fe1923efaa6f0bed48105954a6b9675f117d0e7adf8828f905b0046c6e"
+  },
+  "parameters.json": {
+   "bytes": 2549,
+   "sha256": "6ac20c5b4a0de975cb6326204a651206a06c268b0a1506e17e871f4c746dd2f1"
+  },
+  "strategy_VICI.py": {
+   "bytes": 77321,
+   "sha256": "4202f01a1001684fcc22a66404ecfc82616deef4124fa1439a8cccadfdc17fbb"
+  }
+ },
+ "folder_sha256": "0c9532819acd89bad85263e4477753192b1a7816a4b540f6418f2a513507a102",
+ "model": "lstm",
+ "model_hash": "a8df1250303163df0765b4e639f172d9c6181e72af1636fb41c6cc713c5daff9",
+ "ticker": "VICI"
+}

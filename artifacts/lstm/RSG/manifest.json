@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 96195,
+   "sha256": "2fcea69e1dff3d776d8a7ad3809dfbd9cfb113846144c14986b56bd386562d06"
+  },
+  "metrics.json": {
+   "bytes": 1048,
+   "sha256": "1f66d1bbb7e09d269544259f76529f120dd2b75078a8e52d4d81903553157305"
+  },
+  "parameters.json": {
+   "bytes": 3033,
+   "sha256": "faae795b7602d761920f3f1deeb06d300c29ef78d40b2c9a381c67909c129865"
+  },
+  "strategy_RSG.py": {
+   "bytes": 89436,
+   "sha256": "21e84a31402ad45e48a1aeb7f38b0a1fff92b2da95abdade2253c77c7d5eba03"
+  }
+ },
+ "folder_sha256": "564819126531f8226f8d8758730d76cb1299b995bcb383c98fd0b233dd8749a5",
+ "model": "lstm",
+ "model_hash": "3b09432b53cdf98d13a62c59c32dba41e7a4f9d29e8e687593fa30694514f119",
+ "ticker": "RSG"
+}

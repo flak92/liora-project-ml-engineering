@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "dadeb397de05b2e7f40f8a4b3ed97bf35cbe975ef8f46080500befbb94cf5789",
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "theta_boundary": true,
+  "theta_entry": 0.6,
+  "trade_floor_met": false
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.37537243919268115,
+  "cv_folds": 4,
+  "end_capital": 1085.4564526294794,
+  "losses": 0,
+  "max_drawdown_pct": 25.99565994383456,
+  "model_trades": 0,
+  "net_pnl_usd": 85.45645262947933,
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "TRAIN_OOF_FLOOR_NOT_MET",
+  "return_pct": 8.545645262947943,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "EQR",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 0,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "EQR"
+}

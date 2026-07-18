@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "e9e6788b96c900a75edd88060cf11bd3b5bcdef392ddda05f0302c9037fa3103",
+  "oof_log_growth": 1.1134945294843643,
+  "oof_trades": 248,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.421406394327431,
+  "cv_folds": 4,
+  "end_capital": 646.5637959380806,
+  "losses": 96,
+  "max_drawdown_pct": 41.14665516254675,
+  "model_trades": 149,
+  "net_pnl_usd": -353.4362040619194,
+  "oof_log_growth": 1.1134945294843643,
+  "oof_trades": 248,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.6624338317100475,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -35.343620406191945,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "PFG",
+  "time_in_market_pct": 31.6834,
+  "trade_floor_met": 1,
+  "trades": 149,
+  "win_rate_pct": 35.57046979865772,
+  "wins": 53
+ },
+ "ticker": "PFG"
+}

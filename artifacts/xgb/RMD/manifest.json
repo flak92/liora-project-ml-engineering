@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 35663,
+   "sha256": "db417215119fa1e9ccdd7ea51eef99a1a1573a84194e5c3c3835b25fe6d1d0ab"
+  },
+  "metrics.json": {
+   "bytes": 1108,
+   "sha256": "b6406b402d9bf7c1a81ee3737633a0c166a6d8ef7cab0e01abe3fb45cd80c434"
+  },
+  "parameters.json": {
+   "bytes": 4834,
+   "sha256": "784315e3b0b285810952674f96e395ed4c08e72fd6e62dfc06a75f6b6057e363"
+  },
+  "strategy_RMD.py": {
+   "bytes": 259773,
+   "sha256": "2dba6b329aef26c6d4ef35ca78c29a6bed4752111ecd5ace47c8bff2807c5bac"
+  }
+ },
+ "folder_sha256": "7684275b4e79c7bc2550892c040e0d979c803cc0f85496cc2612f8891cdb80d2",
+ "model": "xgb",
+ "model_hash": "38f3089e350be256bc4423c011ba6dab2a07eeef874ec41c16107e13966e2a7b",
+ "ticker": "RMD"
+}

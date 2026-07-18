@@ -1,0 +1,40 @@
+{
+  "schema_version": "xgb_optuna_space.v1",
+  "_meta": {
+    "purpose": "Single source of truth for the L7 XGBoost Optuna search space + objective. pipeline.py builds trial.suggest_* from `parameters` (order preserved -> deterministic TPE sequence at a fixed seed). N_TRIALS / H / embargo and other runtime knobs live in pipeline_parameters.json, not here.",
+    "xgb_param_name_map": "reg_lambda -> XGBoost 'lambda' (mapped only inside pipeline._xgb_train); eta stays 'eta'. All other names pass through unchanged."
+  },
+  "parameters": [
+    {"name": "max_depth", "suggest": "int", "low": 2, "high": 5},
+    {"name": "eta", "suggest": "float", "low": 0.02, "high": 0.3, "log": true},
+    {"name": "subsample", "suggest": "float", "low": 0.6, "high": 1.0},
+    {"name": "colsample_bytree", "suggest": "float", "low": 0.6, "high": 1.0},
+    {"name": "min_child_weight", "suggest": "float", "low": 1.0, "high": 10.0},
+    {"name": "reg_lambda", "suggest": "float", "low": 0.5, "high": 5.0},
+    {"name": "reg_alpha", "suggest": "float", "low": 0.0, "high": 5.0},
+    {"name": "gamma", "suggest": "float", "low": 0.0, "high": 5.0},
+    {"name": "n_estimators", "suggest": "int", "low": 40, "high": 300}
+  ],
+  "objective": {
+    "metric": "train_oof_log_growth",
+    "note": "L7 maximizes Train OOF trading log-growth at ONE shared floor-respecting operating point per trial (OPERATING_SPACE.theta_scoring via op_select), not auc_pr; cv_auc_pr is reported only. reg_lambda/reg_alpha/gamma provide regularization.",
+    "direction": "maximize",
+    "sampler": "TPE",
+    "pruner": "MedianPruner",
+    "pruner_warmup": 2,
+    "cv_scheme": "purged_walk_forward",
+    "cv_folds": 4,
+    "scope": "Train only (no OOS read)"
+  },
+  "fallback_params": {
+    "max_depth": 3,
+    "eta": 0.1,
+    "subsample": 0.9,
+    "colsample_bytree": 0.9,
+    "min_child_weight": 1.0,
+    "reg_lambda": 1.0,
+    "reg_alpha": 0.0,
+    "gamma": 0.0,
+    "n_estimators": 100
+  }
+}

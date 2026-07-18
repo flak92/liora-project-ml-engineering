@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 69882,
+   "sha256": "70c07bdafb0eab5c1089d0e0a326cda77ffe047f26a8f68189c3c4fff7c8712c"
+  },
+  "metrics.json": {
+   "bytes": 1045,
+   "sha256": "06aa2db1e9dd79c1b22993f8a344447c3c9748de50d8728f6d3e86db4e777bf5"
+  },
+  "parameters.json": {
+   "bytes": 2753,
+   "sha256": "426ac1bbf0f31fb4c9d95cc7670be0fdb67f673f0379cf3d583d6fab382e93d4"
+  },
+  "strategy_HON.py": {
+   "bytes": 83962,
+   "sha256": "8bfe70ab440a340ef2f3f0958ab1430f19bf1029e258aa314bc5d936d490bfae"
+  }
+ },
+ "folder_sha256": "58d3e4515bc89c97bfd541fddaac45e7e4aeaa0f9da44527cf15b9c478aef061",
+ "model": "lstm",
+ "model_hash": "39f345d3c90da091b7b64c52a874292f3f2a2ca54cd71d796e5771b6bffaa5b4",
+ "ticker": "HON"
+}

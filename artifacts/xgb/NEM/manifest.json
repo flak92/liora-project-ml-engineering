@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 44374,
+   "sha256": "7a1a55face2d808b7a80b93bf18065dc8b20a2549c1105aff1e30ee1c00b4ebb"
+  },
+  "metrics.json": {
+   "bytes": 1107,
+   "sha256": "d48c389ab9005aeb2912a9b97eeac7fb8a1251743d1bc7124c8387a827d8b683"
+  },
+  "parameters.json": {
+   "bytes": 5133,
+   "sha256": "92f0e59483bde6b41e43aef1354cf4131d3beec0df7ff2d203844923489c94b5"
+  },
+  "strategy_NEM.py": {
+   "bytes": 100484,
+   "sha256": "ad4e03121578f0086930fb7389623c0d44369ec70ebf7e793fb88093fbbb3829"
+  }
+ },
+ "folder_sha256": "c5ceb3f12400e2841cef67b186fa2e2d8957e24aa8986626506169452e059420",
+ "model": "xgb",
+ "model_hash": "65cd41e31cb5cb6f6eded78c9b6764007d66297eb2ef80f39ed1db68b7bbb0a1",
+ "ticker": "NEM"
+}

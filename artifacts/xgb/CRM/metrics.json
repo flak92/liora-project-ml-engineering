@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "6c46f60e969d3d36a3c9b01fbe8efbeed67882b4a7ba17d44dc9978dccefaf47",
+  "oof_log_growth": 1.2059695511982254,
+  "oof_trades": 403,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4245612204386876,
+  "cv_folds": 4,
+  "end_capital": 924.6371461684128,
+  "losses": 185,
+  "max_drawdown_pct": 49.324712927808676,
+  "model_trades": 313,
+  "net_pnl_usd": -75.36285383158724,
+  "oof_log_growth": 1.2059695511982254,
+  "oof_trades": 403,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9798070073866312,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -7.5362853831587255,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "CRM",
+  "time_in_market_pct": 73.0273,
+  "trade_floor_met": 1,
+  "trades": 313,
+  "win_rate_pct": 40.894568690095845,
+  "wins": 128
+ },
+ "ticker": "CRM"
+}

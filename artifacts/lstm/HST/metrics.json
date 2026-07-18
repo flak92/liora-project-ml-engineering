@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "91001b13536835d5f4b56578ab52faf9e1c5fba4241ecbb08db56ebae1899a2a",
+  "oof_log_growth": -0.11476172071588181,
+  "oof_trades": 9,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.450270647277222,
+  "cv_folds": 4,
+  "end_capital": 1062.2397284966164,
+  "losses": 0,
+  "max_drawdown_pct": 39.89588263132987,
+  "model_trades": 0,
+  "net_pnl_usd": 62.23972849661636,
+  "oof_log_growth": -0.11476172071588181,
+  "oof_trades": 9,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": null,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "HODL_FALLBACK_NO_MODEL_TRADES",
+  "return_pct": 6.22397284966163,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "HST",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 1,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "HST"
+}

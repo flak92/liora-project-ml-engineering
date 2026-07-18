@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "c4b51dcfcf10ff4a5613e6c8e914fd54b8957daddc94499c2d656038b04413f6",
+  "oof_log_growth": 0.5440843559471731,
+  "oof_trades": 119,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.5318079837827423,
+  "cv_folds": 4,
+  "end_capital": 1046.2385784023406,
+  "losses": 23,
+  "max_drawdown_pct": 35.02315674320475,
+  "model_trades": 47,
+  "net_pnl_usd": 46.238578402340636,
+  "oof_log_growth": 0.5440843559471731,
+  "oof_trades": 119,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.0490320105367077,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 4.623857840234069,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "BRO",
+  "time_in_market_pct": 59.7603,
+  "trade_floor_met": 1,
+  "trades": 47,
+  "win_rate_pct": 51.06382978723404,
+  "wins": 24
+ },
+ "ticker": "BRO"
+}

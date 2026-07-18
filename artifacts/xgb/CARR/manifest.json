@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 48025,
+   "sha256": "1ce19b754c1e83f3b4473eadab721533d7c8843e74bdb71ca6c631e1df2a32e1"
+  },
+  "metrics.json": {
+   "bytes": 1105,
+   "sha256": "8acb3630aafdc6c50021b43eed97a61201498804969d697714f65b7895c03adb"
+  },
+  "parameters.json": {
+   "bytes": 4642,
+   "sha256": "555ae8511bb88f56b95413f5a60964251b67b0b1e3de33462d7f34b2e88d1e8b"
+  },
+  "strategy_CARR.py": {
+   "bytes": 258132,
+   "sha256": "3ec7b2a1d9efe834f4807d40a97a820168b41d7712f77d1a17c868f8446ad9d8"
+  }
+ },
+ "folder_sha256": "5359a9f1f5d809235a81241115d4167a244e0a095fcee4a188bfd4f918f7f020",
+ "model": "xgb",
+ "model_hash": "2c6924d17fb4f8c4960fda41aaf87805ea8664beb51d911e0ade51f07c65dc05",
+ "ticker": "CARR"
+}

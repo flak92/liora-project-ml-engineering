@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 51649,
+   "sha256": "4246f32d3f63e15752f4dc406576ee5c071b3362d611fe2b364a0a553da22723"
+  },
+  "metrics.json": {
+   "bytes": 1106,
+   "sha256": "32ab79d320efd3be641f57b284d3899b5dc1044770c5ca47c8e067238aabbbb3"
+  },
+  "parameters.json": {
+   "bytes": 4589,
+   "sha256": "4e196b67361d22afbe7c4d73c2ec0e9e73c22cdbf72557e158e8cbfc0222f7bb"
+  },
+  "strategy_IQV.py": {
+   "bytes": 263492,
+   "sha256": "0a4c1208e0a44186cb272fb90f01aca12e8379b980a10ae1cd23076037f33225"
+  }
+ },
+ "folder_sha256": "51e634e47ff682c1275d34ec3065b33be7b3710a722293cdd0d34793c41d85e6",
+ "model": "xgb",
+ "model_hash": "45c4f99d7a8a39c9fa9a5b308ea7e1e3398fa4ddd0bb2b618cdd52fead3fbafe",
+ "ticker": "IQV"
+}

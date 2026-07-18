@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "d66a05ca53a86b9abb3b27c3153c1f1f4426b808c1f169e0b23a41f22ca0ee81",
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "theta_boundary": true,
+  "theta_entry": 0.6,
+  "trade_floor_met": false
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3766320215421397,
+  "cv_folds": 4,
+  "end_capital": 643.4904306407341,
+  "losses": 0,
+  "max_drawdown_pct": 48.799702251721364,
+  "model_trades": 0,
+  "net_pnl_usd": -356.50956935926587,
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "TRAIN_OOF_FLOOR_NOT_MET",
+  "return_pct": -35.650956935926594,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "UPS",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 0,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "UPS"
+}

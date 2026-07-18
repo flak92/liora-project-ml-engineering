@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25884,
+   "sha256": "998a69cfa5b9f8672fc69b7aead21995c2f26cf20d8143cd9dcba9732eb915cd"
+  },
+  "metrics.json": {
+   "bytes": 1043,
+   "sha256": "e970580a593227a0841e4b92b000c3c18bd417878beba2b73c6a3f45bb3554cf"
+  },
+  "parameters.json": {
+   "bytes": 4081,
+   "sha256": "133b187ee37bb3768abad9ac895e9c28010dd97d1eae3e6264af6089703f0a41"
+  },
+  "strategy_NTRS.py": {
+   "bytes": 187020,
+   "sha256": "cf593263762e8cd77bdb804ae2246b6b9a296b0b1f3ede39c2a32a8c87536dac"
+  }
+ },
+ "folder_sha256": "dcc4085c7218d805b77a28b48f78f87f1898985a8cfd40f9cae742ebaca7e5e8",
+ "model": "xgb",
+ "model_hash": "d9cee4f2e90d6a2114bf598a98c4a1f499dce6601886762cc9ec738077e742ab",
+ "ticker": "NTRS"
+}

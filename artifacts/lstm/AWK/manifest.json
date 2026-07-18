@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 96433,
+   "sha256": "c7a65f04b6e63e00dfad53100ecd7415e9f6b0cb9ab800017a1e99845f12dda6"
+  },
+  "metrics.json": {
+   "bytes": 1064,
+   "sha256": "196ac137bbb667aadb6632f5b5d147af5c64237e4d1956b5b5a373727d503ee5"
+  },
+  "parameters.json": {
+   "bytes": 3005,
+   "sha256": "f2d9211456e2d248f493cfe7c94382c126cc0862633e7fe08f29d2dc10ec2b2f"
+  },
+  "strategy_AWK.py": {
+   "bytes": 90669,
+   "sha256": "2f24f3b9cc4285cad6f926369b7c34ab26346276c95745dcf6e3c7c50e6d2563"
+  }
+ },
+ "folder_sha256": "3df94c98ccb10338bdc1645f368dd22017440662967c6ec73ea7b05c00b8094d",
+ "model": "lstm",
+ "model_hash": "3b5fe29223edf3279860d2a5bb821f37b53eaecb355b86071de95c6e260193da",
+ "ticker": "AWK"
+}

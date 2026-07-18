@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "bffc565f5a23dd079312e08ae5e4c6c5a313ff26414bc54f67a61403f613dbf4",
+  "oof_log_growth": 0.6767819258023724,
+  "oof_trades": 302,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3880041115575271,
+  "cv_folds": 4,
+  "end_capital": 1024.296681417505,
+  "losses": 78,
+  "max_drawdown_pct": 28.122165593886304,
+  "model_trades": 131,
+  "net_pnl_usd": 24.296681417504942,
+  "oof_log_growth": 0.6767819258023724,
+  "oof_trades": 302,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.0152281140317256,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 2.429668141750496,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "CNC",
+  "time_in_market_pct": 29.4835,
+  "trade_floor_met": 1,
+  "trades": 131,
+  "win_rate_pct": 40.458015267175576,
+  "wins": 53
+ },
+ "ticker": "CNC"
+}

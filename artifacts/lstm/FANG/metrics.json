@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "89dfecf971b7ae5a2d1012583fe5e965fc7187fbe760adcafd179db3bb41b7f0",
+  "oof_log_growth": 1.0101519164274526,
+  "oof_trades": 65,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4555982671608494,
+  "cv_folds": 4,
+  "end_capital": 998.772379001209,
+  "losses": 6,
+  "max_drawdown_pct": 11.367988291959783,
+  "model_trades": 10,
+  "net_pnl_usd": -1.2276209987910534,
+  "oof_log_growth": 1.0101519164274526,
+  "oof_trades": 65,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.9935169764226354,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -0.12276209987910347,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "FANG",
+  "time_in_market_pct": 14.0411,
+  "trade_floor_met": 1,
+  "trades": 10,
+  "win_rate_pct": 40.0,
+  "wins": 4
+ },
+ "ticker": "FANG"
+}

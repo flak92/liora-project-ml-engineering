@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25951,
+   "sha256": "b37ac538ec469575087135ed44c64408ae10e51ca81a314c95d5d78581f6a4f2"
+  },
+  "metrics.json": {
+   "bytes": 1043,
+   "sha256": "88278dc6fda447c40d938d63041ae28e86e7b820c2188bf2135d20e1a2a8736e"
+  },
+  "parameters.json": {
+   "bytes": 4078,
+   "sha256": "ba8386350c66c7ef2e1b1d24e8cecb99b8e9b871f106d3c898aa1f2ad23ad88b"
+  },
+  "strategy_HRL.py": {
+   "bytes": 187022,
+   "sha256": "8e8837c648c59c06f37d1e7b29fccec0d9f2a499e7142187240deb4809dc788e"
+  }
+ },
+ "folder_sha256": "518fdad72d309abe15cfa38774e443415ae0394a74d0d788f5ac5e59e3485017",
+ "model": "xgb",
+ "model_hash": "73861ccb1201281e7f2c84795a9084b94473161d0b0f93e80c0f844cfec208d4",
+ "ticker": "HRL"
+}

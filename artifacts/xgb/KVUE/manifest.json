@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25800,
+   "sha256": "ba2dcd313dab3c26b576effb63483f0f9ee9ecda913da61158f9084248b25655"
+  },
+  "metrics.json": {
+   "bytes": 1048,
+   "sha256": "ce9154a5d5d717f88c5b3199954704ac1cbfaf3c44647678ca47a31c1c413f35"
+  },
+  "parameters.json": {
+   "bytes": 4081,
+   "sha256": "59cf1c6e17c1febe4f9776820d63e801f2c3154702d59eacfd9f90d7ce5bfae9"
+  },
+  "strategy_KVUE.py": {
+   "bytes": 186986,
+   "sha256": "5bb79a1017c17e7816a1631290031b0aca3d895789e8850f101556361cbaa2a3"
+  }
+ },
+ "folder_sha256": "01c5866693a020fc6dc55b44a354f277df269069059a6be0f9c15bf75efae147",
+ "model": "xgb",
+ "model_hash": "397a1fd82f8c2def24e2c9c5d0cc041746fc3f1cf3dff1bc2f1aa50c8cae39f7",
+ "ticker": "KVUE"
+}

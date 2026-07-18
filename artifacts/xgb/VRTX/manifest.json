@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25893,
+   "sha256": "b1f8918f3d8bf2d921e3c1310e2b99a6f571aa4506ffd794562011158a91dd42"
+  },
+  "metrics.json": {
+   "bytes": 1046,
+   "sha256": "39d91d2f80cf7524f639cae7a594a3783d22a0f918219d1a51159b54f57dcff0"
+  },
+  "parameters.json": {
+   "bytes": 4081,
+   "sha256": "6c90516cb407d5c743786aa1725ec939ffe2bb59c05328e34f65c639788b21d3"
+  },
+  "strategy_VRTX.py": {
+   "bytes": 187011,
+   "sha256": "16730732f302dc6bfcc8fddfcdbc3a23c1a19492cb06df232d10806da2ede540"
+  }
+ },
+ "folder_sha256": "9da56290aaff1d921d6a3561eddcabe43b757aa6d191f4c3b580333721b9f658",
+ "model": "xgb",
+ "model_hash": "55f6a62e3bdd817abf1049f2e9eaed4b517c659393fd1611d94064b8c308a401",
+ "ticker": "VRTX"
+}

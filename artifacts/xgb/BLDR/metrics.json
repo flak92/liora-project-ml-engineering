@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "37848fcef0a20fe6390c8e745b68e9f632d29922f6473656b4003ed5191931ab",
+  "oof_log_growth": 1.907200992574097,
+  "oof_trades": 670,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.41794097292465493,
+  "cv_folds": 4,
+  "end_capital": 901.6155190673423,
+  "losses": 151,
+  "max_drawdown_pct": 46.06609368376917,
+  "model_trades": 244,
+  "net_pnl_usd": -98.38448093265765,
+  "oof_log_growth": 1.907200992574097,
+  "oof_trades": 670,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9707425216970063,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -9.838448093265761,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "BLDR",
+  "time_in_market_pct": 49.2826,
+  "trade_floor_met": 1,
+  "trades": 244,
+  "win_rate_pct": 38.114754098360656,
+  "wins": 93
+ },
+ "ticker": "BLDR"
+}

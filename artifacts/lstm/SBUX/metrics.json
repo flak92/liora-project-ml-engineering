@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "7c3fd00c204e1989ff636be0e1888b93e7580960789fab9893a486bbd7155374",
+  "oof_log_growth": -0.0819312378713731,
+  "oof_trades": 13,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.48664013278485074,
+  "cv_folds": 4,
+  "end_capital": 881.2474789670654,
+  "losses": 7,
+  "max_drawdown_pct": 22.387032329906884,
+  "model_trades": 12,
+  "net_pnl_usd": -118.75252103293462,
+  "oof_log_growth": -0.0819312378713731,
+  "oof_trades": 13,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.5264518433393915,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -11.875252103293466,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "SBUX",
+  "time_in_market_pct": 15.411,
+  "trade_floor_met": 1,
+  "trades": 12,
+  "win_rate_pct": 41.66666666666667,
+  "wins": 5
+ },
+ "ticker": "SBUX"
+}

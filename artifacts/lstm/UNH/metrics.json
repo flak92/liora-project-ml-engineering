@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "b7a28a766f5754b8f477664653a09e47192ca8e354458e0a30e2a1cb4bdc8d3b",
+  "oof_log_growth": 0.791443703234943,
+  "oof_trades": 108,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4778558319377981,
+  "cv_folds": 4,
+  "end_capital": 1019.9417535100368,
+  "losses": 24,
+  "max_drawdown_pct": 30.096851061863855,
+  "model_trades": 43,
+  "net_pnl_usd": 19.941753510036847,
+  "oof_log_growth": 0.791443703234943,
+  "oof_trades": 108,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.020485520598687,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 1.9941753510036797,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "UNH",
+  "time_in_market_pct": 53.5959,
+  "trade_floor_met": 1,
+  "trades": 43,
+  "win_rate_pct": 44.18604651162791,
+  "wins": 19
+ },
+ "ticker": "UNH"
+}

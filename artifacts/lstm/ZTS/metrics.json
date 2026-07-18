@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "499c9d9afc4d09cd683df0f9d1bf65d03b214439fcb36561a70a82bd1ddbc56c",
+  "oof_log_growth": 0.028385048111753963,
+  "oof_trades": 100,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.429455795624864,
+  "cv_folds": 4,
+  "end_capital": 738.127889098699,
+  "losses": 21,
+  "max_drawdown_pct": 29.939791929940014,
+  "model_trades": 32,
+  "net_pnl_usd": -261.87211090130097,
+  "oof_log_growth": 0.028385048111753963,
+  "oof_trades": 100,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.522971137908997,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -26.187211090130102,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "ZTS",
+  "time_in_market_pct": 43.3219,
+  "trade_floor_met": 1,
+  "trades": 32,
+  "win_rate_pct": 34.375,
+  "wins": 11
+ },
+ "ticker": "ZTS"
+}

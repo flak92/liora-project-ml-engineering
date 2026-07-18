@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 86495,
+   "sha256": "ba812c59d03ad7780fce497ee9c643b51808b8ca6339390ba9f7c600e990def1"
+  },
+  "metrics.json": {
+   "bytes": 1050,
+   "sha256": "6d1716524d0749952fd7fd428705fdc2600b13cd3f9744ac4f9808b110be0c14"
+  },
+  "parameters.json": {
+   "bytes": 2910,
+   "sha256": "8a10bb06b58efbef2442bc6b1b7dbc2bd74e003707781be235f57fe89987ff14"
+  },
+  "strategy_ELV.py": {
+   "bytes": 86686,
+   "sha256": "d154b96b58be2e411a5bb642587ab3a913901c194b3c37d56d455ee28a455ab8"
+  }
+ },
+ "folder_sha256": "6d3ab201405a6c8e78428a85987be09ee2691fb53d6e4ca218a2d733b693630a",
+ "model": "lstm",
+ "model_hash": "96e37ebafc501023b5f8405e70946f7f9deb6c9f2c5cae9bcf0094f9617b0cde",
+ "ticker": "ELV"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 69912,
+   "sha256": "9b4ece4f2749caf0a973440f3c444be2b35eed0157592b507822de4ad219cbb2"
+  },
+  "metrics.json": {
+   "bytes": 1111,
+   "sha256": "a482e373029ab8b2aa56a9399381e4adce89e3c5ab7a48e53644139ea87aa1be"
+  },
+  "parameters.json": {
+   "bytes": 4082,
+   "sha256": "257f69971129432b78bb893142496c83b42c30b5759122efe68a5e07ffbb0516"
+  },
+  "strategy_FDX.py": {
+   "bytes": 290981,
+   "sha256": "d8fb67fa4c01eec1d5fd89acb85e712f205b507dc3f4ebbf2e9aec8fdb8e0a12"
+  }
+ },
+ "folder_sha256": "0b4d4c0a85a4c2e0102703d999028ff429550e280712660d104125f3c72b57f2",
+ "model": "xgb",
+ "model_hash": "9ab42806fd74c893280a2892a689598770e71900cad1936334a3707c98577e89",
+ "ticker": "FDX"
+}

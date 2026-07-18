@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "09242a57bec23416f7f62282b295040c13a16323355f1c51d2f901c40f37f0b1",
+  "oof_log_growth": 0.45318244165158017,
+  "oof_trades": 47,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4880694953383654,
+  "cv_folds": 4,
+  "end_capital": 1060.1326752855477,
+  "losses": 8,
+  "max_drawdown_pct": 22.9488979149618,
+  "model_trades": 17,
+  "net_pnl_usd": 60.13267528554775,
+  "oof_log_growth": 0.45318244165158017,
+  "oof_trades": 47,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.1082114365337512,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 6.013267528554778,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "ZBRA",
+  "time_in_market_pct": 20.3767,
+  "trade_floor_met": 1,
+  "trades": 17,
+  "win_rate_pct": 52.94117647058824,
+  "wins": 9
+ },
+ "ticker": "ZBRA"
+}

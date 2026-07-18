@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 35970,
+   "sha256": "c6a313c2bb52bc317cafef2342ad574eb9d7b84d8fed582f1712edf66cbfb646"
+  },
+  "metrics.json": {
+   "bytes": 1100,
+   "sha256": "012d092c30946b4de4fc32b3eede49f3678d2b3a670ce57b61fe2ae915cc2bf9"
+  },
+  "parameters.json": {
+   "bytes": 4812,
+   "sha256": "28c5629b3e566096d2c5f72e8924d41f6d26de9b4fc3c17f341b4693ffe3260e"
+  },
+  "strategy_WTW.py": {
+   "bytes": 208049,
+   "sha256": "3ddf3ef2d69af30530061d27401e73b3706a8a945864b214daf9c6c8c62b2352"
+  }
+ },
+ "folder_sha256": "279767e109a32a2bc4b8a639bcb5a4e8e1a2de55f8adce4d378c380a2df0df7f",
+ "model": "xgb",
+ "model_hash": "cfa1807d1eec51ecbae530e807c77395e3f8281def3c649f63a542398a99f359",
+ "ticker": "WTW"
+}

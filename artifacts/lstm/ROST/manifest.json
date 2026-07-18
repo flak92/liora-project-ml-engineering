@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76257,
+   "sha256": "35698a556ca33e3b5e27a72dfec76a957ea6094efc92b1cd9baf3671c3c6f485"
+  },
+  "metrics.json": {
+   "bytes": 1052,
+   "sha256": "dfc45e45f9f63a2e88c8915c21128fb8e7f3053b69ae6f5129ca9762b6b0bde3"
+  },
+  "parameters.json": {
+   "bytes": 2522,
+   "sha256": "b8befb3285418c627d61ebbbc8b922a32e680abef59f52be0f451ee9a148f899"
+  },
+  "strategy_ROST.py": {
+   "bytes": 77480,
+   "sha256": "53f03920ada1bf5ba359db551cbc821cef4a6f827ed3d7a6501b44539a6cd898"
+  }
+ },
+ "folder_sha256": "e2284c2ef20e5357d9ed998109ac8bfd80e0cfec31fd968e6b5af08fe74b6d9f",
+ "model": "lstm",
+ "model_hash": "d8729028273511ed83d09d1bdb16ed1eae9320ae12320e55698f1339701fc559",
+ "ticker": "ROST"
+}

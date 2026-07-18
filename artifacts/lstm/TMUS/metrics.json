@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "0a80eaa6f00e9de21fbffbd9e3eb6085bbc9bbbc8e65c812445ee61b35ab880c",
+  "oof_log_growth": 0.31555068270212033,
+  "oof_trades": 56,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.48426639333481125,
+  "cv_folds": 4,
+  "end_capital": 1451.6418417977961,
+  "losses": 9,
+  "max_drawdown_pct": 11.400370969670293,
+  "model_trades": 24,
+  "net_pnl_usd": 451.64184179779613,
+  "oof_log_growth": 0.31555068270212033,
+  "oof_trades": 56,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 2.3058202991234578,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 45.16418417977961,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "TMUS",
+  "time_in_market_pct": 27.226,
+  "trade_floor_met": 1,
+  "trades": 24,
+  "win_rate_pct": 62.5,
+  "wins": 15
+ },
+ "ticker": "TMUS"
+}

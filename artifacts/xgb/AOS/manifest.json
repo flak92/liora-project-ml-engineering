@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25937,
+   "sha256": "04eda0e81ae2d764b7f01862b592af2d76dedcfbbb7f646e7788d1c94ecf4fae"
+  },
+  "metrics.json": {
+   "bytes": 1082,
+   "sha256": "e048bc315e1254f4f7074b77fb85a17cb41679964cd8315ec75127240b250b28"
+  },
+  "parameters.json": {
+   "bytes": 4077,
+   "sha256": "41660296fbfa8b5b101c0840a574abb69054b211454046b44b50e6b8ec8bb1c5"
+  },
+  "strategy_AOS.py": {
+   "bytes": 187029,
+   "sha256": "266459502d7821ddac3c4c4fda7a0f88766374be0df827a58369a9fe177f666b"
+  }
+ },
+ "folder_sha256": "b683065facde78b2097c5fe82c0b447426d4b53986f54fc724e246e919ed9d04",
+ "model": "xgb",
+ "model_hash": "7944bbcd480789625f16c122476c3bfb91f8e04e046e15d78c4a28382ff00e84",
+ "ticker": "AOS"
+}

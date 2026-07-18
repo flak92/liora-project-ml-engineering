@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "9b1a782780a08f37cefdb8ed28c83fe019bc8ff91e3aa2a3b879e665e5bb9bc3",
+  "oof_log_growth": 0.1503836755184953,
+  "oof_trades": 217,
+  "theta_boundary": false,
+  "theta_entry": 0.44,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3804128724657089,
+  "cv_folds": 4,
+  "end_capital": 817.7783700727789,
+  "losses": 21,
+  "max_drawdown_pct": 23.57687517096997,
+  "model_trades": 30,
+  "net_pnl_usd": -182.2216299272211,
+  "oof_log_growth": 0.1503836755184953,
+  "oof_trades": 217,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.4755230559613062,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -18.22216299272211,
+  "start_capital": 1000.0,
+  "theta_entry": 0.44,
+  "ticker": "ADI",
+  "time_in_market_pct": 7.7953,
+  "trade_floor_met": 1,
+  "trades": 30,
+  "win_rate_pct": 30.0,
+  "wins": 9
+ },
+ "ticker": "ADI"
+}

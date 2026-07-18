@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "57e4b3ada6a5f3c665cd4b31e0e4f9e1c5a827e5704c23557f73709ba77ed80e",
+  "oof_log_growth": -0.2512480858041529,
+  "oof_trades": 43,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.42747083011086506,
+  "cv_folds": 4,
+  "end_capital": 965.1536817426781,
+  "losses": 4,
+  "max_drawdown_pct": 10.985852446762943,
+  "model_trades": 6,
+  "net_pnl_usd": -34.846318257321855,
+  "oof_log_growth": -0.2512480858041529,
+  "oof_trades": 43,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.7692157787471642,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -3.4846318257321873,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "WYNN",
+  "time_in_market_pct": 7.7055,
+  "trade_floor_met": 1,
+  "trades": 6,
+  "win_rate_pct": 33.33333333333333,
+  "wins": 2
+ },
+ "ticker": "WYNN"
+}

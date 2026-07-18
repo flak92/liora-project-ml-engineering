@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "ba5a65a04c5b0c0f865c4d4fa3be5a31ff42aab83be5037e49f05cd1eba29c54",
+  "oof_log_growth": 0.19290988623262417,
+  "oof_trades": 74,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4612616811584653,
+  "cv_folds": 4,
+  "end_capital": 795.0763033868283,
+  "losses": 20,
+  "max_drawdown_pct": 27.750479547859143,
+  "model_trades": 31,
+  "net_pnl_usd": -204.92369661317173,
+  "oof_log_growth": 0.19290988623262417,
+  "oof_trades": 74,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.59676234594782,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -20.492369661317177,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "CPT",
+  "time_in_market_pct": 39.0411,
+  "trade_floor_met": 1,
+  "trades": 31,
+  "win_rate_pct": 35.483870967741936,
+  "wins": 11
+ },
+ "ticker": "CPT"
+}

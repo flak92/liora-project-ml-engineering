@@ -1,0 +1,123 @@
+{
+  "TF": "1h",
+  "H": 24,
+  "W_VOL": 20,
+  "W_ATR": 14,
+  "W_RSI": 14,
+  "W_BB": 20,
+  "BB_K": 2.0,
+  "W_SMA_FAST": 20,
+  "W_SMA_SLOW": 50,
+  "MACD_FAST": 12,
+  "MACD_SLOW": 26,
+  "MACD_SIGNAL": 9,
+  "EPS": 1e-09,
+  "BARRIER_MODE": "close",
+  "_barrier_note": "Asymmetric ATR Triple Barrier from the momentum-direction entry: TP = TB_ATR_TP*ATR14, SL = TB_ATR_SL*ATR14. Reward:risk b = TB_ATR_TP/TB_ATR_SL shapes the label geometry (one 2xATR win covers two 1xATR losses). Under CAPITAL_MODE=all_in every trade reinvests the full running capital; b no longer feeds a sizing formula (the previous Kelly-epoch used it in f=clip(lambda*(p-(1-p)/b),0,cap)).",
+  "TB_ATR_TP": 2.0,
+  "TB_ATR_SL": 1.0,
+  "SIGNAL_MOMENTUM_FEATURE": "log_return_5",
+  "ENTRY_GATE": {
+    "_note": "Meta-labeling PRIMARY filter \u2014 a fixed, Train-only, causal (features at t0) rule that keeps only significant-move setups so the XGBoost secondary is not flooded with noise: |log_return_5| >= vol_floor_k * realized_volatility_20 (1h features). enabled=false reproduces the original every-bar candidate set. NOT per-asset tuned.",
+    "enabled": true,
+    "vol_floor_feature": "realized_volatility_20",
+    "vol_floor_k": 0.15
+  },
+  "SIGNAL_ZERO_POLICY": "skip",
+  "THRESHOLD_ENTRY": 0.6,
+  "PURGE_CANDLES": 24,
+  "EMBARGO_BARS": 35,
+  "N_TRIALS": 80,
+  "CV_SCHEME": "purged_walk_forward",
+  "ESTIMATOR": "xgboost_binary_logistic",
+  "TUNER": "optuna_tpe_median_pruner",
+  "OPTUNA_OBJECTIVE": "train_oof_log_growth",
+  "_optuna_objective_note": "L7 selects XGBoost hyper-params by Train OOF trading LOG-GROWTH at ONE shared floor-respecting operating point per trial (accumulate-then-select over OPERATING_SPACE.theta_scoring via iterators/op_select.py \u2014 never a per-fold best theta), aligning Optuna with STRATEGY_OBJECTIVE.primary=train_oof_log_growth instead of the old ranking metric auc_pr. Under CAPITAL_MODE=all_in the grid scores at full-capital sizing (lambda=None); cv_auc_pr is reported only.",
+  "OPERATING_SPACE": {
+    "_note": "SSOT of the deployable Train-OOF operating space \u2014 ONE theta spectrum + ONE trade floor + ONE robustness contract shared by HPO scoring, feature-search scoring and L8 calibration (no grid drift). theta = full deployable spectrum: 2:1 TP/SL -> breakeven win-prob ~1/3 + costs ~0.40, hence [0.40..0.60] by 0.02. theta_scoring = the coarse SCORING subset used by HPO/search (every other point of theta \u2014 a TRUE subset, so a scorer never sees a point the seal cannot deploy); calibration selects on the full spectrum. min_oof_trades: a point below this Train-OOF trade floor cannot win anywhere (min-2-trades mandate; Train-OOF ONLY, never post-hoc OOS). min_active_folds / max_fold_trade_share: the calibrated point must earn its trades in >= min_active_folds folds with no single fold holding more than max_fold_trade_share of them (a one-fold burst is not evidence); relaxation is flagged fold_spread_relaxed, never silent. Selection prefers the interior of the one-SE plateau over a spectrum edge; an edge choice is flagged theta_boundary (audit).",
+    "theta": [
+      0.4,
+      0.42,
+      0.44,
+      0.46,
+      0.48,
+      0.5,
+      0.52,
+      0.54,
+      0.56,
+      0.58,
+      0.6
+    ],
+    "theta_scoring": [
+      0.4,
+      0.44,
+      0.48,
+      0.52,
+      0.56,
+      0.6
+    ],
+    "lambda": [
+      0.5,
+      1.0
+    ],
+    "min_oof_trades": 8,
+    "min_active_folds": 2,
+    "max_fold_trade_share": 0.8
+  },
+  "STRATEGY_OBJECTIVE": {
+    "primary": "train_oof_log_growth",
+    "_metric_roles": {
+      "train_oof_log_growth": "OBJECTIVE \u2014 the one maximized quantity (HPO, feature search, calibration; Train-OOF only)",
+      "profit_factor": "GATE / REPORT \u2014 never maximized; unrankable below 2 model trades (PF_ZERO_GROSS_LOSS_POLICY)",
+      "trade_count": "CONSTRAINT \u2014 the min_oof_trades floor; never a target to maximize (activity is not evidence of edge)",
+      "max_drawdown": "SAFETY REPORT",
+      "hodl_return": "BENCHMARK \u2014 compared against, never a decision input",
+      "oos_metrics": "REPORT-ONLY \u2014 the one-shot OOS read never feeds back into any choice (ML-vs-HODL included)"
+    },
+    "then": [
+      "max_drawdown_min",
+      "time_in_market_min"
+    ],
+    "informational": [
+      "win_rate",
+      "profit_factor"
+    ]
+  },
+  "RANDOM_SEED": 42,
+  "XGBOOST_N_JOBS": 1,
+  "COMMISSION_BPS": 1,
+  "SLIPPAGE_BPS": 2,
+  "ENTRY_FILL": "next_bar_open",
+  "EXIT_FILL": "trigger_next_open",
+  "SCHEDULED_EXIT_FILL": "scheduled_moc_close",
+  "BAR_TIMESTAMP_CONVENTION": "interval_open_utc",
+  "_capital_note": "all_in_compounding_per_asset: every trade reinvests the FULL running capital from the same $1000 start \u2014 the identical capital game buy-and-hold plays (each asset traded separately, no cross-asset accumulation). The KELLY_* keys below are inert in this mode and kept for the previous epoch's reproducibility.",
+  "CAPITAL_MODE": "all_in_compounding_per_asset",
+  "KELLY_CAP": 1.0,
+  "KELLY_CALIBRATION": {
+    "low": 0.05,
+    "high": 1.0,
+    "grid_points": 20,
+    "objective": "train_oof_log_growth"
+  },
+  "INITIAL_CAPITAL_USD": 1000.0,
+  "POSITION_POLICY": "one_open_position_per_asset",
+  "SIGNAL_WHILE_OPEN": "ignore",
+  "ALLOW_PYRAMIDING": false,
+  "ALLOW_REVERSAL_WHILE_OPEN": false,
+  "SIMULTANEOUS_SETUP_POLICY": "highest_probability_then_skip_on_exact_tie",
+  "SIMULTANEOUS_SETUP_TIE_EPS": 1e-12,
+  "PF_ZERO_GROSS_LOSS_POLICY": "not_rankable",
+  "MIN_TRAIN_ACCEPTANCE_TRADES": null,
+  "MIN_OOS_TRADES_FOR_INTERPRETATION": 2,
+  "CORP_ACTIONS_POLICY": "deferred",
+  "UNIVERSE_MODE": "current_constituents_research",
+  "splits": {
+    "warmup_start": "2016-01-04",
+    "warmup_end": "2016-10-14",
+    "train_start": "2016-10-17",
+    "train_end": "2023-12-29",
+    "oos_start": "2024-01-02",
+    "oos_end": "2026-05-29"
+  }
+}

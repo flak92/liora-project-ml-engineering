@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 59682,
+   "sha256": "4db3ed181a0cbe57ee6571a8d01468cfaf906fd030ec3ea695d1e1935475d110"
+  },
+  "metrics.json": {
+   "bytes": 1051,
+   "sha256": "8086465bc3c39f037a6be15323d232e7f40375fee2edd89d2f6b5c459ca4ee02"
+  },
+  "parameters.json": {
+   "bytes": 2498,
+   "sha256": "f0fd161c4d2024ec1a7b11246f69efbbb394d87e503f06cf6eef79222fedaa8f"
+  },
+  "strategy_COO.py": {
+   "bytes": 77223,
+   "sha256": "e1f374412bdbcce38a7fea2116c3a55745df81b01b6bc90c978e9197b5cda541"
+  }
+ },
+ "folder_sha256": "a31ed81c1baee7b8f129bc414e4073eaa22ade61ced06a78f3c2e9942a35addf",
+ "model": "lstm",
+ "model_hash": "ade9d2ffab363cb30d51aad555235d505a829c78e53ac6e9da5016296dd732fe",
+ "ticker": "COO"
+}

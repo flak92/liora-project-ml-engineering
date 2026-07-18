@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75649,
+   "sha256": "3cc882721da10e0b2022334271a50357649a20b722ba5e3077699b062d2570b3"
+  },
+  "metrics.json": {
+   "bytes": 1058,
+   "sha256": "22dc6c133c074ed604fe882320357ee7e5b0a974f9d13f5cbd957dc51a3bffd1"
+  },
+  "parameters.json": {
+   "bytes": 2530,
+   "sha256": "93bc8c344fe3d598ba3ad7a399aef08167e21e71cbdd90bb56cb43341674b598"
+  },
+  "strategy_NTAP.py": {
+   "bytes": 77143,
+   "sha256": "42e9be0e16c0fa11f7848e09e00d47422eb588bc53b115edc416d7f738187763"
+  }
+ },
+ "folder_sha256": "28e674f2de60748f8a565bcf14548e05924e65a0c90d13c7dde38d222b2573ba",
+ "model": "lstm",
+ "model_hash": "7dbbfe09d005b1a9c7adaf9e38256bbcf98966999952005eaff50fcde745119b",
+ "ticker": "NTAP"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "037ea3aaa5b9b536ece6a3cd0024ef6cbf15b0f59e196d66c6f332310a575516",
+  "oof_log_growth": -0.4532469209540372,
+  "oof_trades": 309,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.41764760448649463,
+  "cv_folds": 4,
+  "end_capital": 682.9206400035445,
+  "losses": 164,
+  "max_drawdown_pct": 36.72430394269304,
+  "model_trades": 258,
+  "net_pnl_usd": -317.07935999645554,
+  "oof_log_growth": -0.4532469209540372,
+  "oof_trades": 309,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8367758047579777,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -31.707935999645553,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "AKAM",
+  "time_in_market_pct": 53.1086,
+  "trade_floor_met": 1,
+  "trades": 258,
+  "win_rate_pct": 36.434108527131784,
+  "wins": 94
+ },
+ "ticker": "AKAM"
+}

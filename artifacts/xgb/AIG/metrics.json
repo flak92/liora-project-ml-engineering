@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "40c1b1fc5ab62240dc4f9ff08e51939ba04788a26fe67ba20a206bd2af140da3",
+  "oof_log_growth": 1.83042685617011,
+  "oof_trades": 430,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.42492533609809036,
+  "cv_folds": 4,
+  "end_capital": 872.2882100109396,
+  "losses": 171,
+  "max_drawdown_pct": 24.614242390031446,
+  "model_trades": 283,
+  "net_pnl_usd": -127.71178998906043,
+  "oof_log_growth": 1.83042685617011,
+  "oof_trades": 430,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.936259626103886,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -12.771178998906041,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "AIG",
+  "time_in_market_pct": 66.4275,
+  "trade_floor_met": 1,
+  "trades": 283,
+  "win_rate_pct": 39.57597173144876,
+  "wins": 112
+ },
+ "ticker": "AIG"
+}

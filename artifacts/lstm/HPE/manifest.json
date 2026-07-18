@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 77418,
+   "sha256": "16594b6de0c0ef796ba4038ea29f719c18c2366bf2d0147b75637fddb2b18a2c"
+  },
+  "metrics.json": {
+   "bytes": 1051,
+   "sha256": "eda4b6acb90398b93dae2de389d6dbd6207b2f7a1d1b7d234bbcc311819a2433"
+  },
+  "parameters.json": {
+   "bytes": 2551,
+   "sha256": "0eb9689658fe20051c1ed41043ea00f4d8cb15e3c0bf6aaef25053fa1310b9d9"
+  },
+  "strategy_HPE.py": {
+   "bytes": 77393,
+   "sha256": "ba0d074fe68670133b2ba2c9f82e97419adceb17ac0eeecc60a24f41224c9aa6"
+  }
+ },
+ "folder_sha256": "b7651602d6f525653c263d66cd9585f21bbeb5088d8e74c67b96c448403e06ac",
+ "model": "lstm",
+ "model_hash": "02cfe043166825684cb9c25b579287c61f41a48aa81a184f62ff003af87e6149",
+ "ticker": "HPE"
+}

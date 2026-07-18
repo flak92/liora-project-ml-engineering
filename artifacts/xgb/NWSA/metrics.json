@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": true,
+  "kelly_fraction": null,
+  "model_hash": "85233a23197d80447da06a78c1efd45e2a473d68190842cf6758de5946427231",
+  "oof_log_growth": 0.2643472511129284,
+  "oof_trades": 95,
+  "theta_boundary": false,
+  "theta_entry": 0.42,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.37690125629689997,
+  "cv_folds": 4,
+  "end_capital": 1061.7345366890788,
+  "losses": 0,
+  "max_drawdown_pct": 29.25667090216011,
+  "model_trades": 0,
+  "net_pnl_usd": 61.734536689078816,
+  "oof_log_growth": 0.2643472511129284,
+  "oof_trades": 95,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "HODL_FALLBACK_NO_MODEL_TRADES",
+  "return_pct": 6.173453668907891,
+  "start_capital": 1000.0,
+  "theta_entry": 0.42,
+  "ticker": "NWSA",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 1,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "NWSA"
+}

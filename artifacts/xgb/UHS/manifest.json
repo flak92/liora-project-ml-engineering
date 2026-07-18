@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 34631,
+   "sha256": "5b80fa02c2dd7cf96fd0360ad8c8fc44aec21cbb7f0e73c6a336b36f306da94d"
+  },
+  "metrics.json": {
+   "bytes": 1100,
+   "sha256": "26de8631cebae21fb49fb3c2dc86c5725c72317ca0f51e8202dc486f7079e0eb"
+  },
+  "parameters.json": {
+   "bytes": 4631,
+   "sha256": "a4455a31faf2327061f4789d001b4fbd0f693c7cc9b614da709f52be7154d66d"
+  },
+  "strategy_UHS.py": {
+   "bytes": 199822,
+   "sha256": "2d677f1ae72730c8976d6286394e7bf3a8d9c354b283d7304ce85d64ac1ca60c"
+  }
+ },
+ "folder_sha256": "83ab2a3d5a203d2e001f068703cfa50d1f2a61f522693026489231a07f56b910",
+ "model": "xgb",
+ "model_hash": "482271bc98fb0272c02c764c46ed838134be55784e006adac43b98c4bc4545e8",
+ "ticker": "UHS"
+}

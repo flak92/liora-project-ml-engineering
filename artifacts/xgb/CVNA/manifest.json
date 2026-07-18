@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 129461,
+   "sha256": "7b1bd6a6e3d062ba62fb891e5f53617594a0af4b753b63b56327f4b817e36d04"
+  },
+  "metrics.json": {
+   "bytes": 1109,
+   "sha256": "d6dfa7f6783eda69cd95b23dc1b5511359f798f2905a95a8a5909448dde2c1b3"
+  },
+  "parameters.json": {
+   "bytes": 4626,
+   "sha256": "9cad750d2a68a2179da350bba57029b344eb209c5ecaa42d973c1cef75a863ed"
+  },
+  "strategy_CVNA.py": {
+   "bytes": 433724,
+   "sha256": "1fe99ebe336a8889613f1f0b8a93ed61972e24adb00a7e5606e40f4439e059d1"
+  }
+ },
+ "folder_sha256": "67c9fced7fdcb5a056deac3771ea9d0c7785bba1d2de857f584a004f8f154e2d",
+ "model": "xgb",
+ "model_hash": "fdd2d74699c232da18edfeed7f5f54206f3853d3e356d29262d5fb43108dfc7d",
+ "ticker": "CVNA"
+}

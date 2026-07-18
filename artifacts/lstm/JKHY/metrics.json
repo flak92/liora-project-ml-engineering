@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "ecebbec9e1efebe94ea2e7d58ce79f3ceb363c08bbbaae0205ccc735eb84c53f",
+  "oof_log_growth": 0.32374700608492846,
+  "oof_trades": 94,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.5263178747309517,
+  "cv_folds": 4,
+  "end_capital": 885.0864409860211,
+  "losses": 21,
+  "max_drawdown_pct": 20.50941179337676,
+  "model_trades": 38,
+  "net_pnl_usd": -114.9135590139789,
+  "oof_log_growth": 0.32374700608492846,
+  "oof_trades": 94,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.8116693604049141,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -11.491355901397892,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "JKHY",
+  "time_in_market_pct": 47.9452,
+  "trade_floor_met": 1,
+  "trades": 38,
+  "win_rate_pct": 44.73684210526316,
+  "wins": 17
+ },
+ "ticker": "JKHY"
+}

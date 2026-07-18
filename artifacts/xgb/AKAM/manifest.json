@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 31363,
+   "sha256": "6d365ccd9832f5d67be4e952366b8659380ad271e2610b1c427a75dc51298092"
+  },
+  "metrics.json": {
+   "bytes": 1112,
+   "sha256": "8b013faf7277185831e91d48199a566d92fa8e8f4fc90f5176f16d6c1cccfd89"
+  },
+  "parameters.json": {
+   "bytes": 4636,
+   "sha256": "3e6e33b0e25026c7ca5ffbf10864ca87326a827692bcac3671f48e7eda468b3b"
+  },
+  "strategy_AKAM.py": {
+   "bytes": 224594,
+   "sha256": "413668cbe965684845d6730110349f94e87f110243fa4146ab3adf51a5f30f21"
+  }
+ },
+ "folder_sha256": "9750557bd5505bb9cba212d43d91254811911d6ca0387e6f3b86ef188a97f498",
+ "model": "xgb",
+ "model_hash": "037ea3aaa5b9b536ece6a3cd0024ef6cbf15b0f59e196d66c6f332310a575516",
+ "ticker": "AKAM"
+}

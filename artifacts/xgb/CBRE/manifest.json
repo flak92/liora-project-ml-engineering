@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 36683,
+   "sha256": "1d22afc6bc6c1f5c6b21f347c322869e91e2779904421512ca20e57e848e78c5"
+  },
+  "metrics.json": {
+   "bytes": 1093,
+   "sha256": "1e38de5cd4f0607bd2b4c6a99c19c0a4f4abb037c75eb6c8d7689c51b1632a84"
+  },
+  "parameters.json": {
+   "bytes": 4621,
+   "sha256": "1bf17a5376649877ea3e58c711bf5de4edecb1914d8323a3c59cee322bedc8e5"
+  },
+  "strategy_CBRE.py": {
+   "bytes": 164754,
+   "sha256": "ecc55a516f23d0fc5936d7506d542de20e6be89ec3ae2e70aa74643ae36d788e"
+  }
+ },
+ "folder_sha256": "8823f21a4ff96ad4e2f26cf01808feb4fd4c6ab03164e32ef36c63e629c64567",
+ "model": "xgb",
+ "model_hash": "acba4c2be80da814541216b6fa55f027a4326120de93b8c58e8035e6b031f8c9",
+ "ticker": "CBRE"
+}

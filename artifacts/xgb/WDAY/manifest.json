@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 49273,
+   "sha256": "2c19c6b8bd5e7f8b51bd8a92bd6c68ff721b2e29403fa6ee946132aee99a3c5e"
+  },
+  "metrics.json": {
+   "bytes": 1091,
+   "sha256": "98e6a8deaa976b27716a4209e3ea868ae61d755801e943f050536c4742e1059d"
+  },
+  "parameters.json": {
+   "bytes": 4611,
+   "sha256": "5e1ed0c36a138150c938544daf1d7b7a52643bcbfeb1e3093bbcc3e91df99040"
+  },
+  "strategy_WDAY.py": {
+   "bytes": 290371,
+   "sha256": "2ad223656704695b0ae2b843ac5fe6f6ba9f0df4e76ef882390816d2831a9c4e"
+  }
+ },
+ "folder_sha256": "4a4bf1362e95224ecb256d54d61962eebeb9a9bc07f24ab60346a2e92fc08f31",
+ "model": "xgb",
+ "model_hash": "e9f3fca63ffbf5d2df575ecf43706acda152ca439df0c26ea7a3e9bcf57ba9bc",
+ "ticker": "WDAY"
+}

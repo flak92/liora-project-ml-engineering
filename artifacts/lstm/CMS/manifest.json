@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 77208,
+   "sha256": "5e2e1474f04329658cfad91ac8afce396be8d03f5068cc4baabd23a98a957c76"
+  },
+  "metrics.json": {
+   "bytes": 1060,
+   "sha256": "cfaf1cbb050a251f226d7062d14c54fba164ed79d078d15cef22790318a9abc6"
+  },
+  "parameters.json": {
+   "bytes": 2525,
+   "sha256": "1dc255d4344f73564bb507c35a92eecd639d8e493c7415a10bd200fc39bce6ce"
+  },
+  "strategy_CMS.py": {
+   "bytes": 77604,
+   "sha256": "c80e0f4c242f1723445d9525be22036efdd9fd1ecda5439636a150f2da954db9"
+  }
+ },
+ "folder_sha256": "3e32f4a6f06718c6be09869ea6c111cbf8ccce8dfd59ce78a91fd2b114b82673",
+ "model": "lstm",
+ "model_hash": "34ff861e1d2f0ea061a4da60908e68dbb65839e908c396d55ee6d8490ec5bda5",
+ "ticker": "CMS"
+}

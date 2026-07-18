@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 77939,
+   "sha256": "11d3716981c7b96fa9347f00837ee6c29fb903ad3ea270a6142a5a50d231d5b3"
+  },
+  "metrics.json": {
+   "bytes": 1055,
+   "sha256": "124ac63633221802b6f3fe13c26645f161a787ad2e5e9e8b0c07edac59360945"
+  },
+  "parameters.json": {
+   "bytes": 2520,
+   "sha256": "ce68db98b153dbc326c7913e723acbac5ee1f9f674b262117b5a3f5987e8f3a8"
+  },
+  "strategy_KMB.py": {
+   "bytes": 77709,
+   "sha256": "fce3f90483da6648e0ae1a6090d80df250c3e04404b9a0b67cef04ed7a146687"
+  }
+ },
+ "folder_sha256": "9b2ed9bda3bdec2db3f5d542741d0c36b304e212adc50d69bd243d0d8bd964b7",
+ "model": "lstm",
+ "model_hash": "f2b06f6ff0f9415bd4dd6d54af38be28df765f0f099101c8b0126be688ba1004",
+ "ticker": "KMB"
+}

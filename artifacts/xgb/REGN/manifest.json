@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 53658,
+   "sha256": "6322a1a4512ace218cd41e691ae293a15c259be8f5dec6a25ad23d30c8670c61"
+  },
+  "metrics.json": {
+   "bytes": 1104,
+   "sha256": "23e112bea41b46808929855a8b6c1cf6f9e0bcebc58575c20418b734fb7245cd"
+  },
+  "parameters.json": {
+   "bytes": 6113,
+   "sha256": "dbfa46f5077e492d8751371182d6bdddc6bac5145ec0b01fcacf14d442152a18"
+  },
+  "strategy_REGN.py": {
+   "bytes": 193507,
+   "sha256": "be81da25af07d8a81f998a8ab2541ce00321aab7d21d890f7e199d36b55ef7c0"
+  }
+ },
+ "folder_sha256": "e25793d4e153722cb79457dc6e4cdef50aa3b4d3fabc1c9b5f7fbfdb3822b754",
+ "model": "xgb",
+ "model_hash": "0f99c0e9f8219fbf6cfd7685e29ea5318519bdcb25e09eff51a213a2803a1034",
+ "ticker": "REGN"
+}

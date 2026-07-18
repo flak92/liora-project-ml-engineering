@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "0878ef145f2b93f99750e1f6caf72f15dca0192529cce25773ba7d54f8961652",
+  "oof_log_growth": 0.3862179817202107,
+  "oof_trades": 71,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4974323218974871,
+  "cv_folds": 4,
+  "end_capital": 1264.5816091701024,
+  "losses": 10,
+  "max_drawdown_pct": 11.418176710280862,
+  "model_trades": 22,
+  "net_pnl_usd": 264.5816091701024,
+  "oof_log_growth": 0.3862179817202107,
+  "oof_trades": 71,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.706502382173594,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 26.458160917010233,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "EBAY",
+  "time_in_market_pct": 29.9658,
+  "trade_floor_met": 1,
+  "trades": 22,
+  "win_rate_pct": 54.54545454545454,
+  "wins": 12
+ },
+ "ticker": "EBAY"
+}

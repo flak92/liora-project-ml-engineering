@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25924,
+   "sha256": "abfa3b856d9d4e54f14c88b057adb1423e7c707c2dabd6c99a227be20918611f"
+  },
+  "metrics.json": {
+   "bytes": 1040,
+   "sha256": "66940e5f5c875e18d003bd3729ae6e0a317129693739c48a2c5091dc7221a251"
+  },
+  "parameters.json": {
+   "bytes": 4080,
+   "sha256": "be8e64af0f152b5b11a9b80a8248a8db76d2095ed780fd9a3eea6f609fc5425f"
+  },
+  "strategy_SATS.py": {
+   "bytes": 187026,
+   "sha256": "79234ee37e189e5b0f410b1dd34f581f2f19a074f309ce71aa0680116602f8ae"
+  }
+ },
+ "folder_sha256": "29cef63e22c3548bdeec2e231ccb48edb311a6dc402ec7421834ce08acbc8f35",
+ "model": "xgb",
+ "model_hash": "d2ca8b6e69c91eec9f8f3fe5d77125c371ad4cde9a40d838bdc3c96713f3c698",
+ "ticker": "SATS"
+}

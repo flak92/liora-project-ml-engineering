@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "812fcd274eb215d387618212d33eb10d203f7b4fcb7a9b8ffb3f8cdeb8c9b872",
+  "oof_log_growth": -0.05468098408770892,
+  "oof_trades": 22,
+  "theta_entry": 0.6,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4416660265665361,
+  "cv_folds": 4,
+  "end_capital": 1086.377728249268,
+  "losses": 0,
+  "max_drawdown_pct": 1.1187254474028878,
+  "model_trades": 1,
+  "net_pnl_usd": 86.3777282492681,
+  "oof_log_growth": -0.05468098408770892,
+  "oof_trades": 22,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": null,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_ONE_TRADE_LOW_EVIDENCE",
+  "return_pct": 8.637772824926815,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "NCLH",
+  "time_in_market_pct": 0.5137,
+  "trade_floor_met": 1,
+  "trades": 1,
+  "win_rate_pct": 100.0,
+  "wins": 1
+ },
+ "ticker": "NCLH"
+}

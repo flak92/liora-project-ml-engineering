@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 54303,
+   "sha256": "e17155cb977204530ee21a092f67ce9cca948c6c8d891e8e3ce14cc54a022fc3"
+  },
+  "metrics.json": {
+   "bytes": 1111,
+   "sha256": "f0937173d170d640f23fc0580fc9f17f3494b0ceae70ab578a817bcc527fd501"
+  },
+  "parameters.json": {
+   "bytes": 4087,
+   "sha256": "ff9303c16aa00049d5e87b54e724ecdfb444e21f041c5d197267a79a325fc5df"
+  },
+  "strategy_CMCSA.py": {
+   "bytes": 180647,
+   "sha256": "763058af7fd4e9d5f37cda65aa3080934fe984a88a8c9eef69f435f2a058fd2f"
+  }
+ },
+ "folder_sha256": "830b5b46087869ad21a35f7149e72f0c0095583f1532f3a55830d08462630d52",
+ "model": "xgb",
+ "model_hash": "ab226596a22c504341a2fd0153014e8c718d9b31d0e2458260196a15ddfc1265",
+ "ticker": "CMCSA"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 94638,
+   "sha256": "b4df071acaf954c555bb82bf8dbffe621db9a0bf701d5abe855b64930ea3e5f0"
+  },
+  "metrics.json": {
+   "bytes": 1058,
+   "sha256": "f50406b6ad6bdd497b5666e62c8a64acd5c5c6cdfe5d1b67f27a31deca1e4a78"
+  },
+  "parameters.json": {
+   "bytes": 2998,
+   "sha256": "9b02d9813db6add3decf9729684636fcc6d6458c7b7dcd4c7702ad2a559f2353"
+  },
+  "strategy_KLAC.py": {
+   "bytes": 89898,
+   "sha256": "77a8458e01504e670dcd5db49a6d1b8f73c4c785bf232b1d0a7050f61f0bb7a6"
+  }
+ },
+ "folder_sha256": "023f27759087b39981b23e5f44d1c709d9c6b17aaa15fe0959129f00c1e45ef1",
+ "model": "lstm",
+ "model_hash": "129710ff268933d8a35907a772e8c2d438c5ec7649c54f8323dd074db963e739",
+ "ticker": "KLAC"
+}

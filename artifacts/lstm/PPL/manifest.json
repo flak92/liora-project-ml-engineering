@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 66395,
+   "sha256": "cf7430377d8a4632b1af8a7132b576c1604467836daf3dfa569aaf9cf2eb29f3"
+  },
+  "metrics.json": {
+   "bytes": 1037,
+   "sha256": "1ad8a05e037961bed5ed765ebd42148ac39773cc60932a78fb6b665e5c429f87"
+  },
+  "parameters.json": {
+   "bytes": 2652,
+   "sha256": "770fa1ba30d9347e17a4ef4fb0cdb04cb653de9f3aee7f9cef3c0a6a5cf47c6b"
+  },
+  "strategy_PPL.py": {
+   "bytes": 81105,
+   "sha256": "2701d731c20bd9a00cfb10c37d9175ffefff509a0029db08eb1972e18ffca5a7"
+  }
+ },
+ "folder_sha256": "a1d21589dce1f5c33ba85e0382e6f987de0804d48866cc8c5b678f881cc6d4a4",
+ "model": "lstm",
+ "model_hash": "ce5f7e79b87d553e2c3392c3af1558c504439fcbe13c7534be8a30f769541a36",
+ "ticker": "PPL"
+}

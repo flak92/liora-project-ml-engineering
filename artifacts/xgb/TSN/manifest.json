@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25934,
+   "sha256": "20a55bfbe278143040c1f5005e12e5fac26ed4e730625fd7c6a9216ddc8827e1"
+  },
+  "metrics.json": {
+   "bytes": 1043,
+   "sha256": "101a92742575688031d7596ccb41776604901effcd57a75c14efb2ca1774d85f"
+  },
+  "parameters.json": {
+   "bytes": 4078,
+   "sha256": "c47763962088be6dca3aaef1bda2e65b4b6d94333a9acca2b9d73881f370eb81"
+  },
+  "strategy_TSN.py": {
+   "bytes": 187015,
+   "sha256": "e2885ee4464e86d0c39f1f1c548a8cc2e217e64368a69ad91c0566f475c00d70"
+  }
+ },
+ "folder_sha256": "9550cfa39c3dc08c78c985327270626a05642b3f3795e9bc6657fc4856a42b7f",
+ "model": "xgb",
+ "model_hash": "b3db6f74a93707d82845b0d4bd5ca548ac3f241f0aebf9721bcbc3de565870da",
+ "ticker": "TSN"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76321,
+   "sha256": "1071d8cb14816c5673a2a42290308dec742e9011f6fca03f68cbf571c147afdd"
+  },
+  "metrics.json": {
+   "bytes": 1047,
+   "sha256": "1642313fdf3f10de5fe01d3d396299dc3604909b1e1bd3459837f2e1d552b8bb"
+  },
+  "parameters.json": {
+   "bytes": 2678,
+   "sha256": "6c79f5ca1254d964c56be2b0afd7dc5768b4f0fbffda891fad4d3ba5116ecb7d"
+  },
+  "strategy_TRMB.py": {
+   "bytes": 79935,
+   "sha256": "089ba27c4f2863473861bfc95d190d5342ea95a00b747228589deb0207cfbef8"
+  }
+ },
+ "folder_sha256": "95c27e7043a646f4e3de26d843f8faa9202a70ab62c4fb482b7d30e49b76458f",
+ "model": "lstm",
+ "model_hash": "afc0cabb238356e1731d446c5bb3d45f3bcf6ec70284a2adabb43bdfd8faf55c",
+ "ticker": "TRMB"
+}

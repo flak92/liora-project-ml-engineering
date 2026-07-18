@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 94893,
+   "sha256": "23aeef96ec87b4c90a156a442231e4cf950334bd1c60c8fc79312f1adf685c72"
+  },
+  "metrics.json": {
+   "bytes": 1049,
+   "sha256": "f4a23b031186325de9a908e0272cc28ccd4972c59e705406ed5c73401ac89109"
+  },
+  "parameters.json": {
+   "bytes": 3036,
+   "sha256": "32a06630ff42e1bbecf11ba94d24885708297c250f71ec17fc55a7fc56259410"
+  },
+  "strategy_PTC.py": {
+   "bytes": 89970,
+   "sha256": "9fa559e0af4f6801ba36a04d92da73fcc035349e95e3e7a95746a6de56be16d3"
+  }
+ },
+ "folder_sha256": "bb987b36044ac6eb379b3facb49180d10b794a8b64177b2148a6ba606298ea9a",
+ "model": "lstm",
+ "model_hash": "696085c1aaa9857470d5947a73daddbdfdd57172144c450150d233ff5e9d0d26",
+ "ticker": "PTC"
+}

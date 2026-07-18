@@ -1,0 +1,36 @@
+{
+  "schema_version": "simple_features.v1",
+  "_meta": {
+    "purpose": "Feature namespace source of truth. IDs 1-99 are 1h features, 101-199 are 1d features, 201-299 are 1w features, and 901-999 are multi-timeframe features. All active features are simple OHLCV-derived indicators; no geometric pattern state is used.",
+    "order": "Model input order is namespace_order, then ascending feature id inside each namespace.",
+    "causality": "1d and 1w features are projected as-of to the 1h decision timestamp. Multi-timeframe features use only already projected 1h/1d/1w feature values."
+  },
+  "namespace_order": ["1h", "1h_ext", "1d", "1w", "multi_tf"],
+  "namespaces": {
+    "1h": {
+      "enabled": true,
+      "id_range": "01-99",
+      "registry": "config/feature_registries/features_1h.json"
+    },
+    "1h_ext": {
+      "enabled": true,
+      "id_range": "301-399",
+      "registry": "config/feature_registries/features_1h_ext.json"
+    },
+    "1d": {
+      "enabled": true,
+      "id_range": "101-199",
+      "registry": "config/feature_registries/features_1d.json"
+    },
+    "1w": {
+      "enabled": true,
+      "id_range": "201-299",
+      "registry": "config/feature_registries/features_1w.json"
+    },
+    "multi_tf": {
+      "enabled": true,
+      "id_range": "901-999",
+      "registry": "config/feature_registries/features_between_timeframes.json"
+    }
+  }
+}

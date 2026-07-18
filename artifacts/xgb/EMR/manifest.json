@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 31484,
+   "sha256": "a047618a172debade5e2742ad8aaa2a2fbe68425c047e3bde5d5a4a85226a1e9"
+  },
+  "metrics.json": {
+   "bytes": 1087,
+   "sha256": "8cce4994eabd5d1b07c974cf9ad49ab731b048840bfc4cd89900f640763e55ca"
+  },
+  "parameters.json": {
+   "bytes": 4625,
+   "sha256": "675d449508cfd5c1cb532de918113d4d2ad628753b9e28263b4dba814a97fda8"
+  },
+  "strategy_EMR.py": {
+   "bytes": 197631,
+   "sha256": "3636c1380e03ee65f14c8bf81472679c5b174382702051aaf1e111aa09b5d856"
+  }
+ },
+ "folder_sha256": "cc7d97719c69f2380c8303028098ba1abc9933bcd0b6604bc8fbdabea327f13f",
+ "model": "xgb",
+ "model_hash": "fc157126056309410a097a268369fb1c1021bccb20b2947aa8b059315c6d7734",
+ "ticker": "EMR"
+}

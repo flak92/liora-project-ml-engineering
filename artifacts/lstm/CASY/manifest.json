@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 81674,
+   "sha256": "0ff9c187fef05c3b6245152e539da165ae614da2fe592c93a487511dc6a696c2"
+  },
+  "metrics.json": {
+   "bytes": 1061,
+   "sha256": "54acf3fbf2f1e40035e38823f3f5b0c2705cf3b880f27db06e85f250b357f76b"
+  },
+  "parameters.json": {
+   "bytes": 2656,
+   "sha256": "0ccc8f6c3fb037485e97cab400cf6a82ea31b3c518efd68319f8675419085c30"
+  },
+  "strategy_CASY.py": {
+   "bytes": 80601,
+   "sha256": "749f5fb5c718f32ab4e2f0f25c889e847cd915562889fe9322fe7b1b6cac2e60"
+  }
+ },
+ "folder_sha256": "4c521e60d59abb2f1ecfd13d1346f155dae1b7ee172e2c3c607afdd35a68088d",
+ "model": "lstm",
+ "model_hash": "90566bc1587cbbabe2023b67d504e6fe46e28bc6be3d910d5240a34c8197278f",
+ "ticker": "CASY"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 64466,
+   "sha256": "6e7f0e018f9cd8cf9ca14e9fde8804adc4b262318f5eafc32660f1d4b23bd1e2"
+  },
+  "metrics.json": {
+   "bytes": 1107,
+   "sha256": "c62a8c4741918288643cceb43d77ab04f7efa645eae8d411835614f32cd06ea2"
+  },
+  "parameters.json": {
+   "bytes": 4084,
+   "sha256": "9adc6f508e2263efc6a7a6e58843c36cc77a7696638fdaa81cad62f90e454bf5"
+  },
+  "strategy_ROP.py": {
+   "bytes": 298326,
+   "sha256": "f1c4b846b2964034050abb8980c3a7a7df23475aafb49b70d1cc42fcdbae0deb"
+  }
+ },
+ "folder_sha256": "d31df21c85753429fe8056bf59f6b20d2dc264034ab714d606ba87a321a47e14",
+ "model": "xgb",
+ "model_hash": "d611b100b0dfa98a3eca642b83f291bf30ef4d3d5eecb3ad39af42c4f9905fc4",
+ "ticker": "ROP"
+}

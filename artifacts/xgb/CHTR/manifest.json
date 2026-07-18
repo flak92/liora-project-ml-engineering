@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25860,
+   "sha256": "38317e3ca2f6039d95cb5a78bbc54e12ea87b05923ad1917c5a541b03ccf9944"
+  },
+  "metrics.json": {
+   "bytes": 1046,
+   "sha256": "7f1dfabfc766561e044c2b6947ec0669dc75ae57263839d4294bce07ba9f4fd4"
+  },
+  "parameters.json": {
+   "bytes": 4081,
+   "sha256": "176f0eb31df80540fc8de6e8205e87926934ff03a446b03dc5bc3cd51cc47a16"
+  },
+  "strategy_CHTR.py": {
+   "bytes": 187014,
+   "sha256": "81e0f6770a8a152c618778ff4a84f9ebda6df5dbe3b7b5c191776152ab74153b"
+  }
+ },
+ "folder_sha256": "3a5ed2a2d3e963b67c737b559f3fc57bebf11110a853bd79c72f839a1bf912f9",
+ "model": "xgb",
+ "model_hash": "3b42801f13672f791405e16a2d68817f1fed7967fdb9dbf35dadcfc1bfa7b7ec",
+ "ticker": "CHTR"
+}

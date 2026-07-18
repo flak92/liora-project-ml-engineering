@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "1897db1055b5ba13604fca5a0aaa5c757a78d046d7c910df8dfcdc12c127ba6a",
+  "oof_log_growth": 0.14432232792266475,
+  "oof_trades": 24,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4720301139328029,
+  "cv_folds": 4,
+  "end_capital": 955.5849227037239,
+  "losses": 2,
+  "max_drawdown_pct": 7.590589481809941,
+  "model_trades": 3,
+  "net_pnl_usd": -44.41507729627608,
+  "oof_log_growth": 0.14432232792266475,
+  "oof_trades": 24,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.5646417316709678,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -4.441507729627602,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "NKE",
+  "time_in_market_pct": 2.7397,
+  "trade_floor_met": 1,
+  "trades": 3,
+  "win_rate_pct": 33.33333333333333,
+  "wins": 1
+ },
+ "ticker": "NKE"
+}

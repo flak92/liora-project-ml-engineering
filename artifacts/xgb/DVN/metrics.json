@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "96e6b4d73994d32f24d63291234d61a78442ccdfa57767ea480bcb44e11cfdbe",
+  "oof_log_growth": 1.9017018802000316,
+  "oof_trades": 229,
+  "theta_boundary": false,
+  "theta_entry": 0.44,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4273275305619438,
+  "cv_folds": 4,
+  "end_capital": 700.4482920621264,
+  "losses": 152,
+  "max_drawdown_pct": 55.303603805593404,
+  "model_trades": 248,
+  "net_pnl_usd": -299.55170793787363,
+  "oof_log_growth": 1.9017018802000316,
+  "oof_trades": 229,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8982108940433428,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -29.955170793787367,
+  "start_capital": 1000.0,
+  "theta_entry": 0.44,
+  "ticker": "DVN",
+  "time_in_market_pct": 52.6064,
+  "trade_floor_met": 1,
+  "trades": 248,
+  "win_rate_pct": 38.70967741935484,
+  "wins": 96
+ },
+ "ticker": "DVN"
+}

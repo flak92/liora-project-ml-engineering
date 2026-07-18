@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75007,
+   "sha256": "18cadbfc9b81332da987b604af35cccf31d32314d12272a8671f43dd32415421"
+  },
+  "metrics.json": {
+   "bytes": 1044,
+   "sha256": "a957be5df4a516b85824cc72f7df062e1843ee0a541155cfb00a9fc2aafeabe8"
+  },
+  "parameters.json": {
+   "bytes": 2526,
+   "sha256": "fd00a129c8433705f57c63132d532e532525897f27a52c1880810b852d40cc7f"
+  },
+  "strategy_JPM.py": {
+   "bytes": 76596,
+   "sha256": "2323416d50bba5d5b382304c55da0caad13d0be5edf2456d5653d775e7cc8f43"
+  }
+ },
+ "folder_sha256": "b8f89230fe175a7f507ad01d99d53a8383ef236838e621b53d72cfccefa10805",
+ "model": "lstm",
+ "model_hash": "52b59acfc825538cf8c8a7903d2bfc40f651a3bdc710c421aa6bf64d95b923d4",
+ "ticker": "JPM"
+}

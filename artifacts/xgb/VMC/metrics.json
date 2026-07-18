@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": true,
+  "kelly_fraction": null,
+  "model_hash": "2a7484796e3a5d552d352d143752a38aa46f9bd9505bd5ef5fa5e2a9954d1118",
+  "oof_log_growth": 0.0533111639701599,
+  "oof_trades": 20,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3726336490560711,
+  "cv_folds": 4,
+  "end_capital": 951.4038528485896,
+  "losses": 7,
+  "max_drawdown_pct": 10.032296087269357,
+  "model_trades": 10,
+  "net_pnl_usd": -48.59614715141038,
+  "oof_log_growth": 0.0533111639701599,
+  "oof_trades": 20,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.6939581045838915,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -4.859614715141037,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "VMC",
+  "time_in_market_pct": 2.8694,
+  "trade_floor_met": 1,
+  "trades": 10,
+  "win_rate_pct": 30.0,
+  "wins": 3
+ },
+ "ticker": "VMC"
+}

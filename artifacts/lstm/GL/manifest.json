@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 65263,
+   "sha256": "b041e7a6c1f8baca408dbec05b138223b79d67213248697110979b40cc43bbc0"
+  },
+  "metrics.json": {
+   "bytes": 1038,
+   "sha256": "7076a6babf0a1a48e4013436a2c58cef2bfe42943b7a3eb2eaed01567f8f50b7"
+  },
+  "parameters.json": {
+   "bytes": 2646,
+   "sha256": "0623bdaf9b1d7fb798cef4800265a5ddc996d91fdfa9b9a257983995339c5878"
+  },
+  "strategy_GL.py": {
+   "bytes": 80602,
+   "sha256": "f0d86438e1a448f0922b1ff691b88ec70982089ce43ac696028dc90acdcf07c8"
+  }
+ },
+ "folder_sha256": "203f2b0b680badd32090fc4516502ec0c5fcf7d7ed6e84c9566e1038572074b5",
+ "model": "lstm",
+ "model_hash": "8bec3b07b53d42910a0c979dcdd5ce8ce4bad4861d1ae79b4daa68d8608bf5b4",
+ "ticker": "GL"
+}

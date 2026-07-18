@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 28836,
+   "sha256": "e997fcc72a751ba3dd709e0e78e7eb555b42ce0753d8af939811ae0f1276c497"
+  },
+  "metrics.json": {
+   "bytes": 1046,
+   "sha256": "b735c4b2676e7cc8d312fc3514c9c40f05766eb4593f2befa1a9171f33b616a9"
+  },
+  "parameters.json": {
+   "bytes": 5169,
+   "sha256": "a4a2df3c83d90c24a5c6e6fcaac8f4f50a69b13eb7f04fd2c9d4010d17feabab"
+  },
+  "strategy_AXON.py": {
+   "bytes": 187508,
+   "sha256": "6a37aa8a22b3634419996fa350bf3adcac1ac83db2fa64162e6c425bd47d1b39"
+  }
+ },
+ "folder_sha256": "45dca26ab2e1bf20fc5c4f35279aaf6dde09a8f546e58599a9ed097bee70f1b0",
+ "model": "xgb",
+ "model_hash": "a66baa6bb1a9c848a08a62e2753c61cc5c5dc6a63bdcf1cfa839609849a3ab18",
+ "ticker": "AXON"
+}

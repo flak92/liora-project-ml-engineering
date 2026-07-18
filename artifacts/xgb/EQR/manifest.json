@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 27432,
+   "sha256": "d27177e22708e2f9ec3ff15b76502d37927f56b749b566d647d7518d1d5a7528"
+  },
+  "metrics.json": {
+   "bytes": 1043,
+   "sha256": "27703c99a2110d4fca06913864a6d8426bcdecc7882cdb9eea6e608d39cbb0bb"
+  },
+  "parameters.json": {
+   "bytes": 4603,
+   "sha256": "4021541bbdcbd4c442691d018d7861fd6485c893be6e9b681422f55c7f53abcf"
+  },
+  "strategy_EQR.py": {
+   "bytes": 187248,
+   "sha256": "036c7eae7fe42753313bc084664aedb5a6b8bfe17430af6c62161a5dd91f6a36"
+  }
+ },
+ "folder_sha256": "da14a29c406948241ee216380dfe5f29fabd28b6c92e1d25f3372acbab7b21ab",
+ "model": "xgb",
+ "model_hash": "dadeb397de05b2e7f40f8a4b3ed97bf35cbe975ef8f46080500befbb94cf5789",
+ "ticker": "EQR"
+}

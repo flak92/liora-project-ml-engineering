@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 41325,
+   "sha256": "a593d1dbbffbb217758330437931e0a7eea025d3ee80321fa8d9c63d2354fa91"
+  },
+  "metrics.json": {
+   "bytes": 1108,
+   "sha256": "02b067dea1fb7ddf7e41e9ac392f9874a62efc4e63c06bbad36581e899e3db7f"
+  },
+  "parameters.json": {
+   "bytes": 4084,
+   "sha256": "2de5fc84bf3ca75ec1a760ad6f72eee3b6e40e65d14bed8691be270ee286009b"
+  },
+  "strategy_NCLH.py": {
+   "bytes": 178984,
+   "sha256": "41d3b74f9203e7d9ad1d509ca5522d28b7cc695b83c83280c73f9ceeffc5bd37"
+  }
+ },
+ "folder_sha256": "113e37aaf98d70aa9d114a8de2e60bdd8ce2020f6ec04a43a00b0ef793ecbeb3",
+ "model": "xgb",
+ "model_hash": "13954310979f0b8b8051eb8e99aa66c8b886d1409af39b58a25ece28604a4350",
+ "ticker": "NCLH"
+}

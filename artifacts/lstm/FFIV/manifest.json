@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 81843,
+   "sha256": "a49f67bd8814577f4b6a9379c82e8f2728c72ee0683fc6d2665874a9b9a257bb"
+  },
+  "metrics.json": {
+   "bytes": 1055,
+   "sha256": "51f2390d1439c56c01eadc766396f360338f46b0b690900a9792b065bf98aa2c"
+  },
+  "parameters.json": {
+   "bytes": 2644,
+   "sha256": "5b808ca9870bb7f02c058d68ee6de6187c85b7cb1ee8b9ebb85e16b64bf1533f"
+  },
+  "strategy_FFIV.py": {
+   "bytes": 80404,
+   "sha256": "b439a7fcf78b43cfc40d828ad7276cda8aa7c5b2acf37cd25bc86881e2473ce1"
+  }
+ },
+ "folder_sha256": "8b25b123b2cbe5b469e9a8c50a09c85b24c97fd951780b0518589b36660a49ed",
+ "model": "lstm",
+ "model_hash": "05ce7d44c32baf76e388f7c178397e7b66974ede95f946ab64624c4d39d9947e",
+ "ticker": "FFIV"
+}

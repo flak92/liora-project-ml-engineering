@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "b9b45b6d4b4f9c889ee316264911343a1bebef9f8e8fb1b182eda62e9335c3c9",
+  "oof_log_growth": 0.43347176036253343,
+  "oof_trades": 50,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.5156661416535707,
+  "cv_folds": 3,
+  "end_capital": 1190.6745178616616,
+  "losses": 27,
+  "max_drawdown_pct": 30.632663141902988,
+  "model_trades": 49,
+  "net_pnl_usd": 190.67451786166157,
+  "oof_log_growth": 0.43347176036253343,
+  "oof_trades": 50,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.120684492120595,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 19.067451786166156,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "DDOG",
+  "time_in_market_pct": 53.5959,
+  "trade_floor_met": 1,
+  "trades": 49,
+  "win_rate_pct": 44.89795918367347,
+  "wins": 22
+ },
+ "ticker": "DDOG"
+}

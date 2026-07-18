@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "6a6762f7ef99954b20bda24d4c6c4de330f0ef68a3eabe6aa3c4e8015277701a",
+  "oof_log_growth": 0.49672295126988314,
+  "oof_trades": 241,
+  "theta_boundary": false,
+  "theta_entry": 0.42,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3896683733595406,
+  "cv_folds": 4,
+  "end_capital": 828.9832665833836,
+  "losses": 76,
+  "max_drawdown_pct": 24.253118584864435,
+  "model_trades": 117,
+  "net_pnl_usd": -171.01673341661638,
+  "oof_log_growth": 0.49672295126988314,
+  "oof_trades": 241,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.7831910852430252,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -17.101673341661638,
+  "start_capital": 1000.0,
+  "theta_entry": 0.42,
+  "ticker": "UNP",
+  "time_in_market_pct": 24.1033,
+  "trade_floor_met": 1,
+  "trades": 117,
+  "win_rate_pct": 35.04273504273504,
+  "wins": 41
+ },
+ "ticker": "UNP"
+}

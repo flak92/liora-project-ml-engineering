@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "2af995e9486b006ee9a1ad87d07a869178a3c623f614fda834ba56ce6d1f162d",
+  "oof_log_growth": 0.8489336745026959,
+  "oof_trades": 113,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4799467238664802,
+  "cv_folds": 4,
+  "end_capital": 1230.1875284811595,
+  "losses": 22,
+  "max_drawdown_pct": 23.238306435130553,
+  "model_trades": 43,
+  "net_pnl_usd": 230.18752848115946,
+  "oof_log_growth": 0.8489336745026959,
+  "oof_trades": 113,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.2857494492425057,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 23.01875284811594,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "PSX",
+  "time_in_market_pct": 46.9178,
+  "trade_floor_met": 1,
+  "trades": 43,
+  "win_rate_pct": 48.837209302325576,
+  "wins": 21
+ },
+ "ticker": "PSX"
+}

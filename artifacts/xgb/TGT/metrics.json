@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "ec41aa99bd3e8452dedfc38d7177b914123cfa9923009f862bb3b098788f3a06",
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "theta_boundary": true,
+  "theta_entry": 0.6,
+  "trade_floor_met": false
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.383654564624747,
+  "cv_folds": 4,
+  "end_capital": 884.3501662866416,
+  "losses": 0,
+  "max_drawdown_pct": 53.76367856748093,
+  "model_trades": 0,
+  "net_pnl_usd": -115.64983371335832,
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "TRAIN_OOF_FLOOR_NOT_MET",
+  "return_pct": -11.564983371335835,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "TGT",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 0,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "TGT"
+}

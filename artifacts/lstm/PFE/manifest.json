@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 78122,
+   "sha256": "5fa430b34c8a29f2865f4a60a8fc287e9b893c8340b5265f033c88bfa000d61d"
+  },
+  "metrics.json": {
+   "bytes": 1056,
+   "sha256": "85dcc9c0aa6a525963df484a0cd6f0d9824da78f871a22337f810b8db6f6e5a2"
+  },
+  "parameters.json": {
+   "bytes": 2555,
+   "sha256": "7323424bfce67fd66ab54563411e4e11f69927c692716e972765c7711f3ca623"
+  },
+  "strategy_PFE.py": {
+   "bytes": 77705,
+   "sha256": "3f9a91ea0cc2e3fbdb3c035c8743433fece1c74e83f65129734083320b0425f0"
+  }
+ },
+ "folder_sha256": "3211c031fe2629e08664e6206d6253072e15caf1e551d701ab1e02411fbc250f",
+ "model": "lstm",
+ "model_hash": "6b79fdfb178d3e7f1408b3f78ab00d6ed52119d2ac3583c8c45a920104fe40fd",
+ "ticker": "PFE"
+}

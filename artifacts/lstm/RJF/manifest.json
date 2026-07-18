@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 70459,
+   "sha256": "b34c58cc59f2717dc5c8a6041c79eac1b752e833e87e8940aed28a17b8252f12"
+  },
+  "metrics.json": {
+   "bytes": 1045,
+   "sha256": "3add6eac02c67f01c552af73e24e45c6f6d3780314d6c577484bc3526e8db5ac"
+  },
+  "parameters.json": {
+   "bytes": 2393,
+   "sha256": "13feadd314ba93aef692068dd7488dfe205f0c85fe387a02ee5031827e841507"
+  },
+  "strategy_RJF.py": {
+   "bytes": 73587,
+   "sha256": "90523e56aa543797dcf4f2d33efb2cb932c55de855f6a1b68b5981b54a6d8f3e"
+  }
+ },
+ "folder_sha256": "be4576e68503305643d610ad9b10af04f81bbf5feada8735025dfdc85c187058",
+ "model": "lstm",
+ "model_hash": "56da5137dc08012ba3575c3bcd24ce23adc8186f8f860b5c15ffb71283267b0c",
+ "ticker": "RJF"
+}

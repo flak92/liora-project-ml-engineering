@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "983c35b0fae3f449bb0a3f9ddb17771080bc856a99407f691bb75a49a4547396",
+  "oof_log_growth": 0.3949982272904345,
+  "oof_trades": 538,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.428352200858051,
+  "cv_folds": 4,
+  "end_capital": 1090.7120101558723,
+  "losses": 143,
+  "max_drawdown_pct": 17.42085634607283,
+  "model_trades": 256,
+  "net_pnl_usd": 90.71201015587235,
+  "oof_log_growth": 0.3949982272904345,
+  "oof_trades": 538,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.065953785684423,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 9.071201015587228,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "RSG",
+  "time_in_market_pct": 57.0062,
+  "trade_floor_met": 1,
+  "trades": 256,
+  "win_rate_pct": 44.140625,
+  "wins": 113
+ },
+ "ticker": "RSG"
+}

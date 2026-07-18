@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "68142c0d72a7332dc8ebddb938fa2bd5b7a92f3d7be62b0e53bd767812839455",
+  "oof_log_growth": 0.3495889087955767,
+  "oof_trades": 62,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4731167942216905,
+  "cv_folds": 4,
+  "end_capital": 840.5094384312604,
+  "losses": 14,
+  "max_drawdown_pct": 30.60401858307506,
+  "model_trades": 24,
+  "net_pnl_usd": -159.49056156873962,
+  "oof_log_growth": 0.3495889087955767,
+  "oof_trades": 62,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.8023655166824313,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -15.949056156873965,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "WDAY",
+  "time_in_market_pct": 27.911,
+  "trade_floor_met": 1,
+  "trades": 24,
+  "win_rate_pct": 41.66666666666667,
+  "wins": 10
+ },
+ "ticker": "WDAY"
+}

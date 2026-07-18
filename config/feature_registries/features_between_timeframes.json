@@ -1,0 +1,17 @@
+{
+  "schema_version": "feature_registry.simple.v1",
+  "namespace": "multi_tf",
+  "id_range": "901-999",
+  "_meta": {
+    "purpose": "Multi-timeframe feature registry. Values are pure functions of already computed and causally projected 1h, 1d and 1w features.",
+    "causal_clock": "1h decision timestamp after 1d/1w as-of projection"
+  },
+  "features": [
+    {"id": 901, "name": "momentum_alignment_multi", "implemented": true, "formula": "mean(sign(log_return_5), sign(log_return_5_1d), sign(log_return_5_1w))", "unit": "-1..1"},
+    {"id": 902, "name": "rsi_spread_1h_1d", "implemented": true, "formula": "(rsi_14 - rsi_14_1d) / 100", "unit": "ratio"},
+    {"id": 903, "name": "volatility_ratio_1h_1d", "implemented": true, "formula": "atr_pct_14 / atr_pct_14_1d", "unit": "ratio"},
+    {"id": 904, "name": "macd_hist_alignment_multi", "implemented": true, "formula": "mean(sign(macd_hist_12_26_9), sign(macd_hist_12_26_9_1d), sign(macd_hist_12_26_9_1w))", "unit": "-1..1"},
+    {"id": 905, "name": "price_vs_sma_alignment_multi", "implemented": true, "formula": "mean(sign(dist_to_sma_20), sign(dist_to_sma_20_1d), sign(dist_to_sma_20_1w))", "unit": "-1..1"},
+    {"id": 906, "name": "xtf_zscore_1h_vs_1d", "implemented": true, "optin": true, "formula": "ln(1 + dist_to_sma_20_1d) / (realized_volatility_20 + 1e-12)", "unit": "z"}
+  ]
+}

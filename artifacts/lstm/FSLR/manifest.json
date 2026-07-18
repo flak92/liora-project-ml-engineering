@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 84577,
+   "sha256": "72904de72a9ac8841cdb7188a3297b9bb8547a85fb09249de31aca3c6895b3a4"
+  },
+  "metrics.json": {
+   "bytes": 1063,
+   "sha256": "aa8da07f4db11679b6f34768a77cea77fdcf3b6bf8bde420ddd43f4fedba55c7"
+  },
+  "parameters.json": {
+   "bytes": 2758,
+   "sha256": "0482644d4e24e738f41f795bb68deeafade9f382c6e919619a021273588c5c21"
+  },
+  "strategy_FSLR.py": {
+   "bytes": 83508,
+   "sha256": "af868916977be289b40479ebe4dc1325c47970ac1bf3d6516e831a3831135b60"
+  }
+ },
+ "folder_sha256": "6ffc1afedb6380ec7c4671c0d22a5ebe174b8f74478ae54ea2c3fd5568787e71",
+ "model": "lstm",
+ "model_hash": "90a05507b1bf9d474d9e726a7b262d485072d97880aa5064cf1e6f5388f6a259",
+ "ticker": "FSLR"
+}

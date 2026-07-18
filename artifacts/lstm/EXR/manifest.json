@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76767,
+   "sha256": "58dde2e2468396c3553920d888a4a237d3d72bef43b95cbbaae146d982bc8aef"
+  },
+  "metrics.json": {
+   "bytes": 1039,
+   "sha256": "6c2e72ed74140d07449dcf75983b77c5c75848dcc542883922b922aa44327891"
+  },
+  "parameters.json": {
+   "bytes": 2516,
+   "sha256": "6dae17b7bc5f5538d6d31061225ca5744af8064997d9a96d33fa2122328f89da"
+  },
+  "strategy_EXR.py": {
+   "bytes": 77421,
+   "sha256": "b0becda36ce0f59868eeb0b3a2655a48b3a238401b4fd9105d1055e9d64c11a2"
+  }
+ },
+ "folder_sha256": "76de6e49e5e0520cd5aced162e72319dd7344f7f16418468b8e64cf847794b87",
+ "model": "lstm",
+ "model_hash": "5428080489b5e12fa0a0228cae34d9346f7c25dbaaf705256a6e687dd6c45bcf",
+ "ticker": "EXR"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "ec5a391b0588c5f22a13f1c4c615077971fd31cb230b43717f531a4d7e0f1b6a",
+  "oof_log_growth": 0.6352421734105598,
+  "oof_trades": 679,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4015846368299617,
+  "cv_folds": 4,
+  "end_capital": 613.882950525341,
+  "losses": 197,
+  "max_drawdown_pct": 40.40423665726954,
+  "model_trades": 308,
+  "net_pnl_usd": -386.117049474659,
+  "oof_log_growth": 0.6352421734105598,
+  "oof_trades": 679,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.7757629655127943,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -38.611704947465896,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "PAYX",
+  "time_in_market_pct": 68.0297,
+  "trade_floor_met": 1,
+  "trades": 308,
+  "win_rate_pct": 36.038961038961034,
+  "wins": 111
+ },
+ "ticker": "PAYX"
+}

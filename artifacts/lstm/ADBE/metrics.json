@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "ce538b4621d9e6a281d58bb1f37c72486da9599d2aeabf5ab811463943d08dc0",
+  "oof_log_growth": 0.5024152593630157,
+  "oof_trades": 85,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.5186462983486104,
+  "cv_folds": 4,
+  "end_capital": 584.2242255126777,
+  "losses": 16,
+  "max_drawdown_pct": 45.15519490537112,
+  "model_trades": 23,
+  "net_pnl_usd": -415.77577448732234,
+  "oof_log_growth": 0.5024152593630157,
+  "oof_trades": 85,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.37396178274257247,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -41.57757744873224,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "ADBE",
+  "time_in_market_pct": 28.7671,
+  "trade_floor_met": 1,
+  "trades": 23,
+  "win_rate_pct": 30.434782608695656,
+  "wins": 7
+ },
+ "ticker": "ADBE"
+}

@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "17558159b8a4c0b6a54e1bc80a4aee82d947858c3c4f2e3975d45d5c736f49aa",
+  "oof_log_growth": 0.043195563979043256,
+  "oof_trades": 83,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.43707715542036696,
+  "cv_folds": 4,
+  "end_capital": 804.0927645773452,
+  "losses": 24,
+  "max_drawdown_pct": 40.35088208664753,
+  "model_trades": 37,
+  "net_pnl_usd": -195.90723542265482,
+  "oof_log_growth": 0.043195563979043256,
+  "oof_trades": 83,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.7576922959296442,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -19.590723542265486,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "DHI",
+  "time_in_market_pct": 41.2671,
+  "trade_floor_met": 1,
+  "trades": 37,
+  "win_rate_pct": 35.13513513513514,
+  "wins": 13
+ },
+ "ticker": "DHI"
+}

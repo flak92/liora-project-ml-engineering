@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25917,
+   "sha256": "12d3ef1879216d52052c56f0dd2bcf2a1e7d5d7a54923a7c580d6b31f63284e9"
+  },
+  "metrics.json": {
+   "bytes": 1042,
+   "sha256": "da3ebb5d61b3ff9d0265d9416a785f4fe9b7ed15a5e3a1b06b7aed2f11c70101"
+  },
+  "parameters.json": {
+   "bytes": 4079,
+   "sha256": "3e4c03eb1595472394169aca5341d1c179fd9fb08afeaf56e1afd730ec6c1d50"
+  },
+  "strategy_HSY.py": {
+   "bytes": 187005,
+   "sha256": "e373fa7468a0e9b632123fb9537b8dae256ec1a7c8c8f53582464ed2fdccc625"
+  }
+ },
+ "folder_sha256": "c35c4b3a3d2c03a598d26d80af513fb7b6744136bfcf0e7569bf9b1d96c44114",
+ "model": "xgb",
+ "model_hash": "0cc4ac547631566918929ff6553a3f555b47029159db922d78de1384bde4d441",
+ "ticker": "HSY"
+}

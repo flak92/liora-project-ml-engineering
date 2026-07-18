@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 106803,
+   "sha256": "890fb990b09fb2ee97573b7b41621fc136c12908811a77707f6904e4905d12e1"
+  },
+  "metrics.json": {
+   "bytes": 1106,
+   "sha256": "2cd55afac28ac5889682f15a257d1f56b4efa5bcec4c5ab0d102b70a323ce41b"
+  },
+  "parameters.json": {
+   "bytes": 4654,
+   "sha256": "57238fad235423b07c8b4dbc9425e61b3285b400e325e88526b92f6a9817f6e8"
+  },
+  "strategy_TKO.py": {
+   "bytes": 285168,
+   "sha256": "a20acc612cda4327240577d56d923b96c6a0e5c421774453c68d40c0df9a9521"
+  }
+ },
+ "folder_sha256": "8640eea443b0df0c7f99677fd74007093bdddf1f95a573c49275cebdb30d9a22",
+ "model": "xgb",
+ "model_hash": "26378eb82b94a284902cbbaff7ed32a803296a601f056155cf13e2cc832d37c9",
+ "ticker": "TKO"
+}

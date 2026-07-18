@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": true,
+  "kelly_fraction": null,
+  "model_hash": "18b92b7e58af89d40b5d9eadaa15393d64e71de08fbf44e525d970fd494880b4",
+  "oof_log_growth": -0.7821651120501755,
+  "oof_trades": 268,
+  "theta_boundary": false,
+  "theta_entry": 0.42,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3557705739971345,
+  "cv_folds": 4,
+  "end_capital": 1658.2191968102688,
+  "losses": 0,
+  "max_drawdown_pct": 27.885714285714286,
+  "model_trades": 0,
+  "net_pnl_usd": 658.219196810269,
+  "oof_log_growth": -0.7821651120501755,
+  "oof_trades": 268,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "HODL_FALLBACK_NO_MODEL_TRADES",
+  "return_pct": 65.82191968102688,
+  "start_capital": 1000.0,
+  "theta_entry": 0.42,
+  "ticker": "GILD",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 1,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "GILD"
+}

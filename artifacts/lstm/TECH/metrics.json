@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "b3d96bdb8f47e92fa97f1997d43edb1811ee64dd6bece06435743109257c46f4",
+  "oof_log_growth": 0.3470405682114751,
+  "oof_trades": 43,
+  "theta_entry": 0.6,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.45866139425576474,
+  "cv_folds": 4,
+  "end_capital": 723.7080905142379,
+  "losses": 0,
+  "max_drawdown_pct": 44.513137557959794,
+  "model_trades": 0,
+  "net_pnl_usd": -276.2919094857621,
+  "oof_log_growth": 0.3470405682114751,
+  "oof_trades": 43,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": null,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "HODL_FALLBACK_NO_MODEL_TRADES",
+  "return_pct": -27.62919094857621,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "TECH",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 1,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "TECH"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "2c6924d17fb4f8c4960fda41aaf87805ea8664beb51d911e0ade51f07c65dc05",
+  "oof_log_growth": 0.7694870160704854,
+  "oof_trades": 142,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4135373209969517,
+  "cv_folds": 4,
+  "end_capital": 1020.9207575926321,
+  "losses": 151,
+  "max_drawdown_pct": 27.613643057473393,
+  "model_trades": 247,
+  "net_pnl_usd": 20.92075759263207,
+  "oof_log_growth": 0.7694870160704854,
+  "oof_trades": 142,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.0088551910971604,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 2.092075759263201,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "CARR",
+  "time_in_market_pct": 57.3171,
+  "trade_floor_met": 1,
+  "trades": 247,
+  "win_rate_pct": 38.8663967611336,
+  "wins": 96
+ },
+ "ticker": "CARR"
+}

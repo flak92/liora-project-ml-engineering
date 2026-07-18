@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 78966,
+   "sha256": "6e747f649aac227574aa8ebe07970ab38665539435d44605218005e4102a5a41"
+  },
+  "metrics.json": {
+   "bytes": 1039,
+   "sha256": "a43380a158bc3856485b6896cb94fe69250c54b377438907b4083405a25c25bb"
+  },
+  "parameters.json": {
+   "bytes": 3114,
+   "sha256": "0a09283a7161d15c7924edf2464c674bec36b546c852504010d5d61b26d9701c"
+  },
+  "strategy_NVR.py": {
+   "bytes": 93367,
+   "sha256": "89a1ec4b11a5f088afcaed48a7b100b56387375171f9b84aa2e669eae6a98344"
+  }
+ },
+ "folder_sha256": "2ed506f6d6a729c9494d4bad6a173486760aecf01a7d5aad3af13dbf4544f12d",
+ "model": "lstm",
+ "model_hash": "517c2bca86fee7649ead6888f38765a55369ea5678bbce1a82c233d56097021f",
+ "ticker": "NVR"
+}

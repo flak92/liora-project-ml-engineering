@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 51892,
+   "sha256": "2d182f96576377d421115aacae7774546c7b8b153b079fb36eacbe48adf59e1b"
+  },
+  "metrics.json": {
+   "bytes": 1039,
+   "sha256": "40c6d0c33f73c383d89b476e47579677b67a70512db9a6bd4c6d195c523df8d3"
+  },
+  "parameters.json": {
+   "bytes": 2757,
+   "sha256": "8267c1e7fcf56982ce1c514378743b83f8bda1fdcc543570fb072c2414ee5762"
+  },
+  "strategy_LVS.py": {
+   "bytes": 83980,
+   "sha256": "e3fe2307bde7a3cf50b74259537e798c0dd622415d91f070409f0ce42906c4ab"
+  }
+ },
+ "folder_sha256": "c43a20e078ec75955d182797e356d3b64b94a1b7b9d6e88ff58fae7a42167c44",
+ "model": "lstm",
+ "model_hash": "10abaed53f3f5e5050b12d333bc70d97d2d046de3aec94fa5d4352c83b7931d7",
+ "ticker": "LVS"
+}

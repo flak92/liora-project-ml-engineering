@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25973,
+   "sha256": "3f0da2786b013a18c04103a29415a7ae23a39d4cf421ca44db7c4d165f3daef9"
+  },
+  "metrics.json": {
+   "bytes": 1084,
+   "sha256": "64d7ab100ab0063e161a3e3cf6a42fe72138b1a073c97868eb87a90682ca46a4"
+  },
+  "parameters.json": {
+   "bytes": 4084,
+   "sha256": "3603d89c18c5c57bbc2318b89d0a715ffaece9b6de84f05d3f78a97b3ea317e6"
+  },
+  "strategy_HII.py": {
+   "bytes": 224051,
+   "sha256": "23dea83917b4325d7e39594f3fc480e132cfe6cb920aa8d764f1f61dd28b4cd6"
+  }
+ },
+ "folder_sha256": "659390ac36039fa3854dbe8ac30de715f8876c251bacffba8d7afa9074e03ccf",
+ "model": "xgb",
+ "model_hash": "9d98c8afdb2915a7998bbc7e504a119539f6147fb8a4a458ed308d22302b326c",
+ "ticker": "HII"
+}

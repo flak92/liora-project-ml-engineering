@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25920,
+   "sha256": "7f1d3ad906338791a60cb301d0ec12812bc6273f05f873e0cd8806c79ae415f6"
+  },
+  "metrics.json": {
+   "bytes": 1040,
+   "sha256": "9f2da7da0792771e6ff838f2cc351c7be3150d521564e6574ba5cf408cb6b13a"
+  },
+  "parameters.json": {
+   "bytes": 4078,
+   "sha256": "b565bfed466541149cd22a9c762877ca87bb824d32f1d11314473eb10e093d3d"
+  },
+  "strategy_WFC.py": {
+   "bytes": 187027,
+   "sha256": "06d085c2ebe09814ca4fb54580bc4bd472acab9f35717bf2cb0d26fb717cf564"
+  }
+ },
+ "folder_sha256": "79f9cef8f21d76e952a089d456847d9f945c66cb4bca3435a3d845f7c386dc25",
+ "model": "xgb",
+ "model_hash": "bced5e6231fd203f617663b075f4f96df4bed0fe3254188f9917a0f6f6267c5c",
+ "ticker": "WFC"
+}

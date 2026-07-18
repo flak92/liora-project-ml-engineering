@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "6cfe5a3cbae83e6ad8b4725c1d02662b203a62a42d80668782aa74d16c2bc34e",
+  "oof_log_growth": 1.1283798877897047,
+  "oof_trades": 546,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4288420925590818,
+  "cv_folds": 4,
+  "end_capital": 878.1394449946176,
+  "losses": 163,
+  "max_drawdown_pct": 40.127338383427194,
+  "model_trades": 277,
+  "net_pnl_usd": -121.86055500538237,
+  "oof_log_growth": 1.1283798877897047,
+  "oof_trades": 546,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9344879189666584,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -12.18605550053824,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "AAPL",
+  "time_in_market_pct": 61.8843,
+  "trade_floor_met": 1,
+  "trades": 277,
+  "win_rate_pct": 41.15523465703971,
+  "wins": 114
+ },
+ "ticker": "AAPL"
+}

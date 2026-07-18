@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "e4d962b8adbfe23e676ace3e0c5ae7edc72bfa648770b5cd6dc3b808c26da69f",
+  "oof_log_growth": 0.25551840802324133,
+  "oof_trades": 76,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.45897605552608584,
+  "cv_folds": 4,
+  "end_capital": 668.3085815427519,
+  "losses": 24,
+  "max_drawdown_pct": 38.48509034732713,
+  "model_trades": 38,
+  "net_pnl_usd": -331.6914184572481,
+  "oof_log_growth": 0.25551840802324133,
+  "oof_trades": 76,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.5745686244360657,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -33.169141845724816,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "LII",
+  "time_in_market_pct": 43.4932,
+  "trade_floor_met": 1,
+  "trades": 38,
+  "win_rate_pct": 36.84210526315789,
+  "wins": 14
+ },
+ "ticker": "LII"
+}

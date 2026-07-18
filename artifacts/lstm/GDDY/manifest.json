@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 91408,
+   "sha256": "c1edb8660927ee1ee127f6add32f83149248045905b6eeff288d6eea7f19c965"
+  },
+  "metrics.json": {
+   "bytes": 1042,
+   "sha256": "27004932016d6e8a4dd9581422d9e5c1ae27474d46a70b92b223fda7de01dcec"
+  },
+  "parameters.json": {
+   "bytes": 2916,
+   "sha256": "12f58a7c72ceeb6376752dc1a9d8c230f7f2276fb01d31e7080dd76d8c1e14dd"
+  },
+  "strategy_GDDY.py": {
+   "bytes": 86729,
+   "sha256": "b46f4e3110e5b1d2448614b8cd238f7b44e0f3494ae5c71a18fed3f0426d86a8"
+  }
+ },
+ "folder_sha256": "c4a309f4100f98a2dfc1f4d44a3620ff515051f5d4adfcecde4e7c9174f674bb",
+ "model": "lstm",
+ "model_hash": "7ecfc53c73e117dc6177773933a86575fc28e33d5e0b1724d62dd0cf6fb26200",
+ "ticker": "GDDY"
+}

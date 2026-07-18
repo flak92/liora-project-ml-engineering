@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 77079,
+   "sha256": "812b111574b29ec73e708fc7c123739ebbae26628cbfb42770fe868300e968d6"
+  },
+  "metrics.json": {
+   "bytes": 1041,
+   "sha256": "b01f391091c0c6b3efad5725c2ed7dc6892cba5630f6c0dc1d4487041583498c"
+  },
+  "parameters.json": {
+   "bytes": 2527,
+   "sha256": "02713d6e8e0278a9d47b3ea3ac1620096411cc28479f574fca46da9aa223922d"
+  },
+  "strategy_DUK.py": {
+   "bytes": 77542,
+   "sha256": "f0dd363da97793844d3607f82a51e3880b8e3522566457af090aa11d0acf45c3"
+  }
+ },
+ "folder_sha256": "d01b83647e9aadd662e04b0acdd6450ec6048fd8533f3e92e6bd9de0ba66238e",
+ "model": "lstm",
+ "model_hash": "3631e328b9d562dbc0dab9008342e32c4b0b5771b9ebfb02e5cf4018c5a9725b",
+ "ticker": "DUK"
+}

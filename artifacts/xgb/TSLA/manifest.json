@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 48742,
+   "sha256": "e304fa908ba2752ef11d45c603d6f9179d9e778b19f7a83c6ad8892f98708578"
+  },
+  "metrics.json": {
+   "bytes": 1106,
+   "sha256": "9058506d2653ff128671951448b86b829f1019d482e8bb41d81e0a0eedf5987b"
+  },
+  "parameters.json": {
+   "bytes": 5251,
+   "sha256": "ef46afe1e3a08476b46d88a1d917ab9fc114b0bb53279a9944ecc2cfd6daffbc"
+  },
+  "strategy_TSLA.py": {
+   "bytes": 254289,
+   "sha256": "d93f334ba9086ea4d01663544a1466d387199903a353f206751504545d9ca6e4"
+  }
+ },
+ "folder_sha256": "6cd8475d67f6d0fa9313a1738be22430017deda3003972664e7dcb947e8be35c",
+ "model": "xgb",
+ "model_hash": "58ed1b3255846ee7306f4384ebdecacd78fe83041bc3b7d3b7893c4a30c1750b",
+ "ticker": "TSLA"
+}

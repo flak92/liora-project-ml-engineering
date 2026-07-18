@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "6b68358c023f6bf6d1740a34fd95f1a3258c5baf36988bfc16de895d855bb38d",
+  "oof_log_growth": 0.7179242619869853,
+  "oof_trades": 299,
+  "theta_boundary": false,
+  "theta_entry": 0.48,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4016678587471245,
+  "cv_folds": 4,
+  "end_capital": 505.94775668619315,
+  "losses": 117,
+  "max_drawdown_pct": 53.47395966453764,
+  "model_trades": 184,
+  "net_pnl_usd": -494.05224331380685,
+  "oof_log_growth": 0.7179242619869853,
+  "oof_trades": 299,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.6801121891446652,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -49.40522433138068,
+  "start_capital": 1000.0,
+  "theta_entry": 0.48,
+  "ticker": "APTV",
+  "time_in_market_pct": 40.8417,
+  "trade_floor_met": 1,
+  "trades": 184,
+  "win_rate_pct": 36.41304347826087,
+  "wins": 67
+ },
+ "ticker": "APTV"
+}

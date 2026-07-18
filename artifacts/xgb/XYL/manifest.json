@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 128480,
+   "sha256": "fe1ec83787fee4b6aad159f92a8effb4b1769f265c73b547809146ee4876c955"
+  },
+  "metrics.json": {
+   "bytes": 1110,
+   "sha256": "770ac703c0f5bdd852236118a4b6a9d797f3cdf530d84f0f8f97d1e965d30539"
+  },
+  "parameters.json": {
+   "bytes": 5752,
+   "sha256": "389495d5c3c9e84eeab2c8ff981ed0a5fa90c72489e6b8a4cb42366acdd87f7f"
+  },
+  "strategy_XYL.py": {
+   "bytes": 286146,
+   "sha256": "bd9a8be2c33254e7b25c77ea5724dfc85b67b0e67964aebb6d6a4e66f61acf71"
+  }
+ },
+ "folder_sha256": "e50fce0bbe0bda5274cf4e366819a119fa260061cc8271135c8948d4504b207a",
+ "model": "xgb",
+ "model_hash": "49baa043fdf285966fccd968d1c089ea0b288ce3f1603e32c92ac63e3e6486c8",
+ "ticker": "XYL"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "0d625ade4a87b85f99003445901682837923a07f05c8269d1b682c20ed904ddc",
+  "oof_log_growth": 0.7556468316422222,
+  "oof_trades": 543,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4088321009331394,
+  "cv_folds": 4,
+  "end_capital": 445.70241081716154,
+  "losses": 160,
+  "max_drawdown_pct": 61.246446124931374,
+  "model_trades": 256,
+  "net_pnl_usd": -554.2975891828385,
+  "oof_log_growth": 0.7556468316422222,
+  "oof_trades": 543,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.7445853001564995,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -55.429758918283845,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "HPQ",
+  "time_in_market_pct": 52.3673,
+  "trade_floor_met": 1,
+  "trades": 256,
+  "win_rate_pct": 37.5,
+  "wins": 96
+ },
+ "ticker": "HPQ"
+}

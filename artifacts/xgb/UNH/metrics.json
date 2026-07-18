@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "66c58c4177d672aae7ae72b641a5056ba229c91bea1390e69b53bff86b53eacb",
+  "oof_log_growth": 0.7252707312847151,
+  "oof_trades": 303,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3883350270235114,
+  "cv_folds": 4,
+  "end_capital": 1045.919069818948,
+  "losses": 43,
+  "max_drawdown_pct": 12.818871487398791,
+  "model_trades": 73,
+  "net_pnl_usd": 45.919069818947946,
+  "oof_log_growth": 0.7252707312847151,
+  "oof_trades": 303,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.0899814531195429,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 4.5919069818948,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "UNH",
+  "time_in_market_pct": 16.4993,
+  "trade_floor_met": 1,
+  "trades": 73,
+  "win_rate_pct": 41.0958904109589,
+  "wins": 30
+ },
+ "ticker": "UNH"
+}

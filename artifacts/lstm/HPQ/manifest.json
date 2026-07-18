@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75477,
+   "sha256": "9277d59e6f4ca22a516a5eb014fabdbe307edbce006681865699334716bc8f18"
+  },
+  "metrics.json": {
+   "bytes": 1064,
+   "sha256": "8cc79f2c1e98cef9bb9946f0248ef9421b00e7553df6bfa66148c3aa172a6570"
+  },
+  "parameters.json": {
+   "bytes": 2522,
+   "sha256": "d03948bd16bedeb73d7c4032cf31ee33941d766367075ae5165b3281878f7567"
+  },
+  "strategy_HPQ.py": {
+   "bytes": 76989,
+   "sha256": "4fa9a5d9f7f280abe5ab05ba24e5b597fec4c5e9243c1d6a4c2bf6593c436c12"
+  }
+ },
+ "folder_sha256": "401249ba0ef832b07eb901ffd8303f6d5acbe5acffb5184a9b7b8cba1ccd3909",
+ "model": "lstm",
+ "model_hash": "79351d9cb990d729e3a1aee715da25aef648fac3c48d5c6de54d5beee1e62259",
+ "ticker": "HPQ"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "9a76a4eeb8d3fe4eedc44c90084067cafecf11e3bb5fcac6a9ff50ff974eae9c",
+  "oof_log_growth": 0.7037578987040989,
+  "oof_trades": 563,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.39720049505808486,
+  "cv_folds": 4,
+  "end_capital": 1167.9789358506696,
+  "losses": 150,
+  "max_drawdown_pct": 27.99277808669696,
+  "model_trades": 254,
+  "net_pnl_usd": 167.9789358506696,
+  "oof_log_growth": 0.7037578987040989,
+  "oof_trades": 563,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.0691428304999515,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 16.79789358506696,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "FITB",
+  "time_in_market_pct": 52.1521,
+  "trade_floor_met": 1,
+  "trades": 254,
+  "win_rate_pct": 40.94488188976378,
+  "wins": 104
+ },
+ "ticker": "FITB"
+}

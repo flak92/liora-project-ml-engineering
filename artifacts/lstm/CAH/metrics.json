@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "8e24d384ca94cc03d4c04ae0480a8b6a9a517d2e9d95e019ebd199032318cfb0",
+  "oof_log_growth": 0.11221096840124135,
+  "oof_trades": 9,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.485032294175549,
+  "cv_folds": 4,
+  "end_capital": 1035.141348546883,
+  "losses": 2,
+  "max_drawdown_pct": 6.093158733727511,
+  "model_trades": 4,
+  "net_pnl_usd": 35.14134854688291,
+  "oof_log_growth": 0.11221096840124135,
+  "oof_trades": 9,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.7445902683178725,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 3.5141348546883,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "CAH",
+  "time_in_market_pct": 5.4795,
+  "trade_floor_met": 1,
+  "trades": 4,
+  "win_rate_pct": 50.0,
+  "wins": 2
+ },
+ "ticker": "CAH"
+}

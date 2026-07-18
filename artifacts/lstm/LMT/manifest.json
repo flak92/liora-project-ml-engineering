@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 74911,
+   "sha256": "9699c2e810c179296e955c4b61582d9bd858e2e1ed82069e9d22ced610802e39"
+  },
+  "metrics.json": {
+   "bytes": 1061,
+   "sha256": "031be8387551f01473e6e5c4e01f66be7172bece9b35852aee6639cb9b3295be"
+  },
+  "parameters.json": {
+   "bytes": 2529,
+   "sha256": "cf66e252c95b5f7b3d8aa2337e6bda8cda3e251e88bab4a50091849381f85d3e"
+  },
+  "strategy_LMT.py": {
+   "bytes": 77039,
+   "sha256": "3ddff5d643d592484f5971c2478435857c4f1246554b5a71cf794fca9d4e8382"
+  }
+ },
+ "folder_sha256": "120a134aad4f4d1882a4136819210a54d7b4dad6b516808bcbd12744d04c159b",
+ "model": "lstm",
+ "model_hash": "da9bb8c143f2d8e808ca5719abb970c67a4b3918c0ada5ca2ab01de2428cf341",
+ "ticker": "LMT"
+}

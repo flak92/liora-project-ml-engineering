@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 67142,
+   "sha256": "4db01524841152fdc78dd1dae2d18cc7a08c1a3b12b679510a933ca8705a0379"
+  },
+  "metrics.json": {
+   "bytes": 1042,
+   "sha256": "964ba00880caeb63bdefcfdf46110fabe81984894d12186843397cb33d17bb5e"
+  },
+  "parameters.json": {
+   "bytes": 2726,
+   "sha256": "11a32a0b8f91a3713d70c07966daf1ef90c9f3d3ffee1ead1c192973b2ec621a"
+  },
+  "strategy_DOV.py": {
+   "bytes": 83113,
+   "sha256": "7ab5ec9421af30bf6386c0e33028e83e8f4efcd7d464a65db0ac402b8e24a589"
+  }
+ },
+ "folder_sha256": "25089638e77fa0e6b23f558bb4ffdc082d13d9dbefaad1b6c0ce57a1145c09cb",
+ "model": "lstm",
+ "model_hash": "1ebf02fa0cc5a6535f271f15131efc489c751fbe235f9acf70e49df870e71aa3",
+ "ticker": "DOV"
+}

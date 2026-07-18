@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 145409,
+   "sha256": "d4d9781f8b33f411347504faef6dc0a906611c7ec09c5fa9bcd64e2953660e12"
+  },
+  "metrics.json": {
+   "bytes": 1107,
+   "sha256": "b9e2516b0b5daaf17d6a0dfafdbf32c5035c4d87e744a9415dc2eb4208d446c2"
+  },
+  "parameters.json": {
+   "bytes": 4084,
+   "sha256": "3e181d5361873b34e0c760c3f7949e002af076618998a6b4d2ebae5e29d886cd"
+  },
+  "strategy_LYB.py": {
+   "bytes": 216870,
+   "sha256": "d47968d9644152bdaea36ccb6f4ded072d710036c7d957e27843f63871b49e70"
+  }
+ },
+ "folder_sha256": "80a7a0865214ee4f5932df9777f8a8a55a022eded3d1ae8679704620c5887f7f",
+ "model": "xgb",
+ "model_hash": "b719c5cb27c9c9c27b96312cfdd56e9c6b68c2fa43e5efc1ced9f2da07996221",
+ "ticker": "LYB"
+}

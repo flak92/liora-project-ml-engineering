@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "84a1ec980ac7f91144c5c97f80df5fbbe65be05b8423937c429fa6937c822f42",
+  "oof_log_growth": 0.6513026109655329,
+  "oof_trades": 37,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4631848564736422,
+  "cv_folds": 4,
+  "end_capital": 1154.4461719586798,
+  "losses": 0,
+  "max_drawdown_pct": 4.019535616693202,
+  "model_trades": 2,
+  "net_pnl_usd": 154.44617195867977,
+  "oof_log_growth": 0.6513026109655329,
+  "oof_trades": 37,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": null,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 15.444617195867982,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "NTRS",
+  "time_in_market_pct": 3.0822,
+  "trade_floor_met": 1,
+  "trades": 2,
+  "win_rate_pct": 100.0,
+  "wins": 2
+ },
+ "ticker": "NTRS"
+}

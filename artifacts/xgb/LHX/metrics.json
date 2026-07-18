@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "1a2866465848caf5127a192a8a9ff99392b860b67a1036697dfafb0024369bb5",
+  "oof_log_growth": 0.39375191918226304,
+  "oof_trades": 338,
+  "theta_boundary": false,
+  "theta_entry": 0.48,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.37782002709784157,
+  "cv_folds": 4,
+  "end_capital": 1102.0617415306085,
+  "losses": 40,
+  "max_drawdown_pct": 11.560087355075463,
+  "model_trades": 68,
+  "net_pnl_usd": 102.06174153060851,
+  "oof_log_growth": 0.39375191918226304,
+  "oof_trades": 338,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.2289696599304967,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 10.206174153060843,
+  "start_capital": 1000.0,
+  "theta_entry": 0.48,
+  "ticker": "LHX",
+  "time_in_market_pct": 16.3558,
+  "trade_floor_met": 1,
+  "trades": 68,
+  "win_rate_pct": 41.17647058823529,
+  "wins": 28
+ },
+ "ticker": "LHX"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "29eb966310d5c920424a67b08cc7a8ea11c3414ca2703e3d93ccfc229d691531",
+  "oof_log_growth": 0.46924022619863676,
+  "oof_trades": 734,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4131236774830761,
+  "cv_folds": 4,
+  "end_capital": 445.1217232682137,
+  "losses": 203,
+  "max_drawdown_pct": 59.91495889895278,
+  "model_trades": 302,
+  "net_pnl_usd": -554.8782767317863,
+  "oof_log_growth": 0.46924022619863676,
+  "oof_trades": 734,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.7342971264867856,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -55.487827673178636,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "ISRG",
+  "time_in_market_pct": 68.3644,
+  "trade_floor_met": 1,
+  "trades": 302,
+  "win_rate_pct": 32.78145695364238,
+  "wins": 99
+ },
+ "ticker": "ISRG"
+}

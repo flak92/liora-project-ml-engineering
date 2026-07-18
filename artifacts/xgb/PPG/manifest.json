@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 28861,
+   "sha256": "45358f756b649cbb7901558bfb4888157012a4d0da7c48051b22af0e1b0d6e8f"
+  },
+  "metrics.json": {
+   "bytes": 1043,
+   "sha256": "350eb4d4033c8768a0cd19d6ac864c0c0ad536cc41c8d3559ab57fb96103e449"
+  },
+  "parameters.json": {
+   "bytes": 5158,
+   "sha256": "c9be325f301c79d6e9b3365da40cfaf237aab72e732d06387c06b6e88c8a390d"
+  },
+  "strategy_PPG.py": {
+   "bytes": 187471,
+   "sha256": "32360cc7be0d4b883d7424c7fa4eff123910b84cbb1c50564a8f5b0583ba5c7b"
+  }
+ },
+ "folder_sha256": "19f015d8a0103a4e65b2b34b38284eaa44305cd8a63bebe4d762d69949e0f646",
+ "model": "xgb",
+ "model_hash": "425355108117ff492808b6bb83d58c2c8712c8ca004b73a21ad24313f7f66057",
+ "ticker": "PPG"
+}

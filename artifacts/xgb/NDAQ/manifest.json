@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 41886,
+   "sha256": "a3304d4658fdf0eef4d0de45df149a4e946ec83727f339a22ceb06ddf9c01a80"
+  },
+  "metrics.json": {
+   "bytes": 1089,
+   "sha256": "e377c127ed5786d4a0ae3da22a440d18eb9bc185927ecacf49c8b92a10772602"
+  },
+  "parameters.json": {
+   "bytes": 4643,
+   "sha256": "aee5df505451ef7914d0da7eceecb81c7959482d618d6be7a7ec41f593d612e2"
+  },
+  "strategy_NDAQ.py": {
+   "bytes": 228790,
+   "sha256": "2dadd0e9e9c2207db910ae34dea4627996b603f765e50797334d721faa55a3bd"
+  }
+ },
+ "folder_sha256": "90c2d6f6c22a0ac107273bceb55fce8b04196c0339c5d210b48390a70dd1828d",
+ "model": "xgb",
+ "model_hash": "d765acbbd638afb69ae5b6fe048ee4e7dfa186e95e809f9675d018494d7fb3e0",
+ "ticker": "NDAQ"
+}

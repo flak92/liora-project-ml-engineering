@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25908,
+   "sha256": "5de9fbbe883cadfca5d88b5260d27bab3d95cacde6f34d45dc56156627769cb1"
+  },
+  "metrics.json": {
+   "bytes": 1047,
+   "sha256": "75a204dd0a40982551db2aef64f5e7b0faa8d153aee99a9e0f0b290816bf0125"
+  },
+  "parameters.json": {
+   "bytes": 4079,
+   "sha256": "4e4f7ef535b07ae737c99bbbe8932851183d3502dfc50a096dd9fe16c386f4df"
+  },
+  "strategy_OXY.py": {
+   "bytes": 187031,
+   "sha256": "a866d90ba912530ad522e0cf9a0cd0e145839737933369bcfbd481ef1722428e"
+  }
+ },
+ "folder_sha256": "71a995a1a43fcd8f171f0356e478c11b9d23fa16c694ad5be6cf5eceb150405d",
+ "model": "xgb",
+ "model_hash": "27f39d105f9573d22de03b3bf4e3f96a558fb89a04936e8d6139e84abb9c55bf",
+ "ticker": "OXY"
+}

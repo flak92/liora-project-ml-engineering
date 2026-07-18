@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 26219,
+   "sha256": "cec15eafa5117343d3dbc646c1c4eb2b144dbb7dfd9e6ad2c502dc1ce2295b9b"
+  },
+  "metrics.json": {
+   "bytes": 1086,
+   "sha256": "b6cee2628e5ece145f1cc75f0ef5dc0f349ae5bdb4d10c38a7c860039adfff4c"
+  },
+  "parameters.json": {
+   "bytes": 4084,
+   "sha256": "9b9529b2e9a4bdcd6b117743e845572990d10fa8420c4a7b7fd3732a8ec74529"
+  },
+  "strategy_CHRW.py": {
+   "bytes": 176239,
+   "sha256": "5fe9480ad620a8a5b2b1f101a57af409fae9d2c0ed4af72042c2b239fe356092"
+  }
+ },
+ "folder_sha256": "b8f22b4a550e1130cbbacad6dbb44a2d04e7fb732a64a98e668f5e8c643560e0",
+ "model": "xgb",
+ "model_hash": "f038546aaa34519b2a88b7b4d48ef175b13648f01eec139e8dc88a6393d40d10",
+ "ticker": "CHRW"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 98208,
+   "sha256": "ec40b7f54aa5d64dd63955a7e85d7da09fbb60a7256b47afeed321995bd877b5"
+  },
+  "metrics.json": {
+   "bytes": 1056,
+   "sha256": "f00522b2f4e278f2f7c04746b113c902e60c137f4152068203e0258a37ead73c"
+  },
+  "parameters.json": {
+   "bytes": 3120,
+   "sha256": "e20ab453b2e207d9327c3bd6a0b34f5410d15c29172f0b6d2d321bc199d60665"
+  },
+  "strategy_WST.py": {
+   "bytes": 90179,
+   "sha256": "b0c75377d1d9a80c25511440f95502ae84f1eb0553aae123dee74d825cc7e2b8"
+  }
+ },
+ "folder_sha256": "229497144337e1904c1d62b8afe3ab4e9647b9774835d99f5ec08938f7df3e96",
+ "model": "lstm",
+ "model_hash": "77edf25e2845a2d9922f2f3e8c19b31780d25e9b45294f4b3e8d87205217c5c1",
+ "ticker": "WST"
+}

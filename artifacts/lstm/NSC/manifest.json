@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 82150,
+   "sha256": "c66d93b141d256bda81c64f5e9f65457584bfd1dc77fac9eb9e9a97de6762831"
+  },
+  "metrics.json": {
+   "bytes": 1058,
+   "sha256": "64fae8141aafa6d65e15108a347c949edc36a31475a0fe456d40568d5c141386"
+  },
+  "parameters.json": {
+   "bytes": 2673,
+   "sha256": "9d58359d7aa52a3aad33e7da71e2be81489b07d9190822ca979a83fbc1a2438a"
+  },
+  "strategy_NSC.py": {
+   "bytes": 80636,
+   "sha256": "af24f0412dd5044df9b07f7c8e8e7a95ab0432c33927f4d02f37d3ead2833f0b"
+  }
+ },
+ "folder_sha256": "fc48e1fde147f38fcb639562daccf188af3203baa5d69ee0ac5ebb88a53eaf06",
+ "model": "lstm",
+ "model_hash": "cc24f01082ee1f9344b8bc2d3e09b3f0170e1d671587e04b2761a8a020a15ed6",
+ "ticker": "NSC"
+}

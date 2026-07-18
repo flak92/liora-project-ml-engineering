@@ -1,0 +1,5 @@
+# artifacts/ holds sealed per-asset strategy artifacts with base64-embedded models:
+# exclude them from diff/merge machinery and mark generated for language stats.
+artifacts/** linguist-generated=true
+artifacts/**/strategy_*.py -diff -merge
+examples/*.ipynb -diff

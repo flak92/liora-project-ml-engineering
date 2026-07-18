@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75669,
+   "sha256": "aa0128c15014f52038b77213a2bc009c4681c56b7beeedd602c4b6cf266f1321"
+  },
+  "metrics.json": {
+   "bytes": 1062,
+   "sha256": "7eb6cf6dff689df0843f6ecb67602ab761780e0041f8ab207e346f583c795b7a"
+  },
+  "parameters.json": {
+   "bytes": 2515,
+   "sha256": "926a33b68a15e91b174d0d06e00b9bca6df50591e85915db4ce872cadb40a294"
+  },
+  "strategy_HUBB.py": {
+   "bytes": 77053,
+   "sha256": "702579e2f29f9810eb0d2f155bf0f8730a8eb9990e5105d31ae13471eaff7079"
+  }
+ },
+ "folder_sha256": "6a0134abd2d5c0363bccbe0d62b064cc60c7257942e4b19f2aaea9695f5e0e3c",
+ "model": "lstm",
+ "model_hash": "10dc175ea29a1bde3191f7b530c08b5a8a3db9ed125a5eee356a916e1db07244",
+ "ticker": "HUBB"
+}

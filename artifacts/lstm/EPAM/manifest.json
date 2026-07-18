@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 101268,
+   "sha256": "f5fbb63348cb15f0cc1acab57f6d534c4e87e3171df1114c47ddeb60f26aae8a"
+  },
+  "metrics.json": {
+   "bytes": 1059,
+   "sha256": "6480687678b190e7faa455ab21bf8be17a169adba1872a4f552e91c2df44286b"
+  },
+  "parameters.json": {
+   "bytes": 3162,
+   "sha256": "c4eec19b42b22b23d58ba4d41c18a16d77e69d1f5ffa817b1a103440793fe304"
+  },
+  "strategy_EPAM.py": {
+   "bytes": 92038,
+   "sha256": "9db808134b1db06b46151081018e2849cdc2bea94a53f18baf1a7b96c842a462"
+  }
+ },
+ "folder_sha256": "db3a4fad4a72b1df8fe6174d8132e4638623d5a02e2140d225d08c79bf2bbf37",
+ "model": "lstm",
+ "model_hash": "56b5b4dc27c1ce609eb5e40a6f664ca20937743dbe71b1a1b04ec7a61166f400",
+ "ticker": "EPAM"
+}

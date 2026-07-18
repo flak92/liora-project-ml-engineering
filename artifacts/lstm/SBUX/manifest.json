@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 85709,
+   "sha256": "24db1c8f825182188b521cc8530eec76b5d3e8fabdf4e605a7fbc99852b98def"
+  },
+  "metrics.json": {
+   "bytes": 1060,
+   "sha256": "480024b81e9c2283cdb04d25d20df63dc7dc51d363d3066186e47306b4abe0ee"
+  },
+  "parameters.json": {
+   "bytes": 2748,
+   "sha256": "3c40fe2c8934d0ad122c2c240a7dc80ddf5f13e31539637a0d31fe46e2a00937"
+  },
+  "strategy_SBUX.py": {
+   "bytes": 84122,
+   "sha256": "b518bf41ab5ab742aec33fcca43e4c08b8df26a3556363c2d98e59dc4753cc39"
+  }
+ },
+ "folder_sha256": "438b8bbf7194174b8f436f5c2a48df73199b8f448959b84b18ae85631c984f0a",
+ "model": "lstm",
+ "model_hash": "7c3fd00c204e1989ff636be0e1888b93e7580960789fab9893a486bbd7155374",
+ "ticker": "SBUX"
+}

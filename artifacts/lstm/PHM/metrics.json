@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "3a01b755a53b8e463faae50c1c61e2dd55daf23eab9185f7ad585af8113040e7",
+  "oof_log_growth": -0.0639433459195029,
+  "oof_trades": 14,
+  "theta_entry": 0.6,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.48450136144385575,
+  "cv_folds": 4,
+  "end_capital": 703.6331433573787,
+  "losses": 13,
+  "max_drawdown_pct": 32.40141735243517,
+  "model_trades": 17,
+  "net_pnl_usd": -296.3668566426213,
+  "oof_log_growth": -0.0639433459195029,
+  "oof_trades": 14,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.3589502888337577,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -29.63668566426213,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "PHM",
+  "time_in_market_pct": 16.2671,
+  "trade_floor_met": 1,
+  "trades": 17,
+  "win_rate_pct": 23.52941176470588,
+  "wins": 4
+ },
+ "ticker": "PHM"
+}

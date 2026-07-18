@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 81536,
+   "sha256": "65792ce218d421213bfbd2dd3af8a22ec531e4e1a1bc4a3e557f542d25def22c"
+  },
+  "metrics.json": {
+   "bytes": 1039,
+   "sha256": "d3f0f1859aca15d1d70d3aa43246d0a120b8ea79a4d3e657cf0c2d991608868c"
+  },
+  "parameters.json": {
+   "bytes": 2667,
+   "sha256": "662438522243315ed62f10edace90ee2ca3b4c6ca19f947306b7a5a228830e9c"
+  },
+  "strategy_SWK.py": {
+   "bytes": 80930,
+   "sha256": "e81b5a56b8f46826d2709ebb4e135e88589f7969f521c58b8280dad0ec478dfc"
+  }
+ },
+ "folder_sha256": "7eb360cce47685967328544805218fcd373188bf3bdcc7846012cf022497ffba",
+ "model": "lstm",
+ "model_hash": "05c318169fbc5a3f3a9ed126f9cce9729a2b3864ebdc338b56e4f8e2fd251ca9",
+ "ticker": "SWK"
+}

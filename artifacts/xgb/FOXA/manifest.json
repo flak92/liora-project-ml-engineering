@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25928,
+   "sha256": "f6b5b1ef994cda498022325f36b3ca37195744fa4b946e650125ac95d4c56848"
+  },
+  "metrics.json": {
+   "bytes": 1046,
+   "sha256": "1fe414216c58b4c2a2d3b3afd203e9e9008ac1570773e6a2e90ff8863c92614d"
+  },
+  "parameters.json": {
+   "bytes": 4080,
+   "sha256": "bf28d6a113d1187866fab9307522d3b8d95e0f28ec57fd3284795e928382fb5e"
+  },
+  "strategy_FOXA.py": {
+   "bytes": 187031,
+   "sha256": "a12d88ffb35a0391e2293ea18d9f7b397b58798cf6ccffa12910d480a34dfa8c"
+  }
+ },
+ "folder_sha256": "658f769159a81f716cc28eb1828cc7e883447b3aa498096d122de08ad87bd34f",
+ "model": "xgb",
+ "model_hash": "256613b0bd0748862d78a92e2b67fb2efa963295c739e99579880c80e417d6c6",
+ "ticker": "FOXA"
+}

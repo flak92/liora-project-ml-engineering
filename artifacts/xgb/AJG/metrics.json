@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "6a372e21de4bff568c9d0d2e4d410b8ba48e35bcf53ca7752d5aaaa0f6b2b139",
+  "oof_log_growth": 0.5101740368079914,
+  "oof_trades": 192,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4186674899336122,
+  "cv_folds": 4,
+  "end_capital": 1239.2625689174745,
+  "losses": 110,
+  "max_drawdown_pct": 16.501162722918693,
+  "model_trades": 202,
+  "net_pnl_usd": 239.26256891747448,
+  "oof_log_growth": 0.5101740368079914,
+  "oof_trades": 192,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.1661399769480376,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 23.926256891747457,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "AJG",
+  "time_in_market_pct": 49.6413,
+  "trade_floor_met": 1,
+  "trades": 202,
+  "win_rate_pct": 45.54455445544555,
+  "wins": 92
+ },
+ "ticker": "AJG"
+}

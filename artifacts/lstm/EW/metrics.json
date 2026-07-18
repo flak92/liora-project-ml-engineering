@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "f89628075964c01aef58ff3afa8831998110a9e6c9efd889b713a225f102f4a8",
+  "oof_log_growth": 0.06865948899514404,
+  "oof_trades": 17,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4201880968736162,
+  "cv_folds": 4,
+  "end_capital": 1102.3902896643438,
+  "losses": 0,
+  "max_drawdown_pct": 37.4895309882747,
+  "model_trades": 0,
+  "net_pnl_usd": 102.39028966434365,
+  "oof_log_growth": 0.06865948899514404,
+  "oof_trades": 17,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": null,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "HODL_FALLBACK_NO_MODEL_TRADES",
+  "return_pct": 10.239028966434383,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "EW",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 1,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "EW"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 141002,
+   "sha256": "37576677601714222c0b796eda73cebb7f15c0d86ea61e444af441987db9113c"
+  },
+  "metrics.json": {
+   "bytes": 1105,
+   "sha256": "65d501b1c5dd6975e5cf0dd73b511c1bcb7a4218eae229d41099377a96a871ac"
+  },
+  "parameters.json": {
+   "bytes": 5169,
+   "sha256": "f06bab5489680baab80bba2d7c3fd6f8f09907f6885c2ced3e438467a893246e"
+  },
+  "strategy_HLT.py": {
+   "bytes": 320558,
+   "sha256": "f67765f8b03d2d545e825c10bcd2966939f2349d2bd1bbfa5443c743e01dc04b"
+  }
+ },
+ "folder_sha256": "8ba073476f8ad24a19cab1e0d63d17762a6dc0ece180365dc2868becfd210879",
+ "model": "xgb",
+ "model_hash": "e6d9ade7c7012aae226ba2e8b3840aee2e8769ee0f50a44de98f7501d36ad385",
+ "ticker": "HLT"
+}

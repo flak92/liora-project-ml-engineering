@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 142427,
+   "sha256": "67c0794fd7d5bb88bb128b8d71681b07444d927e6a2123008ebeb75ddae78a63"
+  },
+  "metrics.json": {
+   "bytes": 1112,
+   "sha256": "2c7ed4124abf3572f3898a8986deed00b3d4a626a60f09a987c233337e4ee3fd"
+  },
+  "parameters.json": {
+   "bytes": 4671,
+   "sha256": "61e081e401d33087e30f87cd8f5a76ee3c6f6db1292adacc433997c96c25f616"
+  },
+  "strategy_ALLE.py": {
+   "bytes": 183081,
+   "sha256": "4601fd347b2c02a54d4625c14cd49d90d250e8414d84c6cc6cb0a285970f060b"
+  }
+ },
+ "folder_sha256": "33fdb691bd1ac9f87d778aa697931711370bad846f31d96e7704515efecf5567",
+ "model": "xgb",
+ "model_hash": "7b57b8de566b541230925e570e6df9845367aa53b4c32b01595705aecb78759f",
+ "ticker": "ALLE"
+}

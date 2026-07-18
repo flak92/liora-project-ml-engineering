@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25879,
+   "sha256": "8ccd4473a86e1d9ccb986b1d590e90121b28a0cfe10900125ec4812361071068"
+  },
+  "metrics.json": {
+   "bytes": 1044,
+   "sha256": "b8cb785a43e33f6ef07538356969dd40c95d3409c7f91bd6247a96ba6dc90e2b"
+  },
+  "parameters.json": {
+   "bytes": 4079,
+   "sha256": "fab59f3cd99cc0cf494cad00bdbe3df128a4f91a2cd95933963847840d35f2a7"
+  },
+  "strategy_WBD.py": {
+   "bytes": 186982,
+   "sha256": "33d3504f80bfdc948ccb22b27e91c1aef381ed349cfcca59ec8b3284649c8f37"
+  }
+ },
+ "folder_sha256": "09afd327a0936799a80408bb3f0a8f4181f5d6e655322244bd268c02f036b376",
+ "model": "xgb",
+ "model_hash": "75bb69547580e93eaa1a5645e1c26e4765b036ed92a23bb1db5f5f46ba514b9e",
+ "ticker": "WBD"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 53288,
+   "sha256": "58c7df15559302bdbb233f682b0941118c2d830291734f9ee5319ae394946486"
+  },
+  "metrics.json": {
+   "bytes": 1107,
+   "sha256": "fac66c111ba96100dafc08419154ac2ecdce40f65f2c437bc0ca2d4f8bee4c8f"
+  },
+  "parameters.json": {
+   "bytes": 4663,
+   "sha256": "d2cb77a4b3f9bf028b357fd516c34be08fbd734e8d52f393bda277cfbf8286ab"
+  },
+  "strategy_VEEV.py": {
+   "bytes": 252751,
+   "sha256": "95e20fdebbcd719d9b238d5e6140de662575c415c4086b4bc6e84c2cde50c67e"
+  }
+ },
+ "folder_sha256": "5092b03d8e0292f7a83ebe6fc4a237597eee137835f8d5603791a3a9a9a2fff4",
+ "model": "xgb",
+ "model_hash": "2dba69c37b6ca6298cdc933b52ecd691056bf9335a6b5598f79621854f8e3bac",
+ "ticker": "VEEV"
+}

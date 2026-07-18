@@ -1,0 +1,29 @@
+{
+  "schema_version": "feature_registry.simple.v1",
+  "namespace": "1d",
+  "id_range": "101-199",
+  "_meta": {
+    "purpose": "Simple 1d OHLCV feature registry. Values are computed on completed 1d roll-up bars and projected as-of to the 1h decision timestamp.",
+    "causal_clock": "latest completed 1d bar with available_at <= 1h decision timestamp"
+  },
+  "features": [
+    {"id": 101, "name": "direction_1d", "implemented": true, "formula": "sign(log_return_5_1d)", "unit": "{-1,+1}"},
+    {"id": 102, "name": "log_return_1_1d", "implemented": true, "formula": "ln(close[D] / close[D-1])", "unit": "ln"},
+    {"id": 103, "name": "log_return_5_1d", "implemented": true, "formula": "ln(close[D] / close[D-5])", "unit": "ln"},
+    {"id": 104, "name": "log_return_20_1d", "implemented": true, "formula": "ln(close[D] / close[D-20])", "unit": "ln"},
+    {"id": 105, "name": "close_z_score_20_1d", "implemented": true, "formula": "(close[D] - SMA20[D]) / std20[D]", "unit": "z"},
+    {"id": 106, "name": "dist_to_sma_20_1d", "implemented": true, "formula": "close[D] / SMA20[D] - 1", "unit": "ratio"},
+    {"id": 107, "name": "dist_to_sma_50_1d", "implemented": true, "formula": "close[D] / SMA50[D] - 1", "unit": "ratio"},
+    {"id": 108, "name": "sma_20_sma_50_ratio_1d", "implemented": true, "formula": "SMA20[D] / SMA50[D] - 1", "unit": "ratio"},
+    {"id": 109, "name": "volume_z_score_20_1d", "implemented": true, "formula": "(volume[D] - mean20(volume)[D]) / std20(volume)[D]", "unit": "z"},
+    {"id": 110, "name": "atr_pct_14_1d", "implemented": true, "formula": "100 * WilderATR14[D] / close[D]", "unit": "%"},
+    {"id": 111, "name": "realized_volatility_20_1d", "implemented": true, "formula": "std20(log_return_1_1d) * sqrt(20)", "unit": "ln"},
+    {"id": 112, "name": "rsi_14_1d", "implemented": true, "formula": "Wilder RSI14[D]", "unit": "0-100"},
+    {"id": 113, "name": "bollinger_percent_b_20_2_1d", "implemented": true, "formula": "(close[D] - lower_band20_2[D]) / (upper_band20_2[D] - lower_band20_2[D])", "unit": "ratio"},
+    {"id": 114, "name": "bollinger_bandwidth_20_2_1d", "implemented": true, "formula": "(upper_band20_2[D] - lower_band20_2[D]) / SMA20[D]", "unit": "ratio"},
+    {"id": 115, "name": "macd_line_12_26_9_1d", "implemented": true, "formula": "EMA12(close)[D] - EMA26(close)[D]", "unit": "price"},
+    {"id": 116, "name": "macd_signal_12_26_9_1d", "implemented": true, "formula": "EMA9(MACD line)[D]", "unit": "price"},
+    {"id": 117, "name": "macd_hist_12_26_9_1d", "implemented": true, "formula": "MACD line[D] - MACD signal[D]", "unit": "price"},
+    {"id": 118, "name": "ma_slope_10_1d", "implemented": true, "optin": true, "formula": "(SMA10[D] - SMA10[D-1]) / SMA10[D-1]", "unit": "ratio"}
+  ]
+}

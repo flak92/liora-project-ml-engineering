@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 91094,
+   "sha256": "996c92cd271c93e11244432e060815205f44de7d3f307dc97922653b64f50291"
+  },
+  "metrics.json": {
+   "bytes": 1055,
+   "sha256": "006843edeeed980f6a4c5819dfb83ff5ac2e3cc91d6ede29a8caf9b225a684fd"
+  },
+  "parameters.json": {
+   "bytes": 2887,
+   "sha256": "4452185cac5aa504b91c12796744ca15ff28250bba48a17ca9bf4609eac782ca"
+  },
+  "strategy_HUM.py": {
+   "bytes": 87124,
+   "sha256": "0d96a14406b7c9263869f7fdd99187a1e355ad6cd1f45290f03b94ab18ac280e"
+  }
+ },
+ "folder_sha256": "8bed18bc7178bf1fb37c93fc0bc3ac035ac15ebb971a2425c810329f1dc78bbd",
+ "model": "lstm",
+ "model_hash": "ecc6ed10cf7447113cc7b0dd172670de552d6e5ab7ee621e7805b026a8d4e882",
+ "ticker": "HUM"
+}

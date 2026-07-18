@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 34003,
+   "sha256": "3fbe672e916609751e3dcaceabf442a84fcb9909afe607f8300c677af1214e26"
+  },
+  "metrics.json": {
+   "bytes": 1101,
+   "sha256": "aa0eb5b8cd573095e786574bb24f4c13c7e16c0f5d0400bcb5c362c0bb56e769"
+  },
+  "parameters.json": {
+   "bytes": 4082,
+   "sha256": "2844eca4d5e42f3e2c80208915cb46d07fab89616a30c8e2c93b7a33211dfdd7"
+  },
+  "strategy_CIEN.py": {
+   "bytes": 169274,
+   "sha256": "8688f7dacaa89bd559344e04e5b0df697a22de7328e4fcd6537da6d17e844f4a"
+  }
+ },
+ "folder_sha256": "8786b70d79141c76b4396bd3d51dde914dd0aa2161a0172cffeb618879ed5b9f",
+ "model": "xgb",
+ "model_hash": "fc7e6a646cdd9eba9b75851b0533b87897c6ba5c09dc29d148f24832e0e07086",
+ "ticker": "CIEN"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "9582d2e3cd5259cd10a380ae711e1f776259696a8dbda39e61e6cade555d523c",
+  "oof_log_growth": 0.2509791514882875,
+  "oof_trades": 145,
+  "theta_boundary": false,
+  "theta_entry": 0.46,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.41248203249300663,
+  "cv_folds": 4,
+  "end_capital": 1004.2304289278175,
+  "losses": 33,
+  "max_drawdown_pct": 12.457855548953772,
+  "model_trades": 60,
+  "net_pnl_usd": 4.2304289278174565,
+  "oof_log_growth": 0.2509791514882875,
+  "oof_trades": 145,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.0111525669678818,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 0.42304289278174423,
+  "start_capital": 1000.0,
+  "theta_entry": 0.46,
+  "ticker": "ADP",
+  "time_in_market_pct": 15.208,
+  "trade_floor_met": 1,
+  "trades": 60,
+  "win_rate_pct": 45.0,
+  "wins": 27
+ },
+ "ticker": "ADP"
+}

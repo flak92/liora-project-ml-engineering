@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "023222e6b6609300148c07e570cb2f41e12be71e3046ac4840596ad17b2dd601",
+  "oof_log_growth": 1.1746566422117581,
+  "oof_trades": 26,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.5327874526361075,
+  "cv_folds": 4,
+  "end_capital": 1003.3909812629223,
+  "losses": 0,
+  "max_drawdown_pct": 2.490456280676243,
+  "model_trades": 1,
+  "net_pnl_usd": 3.3909812629223097,
+  "oof_log_growth": 1.1746566422117581,
+  "oof_trades": 26,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": null,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_ONE_TRADE_LOW_EVIDENCE",
+  "return_pct": 0.33909812629222547,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "HAL",
+  "time_in_market_pct": 1.7123,
+  "trade_floor_met": 1,
+  "trades": 1,
+  "win_rate_pct": 100.0,
+  "wins": 1
+ },
+ "ticker": "HAL"
+}

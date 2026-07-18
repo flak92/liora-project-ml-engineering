@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 79889,
+   "sha256": "274cdef22ef1ef6c8437bc08f8b8d08083f410ff2f1e9d470365d464d39e7098"
+  },
+  "metrics.json": {
+   "bytes": 1059,
+   "sha256": "ac8b7ad51c29e536c89ed76bf8ca3884596206786008912e0d7110681cf28d0f"
+  },
+  "parameters.json": {
+   "bytes": 2634,
+   "sha256": "1bed2b77b9f5386dafa18b7ad2ed4e48afbe183ffed6ed69a91f56744167094c"
+  },
+  "strategy_CEG.py": {
+   "bytes": 79990,
+   "sha256": "b369dddeee90566a7817db472ab1d6b755266ea4e2c7331a776fb7c2975385e6"
+  }
+ },
+ "folder_sha256": "7f9f97b7240b9a95bc11dca8d7f9eb77f193a36d84de9614b6dcb7b89198062f",
+ "model": "lstm",
+ "model_hash": "526f0e6c6eafef3a9fe85a75c74491fd8d2ec2b2aca7c28a02c260c2adc9bbe2",
+ "ticker": "CEG"
+}

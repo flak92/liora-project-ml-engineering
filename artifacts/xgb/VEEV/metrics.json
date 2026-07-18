@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "2dba69c37b6ca6298cdc933b52ecd691056bf9335a6b5598f79621854f8e3bac",
+  "oof_log_growth": 0.8651470613145275,
+  "oof_trades": 663,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4094401238304101,
+  "cv_folds": 4,
+  "end_capital": 1042.567747615296,
+  "losses": 159,
+  "max_drawdown_pct": 28.493517682161418,
+  "model_trades": 264,
+  "net_pnl_usd": 42.56774761529596,
+  "oof_log_growth": 0.8651470613145275,
+  "oof_trades": 663,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.0170421569808543,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 4.2567747615295914,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "VEEV",
+  "time_in_market_pct": 59.2539,
+  "trade_floor_met": 1,
+  "trades": 264,
+  "win_rate_pct": 39.77272727272727,
+  "wins": 105
+ },
+ "ticker": "VEEV"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 139866,
+   "sha256": "a1eb3eea8135bf06e86e959d68bf593b76d726406c0643a818eaaf4b7e0e7094"
+  },
+  "metrics.json": {
+   "bytes": 1107,
+   "sha256": "9494d5872cfd1919bad34c6a4cbc95b9dec70712e893b447e54ec3e71394e297"
+  },
+  "parameters.json": {
+   "bytes": 4652,
+   "sha256": "e9730877e605b68efadd39341427e0a27de2b9fa207285f58aa7fb56a2cfd556"
+  },
+  "strategy_MS.py": {
+   "bytes": 262584,
+   "sha256": "dfd33d32f46c9868f03358109f32ea781c85e09d6b95402817a6b2b1072382f2"
+  }
+ },
+ "folder_sha256": "2e6d4054f3a61564ae5177ff0ba894f99724470b8f8ddbe7a2e16c54e78e730a",
+ "model": "xgb",
+ "model_hash": "29078d710fd7e31f69c2db9e85d3b02a60ab1e03317c17649b00e0c5d78b3a07",
+ "ticker": "MS"
+}

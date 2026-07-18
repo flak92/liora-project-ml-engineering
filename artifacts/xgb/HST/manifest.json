@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 55029,
+   "sha256": "b48380c63ea3e9a04a6ddc6cb08006fc9e00688ec5120ca3d663cda0b4b3198d"
+  },
+  "metrics.json": {
+   "bytes": 1101,
+   "sha256": "e02b30ca5183a1df7f1d47de6f6c8d13d986c8632597e9a1b1f331e4045696bd"
+  },
+  "parameters.json": {
+   "bytes": 4636,
+   "sha256": "e22d442f0cd36f03cc6e50fb5360c464d314735154b21e657b6a58af859681c9"
+  },
+  "strategy_HST.py": {
+   "bytes": 227017,
+   "sha256": "b97e07ac31ed28827ead9a70a0f8c77774e116ea25cc13c324b3a9341016a24b"
+  }
+ },
+ "folder_sha256": "5b7f2e7ff11c09f7466411907d1a31dc219d12756036348d75f4579cff684e67",
+ "model": "xgb",
+ "model_hash": "edb98739aef3572e0599c70fa40e07617ab462106e475d48a5a3cf265d034b68",
+ "ticker": "HST"
+}

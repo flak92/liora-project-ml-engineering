@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "030b312e9115f455e142008af0e032d6a1f22d471875a43ec96266e2dfec4f6e",
+  "oof_log_growth": -0.10335534089070234,
+  "oof_trades": 39,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.39905671107319557,
+  "cv_folds": 4,
+  "end_capital": 997.2429898569151,
+  "losses": 14,
+  "max_drawdown_pct": 19.85932997504992,
+  "model_trades": 23,
+  "net_pnl_usd": -2.7570101430849263,
+  "oof_log_growth": -0.10335534089070234,
+  "oof_trades": 39,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.9911381274582624,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -0.2757010143084937,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "SJM",
+  "time_in_market_pct": 29.4521,
+  "trade_floor_met": 1,
+  "trades": 23,
+  "win_rate_pct": 39.130434782608695,
+  "wins": 9
+ },
+ "ticker": "SJM"
+}

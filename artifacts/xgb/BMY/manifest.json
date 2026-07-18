@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 33729,
+   "sha256": "0595061801479808acf7f0627ea8571b45576476b09fc4e8f5828699f3f7628d"
+  },
+  "metrics.json": {
+   "bytes": 1086,
+   "sha256": "50d74e47b5876c29f94b13fc856f2ecf1a4a8b99929df106801320945b8b23b9"
+  },
+  "parameters.json": {
+   "bytes": 4613,
+   "sha256": "c749b9a90d0184ba1608a091afe70de46a9000d8ce9a31a48236310495a8e005"
+  },
+  "strategy_BMY.py": {
+   "bytes": 271354,
+   "sha256": "499e286a3cff1a82c93536f7f284f3c3063796b52395c3735c9a0c479f25494b"
+  }
+ },
+ "folder_sha256": "9210eb357dbb349b1cff8eec72471335b68eb85e5d25f33ead06a4ed650b1d08",
+ "model": "xgb",
+ "model_hash": "a144d41d9fd8fed5f97c99cfa976140d093f95bfd500bbf3e7185bd64497c2eb",
+ "ticker": "BMY"
+}

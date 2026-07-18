@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "601c3263a114e046fb46f5bf685f6bad59ecb42dddf32bbfa098e64c27830de5",
+  "oof_log_growth": 0.6869134046284257,
+  "oof_trades": 414,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3870087311514463,
+  "cv_folds": 4,
+  "end_capital": 724.9063080829621,
+  "losses": 136,
+  "max_drawdown_pct": 53.41871325071569,
+  "model_trades": 220,
+  "net_pnl_usd": -275.09369191703786,
+  "oof_log_growth": 0.6869134046284257,
+  "oof_trades": 414,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.86347208087294,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -27.50936919170378,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "GDDY",
+  "time_in_market_pct": 48.9718,
+  "trade_floor_met": 1,
+  "trades": 220,
+  "win_rate_pct": 38.18181818181819,
+  "wins": 84
+ },
+ "ticker": "GDDY"
+}

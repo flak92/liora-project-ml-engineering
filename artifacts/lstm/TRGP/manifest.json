@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 74126,
+   "sha256": "7b1c7ba9a3c17eb6651cb97f8d3b45a87eb1d061b429bee4a90fa6b17c4f449d"
+  },
+  "metrics.json": {
+   "bytes": 1040,
+   "sha256": "50d22c5cc5ece3e7984dfd06dc695a1d3b8551dfc667b1f52348ab1e7ab84d55"
+  },
+  "parameters.json": {
+   "bytes": 2515,
+   "sha256": "5ee794881c780d4546fb6c692bcff434e670a046b5e027209cc1fb5aee3de3d5"
+  },
+  "strategy_TRGP.py": {
+   "bytes": 76954,
+   "sha256": "9f05817a638cd6ed4cd1898d5dd1af531b61684f649a646713f21eaa3ce2607d"
+  }
+ },
+ "folder_sha256": "0385c98cd4e09b4f283107684c90ffcbf56d3ed17e16540c0526d73e4e1a8b94",
+ "model": "lstm",
+ "model_hash": "81666fe1aecc52b09c80395892f73d7d5597547ce9946143376c6421cd0c87c0",
+ "ticker": "TRGP"
+}

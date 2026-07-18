@@ -1,0 +1,21 @@
+{
+  "schema_version": "feature_families.v1",
+  "_meta": {
+    "purpose": "OHLCV relationship families for the golden-calibration search policy (docs/GOLDEN_CALIBRATION_FEATURE_SEARCH.md §3-4). Groups the 45 searchable optional/opt-in ids by mathematical meaning; the search evaluates candidates per family, picks the simplest one-SE plateau representative, and orders the greedy pool by family. Part of the recipe identity: editing this map = a new search epoch.",
+    "scope": "searchable non-1h ids only (the 1h core 1-17 is frozen and never searched)"
+  },
+  "families": {
+    "momentum_return": [101, 102, 103, 104, 201, 202, 203, 204],
+    "price_distance": [105, 106, 107, 205, 206, 207],
+    "trend_slope_ma": [108, 118, 208, 218],
+    "volatility_level": [110, 111, 210, 211],
+    "volatility_regime": [114, 214, 219],
+    "oscillator_rsi": [112, 212],
+    "macd": [115, 116, 117, 215, 216, 217],
+    "volume": [109, 209],
+    "range_position": [113, 213, 301],
+    "session_position": [302],
+    "multi_tf_alignment": [901, 904, 905],
+    "cross_tf_ratio": [902, 903, 906]
+  }
+}

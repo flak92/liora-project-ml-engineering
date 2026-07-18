@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 97291,
+   "sha256": "3453229c8be5c3a4433ed1284caf6a1c87842c094fc17423e8558bafcb6743c0"
+  },
+  "metrics.json": {
+   "bytes": 1060,
+   "sha256": "af14012b8dfcbeb0726fa2affc72c65e58c29a7e5cd2d1b770131bdead52d87c"
+  },
+  "parameters.json": {
+   "bytes": 3046,
+   "sha256": "a2d248c91370364a2fd1bd1016efd41f3565d075be58b9f6c7ccdd8453a21d83"
+  },
+  "strategy_CAT.py": {
+   "bytes": 90328,
+   "sha256": "fbf55e34089421215020c43e2034fa86b5ab9824032793cc9b09c41effea7d83"
+  }
+ },
+ "folder_sha256": "e7bc0effcdcb93f2b374567243df29044f7e89b2df598d66e7b84d807e7ba68b",
+ "model": "lstm",
+ "model_hash": "934c32fc8350ae6a2d3893a382b7f9e11e388a8ddc2f71a905a0a58e6d94dc4a",
+ "ticker": "CAT"
+}

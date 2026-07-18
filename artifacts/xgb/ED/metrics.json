@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "f9f88f2ae081f7b554b1a0b17b4fd27d552c4118b5d301a2b2e4036024f01ccd",
+  "oof_log_growth": 0.28604299272816697,
+  "oof_trades": 257,
+  "theta_boundary": false,
+  "theta_entry": 0.44,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.40250559095277416,
+  "cv_folds": 4,
+  "end_capital": 894.7006261440112,
+  "losses": 67,
+  "max_drawdown_pct": 18.365110443871437,
+  "model_trades": 105,
+  "net_pnl_usd": -105.29937385598885,
+  "oof_log_growth": 0.28604299272816697,
+  "oof_trades": 257,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8167666562847253,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -10.529937385598886,
+  "start_capital": 1000.0,
+  "theta_entry": 0.44,
+  "ticker": "ED",
+  "time_in_market_pct": 22.9316,
+  "trade_floor_met": 1,
+  "trades": 105,
+  "win_rate_pct": 36.19047619047619,
+  "wins": 38
+ },
+ "ticker": "ED"
+}

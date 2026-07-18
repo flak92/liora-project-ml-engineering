@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 138894,
+   "sha256": "340c6f06308f2ca88f95f539178e7a8619fb18c3e0cabaa6d8cdc2302527e521"
+  },
+  "metrics.json": {
+   "bytes": 1111,
+   "sha256": "b5cd55fd22aed2c6e099fa69b3ffb503ceac5db45dd8a2fe78e992699bb0e94f"
+  },
+  "parameters.json": {
+   "bytes": 4623,
+   "sha256": "73060a5e349ce6cfe41dc58256eef16b8e3616d590535757e53de71101236e96"
+  },
+  "strategy_UNP.py": {
+   "bytes": 212126,
+   "sha256": "4a34a2bab8335e0406ffb8cdd30cc991abaa8fb42594eb50aaa6fa8c2e5812ec"
+  }
+ },
+ "folder_sha256": "a12cd4063fe582edddd1c9c68be6bc1db494896252a9a00198a69c38a0aad58b",
+ "model": "xgb",
+ "model_hash": "6a6762f7ef99954b20bda24d4c6c4de330f0ef68a3eabe6aa3c4e8015277701a",
+ "ticker": "UNP"
+}

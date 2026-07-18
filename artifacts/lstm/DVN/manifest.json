@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75403,
+   "sha256": "e4e6b0f5d6c85e3823c9880fa2dd29d42f34ee8bb8375268151ae37633900a28"
+  },
+  "metrics.json": {
+   "bytes": 1042,
+   "sha256": "284850864fbcd87ab1f0a60e03eebe42c1677f721d5840928169a991b334fc2f"
+  },
+  "parameters.json": {
+   "bytes": 2526,
+   "sha256": "9e90059f04ae1d1677d0fb7da49bd510b8ca31eb6d6e56eb8ed724d2886db153"
+  },
+  "strategy_DVN.py": {
+   "bytes": 77073,
+   "sha256": "ab38e728f6dfb5bd476991d764addfe2f6d7c80a9d0b4de7a84c0b2ed0a52485"
+  }
+ },
+ "folder_sha256": "b9735f2e9043929bbebb0730badfc7e16f58708e60afa11d9ab7cea1b861e8e6",
+ "model": "lstm",
+ "model_hash": "1587b28b8b897c140101d8845510b2f9225b1552d99fa249e598299ac2d12d1c",
+ "ticker": "DVN"
+}

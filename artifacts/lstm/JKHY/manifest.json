@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 102531,
+   "sha256": "9fac3859962c72af0f82485c2c69d56b4487c325c3a4e57fe67520674c8408b5"
+  },
+  "metrics.json": {
+   "bytes": 1063,
+   "sha256": "ff35b83b7041225200b055c828cee3219f250f79b6910fda5c081f08db6ef8d2"
+  },
+  "parameters.json": {
+   "bytes": 3132,
+   "sha256": "ab01838a2a5f826a5da0f023613178f2aa2a10b4162bb7d518d263f30a7affb6"
+  },
+  "strategy_JKHY.py": {
+   "bytes": 90811,
+   "sha256": "e62f8fdc6e65c952d2da31ada7b1ca2ffa0e9fa0a2504d167a12295e66c38804"
+  }
+ },
+ "folder_sha256": "1ef0b0aae6af2340686ea6ac5bb20fa54d320e1f35f3504efa9fe4c58a28c3f7",
+ "model": "lstm",
+ "model_hash": "ecebbec9e1efebe94ea2e7d58ce79f3ceb363c08bbbaae0205ccc735eb84c53f",
+ "ticker": "JKHY"
+}

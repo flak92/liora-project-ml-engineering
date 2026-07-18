@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "72e36151af49fdd69e7cd195138b5ba3d58bed156a07e43dcd4b70ad3298efa1",
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "theta_boundary": true,
+  "theta_entry": 0.6,
+  "trade_floor_met": false
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.37384001773803965,
+  "cv_folds": 4,
+  "end_capital": 873.163313542671,
+  "losses": 0,
+  "max_drawdown_pct": 34.27076520601703,
+  "model_trades": 0,
+  "net_pnl_usd": -126.83668645732907,
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "TRAIN_OOF_FLOOR_NOT_MET",
+  "return_pct": -12.683668645732904,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "KDP",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 0,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "KDP"
+}

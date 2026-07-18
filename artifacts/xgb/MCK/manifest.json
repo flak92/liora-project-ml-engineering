@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 36965,
+   "sha256": "f76b9c6e20d4e15626eb04be3be0eadc1c0af7982a9c3488cdec0d61dd79745f"
+  },
+  "metrics.json": {
+   "bytes": 1104,
+   "sha256": "1d71984951cfca7cfcc700c253f540b8571be8faacd33d67eafb540321c1422c"
+  },
+  "parameters.json": {
+   "bytes": 5422,
+   "sha256": "082e52149a1cd339cb7df0f05605b51cb6b99c4d0c80a8f3875620dd6247597c"
+  },
+  "strategy_MCK.py": {
+   "bytes": 145079,
+   "sha256": "cdb2b6abc954514189dd220caa499e139e0807058eb674acd39cec018c7dfacc"
+  }
+ },
+ "folder_sha256": "e9c306369144e98e682383871a84eecfc251e4e4ef84f961a23d69b417bb18bc",
+ "model": "xgb",
+ "model_hash": "fe3496d43a29071ec8e3a6620f9941587a5f5f10d7c833a30612288260ccadab",
+ "ticker": "MCK"
+}

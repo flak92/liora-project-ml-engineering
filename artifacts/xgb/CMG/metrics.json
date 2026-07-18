@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "4bc3659023120ff431d040fc640865473246b13b18afd9ed9bf441ed8b636152",
+  "oof_log_growth": 0.6819621242813344,
+  "oof_trades": 75,
+  "theta_boundary": false,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4219934443209963,
+  "cv_folds": 4,
+  "end_capital": 1072.3709885949245,
+  "losses": 28,
+  "max_drawdown_pct": 13.333705617039959,
+  "model_trades": 47,
+  "net_pnl_usd": 72.37098859492448,
+  "oof_log_growth": 0.6819621242813344,
+  "oof_trades": 75,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.1481328553139425,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 7.237098859492441,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "CMG",
+  "time_in_market_pct": 8.9192,
+  "trade_floor_met": 1,
+  "trades": 47,
+  "win_rate_pct": 40.42553191489361,
+  "wins": 19
+ },
+ "ticker": "CMG"
+}

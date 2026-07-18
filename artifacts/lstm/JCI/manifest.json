@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 96527,
+   "sha256": "7d2cdf9508b3cf25011c59dc10a93c74de421b7707986fec7b9dd9561d77cf36"
+  },
+  "metrics.json": {
+   "bytes": 1057,
+   "sha256": "30ffb7428310aaf5794b95ce1b9e8d81a5e6dff1b9439ac70815fd8c8c2e37d9"
+  },
+  "parameters.json": {
+   "bytes": 3039,
+   "sha256": "758be5830e97481f57471b3fe36b9670dabb905991ff909be1a9a7011cbd21f8"
+  },
+  "strategy_JCI.py": {
+   "bytes": 90596,
+   "sha256": "eb5ad1fda3930aef47773d443a189290169af66bdf1dc74f203e58ec99dc40cc"
+  }
+ },
+ "folder_sha256": "c6be37744c0a51c51c7dacd7cd9157b0d9899cdfca95fb72fd43fa40923f7aed",
+ "model": "lstm",
+ "model_hash": "90f01a30b089da92ef6ba2ca6a84775f585884b9c77b930c85341578f5ed0695",
+ "ticker": "JCI"
+}

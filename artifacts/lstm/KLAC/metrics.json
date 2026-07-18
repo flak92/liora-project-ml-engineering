@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "129710ff268933d8a35907a772e8c2d438c5ec7649c54f8323dd074db963e739",
+  "oof_log_growth": 0.5817946641005182,
+  "oof_trades": 40,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.48052259271694153,
+  "cv_folds": 4,
+  "end_capital": 2041.935352832186,
+  "losses": 15,
+  "max_drawdown_pct": 17.05257098004357,
+  "model_trades": 38,
+  "net_pnl_usd": 1041.935352832186,
+  "oof_log_growth": 0.5817946641005182,
+  "oof_trades": 40,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 2.0985063715836736,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 104.19353528321862,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "KLAC",
+  "time_in_market_pct": 43.1507,
+  "trade_floor_met": 1,
+  "trades": 38,
+  "win_rate_pct": 60.526315789473685,
+  "wins": 23
+ },
+ "ticker": "KLAC"
+}

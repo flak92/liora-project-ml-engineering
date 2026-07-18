@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25940,
+   "sha256": "488ff8502f280ea778518b027888d2abc7ee702bd876cb9020b8dd61d6ad607e"
+  },
+  "metrics.json": {
+   "bytes": 1087,
+   "sha256": "510cbe35bdaa28fdc11f11469c44c3f08fd2994a4b74cd2db9c025dc2abcf6c4"
+  },
+  "parameters.json": {
+   "bytes": 4081,
+   "sha256": "b8767a684a2ce04f75e696086d02c24e04eedde4782b5fcdc7745520c9c3bd9f"
+  },
+  "strategy_GILD.py": {
+   "bytes": 187050,
+   "sha256": "8a16b14473baadd4affc4c70b83d85d27d0da314a6b30537a3ec7ab857276bd7"
+  }
+ },
+ "folder_sha256": "355ac07e37e65e42207984c62978147d5dad5b2911a5ac2215e172bed228e099",
+ "model": "xgb",
+ "model_hash": "18b92b7e58af89d40b5d9eadaa15393d64e71de08fbf44e525d970fd494880b4",
+ "ticker": "GILD"
+}

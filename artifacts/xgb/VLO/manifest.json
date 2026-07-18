@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76294,
+   "sha256": "df9ea69dbb86470f909220dbf488bc1aa95e92f682bf501332a6ecf44cd3051c"
+  },
+  "metrics.json": {
+   "bytes": 1105,
+   "sha256": "2097576ea0f7a54d918ba6e9afe68cd58467f560c00cea7ec895bf495440a025"
+  },
+  "parameters.json": {
+   "bytes": 4086,
+   "sha256": "921f1c62b8a5d9ad69fce4a38182c9024b29cf37b859cee111007e0dea1ca183"
+  },
+  "strategy_VLO.py": {
+   "bytes": 260267,
+   "sha256": "a14f778be09f7ac7c4becc082b83ca4892b691efb4062788a8001f938fc8a42c"
+  }
+ },
+ "folder_sha256": "8726dc29c08da321ad34225458c7520f69f8b7cf71645fc75a51e15c31633b5a",
+ "model": "xgb",
+ "model_hash": "885166ff34c3672129b108ac314e898167d30ad80a5fd92a63dee9ce16e80e55",
+ "ticker": "VLO"
+}

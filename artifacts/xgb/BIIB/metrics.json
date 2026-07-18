@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "388f07f83984e6a14da6a8ac8792c3ec4e388471d80a1921873346121b084960",
+  "oof_log_growth": 0.8125679671338922,
+  "oof_trades": 145,
+  "theta_boundary": false,
+  "theta_entry": 0.48,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3489912234175101,
+  "cv_folds": 4,
+  "end_capital": 749.7655228545585,
+  "losses": 41,
+  "max_drawdown_pct": 27.01656354998439,
+  "model_trades": 58,
+  "net_pnl_usd": -250.23447714544147,
+  "oof_log_growth": 0.8125679671338922,
+  "oof_trades": 145,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.5430949035611952,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -25.023447714544144,
+  "start_capital": 1000.0,
+  "theta_entry": 0.48,
+  "ticker": "BIIB",
+  "time_in_market_pct": 12.6734,
+  "trade_floor_met": 1,
+  "trades": 58,
+  "win_rate_pct": 29.310344827586203,
+  "wins": 17
+ },
+ "ticker": "BIIB"
+}

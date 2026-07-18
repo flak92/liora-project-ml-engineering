@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "fdd2d74699c232da18edfeed7f5f54206f3853d3e356d29262d5fb43108dfc7d",
+  "oof_log_growth": 3.750445553530382,
+  "oof_trades": 648,
+  "theta_boundary": false,
+  "theta_entry": 0.42,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4073554681239129,
+  "cv_folds": 4,
+  "end_capital": 191.77404037596938,
+  "losses": 114,
+  "max_drawdown_pct": 91.60611721446308,
+  "model_trades": 180,
+  "net_pnl_usd": -808.2259596240306,
+  "oof_log_growth": 3.750445553530382,
+  "oof_trades": 648,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8793297837104431,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -80.82259596240307,
+  "start_capital": 1000.0,
+  "theta_entry": 0.42,
+  "ticker": "CVNA",
+  "time_in_market_pct": 37.6853,
+  "trade_floor_met": 1,
+  "trades": 180,
+  "win_rate_pct": 36.666666666666664,
+  "wins": 66
+ },
+ "ticker": "CVNA"
+}

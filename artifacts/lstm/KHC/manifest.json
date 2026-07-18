@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 81758,
+   "sha256": "b20e697d69eef242163c9fdbd8881ebbad6b996ef1d7f86e294e384468cb1d81"
+  },
+  "metrics.json": {
+   "bytes": 1056,
+   "sha256": "bb2673a66f52ab93bc1f91ff4b2b0533ee21470919e5b1f3d372d426584e2a4b"
+  },
+  "parameters.json": {
+   "bytes": 2632,
+   "sha256": "7ccd5a46b6ae9cd897d8f3c6cf5013b58678da097a26006a1ea97d7c3d1d6f4b"
+  },
+  "strategy_KHC.py": {
+   "bytes": 80444,
+   "sha256": "091c584f2bb805bda92631069c75ea2db9628a90506a631d4878546d426b0106"
+  }
+ },
+ "folder_sha256": "180b932c6216b7e8c51244932ee5c650ff431171ece19279a2f24cd21d87ec4e",
+ "model": "lstm",
+ "model_hash": "b6920427cca0dcef26dc7056787d01c57b6e70d7fe5924b592a26dd329508be0",
+ "ticker": "KHC"
+}

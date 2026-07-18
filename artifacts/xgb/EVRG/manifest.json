@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25944,
+   "sha256": "29b7ef22b9657d1280e03f2407abf89f575c232d255919e2f97ec3969e55aa79"
+  },
+  "metrics.json": {
+   "bytes": 1046,
+   "sha256": "5e7ccfb5761d89a9b4c6138120679183b17c23719fcc7b553d0cfa9296d96fd7"
+  },
+  "parameters.json": {
+   "bytes": 4080,
+   "sha256": "a864aca0676df4cae12eb178733691ae866145fc82f7c24ff007134a22e4af3c"
+  },
+  "strategy_EVRG.py": {
+   "bytes": 187037,
+   "sha256": "5b57c95e2146bd00d3109c1a0b56984f8c62b1988833760cf7312c8083d68029"
+  }
+ },
+ "folder_sha256": "79a397b445b0e19176ebe04f88ac07df937f851f466bb7c122389f042af88b85",
+ "model": "xgb",
+ "model_hash": "586c5f0952413af3f60289c4f5436725be36fbffde76f56493c28f9e76100919",
+ "ticker": "EVRG"
+}

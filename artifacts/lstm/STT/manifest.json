@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 89323,
+   "sha256": "060e40fbebd0f86bd5c79caf0c974bd04db5a2766504d23e997fe2bc744e6b31"
+  },
+  "metrics.json": {
+   "bytes": 1031,
+   "sha256": "f54ca3f50c3ea7a3807b0024102a77baa0e54d21bd2c2a7f18bf1e059f9bcb76"
+  },
+  "parameters.json": {
+   "bytes": 2819,
+   "sha256": "2eeb86b24c2708bd0aa8d30a862e56321eda5d971637c449d34bee92e0d9adb2"
+  },
+  "strategy_STT.py": {
+   "bytes": 84373,
+   "sha256": "a51d581899da7358bc6680df15637564764dcf24afa1ca8350eb25e203037693"
+  }
+ },
+ "folder_sha256": "36ff4214e4ebabc51c7d2e1d4e7327b5dec8770bb68ccb30743e647c4c1af033",
+ "model": "lstm",
+ "model_hash": "7f348e75eb16ec571a69c6ec3801990a55811407ba41baf66b2ce3f330382061",
+ "ticker": "STT"
+}

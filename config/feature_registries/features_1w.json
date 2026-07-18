@@ -1,0 +1,30 @@
+{
+  "schema_version": "feature_registry.simple.v1",
+  "namespace": "1w",
+  "id_range": "201-299",
+  "_meta": {
+    "purpose": "Simple 1w OHLCV feature registry. Values are computed on completed 1w roll-up bars and projected as-of to the 1h decision timestamp.",
+    "causal_clock": "latest completed 1w bar with available_at <= 1h decision timestamp"
+  },
+  "features": [
+    {"id": 201, "name": "direction_1w", "implemented": true, "formula": "sign(log_return_5_1w)", "unit": "{-1,+1}"},
+    {"id": 202, "name": "log_return_1_1w", "implemented": true, "formula": "ln(close[W] / close[W-1])", "unit": "ln"},
+    {"id": 203, "name": "log_return_5_1w", "implemented": true, "formula": "ln(close[W] / close[W-5])", "unit": "ln"},
+    {"id": 204, "name": "log_return_20_1w", "implemented": true, "formula": "ln(close[W] / close[W-20])", "unit": "ln"},
+    {"id": 205, "name": "close_z_score_20_1w", "implemented": true, "formula": "(close[W] - SMA20[W]) / std20[W]", "unit": "z"},
+    {"id": 206, "name": "dist_to_sma_20_1w", "implemented": true, "formula": "close[W] / SMA20[W] - 1", "unit": "ratio"},
+    {"id": 207, "name": "dist_to_sma_50_1w", "implemented": true, "formula": "close[W] / SMA50[W] - 1", "unit": "ratio"},
+    {"id": 208, "name": "sma_20_sma_50_ratio_1w", "implemented": true, "formula": "SMA20[W] / SMA50[W] - 1", "unit": "ratio"},
+    {"id": 209, "name": "volume_z_score_20_1w", "implemented": true, "formula": "(volume[W] - mean20(volume)[W]) / std20(volume)[W]", "unit": "z"},
+    {"id": 210, "name": "atr_pct_14_1w", "implemented": true, "formula": "100 * WilderATR14[W] / close[W]", "unit": "%"},
+    {"id": 211, "name": "realized_volatility_20_1w", "implemented": true, "formula": "std20(log_return_1_1w) * sqrt(20)", "unit": "ln"},
+    {"id": 212, "name": "rsi_14_1w", "implemented": true, "formula": "Wilder RSI14[W]", "unit": "0-100"},
+    {"id": 213, "name": "bollinger_percent_b_20_2_1w", "implemented": true, "formula": "(close[W] - lower_band20_2[W]) / (upper_band20_2[W] - lower_band20_2[W])", "unit": "ratio"},
+    {"id": 214, "name": "bollinger_bandwidth_20_2_1w", "implemented": true, "formula": "(upper_band20_2[W] - lower_band20_2[W]) / SMA20[W]", "unit": "ratio"},
+    {"id": 215, "name": "macd_line_12_26_9_1w", "implemented": true, "formula": "EMA12(close)[W] - EMA26(close)[W]", "unit": "price"},
+    {"id": 216, "name": "macd_signal_12_26_9_1w", "implemented": true, "formula": "EMA9(MACD line)[W]", "unit": "price"},
+    {"id": 217, "name": "macd_hist_12_26_9_1w", "implemented": true, "formula": "MACD line[W] - MACD signal[W]", "unit": "price"},
+    {"id": 218, "name": "ma_slope_4_1w", "implemented": true, "optin": true, "formula": "(SMA4[W] - SMA4[W-1]) / SMA4[W-1]", "unit": "ratio"},
+    {"id": 219, "name": "vol_regime_6_12_1w", "implemented": true, "optin": true, "formula": "realized_vol_6[W] / realized_vol_12[W] (std of weekly log returns, sqrt-scaled)", "unit": "ratio"}
+  ]
+}

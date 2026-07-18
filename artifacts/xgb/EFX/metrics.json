@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "10f3b21c7e269f0f40ab3cb92fd0e4de66324934cc6ec2a66d71360d0cae54e0",
+  "oof_log_growth": 1.2003692232490824,
+  "oof_trades": 614,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.42283837653988515,
+  "cv_folds": 4,
+  "end_capital": 737.8720588045027,
+  "losses": 193,
+  "max_drawdown_pct": 47.582426288995265,
+  "model_trades": 303,
+  "net_pnl_usd": -262.1279411954973,
+  "oof_log_growth": 1.2003692232490824,
+  "oof_trades": 614,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9007290638859127,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -26.21279411954973,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "EFX",
+  "time_in_market_pct": 65.0646,
+  "trade_floor_met": 1,
+  "trades": 303,
+  "win_rate_pct": 36.303630363036305,
+  "wins": 110
+ },
+ "ticker": "EFX"
+}

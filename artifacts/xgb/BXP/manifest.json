@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 130589,
+   "sha256": "59f35d2f336cb95e9179d1c91d05357f7504529237d05886897ce4f88aa4cc00"
+  },
+  "metrics.json": {
+   "bytes": 1105,
+   "sha256": "dc81f98db907f0ebd415eb874f0199e02c0175daa1cacf7832e6a3eb6a2b1902"
+  },
+  "parameters.json": {
+   "bytes": 4623,
+   "sha256": "722c93470f61280665343c974557561801aa043aa3d0360313d88aaabb1a70c1"
+  },
+  "strategy_BXP.py": {
+   "bytes": 247455,
+   "sha256": "46257c78bf7d032a39c3993fd62b973a300da9856781d86257d004b2cb9a13c4"
+  }
+ },
+ "folder_sha256": "fd3cb2a219658d2c3b28305de545c706f676f28288002e12410719246a433cbd",
+ "model": "xgb",
+ "model_hash": "ef2e480d5592bdd037ea8660ff7fe3ccc781a64e995ac0938656aee1712cdd2f",
+ "ticker": "BXP"
+}

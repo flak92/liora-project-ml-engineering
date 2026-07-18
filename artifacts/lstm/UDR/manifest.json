@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 97979,
+   "sha256": "4bd85b5ff756b9764747f125619339a8f0f53998b6147d212fd97e0db2602777"
+  },
+  "metrics.json": {
+   "bytes": 1060,
+   "sha256": "51dc12c2a4b0fc5cc4f71b499cde221a163bc449e21db37a1c77d93a07709eb2"
+  },
+  "parameters.json": {
+   "bytes": 3062,
+   "sha256": "889364d23ad95990d25ef1064037ab46e5b82eca30ceb2211d9367fb80cbe616"
+  },
+  "strategy_UDR.py": {
+   "bytes": 90896,
+   "sha256": "78270c53d5f81aaf20b9b4810d8c5fa2cecfeb50ef6bc09f15143a9d906ad439"
+  }
+ },
+ "folder_sha256": "0b18a7e15f3b440e3e7ee6cb64ba9338cccdefb3fec3d45d89417f2b8515d744",
+ "model": "lstm",
+ "model_hash": "9a7c71d40d4c1da031619e5f4189ae33444f9659f7aad98757a7bd9e6a1b3aa3",
+ "ticker": "UDR"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75828,
+   "sha256": "c6fe9f825498eeb5cc82e9bc4efa0016209e40dc5316631da1fc931c85ea33c0"
+  },
+  "metrics.json": {
+   "bytes": 1036,
+   "sha256": "b441a981905cac353e4f0503d4efd41b2cc5510ae0b94c34b869f125b4e49629"
+  },
+  "parameters.json": {
+   "bytes": 2513,
+   "sha256": "41e8dddd38f3c127f628d8b3c84293f6a8d3ed58ebf99c3c58001a2dc453f5b9"
+  },
+  "strategy_TRV.py": {
+   "bytes": 77068,
+   "sha256": "44c772ab87322d747a28f94d31f77e7c883de2079de52d39651ba79b855526de"
+  }
+ },
+ "folder_sha256": "0969555f4a1575a931b91688aa4b6bbf2043f501aed257c4f1200027cff8df8f",
+ "model": "lstm",
+ "model_hash": "3a39577c38fb74aa1e80b7b1dbd138c9398e1178e5d5d5222ea78c4e6f304dbf",
+ "ticker": "TRV"
+}

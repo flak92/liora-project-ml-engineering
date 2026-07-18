@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "00b7eb3edc274455ea5b9360a97b0c026d35b1b9cd01b3747f2d544431a4a3f2",
+  "oof_log_growth": -0.08810996706215174,
+  "oof_trades": 104,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.42701567710234295,
+  "cv_folds": 4,
+  "end_capital": 904.2061161108385,
+  "losses": 34,
+  "max_drawdown_pct": 26.310138862801203,
+  "model_trades": 60,
+  "net_pnl_usd": -95.79388388916152,
+  "oof_log_growth": -0.08810996706215174,
+  "oof_trades": 104,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.8548978577092096,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -9.579388388916154,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "KIM",
+  "time_in_market_pct": 69.0068,
+  "trade_floor_met": 1,
+  "trades": 60,
+  "win_rate_pct": 43.333333333333336,
+  "wins": 26
+ },
+ "ticker": "KIM"
+}

@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "5ee620dc5d2e2099440eedc058cd6c535b308c67e527122825a1d0e8b2163f02",
+  "oof_log_growth": 0.8425360619463249,
+  "oof_trades": 266,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.38946083288140626,
+  "cv_folds": 4,
+  "end_capital": 738.878019181858,
+  "losses": 126,
+  "max_drawdown_pct": 35.89167517709998,
+  "model_trades": 197,
+  "net_pnl_usd": -261.121980818142,
+  "oof_log_growth": 0.8425360619463249,
+  "oof_trades": 266,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8298008925113471,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -26.1121980818142,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "STZ",
+  "time_in_market_pct": 42.396,
+  "trade_floor_met": 1,
+  "trades": 197,
+  "win_rate_pct": 36.04060913705584,
+  "wins": 71
+ },
+ "ticker": "STZ"
+}

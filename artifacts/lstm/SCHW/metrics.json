@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "fd5d4f4ebec80f61c8deeec273c790962d5340dfa7c400205bcaba83d54acd76",
+  "oof_log_growth": 0.8474186398163143,
+  "oof_trades": 54,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4843715451448347,
+  "cv_folds": 4,
+  "end_capital": 1060.4354560117072,
+  "losses": 1,
+  "max_drawdown_pct": 7.934937365753535,
+  "model_trades": 5,
+  "net_pnl_usd": 60.435456011707174,
+  "oof_log_growth": 0.8474186398163143,
+  "oof_trades": 54,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.9470967181335495,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 6.043545601170708,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "SCHW",
+  "time_in_market_pct": 7.8767,
+  "trade_floor_met": 1,
+  "trades": 5,
+  "win_rate_pct": 80.0,
+  "wins": 4
+ },
+ "ticker": "SCHW"
+}

@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "1a953114e6f8871b2624abf6d9d84feb87e2b42ef72988c4fb727618924be616",
+  "oof_log_growth": 0.7073930714276359,
+  "oof_trades": 78,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.48995726623048896,
+  "cv_folds": 4,
+  "end_capital": 934.4075926912966,
+  "losses": 10,
+  "max_drawdown_pct": 25.839401560353593,
+  "model_trades": 19,
+  "net_pnl_usd": -65.5924073087034,
+  "oof_log_growth": 0.7073930714276359,
+  "oof_trades": 78,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.8872193107331904,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -6.559240730870341,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "DXCM",
+  "time_in_market_pct": 27.5685,
+  "trade_floor_met": 1,
+  "trades": 19,
+  "win_rate_pct": 47.368421052631575,
+  "wins": 9
+ },
+ "ticker": "DXCM"
+}

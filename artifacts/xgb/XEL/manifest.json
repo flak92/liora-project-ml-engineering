@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25941,
+   "sha256": "28e52e589eaab51db8f1f4bf25e9630142ff280842060b5792c05a5512cfcc4f"
+  },
+  "metrics.json": {
+   "bytes": 1043,
+   "sha256": "f25c6081eebc9384cbd6de53dc6aab85e130161e506a48b4267c050d9ccb8348"
+  },
+  "parameters.json": {
+   "bytes": 4079,
+   "sha256": "b04993b27d5cf16007aad5cac9c9c3e81ee66dd5760520e8812a97b6ecef4155"
+  },
+  "strategy_XEL.py": {
+   "bytes": 186998,
+   "sha256": "be7948539ebfa3f04a8043060db9692b74f8ff5251ef62f645b73d49cb8c64ed"
+  }
+ },
+ "folder_sha256": "7d48c3b99dfe06f60b8f38c8be5d0895fb5d9d92a53805b47928a6cbe55be195",
+ "model": "xgb",
+ "model_hash": "105a6a016ef9d9f0b23c5beb7d57bc9fda38af7f66a6297dcb69365a1f23ff06",
+ "ticker": "XEL"
+}

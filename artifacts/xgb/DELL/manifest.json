@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 39102,
+   "sha256": "49d90d8a81c69c69f60ec7da0e92e3416d6cbd5f7cfc9511a3c7c27e4aed3671"
+  },
+  "metrics.json": {
+   "bytes": 1109,
+   "sha256": "2368e4c07162de61d50be63c2cd49a32e95f311af9af26a9319ccf7810377f42"
+  },
+  "parameters.json": {
+   "bytes": 5368,
+   "sha256": "9fe928050313fdf0e338f90f0271c4b62ef2b640704e21b534ad9a263ccdc761"
+  },
+  "strategy_DELL.py": {
+   "bytes": 162691,
+   "sha256": "6d41f892136ef7a94aad4c8699310d7078255532f4fa70f1ef9f53f3a921de3a"
+  }
+ },
+ "folder_sha256": "af84b667921f0247c4c8272f0e5e804c790ad1754340f67cbc649319b823abba",
+ "model": "xgb",
+ "model_hash": "d151d53d5968f3a9d5ec7fe474c4d1bb5fe74450566988f0d24afa6b51ca927b",
+ "ticker": "DELL"
+}

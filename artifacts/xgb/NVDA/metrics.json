@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "7349d0f8f4e1222adb05ab36ac07b9ef0456746424e0f66360dff6e112c3b45d",
+  "oof_log_growth": 1.5014663373786998,
+  "oof_trades": 646,
+  "theta_boundary": false,
+  "theta_entry": 0.44,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.41774824336781513,
+  "cv_folds": 4,
+  "end_capital": 295.55160236658986,
+  "losses": 105,
+  "max_drawdown_pct": 90.73017054836865,
+  "model_trades": 203,
+  "net_pnl_usd": -704.4483976334102,
+  "oof_log_growth": 1.5014663373786998,
+  "oof_trades": 646,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.7139955079066056,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -70.44483976334102,
+  "start_capital": 1000.0,
+  "theta_entry": 0.44,
+  "ticker": "NVDA",
+  "time_in_market_pct": 45.3372,
+  "trade_floor_met": 1,
+  "trades": 203,
+  "win_rate_pct": 48.275862068965516,
+  "wins": 98
+ },
+ "ticker": "NVDA"
+}

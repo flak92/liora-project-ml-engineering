@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 28548,
+   "sha256": "df58b5238202717172896ca12997ccf892f9d0d2ffa3b7923a4b8f196e52ea91"
+  },
+  "metrics.json": {
+   "bytes": 1106,
+   "sha256": "3fe1cfd4d2cf592b01cca9a297449d4db6e32388d9708c96cf09eadaf6bd2e0f"
+  },
+  "parameters.json": {
+   "bytes": 4085,
+   "sha256": "9bc7cd57fcfff3d3e63ce077ec4a0f32f4f7c4562a90773ceb7760d5d82107f1"
+  },
+  "strategy_PANW.py": {
+   "bytes": 252353,
+   "sha256": "bb545d0b7940069a2d1a47ffcde15f2006c73059786782af692bf81d4078dd4b"
+  }
+ },
+ "folder_sha256": "41774e57e73a730695398719ed04d383a497c7f82d9e5755ced4184aef5e0534",
+ "model": "xgb",
+ "model_hash": "3bebd6e74799b1ac13a43ed7015b2b379fb1959e2f1060bc5660e7a43cb36f96",
+ "ticker": "PANW"
+}

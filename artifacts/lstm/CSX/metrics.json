@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "6cedc51792560e68c39901fd75bb4a1a79cd16d6f353a1d568a64997e6f6316e",
+  "oof_log_growth": 0.24603855065865915,
+  "oof_trades": 10,
+  "theta_entry": 0.58,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.47017000128867575,
+  "cv_folds": 4,
+  "end_capital": 1314.2083431873994,
+  "losses": 0,
+  "max_drawdown_pct": 30.414386239249414,
+  "model_trades": 0,
+  "net_pnl_usd": 314.2083431873994,
+  "oof_log_growth": 0.24603855065865915,
+  "oof_trades": 10,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": null,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "HODL_FALLBACK_NO_MODEL_TRADES",
+  "return_pct": 31.420834318739942,
+  "start_capital": 1000.0,
+  "theta_entry": 0.58,
+  "ticker": "CSX",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 1,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "CSX"
+}

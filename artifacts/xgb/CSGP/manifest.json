@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 89608,
+   "sha256": "5b24168d26f8dfc27fa6a84947536441155c88650ec218c5b98d1eb3b8b2c38a"
+  },
+  "metrics.json": {
+   "bytes": 1107,
+   "sha256": "748955f426ceb3ef815cf06ff058837a910eabe9d15a25782751cd3a632eae35"
+  },
+  "parameters.json": {
+   "bytes": 4760,
+   "sha256": "5c768954693fccd7c2b55f354dbb3cb94e1b8967c962ae3ed8c96bb5696216b2"
+  },
+  "strategy_CSGP.py": {
+   "bytes": 330574,
+   "sha256": "672a945e987814dcd18bca1a5f20b561a0b347655f36387469422316a9711088"
+  }
+ },
+ "folder_sha256": "2f8812e2e229799746ea06ee0638d3aa33d775c5bd61948d86caff62cbf75817",
+ "model": "xgb",
+ "model_hash": "8c92833f55167ed2f64f4521622674e601ca4c555fd8f7ba69f0762e931aac33",
+ "ticker": "CSGP"
+}

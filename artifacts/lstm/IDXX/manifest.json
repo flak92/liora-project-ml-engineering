@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 86219,
+   "sha256": "72db45bf7ce16efd13c3ec1dc205f2098c257ba89f704fd4ea0a03a990decae7"
+  },
+  "metrics.json": {
+   "bytes": 1058,
+   "sha256": "71d4820938e3df17e139c2b4b4aa70ddf458b4a868a38339d6e5e65db768f9b6"
+  },
+  "parameters.json": {
+   "bytes": 2756,
+   "sha256": "617d5b54fa78f19b2c168009f9631a0e7787c1c16363ad42a88bdbdb70842d24"
+  },
+  "strategy_IDXX.py": {
+   "bytes": 83730,
+   "sha256": "22aac8f8acece02d324128af4d4e3555f0fd27260d4df625b504ad7f1ecb959f"
+  }
+ },
+ "folder_sha256": "19137b78aeede9e564e3bcc56a3f640c1a6b9c64081c9946111e8c9b8c89dfb7",
+ "model": "lstm",
+ "model_hash": "6f5180df8c52723f56f58a3ef4f925a40b744f365457ef9c2cb653c4b5b17af9",
+ "ticker": "IDXX"
+}

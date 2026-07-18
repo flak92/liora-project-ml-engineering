@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 94800,
+   "sha256": "b0deea9d1866770c9ff1095307121a79a144029cffd66065e7cc05abd55b4368"
+  },
+  "metrics.json": {
+   "bytes": 1059,
+   "sha256": "656c64ebe0caa2622204bb73734d95f280a1324d4c4ab08e15e47a8c5fcfa340"
+  },
+  "parameters.json": {
+   "bytes": 3020,
+   "sha256": "e168d47e02c895b31e0e9c3ef5bffa69e1a6a6b26165b0f4350f1f438adeb172"
+  },
+  "strategy_UBER.py": {
+   "bytes": 89708,
+   "sha256": "4c3fa11e546c9932c7210ed6fbfc61dae171ceebe3ff1d67975fa17e8dc3be13"
+  }
+ },
+ "folder_sha256": "474ea9f564980c5478658c330b01ac2a7c64300636b53820cc297d6f64bc0db0",
+ "model": "lstm",
+ "model_hash": "d6b201a0d144e7792d838be592b89d80686a07eea901d2147e14f84d7a2218cf",
+ "ticker": "UBER"
+}

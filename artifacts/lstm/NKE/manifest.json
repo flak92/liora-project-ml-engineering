@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 81127,
+   "sha256": "2c7426016413a79091d2357c555009415dc3234198d76b602dbfe42c9c2568a9"
+  },
+  "metrics.json": {
+   "bytes": 1052,
+   "sha256": "42dae2fb51e57c6713c39000f5a7845e2d14659916b0a7dc848f002f9b9bc3df"
+  },
+  "parameters.json": {
+   "bytes": 3137,
+   "sha256": "a5e3765f8c005bf97af4d9f4a2417c84bbf11cf98d895373fd3013938c909fb2"
+  },
+  "strategy_NKE.py": {
+   "bytes": 93492,
+   "sha256": "ddc684e8555786148b6cba5bce5d154b0cce8a1966c232ff931f8d1ba7f0257c"
+  }
+ },
+ "folder_sha256": "d82afb14e7239276bf26a26bc477ee0077086ba178f3cfc3ef25e7a5bac93620",
+ "model": "lstm",
+ "model_hash": "1897db1055b5ba13604fca5a0aaa5c757a78d046d7c910df8dfcdc12c127ba6a",
+ "ticker": "NKE"
+}

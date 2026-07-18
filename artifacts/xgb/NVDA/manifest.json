@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 53083,
+   "sha256": "516c40d7f79c20bed55429ca966761051440d86d8df2e13a615e6121a69d8593"
+  },
+  "metrics.json": {
+   "bytes": 1112,
+   "sha256": "2ed8b2839858e07307fe0587312d11d5d5654a1fce37ce5bc4ae694774b56cbf"
+  },
+  "parameters.json": {
+   "bytes": 4086,
+   "sha256": "c55e77823227dcf9cce98f3b86869b2b660faf8bd994b393fb5b783083bf7b39"
+  },
+  "strategy_NVDA.py": {
+   "bytes": 269729,
+   "sha256": "499cd9150fb4cd8cfd59f6c0718bcd67f6770353cec08a353d59ae77f280fdca"
+  }
+ },
+ "folder_sha256": "a1322b936660e514c9b2f09d8e84ee5c66ecdec983bf76d3f3d075dd3cd67e4c",
+ "model": "xgb",
+ "model_hash": "7349d0f8f4e1222adb05ab36ac07b9ef0456746424e0f66360dff6e112c3b45d",
+ "ticker": "NVDA"
+}

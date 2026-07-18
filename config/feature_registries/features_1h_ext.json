@@ -1,0 +1,15 @@
+{
+  "schema_version": "feature_registry.simple.v1",
+  "namespace": "1h_ext",
+  "id_range": "301-399",
+  "_meta": {
+    "purpose": "Session-aware 1h-native pilot features (NYSE calendar, America/New_York). ALL entries are optin: they never enter the default manifest and activate only when a per-asset override selects them explicitly.",
+    "causal_clock": "the decision bar's own close; session grouping by ET calendar day; the session schedule is ex-ante knowledge"
+  },
+  "features": [
+    {"id": 301, "name": "day_range_pos_session", "implemented": true, "optin": true,
+     "formula": "(close[t] - min(low, session start..t)) / (max(high, session start..t) - min(low, session start..t)); 0.5 when the session range is zero", "unit": "0..1"},
+    {"id": 302, "name": "session_pos", "implemented": true, "optin": true,
+     "formula": "clip((bar close ET minutes - 09:30) / (16:00 - 09:30), 0, 1)", "unit": "0..1"}
+  ]
+}

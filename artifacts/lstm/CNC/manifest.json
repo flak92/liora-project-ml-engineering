@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75713,
+   "sha256": "755d0cc6294f4cc9fe2ec9c87eac31d507e1ebef74067d1b59ef73d93cc9c571"
+  },
+  "metrics.json": {
+   "bytes": 1056,
+   "sha256": "41feda81151b78dac1910070304e29dd1662dc83e932c2b53de35aa314b1558e"
+  },
+  "parameters.json": {
+   "bytes": 2992,
+   "sha256": "0087ced9014fcb20320a482036a5450d7ce48289075c259393c3f62392e7357e"
+  },
+  "strategy_CNC.py": {
+   "bytes": 88163,
+   "sha256": "77e439058b9aa29dfd3240ff90b8ac1d660bb4380448c63f667526035213b0a2"
+  }
+ },
+ "folder_sha256": "7449e03c71c34d06de61685b53c0bc62836ac2c241427ef03b7f5a8ab1e83a87",
+ "model": "lstm",
+ "model_hash": "b858cba41b873d1e71762c13e12ea8403ab319ffc19c63afc8c517fc899da373",
+ "ticker": "CNC"
+}

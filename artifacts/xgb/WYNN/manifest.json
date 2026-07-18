@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 28869,
+   "sha256": "12cf72d7c7526f252f0ca82224e5f837f13cd044decdfd7a9d2ff203257aa728"
+  },
+  "metrics.json": {
+   "bytes": 1043,
+   "sha256": "2b4fbefbcb6e2d2b2bee5641cec3211a45e8b522fd5960b86dd9880a3553e20d"
+  },
+  "parameters.json": {
+   "bytes": 4784,
+   "sha256": "301f960f3d47ce7c554daff55c61bced96a79869fa55ca55828f3eecc3cb4080"
+  },
+  "strategy_WYNN.py": {
+   "bytes": 187419,
+   "sha256": "ef36415eb069a5fa8a8ce264a66390154d644875bf01955e6fef418f3035462a"
+  }
+ },
+ "folder_sha256": "58ca22ad5f11e743c339ef98e8bd300eaa835906bc3a53472a189443ad94e24f",
+ "model": "xgb",
+ "model_hash": "757dbae63345a365ba3a3423c4c9129e2f30af6c9090d320cea10b83e13007ae",
+ "ticker": "WYNN"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 42099,
+   "sha256": "cee5b191b3da0eb85e6eec7f5e31b3c76d48e8fc3bd31afc8345c9a252f80747"
+  },
+  "metrics.json": {
+   "bytes": 1109,
+   "sha256": "6b64222fd6928e249b9767112feae96cbeba2f0b37041356f460dfe42ccd416a"
+  },
+  "parameters.json": {
+   "bytes": 6364,
+   "sha256": "7da05a6ad0283787f5d3a856e26e116206cbce2cc4ca16c8a67ae344ea55cfdb"
+  },
+  "strategy_COST.py": {
+   "bytes": 240291,
+   "sha256": "2aee4a721822ed2e7854eddb988a50c96797065c357a33f0fd47be433b25d84e"
+  }
+ },
+ "folder_sha256": "512e61895d05931316c50daef20dc8ce5a60c8813ce25b57d84438e14e1dbbfd",
+ "model": "xgb",
+ "model_hash": "5f2ab895af23965cfd8ca27eb69604e2e87cc16f4a06d7815a6a2e5e914fb6da",
+ "ticker": "COST"
+}

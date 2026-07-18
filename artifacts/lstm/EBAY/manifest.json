@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76016,
+   "sha256": "860a68bc686492fe89db4f63ba105b902628d76a76c71aa469b5692626fd632a"
+  },
+  "metrics.json": {
+   "bytes": 1057,
+   "sha256": "ab60693f8ef7aa8356bf1180d1c6dd16af5a3efd873e2ea25262874ad2370615"
+  },
+  "parameters.json": {
+   "bytes": 2505,
+   "sha256": "9615cc5e5dbbcb3d29dfdc60a75f19f3c83251e1624e4df09968ad45d7293da9"
+  },
+  "strategy_EBAY.py": {
+   "bytes": 77250,
+   "sha256": "761a4a9cf21dca7b8aedd819dcf9ab142c193e27e845abe3eb811fdb862ee17e"
+  }
+ },
+ "folder_sha256": "1ef5fcfbc8b7ab8f0d6ca01cc8d0019e49a177598f209e68efe2507dca37c4f1",
+ "model": "lstm",
+ "model_hash": "0878ef145f2b93f99750e1f6caf72f15dca0192529cce25773ba7d54f8961652",
+ "ticker": "EBAY"
+}

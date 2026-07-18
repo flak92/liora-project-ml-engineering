@@ -1,0 +1,21 @@
+{
+  "schema_version": "feature_families.v1",
+  "_meta": {
+    "purpose": "OHLCV relationship families for the golden-calibration search policy (docs/GOLDEN_CALIBRATION_FEATURE_SEARCH.md §3-4). Groups the 42 searchable ids (OPTIONAL 101-123, XAS 130-131, PROPOSED 501+) by mathematical meaning. The search evaluates per family, keeps the simplest one-SE plateau representative, and orders the greedy pool by family. Part of lstm_recipe_hash: editing this map = a new search epoch. New PROPOSED features must be added here by the worker at registration (family comes from the agent's proposal contract).",
+    "scope": "searchable ids only (CORE 1-13 is always on and never searched)"
+  },
+  "families": {
+    "momentum_return": [101, 102, 113, 120, 121, 511, 513, 518],
+    "price_distance": [109, 110, 115, 116, 117, 119, 122, 123, 517],
+    "range_position": [104, 105, 118, 512, 516, 520],
+    "trend_slope_ma": [514, 515],
+    "volatility_level": [504, 508],
+    "volatility_regime": [108, 501, 507, 509, 519],
+    "compression_efficiency": [505, 506],
+    "volume_liquidity": [106, 107, 510],
+    "divergence_gap": [103, 502, 503],
+    "return_distribution": [111, 112],
+    "oscillator_rsi": [114],
+    "cross_asset": [130, 131]
+  }
+}

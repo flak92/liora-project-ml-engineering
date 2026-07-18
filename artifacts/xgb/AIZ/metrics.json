@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "c31cd0337979521770020005a66bf51faf2e32f9cdd43ae4441517352811a67d",
+  "oof_log_growth": 0.7626636287682805,
+  "oof_trades": 344,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3979965563334491,
+  "cv_folds": 4,
+  "end_capital": 1071.424857839264,
+  "losses": 117,
+  "max_drawdown_pct": 24.067354894898514,
+  "model_trades": 194,
+  "net_pnl_usd": 71.42485783926395,
+  "oof_log_growth": 0.7626636287682805,
+  "oof_trades": 344,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.0510899601278951,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 7.1424857839264,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "AIZ",
+  "time_in_market_pct": 41.1286,
+  "trade_floor_met": 1,
+  "trades": 194,
+  "win_rate_pct": 39.69072164948454,
+  "wins": 77
+ },
+ "ticker": "AIZ"
+}

@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "2b88b99629d2ff3f2017c89aaf0727090c27b1643a3ce0638412947527e7b086",
+  "oof_log_growth": 0.31651186324441694,
+  "oof_trades": 91,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.48907650290276594,
+  "cv_folds": 4,
+  "end_capital": 1126.1397636684278,
+  "losses": 21,
+  "max_drawdown_pct": 20.518374651807786,
+  "model_trades": 40,
+  "net_pnl_usd": 126.1397636684278,
+  "oof_log_growth": 0.31651186324441694,
+  "oof_trades": 91,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.247590852953105,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 12.613976366842783,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "PPG",
+  "time_in_market_pct": 45.5479,
+  "trade_floor_met": 1,
+  "trades": 40,
+  "win_rate_pct": 47.5,
+  "wins": 19
+ },
+ "ticker": "PPG"
+}

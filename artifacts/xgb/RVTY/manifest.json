@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 97595,
+   "sha256": "478c2c9f515b040c29ee06eaadbb02e068e90e4cfc54aeeb0b005c6eb0bdb9ba"
+  },
+  "metrics.json": {
+   "bytes": 1112,
+   "sha256": "0d35731bc513954e7fcc69983d54ca4eeac4c3aa9e32a0ecf10d0847b20a4237"
+  },
+  "parameters.json": {
+   "bytes": 4671,
+   "sha256": "35e4b10e024d1f5a81fd1740fa2726bfb31d74ddc638aebdbf7cfaf39aa3968d"
+  },
+  "strategy_RVTY.py": {
+   "bytes": 305951,
+   "sha256": "37524bc0dced11d9687c534489aece55d8cc2adcfba0ead235a0443e47f28b1d"
+  }
+ },
+ "folder_sha256": "bc6f7d564e3474f29157f0823da7e0f3f85ee2ff21beb9aa23fad6f437a8889c",
+ "model": "xgb",
+ "model_hash": "519f9cb7a893b27beef01d9b9bb0c0cc6ae0c48f963f8d4068bd364318ad27c2",
+ "ticker": "RVTY"
+}

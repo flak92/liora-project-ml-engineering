@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "dbfc92b747bc091d4b280c8604c05bc189afc874801ddfc728d33d4ada5c08c9",
+  "oof_log_growth": 0.7311624977255949,
+  "oof_trades": 103,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.5411617510337048,
+  "cv_folds": 4,
+  "end_capital": 743.590716813535,
+  "losses": 29,
+  "max_drawdown_pct": 33.834511881390036,
+  "model_trades": 48,
+  "net_pnl_usd": -256.409283186465,
+  "oof_log_growth": 0.7311624977255949,
+  "oof_trades": 103,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.6322024913661403,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -25.640928318646505,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "AON",
+  "time_in_market_pct": 58.0479,
+  "trade_floor_met": 1,
+  "trades": 48,
+  "win_rate_pct": 39.58333333333333,
+  "wins": 19
+ },
+ "ticker": "AON"
+}

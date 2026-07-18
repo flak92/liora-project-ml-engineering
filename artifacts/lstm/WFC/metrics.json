@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "e0eea116ad13b27c9b94f90b882698d05242bff765615b96ec6bf980da36ce2d",
+  "oof_log_growth": 0.39349168418158365,
+  "oof_trades": 33,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.49386117889101505,
+  "cv_folds": 4,
+  "end_capital": 1118.3687402013825,
+  "losses": 3,
+  "max_drawdown_pct": 9.395087052398024,
+  "model_trades": 8,
+  "net_pnl_usd": 118.36874020138248,
+  "oof_log_growth": 0.39349168418158365,
+  "oof_trades": 33,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 2.0345485378378037,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 11.836874020138243,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "WFC",
+  "time_in_market_pct": 9.0753,
+  "trade_floor_met": 1,
+  "trades": 8,
+  "win_rate_pct": 62.5,
+  "wins": 5
+ },
+ "ticker": "WFC"
+}

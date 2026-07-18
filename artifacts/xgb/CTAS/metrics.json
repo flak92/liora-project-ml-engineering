@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "b285ffcf64bda5352b884f78cd0efaf0aa192d3c6e312429d06d14ca0e4f5cb7",
+  "oof_log_growth": 1.0166428460012558,
+  "oof_trades": 383,
+  "theta_boundary": false,
+  "theta_entry": 0.46,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4287594908339353,
+  "cv_folds": 4,
+  "end_capital": 780.9195026057049,
+  "losses": 119,
+  "max_drawdown_pct": 35.23263144262293,
+  "model_trades": 188,
+  "net_pnl_usd": -219.0804973942951,
+  "oof_log_growth": 1.0166428460012558,
+  "oof_trades": 383,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8106314717103559,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -21.908049739429515,
+  "start_capital": 1000.0,
+  "theta_entry": 0.46,
+  "ticker": "CTAS",
+  "time_in_market_pct": 42.396,
+  "trade_floor_met": 1,
+  "trades": 188,
+  "win_rate_pct": 36.702127659574465,
+  "wins": 69
+ },
+ "ticker": "CTAS"
+}

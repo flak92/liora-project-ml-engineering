@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 101021,
+   "sha256": "913194f091b7acace060769043e958c4cf14f2fb23fc668f2d4b4b52fd15fdcb"
+  },
+  "metrics.json": {
+   "bytes": 1101,
+   "sha256": "f18c9c2ec02e98ebdec4d9d26087ed1a367d8f3c9fd29272d6fe094fb2868178"
+  },
+  "parameters.json": {
+   "bytes": 4615,
+   "sha256": "472ffa30ffeacad44b0670525f461c14ab7522f433160e9e220a5e1a4434511b"
+  },
+  "strategy_VST.py": {
+   "bytes": 350138,
+   "sha256": "48be37751331bd68d46ad35e0d74577105eb7e1dee2446f8c7ada243ef8ddb4e"
+  }
+ },
+ "folder_sha256": "e01439f3864bdd463b64f382eb579c70114c29ba93e105c54a2eeb27cfb10486",
+ "model": "xgb",
+ "model_hash": "e04d5e7b5a069df94a54b97764197ea26b4715d8ca85ff6ad53b938a75411a75",
+ "ticker": "VST"
+}

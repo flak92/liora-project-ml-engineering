@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 42985,
+   "sha256": "3b5efa80e06f2e62aae43125af25803e1b29a43f8dceb432fad1394f5038a5c3"
+  },
+  "metrics.json": {
+   "bytes": 1112,
+   "sha256": "bb9e649a62b512c3e79a27d137ab1b34208b11f3c424a8aca48064680d09bc9e"
+  },
+  "parameters.json": {
+   "bytes": 5226,
+   "sha256": "66dbf1c8b2509c86ec8a0d28a95aec223d44f5378d3b1f63ca7696c5fb1d01b8"
+  },
+  "strategy_MRSH.py": {
+   "bytes": 56501,
+   "sha256": "87aa383604bd4727f44c6e4da56a7bade0adb227bc31208fc0d810d2c7432edf"
+  }
+ },
+ "folder_sha256": "25ad8621827e6e2f61fde92662c0f2829f7d40be49e6572447964361becf5860",
+ "model": "xgb",
+ "model_hash": "0cc4f0475c7e9ea02e7de86748168a0a2f7a39a8517b08c12845154d0879a194",
+ "ticker": "MRSH"
+}

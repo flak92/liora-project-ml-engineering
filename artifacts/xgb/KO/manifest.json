@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 27463,
+   "sha256": "75bb72aea1efbbeaa242d4314a1f49ade52610ed3592d0f5b57ee4442c594278"
+  },
+  "metrics.json": {
+   "bytes": 1042,
+   "sha256": "dd3b4a88b74ad9b7879c6ad99e88d7185091a290e8260d6708dc7404f398c2fc"
+  },
+  "parameters.json": {
+   "bytes": 4673,
+   "sha256": "982e2d0008cb6dce21222cfbe611bc9f9c910c9d1af03ca665a0d7bf5c02cd4e"
+  },
+  "strategy_KO.py": {
+   "bytes": 187343,
+   "sha256": "8e7b9f576cda6031a1f6d48547e90e314eb050c2d1febc06cb33401a7adf6380"
+  }
+ },
+ "folder_sha256": "c6250abac0910a6f79da7bf26678b75fc62cc86697792dd1d135add54ea502b9",
+ "model": "xgb",
+ "model_hash": "9f33298a624d6874a756062097aad3edf0efb0becb41dd5ebf9c898a55364adc",
+ "ticker": "KO"
+}

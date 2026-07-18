@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 83285,
+   "sha256": "e629f5466d3f5287e73bb35e0068c7f6ef511c196c66dde1d6df013d278e944b"
+  },
+  "metrics.json": {
+   "bytes": 1058,
+   "sha256": "4ebb81e39ea8c05c72327c317c3fd96539fc5a90b6f5ec06162d4093a1ae483e"
+  },
+  "parameters.json": {
+   "bytes": 2751,
+   "sha256": "909a3a37ab264c91091b7c3ec1966893a10919dd17dac8754a964714be25bd0a"
+  },
+  "strategy_VRT.py": {
+   "bytes": 82955,
+   "sha256": "20330ba99c9d2c0bf4b186916d074295aebfea495f1919bbbde20d32edd1c33b"
+  }
+ },
+ "folder_sha256": "4cd97d72c2354416515e3722fdb92afec336c3548e948899c10613a8182f469d",
+ "model": "lstm",
+ "model_hash": "9814395f7dd9292c5f3643fbd9ad968dcc2df940df3e2fa7ef5707a9436127d6",
+ "ticker": "VRT"
+}

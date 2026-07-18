@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": true,
+  "kelly_fraction": null,
+  "model_hash": "6af888d3d56eb3a05559f2c83f07963cdde753a31366661ba63acba1aa11370d",
+  "oof_log_growth": 1.75752386615634,
+  "oof_trades": 167,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4262869453420116,
+  "cv_folds": 4,
+  "end_capital": 190.90968620450155,
+  "losses": 181,
+  "max_drawdown_pct": 97.49150358676732,
+  "model_trades": 319,
+  "net_pnl_usd": -809.0903137954984,
+  "oof_log_growth": 1.75752386615634,
+  "oof_trades": 167,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9270710793792964,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -80.90903137954984,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "SMCI",
+  "time_in_market_pct": 69.0818,
+  "trade_floor_met": 1,
+  "trades": 319,
+  "win_rate_pct": 43.260188087774296,
+  "wins": 138
+ },
+ "ticker": "SMCI"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 84783,
+   "sha256": "c7292cf6e549b41dc24f34384126ef0a07cd81565db6c43080b28f916483d0e6"
+  },
+  "metrics.json": {
+   "bytes": 1055,
+   "sha256": "0e6879762a77671fab49d37185fef463a291eaf872657e54d715836209d357ec"
+  },
+  "parameters.json": {
+   "bytes": 2750,
+   "sha256": "de3f9ace8d588ff27b49def2017715e4378a96184c30aaf387c5e972fbe7e90c"
+  },
+  "strategy_INTU.py": {
+   "bytes": 82052,
+   "sha256": "e0214f6a96b5e72bc118defa625205c62609ba6b58cabb1999ed4cbbb20f068c"
+  }
+ },
+ "folder_sha256": "53abcbb5936721e6b8aba7fa15bff25d573abf7fccfed783a384b4d1ae8f98bb",
+ "model": "lstm",
+ "model_hash": "c7c43e07db37b81753b9078e370a25c599102ec99f7c00572562afa835b4e3fe",
+ "ticker": "INTU"
+}

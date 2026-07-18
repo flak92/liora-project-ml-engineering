@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "2198e9e95b1fd5f0a5d0b5f91ed9199d57c739fe97322abc23c0e1c424bf373f",
+  "oof_log_growth": 0.367889758206169,
+  "oof_trades": 100,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.46618291369583154,
+  "cv_folds": 4,
+  "end_capital": 1013.7073131893666,
+  "losses": 21,
+  "max_drawdown_pct": 27.08375000262401,
+  "model_trades": 39,
+  "net_pnl_usd": 13.707313189366573,
+  "oof_log_growth": 0.367889758206169,
+  "oof_trades": 100,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.0177974095478632,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 1.3707313189366577,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "JBHT",
+  "time_in_market_pct": 46.0616,
+  "trade_floor_met": 1,
+  "trades": 39,
+  "win_rate_pct": 46.15384615384615,
+  "wins": 18
+ },
+ "ticker": "JBHT"
+}

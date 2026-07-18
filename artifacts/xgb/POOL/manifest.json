@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 157037,
+   "sha256": "7383c3eb59bc3ce29dcc10b9205432533d04bd6844f013e19b220b84d362018b"
+  },
+  "metrics.json": {
+   "bytes": 1110,
+   "sha256": "850731d26e8d5ab7b99d02c4ea267cdfbd1d77292c77820d8b4f2b15c9a4b8c1"
+  },
+  "parameters.json": {
+   "bytes": 4639,
+   "sha256": "a5d0dc707a8cdcb20e5205245dff2740c7627252b316b2228e51f250fe07c506"
+  },
+  "strategy_POOL.py": {
+   "bytes": 192216,
+   "sha256": "462bd3ca07366e1d9b4c0362092806a1d0e3925085c0656109f9104bc71d22af"
+  }
+ },
+ "folder_sha256": "f8c8003fa61825c02b7f592116c0de747d6f3a089548faad6ac251eaa36ab371",
+ "model": "xgb",
+ "model_hash": "322af9e96250b320d3cbed0e5a003d727192485813e6e0f317bc16900c4165b6",
+ "ticker": "POOL"
+}

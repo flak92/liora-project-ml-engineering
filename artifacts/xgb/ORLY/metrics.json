@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": true,
+  "kelly_fraction": null,
+  "model_hash": "f6179f022205398cd15cce3f04e8db7ae34d9dde437b71308dbf9643e8d299a6",
+  "oof_log_growth": 0.0973645455303688,
+  "oof_trades": 75,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.38220201362492445,
+  "cv_folds": 4,
+  "end_capital": 1095.1421171169272,
+  "losses": 77,
+  "max_drawdown_pct": 10.807472306299768,
+  "model_trades": 132,
+  "net_pnl_usd": 95.14211711692724,
+  "oof_log_growth": 0.0973645455303688,
+  "oof_trades": 75,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.1093944573437657,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 9.514211711692733,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "ORLY",
+  "time_in_market_pct": 28.1923,
+  "trade_floor_met": 1,
+  "trades": 132,
+  "win_rate_pct": 41.66666666666667,
+  "wins": 55
+ },
+ "ticker": "ORLY"
+}

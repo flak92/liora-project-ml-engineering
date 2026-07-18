@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "7adc4ce8457c0ed9b2fdafe0692971ef33e2830772fba0cf8dda5efed5053006",
+  "oof_log_growth": 0.9968498265098062,
+  "oof_trades": 702,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4308152374498282,
+  "cv_folds": 4,
+  "end_capital": 775.291908494659,
+  "losses": 179,
+  "max_drawdown_pct": 32.15273944903318,
+  "model_trades": 292,
+  "net_pnl_usd": -224.70809150534103,
+  "oof_log_growth": 0.9968498265098062,
+  "oof_trades": 702,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8705080982252791,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -22.470809150534098,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "SYK",
+  "time_in_market_pct": 61.8125,
+  "trade_floor_met": 1,
+  "trades": 292,
+  "win_rate_pct": 38.6986301369863,
+  "wins": 113
+ },
+ "ticker": "SYK"
+}

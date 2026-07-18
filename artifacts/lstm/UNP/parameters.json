@@ -1,0 +1,108 @@
+{
+  "ticker": "UNP",
+  "best_params": {
+    "hidden": 32,
+    "lr": 0.001,
+    "dropout": 0.3,
+    "weight_decay": 0.0001,
+    "num_layers": 1,
+    "refit_epochs": 5
+  },
+  "kelly_fraction": null,
+  "THRESHOLD_ENTRY": 0.5,
+  "DIRECTION_MODE": "both",
+  "CALIBRATION": {
+    "theta_entry": 0.5,
+    "kelly_fraction": null,
+    "direction_mode": "both",
+    "oof_trades": 102,
+    "trade_floor_met": true,
+    "oof_log_growth": 0.264595537751311
+  },
+  "cv_auc_pr": 0.4745673336332762,
+  "cv_folds": 4,
+  "SEQ_LEN": 60,
+  "FEATURE_MANIFEST": [
+    "log_return_1",
+    "log_return_5",
+    "log_return_20",
+    "dist_to_sma_20",
+    "dist_to_sma_50",
+    "sma_20_sma_50_ratio",
+    "volume_z_score_20",
+    "atr_pct_14",
+    "realized_volatility_20",
+    "rsi_14",
+    "bollinger_percent_b_20_2",
+    "bollinger_bandwidth_20_2",
+    "macd_hist_12_26_9",
+    "down_streak_10",
+    "bb_bandwidth_20"
+  ],
+  "NORM_STATS": {
+    "log_return_1": {
+      "mean": 0.0004898534700052904,
+      "std": 0.016817886340730285
+    },
+    "log_return_5": {
+      "mean": 0.0024179016470588267,
+      "std": 0.03574370621461264
+    },
+    "log_return_20": {
+      "mean": 0.009390673466073614,
+      "std": 0.06855844158713811
+    },
+    "dist_to_sma_20": {
+      "mean": 0.0048624028771184664,
+      "std": 0.03823627419531331
+    },
+    "dist_to_sma_50": {
+      "mean": 0.012147559606901502,
+      "std": 0.05680809235106368
+    },
+    "sma_20_sma_50_ratio": {
+      "mean": 0.006967384922569993,
+      "std": 0.03492281859583577
+    },
+    "volume_z_score_20": {
+      "mean": -0.009523395204507153,
+      "std": 1.084740713919683
+    },
+    "atr_pct_14": {
+      "mean": 2.1869620429470467,
+      "std": 0.8531971086215324
+    },
+    "realized_volatility_20": {
+      "mean": 0.0656451181484713,
+      "std": 0.03330389684219545
+    },
+    "rsi_14": {
+      "mean": 52.74958012658366,
+      "std": 11.302519137478011
+    },
+    "bollinger_percent_b_20_2": {
+      "mean": 0.553346577151557,
+      "std": 0.3273650002824176
+    },
+    "bollinger_bandwidth_20_2": {
+      "mean": 0.09795259972405254,
+      "std": 0.06004557729395043
+    },
+    "macd_hist_12_26_9": {
+      "mean": 0.010506481038866472,
+      "std": 0.9809350308267526
+    },
+    "down_streak_10": {
+      "mean": 0.08443181818181819,
+      "std": 0.12025879248280139
+    },
+    "bb_bandwidth_20": {
+      "mean": 0.024488149931013142,
+      "std": 0.015011394323487607
+    }
+  },
+  "TRAIN_WINDOW": "2017-01-01 -> 2023-12-31",
+  "LABEL_CONTRACT": "TripleBarrier.ATR.daily.v1",
+  "MODEL_HASH": "09b6d7546a41f4680e191d9020e68c43ff1f3af00951ffb343d86412af5bf487",
+  "RANDOM_SEED": 42
+}

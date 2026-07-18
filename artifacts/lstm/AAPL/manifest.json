@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 70233,
+   "sha256": "cd4a84f418d7d046d3fdf7ad31c724c735b695d3ee0aa597ce9f5a075eceaac5"
+  },
+  "metrics.json": {
+   "bytes": 1054,
+   "sha256": "53152f0b8f958c218f3ebb17f8b24ffd0d4e00035a7e5fefa6a22eae730f0e88"
+  },
+  "parameters.json": {
+   "bytes": 2520,
+   "sha256": "02cda87cb206518848cd2d41ea0a2f8c5ab8c1bf6c7b2114c9275a40f175a7d8"
+  },
+  "strategy_AAPL.py": {
+   "bytes": 76932,
+   "sha256": "c6af48aef9ef75194517b738bec50f6e18fc6ecc821d652ac288046e8e4c96e5"
+  }
+ },
+ "folder_sha256": "cc80ba5e2fbd16b4556cd77c689f19625b19ce43d6425832c771c0a1dbbb6a2b",
+ "model": "lstm",
+ "model_hash": "dc7b7134ac2a23cd81025877534841fd9068109a1ceb9d5f88e77981549551f5",
+ "ticker": "AAPL"
+}

@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "41bc7a4b714ae45aefacebeb0dcc5357a160ebbe080f1b1cc5ccd1598ad89775",
+  "oof_log_growth": 0.13744161259385823,
+  "oof_trades": 94,
+  "theta_entry": 0.5,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.49582485455255865,
+  "cv_folds": 4,
+  "end_capital": 729.4571626159433,
+  "losses": 21,
+  "max_drawdown_pct": 37.01851120592174,
+  "model_trades": 32,
+  "net_pnl_usd": -270.5428373840567,
+  "oof_log_growth": 0.13744161259385823,
+  "oof_trades": 94,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.5263134700708093,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -27.054283738405672,
+  "start_capital": 1000.0,
+  "theta_entry": 0.5,
+  "ticker": "INVH",
+  "time_in_market_pct": 38.3562,
+  "trade_floor_met": 1,
+  "trades": 32,
+  "win_rate_pct": 34.375,
+  "wins": 11
+ },
+ "ticker": "INVH"
+}

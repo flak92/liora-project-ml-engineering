@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "long_only",
+  "kelly_fraction": null,
+  "model_hash": "e88470f87f4af8413732d24277d93c2bcb7c192d78b38ee82a656a9e9b96a47e",
+  "oof_log_growth": 1.0387257682097961,
+  "oof_trades": 98,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.5698039628119138,
+  "cv_folds": 4,
+  "end_capital": 1143.4461707655933,
+  "losses": 20,
+  "max_drawdown_pct": 28.798804359164482,
+  "model_trades": 35,
+  "net_pnl_usd": 143.44617076559325,
+  "oof_log_growth": 1.0387257682097961,
+  "oof_trades": 98,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.189143729410918,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 14.344617076559318,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "LLY",
+  "time_in_market_pct": 44.5205,
+  "trade_floor_met": 1,
+  "trades": 35,
+  "win_rate_pct": 42.857142857142854,
+  "wins": 15
+ },
+ "ticker": "LLY"
+}

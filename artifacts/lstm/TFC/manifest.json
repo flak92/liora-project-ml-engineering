@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 86354,
+   "sha256": "bd15b28e24a77410b5a94e0b1e5e143c53bea8639a1edccfb3fc2485fea2ad55"
+  },
+  "metrics.json": {
+   "bytes": 1034,
+   "sha256": "51347699df1f21bcd3978f306990a8d413a45843e0eddbb49d3dcccc0b736938"
+  },
+  "parameters.json": {
+   "bytes": 2756,
+   "sha256": "4bf482f50c32748642d841dea796fee7b6191f4ffb8fdd699a27a0140508f198"
+  },
+  "strategy_TFC.py": {
+   "bytes": 83560,
+   "sha256": "5a6f1942baf80175752d8a3f9b14653f92de892374ff8ac271e514f418fbdac4"
+  }
+ },
+ "folder_sha256": "1441441d19461e936a44f090a4b3c3602769c735e6c870093624f0e2a5fe3893",
+ "model": "lstm",
+ "model_hash": "f0c6367b01fee36e21bded94acc96654a07a1e09503b476dae90a9a0eb49fa4b",
+ "ticker": "TFC"
+}

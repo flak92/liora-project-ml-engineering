@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "1176a9efd62867d574d3a085a03133827548dfdaaecfabb3e4f77ea63ee07d2c",
+  "oof_log_growth": -0.04199151919596704,
+  "oof_trades": 99,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.43807608658581426,
+  "cv_folds": 4,
+  "end_capital": 1053.992768151546,
+  "losses": 22,
+  "max_drawdown_pct": 11.864411303139978,
+  "model_trades": 45,
+  "net_pnl_usd": 53.99276815154599,
+  "oof_log_growth": -0.04199151919596704,
+  "oof_trades": 99,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.1269606127460463,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 5.399276815154597,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "ATO",
+  "time_in_market_pct": 57.7055,
+  "trade_floor_met": 1,
+  "trades": 45,
+  "win_rate_pct": 51.11111111111111,
+  "wins": 23
+ },
+ "ticker": "ATO"
+}

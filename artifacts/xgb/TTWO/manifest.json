@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 237405,
+   "sha256": "d856a5241723402bb8c9ba5b0c1206b434ce7425932dca41949d364b03788d8e"
+  },
+  "metrics.json": {
+   "bytes": 1109,
+   "sha256": "c672b8d9a436477393cec4044865ba86a851a9e5ff455d6daab04b272cf0283d"
+  },
+  "parameters.json": {
+   "bytes": 5138,
+   "sha256": "7457453196877890fc470aaed9d77e03736a466d2fa043e5847c7f07e3f9206e"
+  },
+  "strategy_TTWO.py": {
+   "bytes": 341298,
+   "sha256": "87ba888216706763f05c1f7ea6617a175427f5949069953e6633af7a82a1a4d3"
+  }
+ },
+ "folder_sha256": "0dc97c8dfd679de2a3afe633e71240815ef668111692bde03c2540370eccc8f7",
+ "model": "xgb",
+ "model_hash": "f559d3094c5e1cd7141e71cc49aefe9e753fac84e72ee095f54dce5d9845aa97",
+ "ticker": "TTWO"
+}

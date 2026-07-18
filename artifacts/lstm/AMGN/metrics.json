@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "78b3d7d1c4e682cdea41bcac637f284e199b5c1abdd125c1f876f5233b97d39e",
+  "oof_log_growth": 0.1797406580704546,
+  "oof_trades": 36,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.49062933383757923,
+  "cv_folds": 4,
+  "end_capital": 1183.3228226492956,
+  "losses": 5,
+  "max_drawdown_pct": 7.527644635227607,
+  "model_trades": 12,
+  "net_pnl_usd": 183.32282264929563,
+  "oof_log_growth": 0.1797406580704546,
+  "oof_trades": 36,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 2.1980154316801084,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 18.332282264929557,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "AMGN",
+  "time_in_market_pct": 15.2397,
+  "trade_floor_met": 1,
+  "trades": 12,
+  "win_rate_pct": 58.333333333333336,
+  "wins": 7
+ },
+ "ticker": "AMGN"
+}

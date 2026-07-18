@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 31518,
+   "sha256": "c27e9930adb11c7ede8f5be008a90f78d3996db404b35c7b0d43b4c82aa2748c"
+  },
+  "metrics.json": {
+   "bytes": 1100,
+   "sha256": "70b0b80702456dbe92f21e14727efe2bcfde3e6220af7cb38cae89d862431df4"
+  },
+  "parameters.json": {
+   "bytes": 4641,
+   "sha256": "3df43b065a5e083b04cbbe4ff0c828b3f90716f25b03a8e2d53d053200fb4f5a"
+  },
+  "strategy_JBL.py": {
+   "bytes": 152623,
+   "sha256": "2938beba771461c4ccc093380cdb48e5f080b787c2a1f57b2926abe3c711110e"
+  }
+ },
+ "folder_sha256": "eb258f20257f929ef8c907bf431e238df34d266e89c2c38756d4d0e208324a40",
+ "model": "xgb",
+ "model_hash": "c6a34cb097849913904633712f2a8755bcb28acf84b51da57cb5921215d91808",
+ "ticker": "JBL"
+}

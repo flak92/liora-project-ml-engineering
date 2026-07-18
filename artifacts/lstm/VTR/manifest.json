@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 96155,
+   "sha256": "bda4c20e8593ace2a958afa0b16a3c621dcfdd28b613939cdae562dcdd6d48ff"
+  },
+  "metrics.json": {
+   "bytes": 1057,
+   "sha256": "8ffd260b848570c6dbece4874da0ef11fd6e127dee77f81b92bd347f85f04629"
+  },
+  "parameters.json": {
+   "bytes": 3058,
+   "sha256": "72020aa596413de7849b96ff5a2b18303c11e271a97af3dae755b025319f0278"
+  },
+  "strategy_VTR.py": {
+   "bytes": 89565,
+   "sha256": "8f3e4bef5ec136a5a08e1cad7678224c7fbbff960ddb1b1499636edb235b65d4"
+  }
+ },
+ "folder_sha256": "ca5caee550826ffcf6a224aa0ab2b73fcbe840b94543be4cebaac7444e041577",
+ "model": "lstm",
+ "model_hash": "98570a47b7bb9781349cb85ec14c767c9e572b5eddd5c8e67fb3e977d6a66eb8",
+ "ticker": "VTR"
+}

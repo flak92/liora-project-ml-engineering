@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 112560,
+   "sha256": "abb8f8802d4ebfe6f08e7069ee014c182a552d7c1cf2417a6cb6d158d5041b74"
+  },
+  "metrics.json": {
+   "bytes": 1106,
+   "sha256": "d6bf9e06fbcdb4a12aebd0d0badafde05caa42e48d5fe8fe03c60d3661e118bf"
+  },
+  "parameters.json": {
+   "bytes": 4770,
+   "sha256": "d693ba9b8f0f7889841c4a83f8f2539f52807bc78de68be5da592f035c614e11"
+  },
+  "strategy_APD.py": {
+   "bytes": 192788,
+   "sha256": "babc5582e23aadaea29a79e7cf07e122473188a6217fcf156be00b5cd254cfb2"
+  }
+ },
+ "folder_sha256": "b73f1ea6adb6a507effbf213071f99f42ea57ad4de44d478e64d94ae56f424f5",
+ "model": "xgb",
+ "model_hash": "c6cd007a23ca6d238677d69e4ce32bb2758fb9c7529f9ceb1f12ebf015fbdd1f",
+ "ticker": "APD"
+}

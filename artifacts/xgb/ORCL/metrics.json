@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "12d817f2323a264e00cda546bf652c0e452284670d738aa889dcf732c3dfeddd",
+  "oof_log_growth": 0.5374802478397642,
+  "oof_trades": 280,
+  "theta_boundary": false,
+  "theta_entry": 0.44,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.39027409020306103,
+  "cv_folds": 4,
+  "end_capital": 1299.6307297866047,
+  "losses": 71,
+  "max_drawdown_pct": 28.14965813342188,
+  "model_trades": 123,
+  "net_pnl_usd": 299.63072978660466,
+  "oof_log_growth": 0.5374802478397642,
+  "oof_trades": 280,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.1967499105236503,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 29.963072978660477,
+  "start_capital": 1000.0,
+  "theta_entry": 0.44,
+  "ticker": "ORCL",
+  "time_in_market_pct": 24.8207,
+  "trade_floor_met": 1,
+  "trades": 123,
+  "win_rate_pct": 42.27642276422765,
+  "wins": 52
+ },
+ "ticker": "ORCL"
+}

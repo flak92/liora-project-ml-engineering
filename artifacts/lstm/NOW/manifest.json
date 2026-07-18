@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75298,
+   "sha256": "e3cb8ff6518d3678131990fb4b893ac97925bd8771da05537ed0347d1f6be82e"
+  },
+  "metrics.json": {
+   "bytes": 1057,
+   "sha256": "d55699a0fe609725acfce91dc0bbbaf750b66c760c93ca419a1dfc3915870c9b"
+  },
+  "parameters.json": {
+   "bytes": 2515,
+   "sha256": "7ac58aff85aa2b1c81f6eec6dc6547dc866c3257d0a026cf87f29df62de33f93"
+  },
+  "strategy_NOW.py": {
+   "bytes": 77239,
+   "sha256": "8ccdc0110009148cd28232e49ccfa7a6aa2ae5e92bffee8e87d16219b297a2eb"
+  }
+ },
+ "folder_sha256": "8c8f8373d8ea0dca4f996a20159f9ba4515d78de4868567a57e82e979fd3373e",
+ "model": "lstm",
+ "model_hash": "29bc9a09416cb319586de78ea3982b87dff0cc6e73538dfd45bacb16b571696d",
+ "ticker": "NOW"
+}

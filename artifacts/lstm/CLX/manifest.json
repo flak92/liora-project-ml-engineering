@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 73806,
+   "sha256": "996b9718cedf6f01dae7d3add6e5ca7718ec8169a01340b235d2ba8509170b03"
+  },
+  "metrics.json": {
+   "bytes": 1041,
+   "sha256": "7a73cccefbfccc02707c60b08c6f53bcc792d358f1e4814dec3dd995c573d7af"
+  },
+  "parameters.json": {
+   "bytes": 2909,
+   "sha256": "fa7bfa61853b1dc1cf27e890be57e4b4aa0ac830ef204dd50e415e8a8159826e"
+  },
+  "strategy_CLX.py": {
+   "bytes": 87500,
+   "sha256": "9a59f3e68db8d88fec73766f2f06269b592f8675e06bc07fc36d301da98cf2e2"
+  }
+ },
+ "folder_sha256": "f3e8ac25f2982975eb7778cdded7c7855e1bb8569e8e8ee39f353e8c565a7e00",
+ "model": "lstm",
+ "model_hash": "6899bb5f7204eec0d86b19fcef020232b0872edb3722ca8dba4bae8dbd4f8de3",
+ "ticker": "CLX"
+}

@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 85233,
+   "sha256": "8a02ab8407e572dc10cc9056ba655c986eaf4872e09b71e64f5b3624de8109d1"
+  },
+  "metrics.json": {
+   "bytes": 1038,
+   "sha256": "b8b6c73bcbf295edef711ca0b08d26575d4014756ff835e01616b7950a109475"
+  },
+  "parameters.json": {
+   "bytes": 2802,
+   "sha256": "f30854e3f18380fd61c35a62a523dadb76b43a9ad1c939cb378f66ec00c43cb8"
+  },
+  "strategy_TJX.py": {
+   "bytes": 84024,
+   "sha256": "f751e2e4a7ca5acbcc2900ff33145b6e31954f7c6ee4e39b9451eec9127d3715"
+  }
+ },
+ "folder_sha256": "974f880fa24cb61a0cd64f17c2563295cef16a6675217eb76820a468e3977c48",
+ "model": "lstm",
+ "model_hash": "23b8c47b791744b8db0d2ded760d840aef803005dc386f79402bb1893d6fbfaa",
+ "ticker": "TJX"
+}

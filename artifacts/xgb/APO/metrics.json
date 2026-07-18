@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "b13309a4d4a68873574cb912388675ba5a8d913ad1ea208a3b430d878b970255",
+  "oof_log_growth": 1.0768943686189472,
+  "oof_trades": 636,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.41171391058048595,
+  "cv_folds": 4,
+  "end_capital": 823.0250899681273,
+  "losses": 170,
+  "max_drawdown_pct": 39.79828766630474,
+  "model_trades": 283,
+  "net_pnl_usd": -176.9749100318727,
+  "oof_log_growth": 1.0768943686189472,
+  "oof_trades": 636,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9362108273875458,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -17.69749100318727,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "APO",
+  "time_in_market_pct": 63.0799,
+  "trade_floor_met": 1,
+  "trades": 283,
+  "win_rate_pct": 39.92932862190813,
+  "wins": 113
+ },
+ "ticker": "APO"
+}

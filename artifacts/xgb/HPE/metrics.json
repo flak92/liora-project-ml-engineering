@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "3f9091460724881faf32e4ac87546336f30c1c84bc53e8e38bddb1218bea4691",
+  "oof_log_growth": 0.3274239109098979,
+  "oof_trades": 91,
+  "theta_boundary": false,
+  "theta_entry": 0.46,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4005759356087717,
+  "cv_folds": 4,
+  "end_capital": 890.4980841930807,
+  "losses": 59,
+  "max_drawdown_pct": 24.681046439470627,
+  "model_trades": 99,
+  "net_pnl_usd": -109.50191580691933,
+  "oof_log_growth": 0.3274239109098979,
+  "oof_trades": 91,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8978052549161984,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -10.950191580691937,
+  "start_capital": 1000.0,
+  "theta_entry": 0.46,
+  "ticker": "HPE",
+  "time_in_market_pct": 23.7924,
+  "trade_floor_met": 1,
+  "trades": 99,
+  "win_rate_pct": 40.4040404040404,
+  "wins": 40
+ },
+ "ticker": "HPE"
+}

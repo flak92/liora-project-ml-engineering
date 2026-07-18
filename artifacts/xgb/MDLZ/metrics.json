@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "a6227cf43f60185671c1cf5fbd15e441356b157ed922444ed719843f5a2f0e4c",
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "theta_boundary": true,
+  "theta_entry": 0.6,
+  "trade_floor_met": false
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.36074794735665683,
+  "cv_folds": 4,
+  "end_capital": 852.0155635267535,
+  "losses": 0,
+  "max_drawdown_pct": 33.17766102354541,
+  "model_trades": 0,
+  "net_pnl_usd": -147.98443647324657,
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "TRAIN_OOF_FLOOR_NOT_MET",
+  "return_pct": -14.798443647324655,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "MDLZ",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 0,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "MDLZ"
+}

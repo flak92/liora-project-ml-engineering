@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75728,
+   "sha256": "8e5522c72986481777376ab8ce1a55e386b96df0bc88929d8d6199429521a3b3"
+  },
+  "metrics.json": {
+   "bytes": 1043,
+   "sha256": "99c296dda6e91fad0034017d7e836b760fd846b9b079b1543cdc0a994a5bf741"
+  },
+  "parameters.json": {
+   "bytes": 2512,
+   "sha256": "1900f25cfa17a47fe9be21bc0f50bda9039273e71bd59e75d2ae1362dd2dc403"
+  },
+  "strategy_QCOM.py": {
+   "bytes": 77224,
+   "sha256": "e936cd2a19807d9b500e2083b64482147596ef7d32455cc8fc2005e890d2ab1b"
+  }
+ },
+ "folder_sha256": "c40d94fd84731e280a43fc10a3ff01748895d3d2380a7d00a9317ad49b0b253d",
+ "model": "lstm",
+ "model_hash": "eb6918aec7f834da4e958b7e52f49e742f3b6a2c3228920f6ccd25f24248db22",
+ "ticker": "QCOM"
+}

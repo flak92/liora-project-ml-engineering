@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "b9c5ab55be6ec4af0d945ef3452495310932d0cc66ff963a1d21e52d4a461e75",
+  "oof_log_growth": 1.3795077405125562,
+  "oof_trades": 417,
+  "theta_boundary": false,
+  "theta_entry": 0.42,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4132552953742066,
+  "cv_folds": 4,
+  "end_capital": 786.0168202084461,
+  "losses": 92,
+  "max_drawdown_pct": 45.31955506033237,
+  "model_trades": 146,
+  "net_pnl_usd": -213.98317979155388,
+  "oof_log_growth": 1.3795077405125562,
+  "oof_trades": 417,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.8615486192309213,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -21.39831797915539,
+  "start_capital": 1000.0,
+  "theta_entry": 0.42,
+  "ticker": "EXPE",
+  "time_in_market_pct": 32.0899,
+  "trade_floor_met": 1,
+  "trades": 146,
+  "win_rate_pct": 36.986301369863014,
+  "wins": 54
+ },
+ "ticker": "EXPE"
+}

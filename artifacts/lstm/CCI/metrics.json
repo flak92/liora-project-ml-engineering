@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "512a067d92a778feee4f238f83bceeb11ed19a3da7baa8c7457cd405911cf9a2",
+  "oof_log_growth": 0.2051183353264739,
+  "oof_trades": 27,
+  "theta_entry": 0.56,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.5038880968147937,
+  "cv_folds": 4,
+  "end_capital": 1082.7539462860207,
+  "losses": 2,
+  "max_drawdown_pct": 4.788855028297741,
+  "model_trades": 4,
+  "net_pnl_usd": 82.75394628602066,
+  "oof_log_growth": 0.2051183353264739,
+  "oof_trades": 27,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 3.2774233587548944,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 8.275394628602072,
+  "start_capital": 1000.0,
+  "theta_entry": 0.56,
+  "ticker": "CCI",
+  "time_in_market_pct": 4.4521,
+  "trade_floor_met": 1,
+  "trades": 4,
+  "win_rate_pct": 50.0,
+  "wins": 2
+ },
+ "ticker": "CCI"
+}

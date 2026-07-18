@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "9c8252cef09dc2e1c97fc52223039fb0046c87977a78f8712a3b89a42237ba6e",
+  "oof_log_growth": 0.49104043332236524,
+  "oof_trades": 45,
+  "theta_entry": 0.54,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.48017918708559304,
+  "cv_folds": 4,
+  "end_capital": 870.3661265982786,
+  "losses": 10,
+  "max_drawdown_pct": 20.07232925610129,
+  "model_trades": 15,
+  "net_pnl_usd": -129.63387340172142,
+  "oof_log_growth": 0.49104043332236524,
+  "oof_trades": 45,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 0.4954125433706403,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -12.963387340172138,
+  "start_capital": 1000.0,
+  "theta_entry": 0.54,
+  "ticker": "VRTX",
+  "time_in_market_pct": 16.2671,
+  "trade_floor_met": 1,
+  "trades": 15,
+  "win_rate_pct": 33.33333333333333,
+  "wins": 5
+ },
+ "ticker": "VRTX"
+}

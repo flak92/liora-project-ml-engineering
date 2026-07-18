@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 93042,
+   "sha256": "56a6f711dc79e10475eefbaba446eeb9c6b310f841474fbc1e3dfa67cdc91ac8"
+  },
+  "metrics.json": {
+   "bytes": 1060,
+   "sha256": "c923c532fa5668e844e4914924047aca8c54086b0df87c3c34c65594cf613715"
+  },
+  "parameters.json": {
+   "bytes": 2895,
+   "sha256": "3e1e1de750d1db1f5433ffc06a9e75a94436a4f1fc0ce677e2867c0dd8129daa"
+  },
+  "strategy_DTE.py": {
+   "bytes": 87359,
+   "sha256": "c28f4f7da5112689bb691bd6528f68d5fac501f427f9522a10a3ad1816cf55a6"
+  }
+ },
+ "folder_sha256": "243d2ebfe1bbb48bfd5976dd752efa7d917acc39a5514cceb27251df5e229ab6",
+ "model": "lstm",
+ "model_hash": "5e5c32cf91ff7335d1819311eeafa1df45171a427b166d0822bed32987b20d21",
+ "ticker": "DTE"
+}

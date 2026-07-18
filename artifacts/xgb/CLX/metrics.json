@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "520b20e5f8da5c28265cb71fd557191b8bb4ab6622ada1f9e18f7425427fb754",
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "theta_boundary": true,
+  "theta_entry": 0.6,
+  "trade_floor_met": false
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 1,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.369534435414932,
+  "cv_folds": 4,
+  "end_capital": 669.811508109409,
+  "losses": 0,
+  "max_drawdown_pct": 50.001467351430676,
+  "model_trades": 0,
+  "net_pnl_usd": -330.1884918905909,
+  "oof_log_growth": 0.0,
+  "oof_trades": 0,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": null,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "TRAIN_OOF_FLOOR_NOT_MET",
+  "return_pct": -33.0188491890591,
+  "start_capital": 1000.0,
+  "theta_entry": 0.6,
+  "ticker": "CLX",
+  "time_in_market_pct": 100.0,
+  "trade_floor_met": 0,
+  "trades": 0,
+  "win_rate_pct": 0.0,
+  "wins": 0
+ },
+ "ticker": "CLX"
+}

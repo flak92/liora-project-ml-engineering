@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "f2e87a1460a4d704ee18f27e09ea420d260f13c71bfe66146b3ad75a1d15c697",
+  "oof_log_growth": 0.8485535908681778,
+  "oof_trades": 368,
+  "theta_boundary": false,
+  "theta_entry": 0.44,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.41790430146149893,
+  "cv_folds": 4,
+  "end_capital": 1125.9983432805284,
+  "losses": 26,
+  "max_drawdown_pct": 12.351798389687845,
+  "model_trades": 44,
+  "net_pnl_usd": 125.99834328052839,
+  "oof_log_growth": 0.8485535908681778,
+  "oof_trades": 368,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 1.371310614014525,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 12.599834328052829,
+  "start_capital": 1000.0,
+  "theta_entry": 0.44,
+  "ticker": "CPAY",
+  "time_in_market_pct": 9.78,
+  "trade_floor_met": 1,
+  "trades": 44,
+  "win_rate_pct": 40.909090909090914,
+  "wins": 18
+ },
+ "ticker": "CPAY"
+}

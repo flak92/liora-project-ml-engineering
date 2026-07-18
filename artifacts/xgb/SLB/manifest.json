@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 149195,
+   "sha256": "d18a501df048bb1d124a8edd4de3962a0a5063bba0e1eaae3217c3f70ec4b8c0"
+  },
+  "metrics.json": {
+   "bytes": 1104,
+   "sha256": "1968424cdacb4842ec969906cdf91ccb2aa1c68d4d424e4557cab0bad21fb107"
+  },
+  "parameters.json": {
+   "bytes": 4081,
+   "sha256": "f5bcc537f1eec43ea87d5d36d51270c52db7771c8b7baff96749bf6405d42d3a"
+  },
+  "strategy_SLB.py": {
+   "bytes": 135995,
+   "sha256": "bdce102ab2174962738b9b87d3d4635a53e3b91996179bbd6046b800901a2974"
+  }
+ },
+ "folder_sha256": "0a459608dee0ad6a3684e36864d9dad63396112bc98189be93327d548fdcef41",
+ "model": "xgb",
+ "model_hash": "c73da33916051b632f7254894d24c2aafdb778130f89f37fc55c7c65ff393bb9",
+ "ticker": "SLB"
+}

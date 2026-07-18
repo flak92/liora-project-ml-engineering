@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 76406,
+   "sha256": "08f1e42f205963ee31cdc4202a582d8d5e4953f7e4353cc93fb2ad43041df64a"
+  },
+  "metrics.json": {
+   "bytes": 1033,
+   "sha256": "4f80da43c5367d20e4cc6cbe858ff114b9f3eb3e3730f29613eead5375d4bf4f"
+  },
+  "parameters.json": {
+   "bytes": 2523,
+   "sha256": "09b9fe19d272c4c924240deaaac0dd10ad22ed303997ad6902da3bb967667fb2"
+  },
+  "strategy_RTX.py": {
+   "bytes": 77385,
+   "sha256": "2fdbd7b5e3d7c892a12171d8df48128fdbea977ea8de27888089a86e8d96d09c"
+  }
+ },
+ "folder_sha256": "0b153502b6e0635a12bd54748def868984925546e4fcde3e8d82ab9491058538",
+ "model": "lstm",
+ "model_hash": "fbb08d784054ecf6b54c0299f9e269bc7a49122eb768474d72bb9d4d9c627470",
+ "ticker": "RTX"
+}

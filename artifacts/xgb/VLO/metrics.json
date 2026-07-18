@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "885166ff34c3672129b108ac314e898167d30ad80a5fd92a63dee9ce16e80e55",
+  "oof_log_growth": 0.9701729080100261,
+  "oof_trades": 566,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3953881008968493,
+  "cv_folds": 4,
+  "end_capital": 706.5306890211531,
+  "losses": 183,
+  "max_drawdown_pct": 47.03276865198075,
+  "model_trades": 295,
+  "net_pnl_usd": -293.4693109788469,
+  "oof_log_growth": 0.9701729080100261,
+  "oof_trades": 566,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9002812153428313,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -29.34693109788469,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "VLO",
+  "time_in_market_pct": 64.2276,
+  "trade_floor_met": 1,
+  "trades": 295,
+  "win_rate_pct": 37.96610169491525,
+  "wins": 112
+ },
+ "ticker": "VLO"
+}

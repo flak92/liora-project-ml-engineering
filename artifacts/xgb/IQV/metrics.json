@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "45c4f99d7a8a39c9fa9a5b308ea7e1e3398fa4ddd0bb2b618cdd52fead3fbafe",
+  "oof_log_growth": 0.6905404986631541,
+  "oof_trades": 396,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.40414622439481096,
+  "cv_folds": 4,
+  "end_capital": 723.8993475960898,
+  "losses": 96,
+  "max_drawdown_pct": 46.80445652541084,
+  "model_trades": 153,
+  "net_pnl_usd": -276.1006524039102,
+  "oof_log_growth": 0.6905404986631541,
+  "oof_trades": 396,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.7686701406069375,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -27.610065240391023,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "IQV",
+  "time_in_market_pct": 32.8312,
+  "trade_floor_met": 1,
+  "trades": 153,
+  "win_rate_pct": 37.254901960784316,
+  "wins": 57
+ },
+ "ticker": "IQV"
+}

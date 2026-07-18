@@ -1,0 +1,40 @@
+{
+ "calibration": {
+  "direction_mode": "both",
+  "kelly_fraction": null,
+  "model_hash": "f3959f700ee48988b427c10aae8750e568b9b5e45b2e6491c17d1f79073c32c6",
+  "oof_log_growth": 0.23260476645454517,
+  "oof_trades": 17,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "lstm",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.48133789527205134,
+  "cv_folds": 3,
+  "end_capital": 1149.492111733379,
+  "losses": 14,
+  "max_drawdown_pct": 26.56160143688611,
+  "model_trades": 22,
+  "net_pnl_usd": 149.49211173337903,
+  "oof_log_growth": 0.23260476645454517,
+  "oof_trades": 17,
+  "oos_window": "2024-01-02 -> 2026-04-30",
+  "profit_factor": 1.1892913328088515,
+  "recipe_hash": "7da3f829b4926d36",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": 14.949211173337895,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "HOOD",
+  "time_in_market_pct": 25.3425,
+  "trade_floor_met": 1,
+  "trades": 22,
+  "win_rate_pct": 36.36363636363637,
+  "wins": 8
+ },
+ "ticker": "HOOD"
+}

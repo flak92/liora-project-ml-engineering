@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 25923,
+   "sha256": "571dabfa0c233ac849fbee8a1d900e3081c61f50e1b26380b1f897ae794b623a"
+  },
+  "metrics.json": {
+   "bytes": 1045,
+   "sha256": "ab5abdeff7fa69fd96f1a78d7641f5a65ffad8fc224d0d8dda564e439b68b4bc"
+  },
+  "parameters.json": {
+   "bytes": 4078,
+   "sha256": "807d020a91c99b3e98bbdf6f9042ed27649e9113d459c9ac96a774450a79e739"
+  },
+  "strategy_MKC.py": {
+   "bytes": 187042,
+   "sha256": "cc068a3c95731fc3869442cde393a3b8afaac0f901b5c873509595ff635a1314"
+  }
+ },
+ "folder_sha256": "623f0b41a25e8a24fb6a21b8a8239609f61e92e0a52d636af5a1c89bf04be356",
+ "model": "xgb",
+ "model_hash": "6bbe367831078619d67c5f5478ca9fef4bc5541bc65171cfb40242764aa9a4fd",
+ "ticker": "MKC"
+}

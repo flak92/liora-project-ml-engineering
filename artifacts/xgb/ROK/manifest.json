@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 44354,
+   "sha256": "74b18283a120d8e853f487d2d860190e15122a95853f476e3828b0fe10da1f0a"
+  },
+  "metrics.json": {
+   "bytes": 1108,
+   "sha256": "0f192129998e5d5d1740499788a29b4e5174e899ca605b9230ed2d0b39454234"
+  },
+  "parameters.json": {
+   "bytes": 4634,
+   "sha256": "d87b85499e9cf301da1fec3fa69f807b0816a3956a076f67bc9de3ed527011dc"
+  },
+  "strategy_ROK.py": {
+   "bytes": 160168,
+   "sha256": "ff90c11126467c64d2a70d7e6483d33d30a5ffc0e921d875d647413daf27a622"
+  }
+ },
+ "folder_sha256": "9374b6cbea4248f8c0173f727a9d1c8dce1d03a7411a9a0537e4ec8c14b25b01",
+ "model": "xgb",
+ "model_hash": "a68676359a3cfc3e6402a4ce504e8681f71c2ec0954eb88ae790b2a58b56aad3",
+ "ticker": "ROK"
+}

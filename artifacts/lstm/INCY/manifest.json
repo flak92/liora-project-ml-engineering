@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 87732,
+   "sha256": "b5cc5b3d437ab1da3af354b700cb605e85b3111d28a5bffde75082e0f2c3d35c"
+  },
+  "metrics.json": {
+   "bytes": 1054,
+   "sha256": "2e39b1dbbcb4b3f3a4c815da8a80675b2aa29814ba7a28f71b4dcade77bdbb9d"
+  },
+  "parameters.json": {
+   "bytes": 2776,
+   "sha256": "d61bc25aa96a566918ad6eba7378b0415410c333987e82b55c710a591c51b775"
+  },
+  "strategy_INCY.py": {
+   "bytes": 83455,
+   "sha256": "c10f9cebd48022e89b6f89e400320534dab5db07a9ac373f47ac75b153bf5a87"
+  }
+ },
+ "folder_sha256": "d9009b5f6b4b19f219e7f45914e7a2058c1397fc90fa7c556cb1294afe01ed65",
+ "model": "lstm",
+ "model_hash": "4e528bf1af40df1277fb79071f66d06eec6865ef557a685c262c5165df0466ce",
+ "ticker": "INCY"
+}

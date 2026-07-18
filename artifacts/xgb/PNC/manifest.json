@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 68370,
+   "sha256": "461ea3c1af27e364c386e414a0a0bedfade3367f07b58940f090ad9325f15057"
+  },
+  "metrics.json": {
+   "bytes": 1104,
+   "sha256": "180399c90b7c38b0e57863865718e4b4f349945ef66d8c09014434216073ab77"
+  },
+  "parameters.json": {
+   "bytes": 4082,
+   "sha256": "727ee65c165e264a3c0f8be1603523c624b1223a35c10f219126a166f89def5b"
+  },
+  "strategy_PNC.py": {
+   "bytes": 286863,
+   "sha256": "36864735480009aaf631a460d941294bb7e145586d7286f21aae37cb47b661b5"
+  }
+ },
+ "folder_sha256": "d8bffcd380c647441075ee08de9f53131c7f29edf43790d759cb30c69debd3cd",
+ "model": "xgb",
+ "model_hash": "96572eb0e2d9154bb5aaacd63db5012484a472e49c4bfa040ef83b24da7143cb",
+ "ticker": "PNC"
+}

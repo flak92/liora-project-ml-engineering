@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 86984,
+   "sha256": "413143ce8418a333a2f200207fe71d25c342dbf0a42b1d069b65d96e5843285a"
+  },
+  "metrics.json": {
+   "bytes": 1053,
+   "sha256": "05f6ff6598cd68aee9e722b1bbcab1f05cfb3467765ed790f43ba71902eed476"
+  },
+  "parameters.json": {
+   "bytes": 2757,
+   "sha256": "e03dfb21f349e5ef6113752ed04ac78f343ccb6c8381e71d46e4ba2926e54274"
+  },
+  "strategy_V.py": {
+   "bytes": 84466,
+   "sha256": "adcac2b27ba7ca87093dd8ae64711e87c97098fb0cb7b0a9b69517bf31810cfa"
+  }
+ },
+ "folder_sha256": "828f571004f0a2fbd8da0e4cd6f88810c3f03cf54ab95a45bea44ca7148c512b",
+ "model": "lstm",
+ "model_hash": "fb77981a6f99e713fc9a7afee3af4ca415812914cce74633a463c60b8399a6ac",
+ "ticker": "V"
+}

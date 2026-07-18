@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 32086,
+   "sha256": "41c85103f8e61407816c12ce1e66296129575ca0de69fade0bf82bbbc05493f6"
+  },
+  "metrics.json": {
+   "bytes": 1106,
+   "sha256": "35fbda1c3644e7013e41cee426faffcff8ba80e08e350fe80ff4250773da52b4"
+  },
+  "parameters.json": {
+   "bytes": 4083,
+   "sha256": "a8504d41e40b309a982ebed0fd71fcfe4dcc2b77486ed1c74f02916f4015b33d"
+  },
+  "strategy_AFL.py": {
+   "bytes": 235036,
+   "sha256": "e7158d31f68853b02b666bd7d61733b50cd2cef2056ba52c112c566ec4980102"
+  }
+ },
+ "folder_sha256": "5a66c5746682ec7c003bc1c4c4fe9be0b93e08a93e76a043387e43911e2cead3",
+ "model": "xgb",
+ "model_hash": "d165778f05c416c23f6edf7c0c1f146efd6ad838f87d6dde544c19536433a877",
+ "ticker": "AFL"
+}

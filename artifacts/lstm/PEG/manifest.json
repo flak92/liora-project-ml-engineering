@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 75210,
+   "sha256": "9f9449e6db6030ed5e113e05cc3da205de79f733c8b943e499a43670dc15d66c"
+  },
+  "metrics.json": {
+   "bytes": 1057,
+   "sha256": "364e801b2996b3de0902a0a0b1b2e93130a939521e207a882ebbbe5d1e62e844"
+  },
+  "parameters.json": {
+   "bytes": 2497,
+   "sha256": "b2a77650a232c08d7d39480806e46bec2f5338c8e36057b745ae2ece1b82f242"
+  },
+  "strategy_PEG.py": {
+   "bytes": 77103,
+   "sha256": "4fe7ba927cc9a31131b82e9d68804a8081449e3b54ebaa5c8fe6ffa3c93e447a"
+  }
+ },
+ "folder_sha256": "c1de844edd2c2dfecbb0a8173efbcb0850ec217de3de8127bd78ef8d7bf39427",
+ "model": "lstm",
+ "model_hash": "65d46d5258322f1eb6bef7621eb1983d5442f7ee0e89f7a4d476465db5345be0",
+ "ticker": "PEG"
+}

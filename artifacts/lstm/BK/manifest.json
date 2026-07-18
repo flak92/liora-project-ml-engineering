@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 83102,
+   "sha256": "0157877ea54949f0c11fe44767e51d4222f2b5453c6574c0b9fdbfa9729cb13e"
+  },
+  "metrics.json": {
+   "bytes": 1056,
+   "sha256": "4af0fa6a4ce736e2fddc571c8e2d6eecc9050e211414f83b848d4d0572d1e206"
+  },
+  "parameters.json": {
+   "bytes": 2660,
+   "sha256": "4730f10cb3032a86ae630f67764ce4c7e6a0fa3d15f6f5f8ce622de87b69662f"
+  },
+  "strategy_BK.py": {
+   "bytes": 80164,
+   "sha256": "49690bc9512034fd7b7fb13effd7938ceb891a07925bb33d6e3ddd2b77207cdd"
+  }
+ },
+ "folder_sha256": "9172018fb74077ec210582aafeeccd724b190f31bd059bcb5f96db402d5ede3c",
+ "model": "lstm",
+ "model_hash": "206efdb6b77dd939d603861b67a0def476da31675371eae09e609aa4bbeb7d1b",
+ "ticker": "BK"
+}

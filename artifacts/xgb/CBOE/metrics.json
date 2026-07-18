@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "f3ae51a33d7b73423b98f5bd60be95fb0413fbb6db919086433dc8a087f72522",
+  "oof_log_growth": -0.37451502467571157,
+  "oof_trades": 234,
+  "theta_boundary": false,
+  "theta_entry": 0.52,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.3789948964956633,
+  "cv_folds": 4,
+  "end_capital": 954.8557878165086,
+  "losses": 21,
+  "max_drawdown_pct": 10.410652599006966,
+  "model_trades": 32,
+  "net_pnl_usd": -45.14421218349139,
+  "oof_log_growth": -0.37451502467571157,
+  "oof_trades": 234,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.7869895397994704,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -4.51442121834914,
+  "start_capital": 1000.0,
+  "theta_entry": 0.52,
+  "ticker": "CBOE",
+  "time_in_market_pct": 6.3128,
+  "trade_floor_met": 1,
+  "trades": 32,
+  "win_rate_pct": 34.375,
+  "wins": 11
+ },
+ "ticker": "CBOE"
+}

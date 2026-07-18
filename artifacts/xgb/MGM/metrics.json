@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "3128592bb7a5aa3e8683ed9136559516c483b384e7af2549e965fd9ab291713b",
+  "oof_log_growth": 2.6508016200867863,
+  "oof_trades": 737,
+  "theta_boundary": false,
+  "theta_entry": 0.44,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.40890356575275955,
+  "cv_folds": 4,
+  "end_capital": 738.3686756969333,
+  "losses": 164,
+  "max_drawdown_pct": 34.9098362861608,
+  "model_trades": 263,
+  "net_pnl_usd": -261.63132430306666,
+  "oof_log_growth": 2.6508016200867863,
+  "oof_trades": 737,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9013264023820967,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -26.163132430306668,
+  "start_capital": 1000.0,
+  "theta_entry": 0.44,
+  "ticker": "MGM",
+  "time_in_market_pct": 56.8867,
+  "trade_floor_met": 1,
+  "trades": 263,
+  "win_rate_pct": 37.6425855513308,
+  "wins": 99
+ },
+ "ticker": "MGM"
+}

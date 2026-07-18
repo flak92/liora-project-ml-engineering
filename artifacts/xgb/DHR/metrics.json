@@ -1,0 +1,42 @@
+{
+ "calibration": {
+  "cv_folds": 4,
+  "fold_spread_relaxed": false,
+  "kelly_fraction": null,
+  "model_hash": "953cac5537e23808f2010c236e9af34bbab277ec1f2c9cda066a9120e4b4bce3",
+  "oof_log_growth": 0.26771276836015695,
+  "oof_trades": 335,
+  "theta_boundary": true,
+  "theta_entry": 0.4,
+  "trade_floor_met": true
+ },
+ "epoch": "2026-07-golden-v4",
+ "model": "xgb",
+ "store_row": {
+  "benchmark_trades": 0,
+  "capital_depleted": 0,
+  "cv_auc_pr": 0.4083118633557771,
+  "cv_folds": 4,
+  "end_capital": 830.267681992908,
+  "losses": 133,
+  "max_drawdown_pct": 31.675790567399492,
+  "model_trades": 216,
+  "net_pnl_usd": -169.73231800709198,
+  "oof_log_growth": 0.26771276836015695,
+  "oof_trades": 335,
+  "oos_window": "2024-01-02 -> 2026-05-29",
+  "profit_factor": 0.9033942672765011,
+  "recipe_hash": "67abd5576ce7eff1",
+  "result_mode": "ML_MULTI_TRADE",
+  "return_pct": -16.9732318007092,
+  "start_capital": 1000.0,
+  "theta_entry": 0.4,
+  "ticker": "DHR",
+  "time_in_market_pct": 49.9522,
+  "trade_floor_met": 1,
+  "trades": 216,
+  "win_rate_pct": 38.425925925925924,
+  "wins": 83
+ },
+ "ticker": "DHR"
+}

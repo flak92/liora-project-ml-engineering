@@ -1,0 +1,25 @@
+{
+ "epoch": "2026-07-golden-v4",
+ "files": {
+  "interpretation.json": {
+   "bytes": 103182,
+   "sha256": "cf5aa5c77afe38400e31ed492003def86c01d8a9201ffc05c4c5a8ec0f271bd1"
+  },
+  "metrics.json": {
+   "bytes": 1061,
+   "sha256": "0a897b3ce8d0aa37e6d1dc7030a2921ca48545cc7e38132f22e8315a98e75d1c"
+  },
+  "parameters.json": {
+   "bytes": 3127,
+   "sha256": "4985333247ae130470f16bc762e2fb8f10f7ecb5e4eaf202c07961536fa3100c"
+  },
+  "strategy_GRMN.py": {
+   "bytes": 94004,
+   "sha256": "84cbaccc926120ff50d9dc8f2757c5f67f4e8db12fa6380d357d7a87c3d4cd50"
+  }
+ },
+ "folder_sha256": "f65d7823870873aaef06462b58ef673b2f1adb86a90fee1a073f30078107f6ff",
+ "model": "lstm",
+ "model_hash": "ea13cd8b8d5045aa646e5e64ace6e08c466f90a9adbeb713344e87be9e7967db",
+ "ticker": "GRMN"
+}
