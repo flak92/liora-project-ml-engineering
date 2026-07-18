@@ -168,3 +168,46 @@ Trzy poziomy, od najtańszego:
 re-treningu) + nota o splitach — naprawia „beats-HODL" i `hodl_return_pct`. Pełne
 domknięcie (**poziom 3**, jedna noc) zostawić jako świadomą decyzję o epoce v5. Poziom 2
 zwykle nie warty zachodu (mieszana epoka komplikuje spójność za niewielką oszczędność czasu).
+
+## 5. Decyzja i kolejność dalszych prac (2026-07-18)
+
+**To NALEŻY zrobić — są błędy do poprawienia.** Weryfikacja wykazała realne błędy w
+danych wejściowych (nieskorygowane splity → nieprawidłowy benchmark HODL i statystyki
+„beats-HODL" dla 79 tickerów; do tego niedomknięte QC i drobne rozjazdy dokumentacji).
+Nie zostawiamy tego po cichu — korekta jest zaplanowana, a stan jest jawnie opisany w §2.
+
+Kolejność:
+1. **Korekta splitów** — minimum poziom 1 (przeliczenie HODL na cenach skorygowanych,
+   read-side, ~kwadrans) przed pokazaniem „beats-HODL"; docelowo pełna epoka v5 (§4) jako
+   czyste domknięcie. Rozszerzenie QC i noty w METHODOLOGY.md przy okazji.
+2. **Dalej z designem** — sześć stron konsoli Streamlit nad gotowym `data/results.db`
+   (przez jedyny moduł dostępu `app/data.py`), z jawną notą o splitach na Overview/
+   Model Comparison.
+3. **Tłumaczenie tego, co najważniejsze** — patrz niżej.
+
+### Sedno przekazu (to komunikuje prezentacja)
+
+Najważniejsza nie jest liczba zwrotu, lecz **metodologia** i **świadomość optymalności
+treningu ML**:
+
+- **Nie trenujemy artefaktu dla samego trenowania.** Celem nie jest maksymalne dopasowanie
+  modelu do danych treningowych (to prosta droga do przeuczenia). Trening jest **środkiem**,
+  nie celem.
+- **Kierujemy trening ku `golden_calibration`** — szukamy skalibrowanego, NIE-przeuczonego
+  opisu rynku: zakresów wartości cech (XGB) / sekwencji stanów (LSTM), które są historycznie
+  na tyle STABILNE, by działać jako **filtr transakcyjny ENTRY** przy zamrożonym kontrakcie
+  TP/SL. To jest „cherry-picking of not-overfitted features": one-SE plateau per rodzina →
+  najprostszy reprezentant → akceptacja ekonomiczna (floor trade'ów) → propozycje tylko
+  brzegowe na granicy epok, sterowane dowodem z raportów §10 (żadnego pustego, nie-poprawiającego
+  przebiegu).
+- **Miarą sukcesu jest AUDYTOWALNY system, nie zaufanie do własnego zrozumienia.** System
+  jawnie pokazuje, KIEDY model wie wystarczająco dużo, by wskazać ENTRY — i KIEDY ma pozostać
+  bezczynny (`TRAIN_OOF_FLOOR_NOT_MET`, fallback). Uczciwy, negatywny werdykt OOS jest częścią
+  tej metodologii: produktem jest **metoda i filtr**, historycznie zweryfikowany i reprodukowalny
+  per asset, a nie obietnica zysku.
+- **Warstwa interpretacji** (zakresy ENTRY, udziały cech, sekwencje) czyni tę kalibrację
+  CZYTELNĄ — pokazuje, z czego składa się opis algorytmu danego assetu, zawsze jako opis
+  Train-derived, nigdy jako sygnał inwestycyjny.
+
+Ten sens ma być osią prezentacji: **droga od „modelu, który się uczy" do „skalibrowanego,
+audytowalnego filtra ENTRY per asset" — golden_calibration, nie trening dla treningu.**
