@@ -1,4 +1,4 @@
-"""Data Flow — the build path, twice: one glance and one ladder.
+"""Data Flow 3D Visualization — the build path, twice: one glance and one ladder.
 
 Two drawings, no prose. The graphviz sketch is the whole study in eight boxes — bars to
 features to Train-only calibration, the two models side by side, one artifact per asset,
@@ -25,7 +25,7 @@ import components as C
 import theme
 
 ROOT = Path(__file__).resolve().parents[2]
-FLOW = ROOT / "data_flow_3d.html"
+FLOW = ROOT / "data_flow_3d_visualization.html"
 
 
 @st.cache_data
@@ -34,7 +34,7 @@ def _load(mtime: float) -> str:
     return FLOW.read_text(encoding="utf-8")
 
 
-C.page_header("Data Flow", "")
+C.page_header("Data Flow 3D Visualization", "")
 C.guard(stop=False)  # static page: banner without stopping
 
 DOT = f"""
@@ -70,3 +70,4 @@ if not FLOW.exists():
 # the mess this height exists to fix. 4750 puts the fit just past that font floor, so text and
 # artwork are drawn in the proportion the map was designed for, ~306px per level.
 st.iframe(_load(FLOW.stat().st_mtime), height=4750)
+st.caption("Standalone file: data_flow_3d_visualization.html (repository root — opens in any browser).")

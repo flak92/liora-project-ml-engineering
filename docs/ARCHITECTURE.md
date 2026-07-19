@@ -137,7 +137,7 @@ app/pages/                  10 pages in three sidebar sections —
                             Results: Overview, Universe, Asset Indicator,
                             Feature Logic, Model Comparison;
                             Method & proof: Integrity, Data Pipeline Lego Plan,
-                            Data Flow
+                            Data Flow 3D Visualization
 app/basket.py               basket arithmetic (no Streamlit): the three-number split
 app/venn.py                 the pixel agreement diagram (no imports at all)
 src/xgb/                    pipeline.py (L4-L9), feature_search.py, artifact.py, train_cv_eval.py

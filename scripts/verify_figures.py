@@ -3,7 +3,7 @@
 
     python3 scripts/verify_figures.py
 
-`data_pipeline_lego_plan.html` and `data_flow_3d.html` are hand-written: their numbers were
+`data_pipeline_lego_plan.html` and `data_flow_3d_visualization.html` are hand-written: numbers
 typed in, not derived. That is fine for a frozen release and fatal for the next one — a
 re-seal moves the store and leaves the prose behind, silently, in two 110 KB files nobody
 re-reads. This gate exists so that never has to be found by eye again.
@@ -27,7 +27,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DB = ROOT / "data" / "results.db"
 BLUEPRINT = ROOT / "data_pipeline_lego_plan.html"
-FLOW = ROOT / "data_flow_3d.html"
+FLOW = ROOT / "data_flow_3d_visualization.html"
 APP = ROOT / "app.py"
 README = ROOT / "README.md"
 
