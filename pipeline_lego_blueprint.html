@@ -54,6 +54,11 @@
   by both models. They are NOT the pipelines' internal layer names - those are
   XGB L1-L9 and LSTM D1-D9, printed on each block so the map teaches the names
   the code actually uses.
+  The G.x ids stay G even though the lane that holds them is displayed as
+  VALIDATORS: they are data keys, joined by depends:[] arrays and by the viz
+  registry, so renaming them to V.x would break dependencies for a caption.
+  The same separation runs through GROUPS below - `id` is structural, `name` is
+  the only thing a reader ever sees.
   ============================================================================
 -->
   <style>
@@ -269,12 +274,18 @@
        the frozen configuration and the sealed store; on discrepancy the
        sealed artifacts win). MODULES order = bottom-up flow.
        ================================================================== */
+    /* `id` is structural — it joins bricks to lanes (MODULES[].group), keys LANE_X, and is
+       what the filter compares. `name` is display only, interpolated into the chip, the lane
+       head and the inventory header, never compared. The stage numbers were dropped because
+       S1-S4 already meant something else one page over (the Data Flow map numbers its bands
+       the same way but S2 there is the whole XGB pipeline); named stages read on their own
+       and leave "S" with a single meaning across the console. */
     const GROUPS = [
-      {id:'s1', name:'S1 DATA', color:'#55c7a4', subtitle:'Source bars -> committed stores -> per-asset frames -> leakage-safe split (A1-A4)'},
-      {id:'s2', name:'S2 SIGNAL+LABEL+X', color:'#FF5C6C', subtitle:'Causal entry signal -> Triple-Barrier Y -> causal features -> per-asset selection (B1-B4)'},
-      {id:'s3', name:'S3 TRAINING', color:'#f0ae54', subtitle:'Profit-aligned Optuna HPO -> per-asset operating point (all-in capital) -> frozen artifact (C1-C3)'},
-      {id:'s4', name:'S4 OOS+PRODUCT', color:'#ef7898', subtitle:'One-shot OOS verdict -> honest benchmark -> Train-derived interpretation -> read-only console (E1-E4)'},
-      {id:'sg', name:'GUARDS', color:'#54B8FF', subtitle:'Fail-closed gates: split tightness -> pre-OOS asserts -> reproducibility acceptance'}
+      {id:'s1', name:'DATA', color:'#55c7a4', subtitle:'Source bars -> committed stores -> per-asset frames -> leakage-safe split (A1-A4)'},
+      {id:'s2', name:'CONFIGURATION', color:'#FF5C6C', subtitle:'The learning problem itself, not the model: which bars become candidates -> what counts as a win (Triple-Barrier Y) -> which columns are allowed to be seen (causal X) -> per-asset selection (B1-B4). Model hyper-parameters are not set here; they are searched in TRAINING.'},
+      {id:'s3', name:'TRAINING', color:'#f0ae54', subtitle:'Profit-aligned Optuna HPO -> per-asset operating point (all-in capital) -> frozen artifact (C1-C3)'},
+      {id:'s4', name:'ENDPRODUCT', color:'#ef7898', subtitle:'One-shot OOS verdict -> honest benchmark -> Train-derived interpretation -> read-only console (E1-E4)'},
+      {id:'sg', name:'VALIDATORS', color:'#54B8FF', subtitle:'Fail-closed gates: split tightness -> pre-OOS asserts -> reproducibility acceptance. These stop a run; they never warn and never repair.'}
     ];
 
     const MODULES = [
@@ -344,19 +355,19 @@
        test:["same inputs -> identical boundary indices (strict determinism)", "no Train label window reaches past the boundary (asserted)"],
        depends:["A3"]},
 
-      {id:"G.1", group:"sg", title:"split leakage guard", kind:"fail-closed split gate", viz:"guard",
-       layer:{xgb:"L4 source QC + split guard", lstm:"D2 source QC + D3 guard"},
+      {id:"G.1", group:"sg", title:"split leakage validator", kind:"fail-closed split gate", viz:"guard",
+       layer:{xgb:"L4 source QC + split validator", lstm:"D2 source QC + D3 validator"},
        short:"partitions ordered, purge >= H, embargo >= max lookback, OOS frozen",
-       input:["partition marks from A4", "label horizon H and max feature lookback from the S2 contracts"],
+       input:["partition marks from A4", "label horizon H and max feature lookback from the CONFIGURATION contracts"],
        transform:["SOURCE GATES FIRST: three fail-closed cross-bar checks run at the L4 read - an overnight return outside -55%..+120%, sessions thinner than 3 bars covering >10% of days, or flat bars (o==h==l==c) over >15% of the frame all stop the run. Documented corporate-action dates are exempt from the gap gate; an UNDOCUMENTED break fails closed. The overnight gate alone would have caught every unadjusted corporate action on day one.",
                   "Assert the 5 partitions exist in strict order on one continuous index, non-overlapping, warm-up covering the feature roll-in.",
                   "Assert purge >= the maximum label horizon and embargo >= the maximum rolling feature lookback; recompute all boundaries from frozen config and compare bit-exact.",
                   "Any mismatch on the OOS boundary is a frozen-OOS violation - the run stops."],
-       output:"one fail-closed verdict; FAIL blocks all of S2+ for the asset",
-       invariant:["The guard only reads marks - it never moves a boundary, never touches data.",
+       output:"one fail-closed verdict; FAIL blocks CONFIGURATION and everything downstream for the asset",
+       invariant:["The validator only reads marks - it never moves a boundary, never touches data.",
                   "There is no WARN tier: any failed predicate rejects the split."],
        knobs:["partitions=5 ordered", {xgb:"purge_min=24 · embargo_min=35", lstm:"purge_min=10 · embargo_min=10"}, "boundary_source=frozen config", "source_gates=gap -55%/+120% · thin >10% · flat >15%"],
-       test:["shrink purge to 0 in a fixture -> guard FAILs", "shift oos_start by one bar vs config -> recompute mismatch FAILs"],
+       test:["shrink purge to 0 in a fixture -> validator FAILs", "shift oos_start by one bar vs config -> recompute mismatch FAILs"],
        depends:["A4"]},
 
       {id:"B1", group:"s2", title:"momentum side + causal entry gate", kind:"trade-candidate generator", viz:"signal",
@@ -426,7 +437,7 @@
       {id:"G.2", group:"sg", title:"pre-OOS fail-closed asserts", kind:"anti-leakage gate (training side)", viz:"guard",
        layer:{xgb:"purge_train_setups assert", lstm:"purge_train_events assert"},
        short:"HPO / calibration / search crash on any OOS read; audited",
-       input:["every S2/S3 consumer of events (HPO, calibration, feature search)"],
+       input:["every CONFIGURATION and TRAINING consumer of events (HPO, calibration, feature search)"],
        transform:["Each training-side component carries a hard assert: every event it consumes must satisfy t0 + H + embargo <= oos_start - reading an OOS row raises, it never degrades to a warning.",
                   "An adversarial audit (independent reviewers trying to REFUTE the claim) checked feature causality, gate causality, barrier windows, CV integrity and the OOS read ledger - verdict: clean. Clean means no OOS value reaches a Train-side decision and no read goes uncounted; it does not mean each window was opened exactly once."],
        output:"a run that can only complete if no training-side component ever saw OOS data",
@@ -439,7 +450,7 @@
       {id:"C1", group:"s3", title:"model tuning - objective: Train-OOF trading log-growth", kind:"profit-aligned hyper-parameter search", viz:"optuna",
        layer:{xgb:"L7 layer7_optuna", lstm:"D7 universal warm-start (model.py holds the unused cold-start study)"},
        short:{xgb:"tunes XGB params (+reg_alpha, gamma) for OOF trading log-growth", lstm:"NO per-asset search in this epoch - one committed backbone architecture, warm-started"},
-       input:["X/Y events + folds (S2, G.2 armed)", {xgb:"hyper-parameter search space (registry-driven)", lstm:"the committed universal backbone (research branch)"}],
+       input:["X/Y events + folds (from CONFIGURATION, G.2 armed)", {xgb:"hyper-parameter search space (registry-driven)", lstm:"the committed universal backbone (research branch)"}],
        transform:["THE course correction of this project: an earlier epoch optimized AUC-PR while the strategy was judged on profit - a self-documented objective mismatch, since corrected. The objective IS now the mean Train OUT-OF-FOLD trading LOG-GROWTH (AUC-PR is still computed, but only reported): each trial's fold model predicts out-of-fold, the trade engine replays those predictions over a coarse operating grid, and the trial scores sum(log(1+r)) - the geometric-growth criterion, replayed at the deployed all-in sizing.",
                   {xgb:"Search space: max_depth, eta, subsample, colsample_bytree, min_child_weight, reg_lambda, n_estimators + reg_alpha and gamma - which the old trainer accepted but silently IGNORED (found and fixed: params are now forwarded).",
                    lstm:"WHAT ACTUALLY RAN: nothing searched here. the research runner takes the architecture from the committed backbone instead of calling the HPO - ONE shape for all 495 assets: hidden 32, num_layers 1, dropout 0.3, lr 0.001, weight_decay 1e-4, and every refit is warm-started from it. The 20-trial per-asset study still exists in model.py and is reachable with LSTM_COLD_START=1; it did not seal this epoch. What remains per asset: the feature search (B4) and the operating point (C2)."},
@@ -605,7 +616,7 @@
         goal:"Turn the split rules into a gate that cannot be argued with.",
         decisions:["fail-closed with no WARN tier - a warning about leakage is a leak with extra steps",
                    "recompute boundaries from frozen config and compare bit-exact - trust derivation, verify persistence"],
-        lessons:["guards that only read are guards you can trust - the moment a gate can 'fix' data it becomes a hidden transformer"],
+        lessons:["validators that only read are validators you can trust - the moment one can 'fix' data it becomes a hidden transformer"],
         principles:["every gate answers one question with PASS/FAIL; composition of small gates beats one clever validator"]},
       "B1":{
         goal:"Generate trade candidates so simple they cannot cheat: momentum direction behind a causal significance gate.",
@@ -641,7 +652,7 @@
       "G.2":{
         goal:"Make it PHYSICALLY impossible for training-side code to read the future.",
         decisions:["asserts inside the consumers, not wrappers around them - whoever touches events re-verifies the boundary, so a new call site cannot forget",
-                   "an adversarial audit on top of asserts - code guards catch reads; independent reviewers trying to refute the design catch CONCEPTS"],
+                   "an adversarial audit on top of asserts - code validators catch reads; independent reviewers trying to refute the design catch CONCEPTS"],
         lessons:["fail-closed converts leakage from a silent bias into a loud crash - the cheapest possible failure mode",
                  "audits that try to CONFIRM find what they look for; audits that try to REFUTE find what is there"],
         principles:["every anti-leakage claim needs an enforcement mechanism and an attack transcript"]},
@@ -769,14 +780,17 @@
         <text x="144" y="36" text-anchor="end" font-size="5.5" fill="#89929D">time</text>`)+
         `<div class="viz-label">purge H=${MM().H} · embargo ${MM().embargo} · OOS -> ${MM().oosEnd}</div>`},
 
-      /* G.x - generic guard checklist (fail-closed) */
+      /* G.x - generic validator checklist (fail-closed). The registry key below stays
+         `guard` while the lane reads VALIDATORS: the three G.x bricks join to it through
+         their viz field, so it is a dispatch key and never a caption. Renaming it would
+         have to move three brick fields with it, and buy nothing a reader can see. */
       guard:{h:104,render:m=>{
         const R={
           'G.1':[['order','5 partitions · strict · no overlap'],['purge','&gt;= label horizon H'],['embargo','&gt;= max feature lookback'],['oos','boundary == frozen config']],
           'G.2':[['assert','t0+H+embargo &lt;= oos_start'],['scope','HPO · calibration · search'],['mode','crash, never warn'],['audit','adversarial · refuted clean']],
           'G.3':[['inputs','committed stores only'],['re-run','sample assets end-to-end'],['compare','selected fields, 1e-6'],['clone','fresh · offline · green']]};
-        const rows=(R[m.id]||[['guard','checks defined per module']]).map(([k,t])=>`<div class="qc-row"><b>${k}</b><span>${t}</span><span class="qc-ok">OK</span></div>`).join('');
-        return `<div class="qc-list">${rows}</div><div class="viz-label">fail-closed guard · read-only</div>`;}},
+        const rows=(R[m.id]||[['validator','checks defined per module']]).map(([k,t])=>`<div class="qc-row"><b>${k}</b><span>${t}</span><span class="qc-ok">OK</span></div>`).join('');
+        return `<div class="qc-list">${rows}</div><div class="viz-label">fail-closed validator · read-only</div>`;}},
 
       /* B1 - momentum signal + significance gate */
       signal:{h:104,render:()=>svgV(40,`

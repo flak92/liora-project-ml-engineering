@@ -54,12 +54,21 @@ _run = data.research_run()
 _n_xgb, _n_lstm = _run.get("xgb_assets", 0), _run.get("lstm_assets", 0)
 
 st.write(
-    "Bottom → top: split-adjusted bars (A1) → leakage-safe split (A4) → signal, label and features "
-    "(B1–B4) → profit-aligned Train-only tuning (per-asset Optuna for XGB; one warm-started "
-    "backbone for LSTM) and the per-asset operating point (C1–C3) → the ledgered OOS "
-    "verdict, the honest benchmark, the Train-derived interpretation and this console (E1–E4), "
-    "with fail-closed **GUARDS** between. The **XGBOOST | LSTM** switch flips only the bricks whose "
-    "logic depends on the model."
+    "Bottom → top, four named stages. **DATA**: split-adjusted bars (A1) → leakage-safe split "
+    "(A4). **CONFIGURATION**: the learning problem itself — which bars become trade candidates, "
+    "what counts as a win, and which columns the model is allowed to see (B1–B4). "
+    "**TRAINING**: profit-aligned Train-only tuning (per-asset Optuna for XGB; one warm-started "
+    "backbone for LSTM) and the per-asset operating point (C1–C3). **ENDPRODUCT**: the ledgered "
+    "OOS verdict, the honest benchmark, the Train-derived interpretation and this console "
+    "(E1–E4). Between them sit fail-closed **VALIDATORS** — they stop a run outright; there is "
+    "no warning tier and they never repair what they find. The **XGBOOST | LSTM** switch flips "
+    "only the bricks whose logic depends on the model."
+)
+st.caption(
+    "Two words worth pinning down, because both are used loosely elsewhere. CONFIGURATION here "
+    "configures the **problem**, not the model — model hyper-parameters are not set by hand at "
+    "all, they are searched under TRAINING. And VALIDATORS are gates, not the validation split: "
+    "the purged walk-forward folds live inside TRAINING and are a different object entirely."
 )
 st.caption(
     f"Sealed in this release: {_n_xgb} XGB · {_n_lstm} LSTM. Counts read from the store; the "
