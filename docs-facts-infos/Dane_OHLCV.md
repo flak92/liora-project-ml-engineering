@@ -85,7 +85,9 @@ zdarzeń powstała **z danych + przeglądu człowieka**:
   fałszywki (spinoffy DELL/DD/PNR, dywidenda specjalna KDP, krachy PG&E/OPEC/CVNA/TTD/VRT),
   a 5 dopisano ręcznie (SHW 3:1 i ROL 3:2 tuż za progiem; HLT i DD 1:3 odwrotne wplecione
   w spinoffy; EXE 1:200 zniekształcone upadłością). **Wynik: 83 zdarzenia / 69 tickerów**,
-  każde z uzasadnieniem w `overrides.csv`.
+  każde z uzasadnieniem w `overrides.csv`. Sama tabela nadpisań liczy łącznie **28 wpisów**;
+  ich efektem netto na zbiorze auto-zaakceptowanych są opisane usunięcia i dodania
+  (88 → 83 zdarzeń). Kanoniczna księgowość: `Raport_Spojnosci_Badan.md` §3.5.
 - Korekta nakładana w `xgb/src/bars.py:load_bars()` **na barach 1h, PRZED roll-upem**
   (ceny × faktor, wolumen ÷ faktor); dzienny store LSTM rolluje się z tego samego
   skorygowanego strumienia, więc 1h i 1d są spójne z konstrukcji.
@@ -96,7 +98,7 @@ zdarzeń powstała **z danych + przeglądu człowieka**:
 |---|---|
 | Kotwica LEAN (AAPL) | faktor **0,25 → 1,00** — trafiony dokładnie |
 | Negatywna kontrola | **434 tickery bez zdarzeń bit-identyczne** z surowymi |
-| **Chirurgiczność korekty** | z 497 modeli XGB **436 bit-identycznych z v4**, zmieniło się tylko **61** — dokładnie te ze splitami |
+| **Chirurgiczność korekty** | z 497 modeli XGB porównywalnych między epokami **436 bit-identycznych z v4**, zmieniło się tylko **61** — dokładnie te ze splitami (uniwersum v5 pieczętuje 498 wierszy XGB) |
 | Gapy po korekcie | NVDA −90,1% → −0,77%, CMG −98% → +0,98%, AMCR +404,6% → +0,93% |
 | Spójność 1h↔1d | roll-up == store, dokładnie (2612 sesji) |
 | Bramki cross-bar | strzelają na **każdym** surowym splicie, **0/503 alarmów** po korekcie |
@@ -130,19 +132,22 @@ je potwierdził, co jest mocnym dowodem, że korekta zrobiła dokładnie to, co 
   kompletności sesji / płaskich barów. 3 ogólnorynkowe dni z niepełnymi danymi
   (2021-04-19, 2021-10-25, 2022-03-08; + 2018-05-02/03) zwijają sesję do jednego płaskiego
   bara — **3825 płaskich barów u 475 tickerów (0,4% wszystkich)**, wszystkie w Train, wpływ
-  niewielki i ograniczony do wąskiego okna kroczącego. Warta jawnej bramki w v5.
+  niewielki i ograniczony do wąskiego okna kroczącego. **Domknięte:** w v5 objęte jawną
+  bramką (`cross_bar_qc`, płaskie bary z progami udziałowymi).
 - **Detekcja barier po CLOSE** jest z natury ostrożna po stronie win-rate o ~5 pp (ciaśniejszy
-  SL 1×ATR bywa dotykany intra-bar częściej niż TP 2×ATR); mechanizm jest w kodzie — warto
-  dopisać kierunek i skalę do `docs/METHODOLOGY.md`.
-- **Dostrojenie zdania w dokumencie**: METHODOLOGY.md §2 mówi „Y=1 gdy TP przed SL"; kod
-  etykietuje po znaku zwrotu netto (z kosztami i gapem) — kod jest dokładniejszy niż opis.
+  SL 1×ATR bywa dotykany intra-bar częściej niż TP 2×ATR); mechanizm jest w kodzie.
+  **Domknięte:** kierunek i skala są opisane w `docs/METHODOLOGY.md` §6 (wiersz „Barrier
+  timing").
+- **Dostrojenie zdania w dokumencie** — **Domknięte:** `docs/METHODOLOGY.md` definiuje już
+  etykietę po znaku zwrotu netto („Y = 1 iff the realized net return … is > 0", z dopiskiem,
+  że to surowszy warunek niż „TP przed SL"), zgodnie z kodem.
 - Cechy `*_alignment_multi` we wczesnej historii degradują do dostępnych interwałów zamiast
   zostać NaN — przyczynowe i bez wycieku; do udokumentowania jako zamierzone.
 
 ## 6. Kolejność prac i sedno przekazu o danych
 
-1. **Korekta splitów** — minimum poziom 1 przed pokazaniem „beats-HODL"; docelowo epoka v5.
-2. **Dalej z designem** — sześć stron konsoli Streamlit nad gotowym `data/results.db`
+1. **Korekta splitów** — zrealizowana w epoce v5 (sekcja 4 — DOMKNIĘTE).
+2. **Dalej z designem** — dziewięć stron konsoli Streamlit nad gotowym `data/results.db`
    (jedyny moduł dostępu `app/data.py`), z jawną notą o splitach.
 3. **Tłumaczenie tego, co najważniejsze** — dane są środkiem, nie celem:
 
