@@ -25,6 +25,14 @@ import data
 import theme
 import venn
 
+# Optional add-on, built to be deleted in one `git rm -r app/formular`. Caught broadly on
+# purpose: a missing folder, a syntax error or a malformed data file inside it must all
+# degrade to "the button is not there", never to a page that will not open.
+try:
+    import formular
+except Exception:
+    formular = None
+
 GRID_COLS = 10
 
 # Above this basket size the detail table falls back to st.dataframe (no tooltips).
@@ -317,6 +325,10 @@ if source in data.PRESET_LABELS:
 elif source == "random" and n_sel:
     st.caption(f"Basket: **{n_sel}** ticker(s), drawn at random{edited}. "
                f"${B.ENTRY_USD * n_sel:,.0f} to invest.")
+elif source == "formular" and n_sel:
+    st.caption(f"Basket: **{n_sel}** ticker(s), chosen by the questionnaire adviser"
+               f"{edited} — it answered before seeing any result. "
+               f"${B.ENTRY_USD * n_sel:,.0f} to invest.")
 elif n_sel:
     st.caption(f"Basket: **{n_sel}** ticker(s), picked by hand. "
                f"${B.ENTRY_USD * n_sel:,.0f} to invest.")
@@ -330,11 +342,13 @@ st.button("Calculate basket", type="primary", disabled=(n_sel == 0),
 # every rerun (~0.6 s for the whole universe), which is the price of one source of truth —
 # a fragment kept the counter here in step while the caption and button above it lagged.
 st.subheader(f"Pick by hand — the {len(tickers)}-tile grid")
-b1, b2, _ = st.columns([2, 2, 6])
+b1, b2, b3, _ = st.columns([2, 2, 2, 4])
 b1.button("Random", width="stretch",
           help=f"Draw a fresh basket of {RANDOM_MIN} to {RANDOM_MAX} tickers",
           on_click=_random_basket, args=(tickers,))
 b2.button("Clear", width="stretch", on_click=_clear_basket)
+if formular:
+    formular.render(b3)
 
 st.markdown(GRID_CSS, unsafe_allow_html=True)
 picked = st.session_state.basket

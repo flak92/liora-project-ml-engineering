@@ -7,6 +7,16 @@ __pycache__/
 *.db-wal
 *.db-shm
 
+# Local secrets. Deliberately UNanchored, so they match at any depth — a key file
+# dropped next to the code that reads it is ignored just as the one at the root is.
+# .streamlit/ is a tracked directory (config.toml lives there), so without the last
+# rule a secrets file written by Streamlit's own convention would be one `git add -A`
+# away from a public remote. The negation must follow ".env.*", which matches it.
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
 # research-tree leftovers that live in this working copy but are NOT part of the
 # presentation branch (the research code lives on to_give_up_and_show).
 # Anchored with a leading slash: unanchored "xgb/" would also match the tracked
