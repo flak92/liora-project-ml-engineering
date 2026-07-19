@@ -180,9 +180,12 @@ def _detail_table_html(det, model):
 # ---------------------------------------------------------------- state
 
 def _select_method():
-    """Commit the picker's choice to a plain key that survives pages where the selectbox is
-    not drawn (Streamlit clears widget-keyed state once its widget stops being rendered)."""
-    st.session_state.method = st.session_state.method_sel
+    """Commit the switch's choice to a plain key that survives pages where the widget is not
+    drawn (Streamlit clears widget-keyed state once its widget stops being rendered). The
+    switch is required=True, so None cannot arrive — but if it ever did, keep the old model
+    rather than crashing every lookup downstream."""
+    if st.session_state.method_sel:
+        st.session_state.method = st.session_state.method_sel
 
 
 def _apply_preset():
@@ -235,9 +238,11 @@ st.sidebar.markdown(
 
 col_m, col_n = st.columns([1, 2])
 with col_m:
-    st.selectbox("Model", list(data.MODEL_KEY),
-                 index=list(data.MODEL_KEY).index(method),
-                 key="method_sel", on_change=_select_method)
+    # A switch, not a dropdown: the choice is strictly one of two, so it should look like
+    # two positions rather than a text field with a caret in it. required=True means an
+    # option can never be deselected, so `method` always names a real model.
+    st.segmented_control("Model", list(data.MODEL_KEY), default=method, required=True,
+                         key="method_sel", on_change=_select_method)
 with col_n:
     st.markdown("**Basket preset** — every membership is derived from the sealed store")
     labels = {}
