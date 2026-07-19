@@ -53,7 +53,7 @@ st.dataframe(
         {"path": "src/shared/", "role": "contracts shared by both pipelines: op_select.py (operating point), golden_calibration.py (search policy), interpretation.py (range math)"},
         {"path": "config/", "role": "the frozen configuration the code reads: xgb.json, lstm.json, feature families, feature registries"},
         {"path": "artifacts/xgb/<T>/, artifacts/lstm/<T>/", "role": f"{_n_assets} sealed per-asset artifacts (strategy, manifest, parameters, metrics, interpretation) + artifacts/manifest.json completeness contract"},
-        {"path": "data/results.db", "role": "SQLite results store (8 tables + 2 views), opened read-only"},
+        {"path": "data/results.db", "role": "SQLite results store (9 tables + 2 views), opened read-only"},
         {"path": "examples/", "role": "two executed notebooks: the full XGB path for AAPL and NVDA"},
         {"path": "docs/", "role": "METHODOLOGY.md and ARCHITECTURE.md"},
     ],
@@ -68,7 +68,8 @@ st.markdown(
     "operating point are selected on accumulated out-of-fold Train predictions "
     "(src/shared/op_select.py) — one shared point, never a per-fold optimum. The OOS "
     "window feeds no Train-side choice; every read of it is counted in an append-only "
-    "ledger (Integrity page), and the sealed result rows carry those cumulative counts. \n\n"
+    "ledger, summarised per pipeline on the Integrity page (reads this epoch, and the "
+    "min / mean / max of the cumulative per-asset counter). \n\n"
     "**Sealed artifacts.** Each asset ships five files whose SHA-256 hashes chain into "
     "manifest.json (per-file → folder → model hash); artifacts/manifest.json states the "
     f"completeness contract ({_n_xgb} XGB + {_n_lstm} LSTM = {_n_assets}). The console verifies dataset "

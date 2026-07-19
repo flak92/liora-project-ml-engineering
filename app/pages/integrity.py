@@ -1,7 +1,8 @@
 """Integrity — the research contract, shown rather than claimed.
 
 Every number here is read from the sealed store; nothing on this page is typed in. It
-answers, in order: which epoch is this, what produced it, was the one-shot OOS rule kept,
+answers, in order: which epoch is this, what produced it, under which frozen parameters,
+was the OOS read discipline kept,
 does the interpretation layer describe THESE artifacts, when does the model stay idle,
 and what the study does not cover.
 """
@@ -16,8 +17,8 @@ import streamlit as st
 import components as C
 import data
 
-C.page_header("Integrity", "The dataset's own record: identity, one-shot OOS discipline, "
-                           "coverage and the limits — straight from the sealed store.")
+C.page_header("Integrity", "The dataset's own record: identity, frozen parameters, OOS read "
+                           "discipline, coverage and the limits — straight from the sealed store.")
 C.guard(stop=False)
 
 health = data.health()
@@ -53,13 +54,14 @@ if reads:
     if reason:
         st.caption(f"Epoch opened because: {reason}")
 
-# ---------------------------------------------------------------- 3. one-shot OOS
-st.subheader("One-shot OOS discipline")
+# ---------------------------------------------------------------- 3. OOS read ledger
+st.subheader("OOS read discipline")
 st.markdown("The out-of-sample window is **never used to choose anything** — it only "
             "reports. Every read is counted in an append-only ledger (an interrupted, "
             "resumed pass counts every read), so the discipline is auditable rather than "
-            "asserted. The cumulative counter spans all epochs the asset has ever been "
-            "sealed in.")
+            "asserted. The table below is that ledger **summarised per pipeline**; the "
+            "cumulative counter spans all epochs the asset has ever been sealed in, and "
+            "its per-asset rows live in the research branch's ledger files.")
 if reads:
     st.dataframe(pd.DataFrame([{
         "pipeline": r["pipe"],

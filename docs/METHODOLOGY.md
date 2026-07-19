@@ -175,8 +175,10 @@ declared-limitations list and the measured read-ledger figures, lives in
 OOS data never feeds back into any choice — not HPO, not feature selection, not the operating
 point, not even the ML-vs-HODL verdict wording. Feature search runs on Train-CV only; the
 sealing pass scores each asset at the verdict step, and every read of the OOS window —
-including re-reads from an interrupted, resumed pass — is recorded in an append-only ledger
-whose cumulative per-asset counts the Integrity page shows. Each asset's
+including re-reads from an interrupted, resumed pass — is recorded in an append-only ledger.
+The Integrity page shows that ledger summarised per pipeline: reads in this epoch, and the
+min / mean / max of the cumulative per-asset counter (the per-asset rows themselves stay in
+the research branch's ledger files). Each asset's
 outcome is classified by `result_mode` (see ARCHITECTURE.md for the full enum): multi-trade
 result, single-trade low-evidence result, HODL fallback when the model produced zero OOS
 trades, or an explicit not-promoted verdict when the Train-OOF trade floor was never met (such

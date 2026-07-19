@@ -3,7 +3,7 @@
 The ONLY place in the app that:
 - opens data/results.db (sqlite, mode=ro),
 - verifies the schema and dataset completeness (fail-closed statuses),
-- holds every SQL query the six pages need,
+- holds every SQL query the nine pages need,
 - caches small aggregates (lru_cache; the db is sealed, so caches never go stale),
 - lazy-loads per-asset JSONs ONLY after an asset is selected, strictly via
   asset_results.artifact_path -> manifest.json / parameters.json / metrics.json /

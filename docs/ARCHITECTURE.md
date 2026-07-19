@@ -34,7 +34,7 @@ and writes nothing.
 
 | phase | one sentence |
 |---|---|
-| D1 | The bundled daily bar store is the frozen input; no acquisition happens in the pipeline. |
+| D1 | The daily bar store is the frozen input; no acquisition happens in the pipeline. (The store itself stays on the research branch — this branch ships the sealed artifacts it produced.) |
 | D2 | Load one ticker ordered by date with fail-closed source QC — corrupt OHLCV raises, never gets cleaned. |
 | D3 | Warmup / Train / OOS masks with purge (= label horizon) and embargo on events. |
 | D4 | Causal daily indicators, z-scored with Train-only per-asset statistics. |
@@ -66,15 +66,20 @@ Each `artifacts/{xgb,lstm}/<TICKER>/` folder contains exactly five files:
 | `manifest.json` | Per-file SHA-256 for the other four files, plus `folder_sha256` and `model_hash`. |
 
 A global `artifacts/manifest.json` (schema_version `artifact.v1`) records the expected counts
-per model and the folder hash of every asset; any byte drift is detectable offline.
+per model and the folder hash of every asset, so any byte drift is detectable offline.
+`folder_sha256` is built from the four hashed files of that folder (its own `manifest.json`
+is excluded): sort the filenames, join `"<filename>:<sha256>"` pairs with a single `\n`
+(no trailing newline), UTF-8 encode, SHA-256. `make verify` recomputes all of it — every
+per-file hash, every folder hash and the manifest's own count arithmetic.
 
-Typical manifest sizes, from the bundled AAPL example: the XGB feature manifest carries
-20 features (17 frozen 1h core + 3 selected context features) and the LSTM input has
-14 channels (13 core daily indicators + 1 selected optional) at SEQ_LEN = 60.
+Manifest sizes of the AAPL example shipped under `examples/`: the XGB feature manifest
+carries 22 features (17 frozen 1h core + 5 selected context features) and the LSTM input has
+17 channels (13 core daily indicators + 4 selected optional) at SEQ_LEN = 60. Both counts are
+per asset — the feature search selects a different subset for every ticker.
 
 ## 6. results.db schema
 
-Eight tables and two views. Key columns only:
+Nine tables and two views. Key columns only:
 
 | table | key columns |
 |---|---|
@@ -86,6 +91,7 @@ Eight tables and two views. Key columns only:
 | `feature_train_stats` | (ticker, model, feature_key); mu_train, sigma_train, `sigma_basis`, n_finite, model_hash, interpretation_recipe_hash |
 | `feature_contributions` | (ticker, model, feature_key); contribution_kind, contribution_share, feature_total_gain, split_count, family_share, low_evidence |
 | `xgb_entry_ranges` | (ticker, direction, feature_key, segment_no); interval_lo/hi, interval_lo/hi_sigma, n_rows, n_entry_events, entry_lift, tp_before_sl_rate, candidate_entry_region, low_evidence |
+| `oos_read_summary` | (pipe, epoch) PK; tickers, reads_this_epoch, cum_read_min/max/mean, recipe_hash, `reason` (carries the corporate-action `events_sha256`), opened_at, closed — the OOS read ledger, summarised per pipeline |
 
 Views: `v_model_summary` (per-model result_mode counts, beats-HODL, positive strategies) and
 `v_universe_summary` (one row per ticker, both models pivoted).
@@ -145,5 +151,8 @@ docs/                       METHODOLOGY.md, ARCHITECTURE.md
 
 ## 9. Provenance contract
 
-Version/epoch names do not appear in public paths, UI, README, docs or the presentation
-database; they may persist as immutable provenance inside the hash-sealed artifact JSONs.
+Version/epoch names do not appear in public paths, in the console, in README or in the
+presentation database; they may persist as immutable provenance inside the hash-sealed
+artifact JSONs. The written audits under `docs-facts-infos/` are the deliberate exception:
+they are dated records of the research branch and name its epoch, which is why they also
+state how the identity fields were anonymized here (`Raport_Spojnosci_Badan.md` §2).

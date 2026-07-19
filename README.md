@@ -58,9 +58,10 @@ design. See `docs/METHODOLOGY.md`.
    and trajectories (Train-derived interpretation).
 5. **Model Comparison** — four charts: return, profit factor, trades, beats-HODL share.
 6. **Architecture** — the data flow above plus a map from the presentation to the code.
-7. **Integrity** — the dataset's own record: epoch and recipe hashes, the one-shot OOS
-   read ledger (cumulative per-asset read counts), interpretation coverage, when the model
-   stays idle, every integrity check, and the known limits.
+7. **Integrity** — the dataset's own record: epoch and recipe hashes, the frozen
+   parameters, the OOS read ledger (reads per pipeline, and the spread of the cumulative
+   per-asset counter), interpretation coverage, when the model is not promoted, every
+   integrity check, and the known limits.
 8. **Pipeline Blueprint** — the procedure as an 18-brick ladder: contract, reasoning and
    lesson per brick, with the layer id the code uses (XGB L1-L9, LSTM D1-D9).
 9. **Data Flow** — the per-asset build path as a 2.5D canvas map, both pipelines in one
