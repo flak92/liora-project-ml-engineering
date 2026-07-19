@@ -301,7 +301,10 @@ def preset_tickers(name, model):
 # ---------------------------------------------------------------- per-asset queries
 
 def asset(ticker, model):
-    rows = _rows("select * from asset_results where ticker=? and model=?", (ticker, model))
+    """One sealed row. Accepts either vocabulary for `model` ('XGBoost' or 'xgb'), like
+    every other model-keyed accessor here — a display name used to return None silently."""
+    rows = _rows("select * from asset_results where ticker=? and model=?",
+                 (ticker, MODEL_KEY.get(model, model)))
     return rows[0] if rows else None
 
 

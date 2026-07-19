@@ -76,7 +76,10 @@ def _render_outputs(outputs):
 C.page_header("Jupyter Notebook",
               "One asset end-to-end, once per model — narrative, exact code and the outputs "
               "that actually ran.")
-C.guard(stop=False)
+# stop=True: this page cross-checks the notebooks against the store, so without a healthy
+# store the check would silently not happen — and a notebook printing "REPRODUCED" with
+# nothing verifying it is exactly the failure this page exists to prevent.
+C.guard()
 
 st.markdown(
     "Both notebooks run the same asset, so the only difference between them is the model. "
@@ -102,17 +105,26 @@ cells = doc["cells"]
 
 # The notebook states which sealed row it reproduces; the store is asked the same question
 # here, so a stale notebook shows up as a contradiction on screen instead of a claim.
-prov = doc.get("liora") or {}
-if prov.get("ticker") and prov.get("model"):
-    row = data.asset(prov["ticker"], prov["model"])
-    claimed = (prov.get("sealed_row") or {}).get("end_capital")
-    if row and claimed is not None:
-        match = abs(float(row["end_capital"]) - float(claimed)) <= 1e-6 * max(1.0, abs(claimed))
-        verdict = "matches" if match else "DOES NOT MATCH"
-        st.caption(f"This run is {prov['ticker']} · {prov['model'].upper()}. Its end capital "
-                   f"{claimed:,.4f} USD {verdict} the sealed row in data/results.db "
-                   f"({float(row['end_capital']):,.4f} USD, {row['model_trades']} model trades, "
-                   f"{C.status_label(row['result_mode'])}).")
+# This check FAILS LOUD: if it cannot be made, the page says so, because the notebook's own
+# captured output still prints "REPRODUCED" whether or not anything verified it.
+prov = doc.get("liora") if isinstance(doc.get("liora"), dict) else {}
+try:
+    ticker, model_key = prov["ticker"], prov["model"]
+    claimed = float((prov.get("sealed_row") or {})["end_capital"])
+    row = data.asset(ticker, model_key)
+    if row is None:
+        raise LookupError(f"{ticker} · {model_key} is not in data/results.db")
+    actual = float(row["end_capital"])
+    match = abs(actual - claimed) <= 1e-6 * max(1.0, abs(claimed))
+    verdict = "matches" if match else "DOES NOT MATCH"
+    line = (f"This run is {ticker} · {model_key.upper()}. Its end capital {claimed:,.4f} USD "
+            f"{verdict} the sealed row in data/results.db ({actual:,.4f} USD, "
+            f"{row['model_trades']} model trades, {C.status_label(row['result_mode'])}).")
+    (st.caption if match else st.error)(line)
+except (KeyError, TypeError, ValueError, LookupError) as exc:
+    st.warning(f"Cannot check this notebook against the store: {exc}. The 'REPRODUCED' line "
+               f"in its own output below is therefore unverified here — run `make verify`.",
+               icon="⚠️")
 
 sections = [c["source"].splitlines()[0].lstrip("# ").strip()
             for c in cells if c["type"] == "markdown" and c["source"].startswith("## ")]
