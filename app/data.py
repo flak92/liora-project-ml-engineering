@@ -101,13 +101,6 @@ def tickers():
 
 
 @lru_cache(maxsize=1)
-def result_mode_shares():
-    """Overview panel 'kiedy model jest bezczynny': result_mode counts per model."""
-    return _rows("select model, result_mode, count(*) as n from asset_results "
-                 "group by model, result_mode order by model, n desc")
-
-
-@lru_cache(maxsize=1)
 def integrity():
     return _rows("select * from integrity_checks order by check_name")
 
@@ -415,7 +408,8 @@ def oos_reads():
 def result_mode_matrix():
     """result_mode counts per model — the direct evidence for 'the model knows when to
     stay idle', which is otherwise scattered across Overview and Universe."""
-    rows = result_mode_shares()
+    rows = _rows("select model, result_mode, count(*) as n from asset_results "
+                 "group by model, result_mode order by model, n desc")
     models = sorted({r["model"] for r in rows})
     modes = sorted({r["result_mode"] for r in rows})
     return {"models": models, "modes": modes,

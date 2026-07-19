@@ -64,7 +64,9 @@ The sidebar groups them the way a defence walks: **Playground** (do something), 
 1. **Basket Simulator** — pick assets, by preset or by hand, and read what the sealed
    models did with them against the same basket simply held. Three numbers, never one:
    the executed path, the model result, and the price-only benchmark.
-2. **Overview** — what the study is, Train/OOS timeline, median outcomes, main finding.
+2. **Overview** — the universe verdict in one table: median return against each model's
+   own buy-and-hold over the same window, how many assets beat it, and median profit
+   factor with its coverage.
 3. **Feature Logic** — what each sealed model reads: XGB ENTRY ranges and LSTM channel
    occlusion (Train-derived interpretation).
 4. **Model Comparison** — four charts: return, profit factor, trades, beats-HODL share.
