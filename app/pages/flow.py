@@ -39,20 +39,34 @@ st.write(
     "embargo → ATR Triple-Barrier labels → profit-aligned Train-only tuning (per-asset Optuna for "
     "XGB; one warm-started committed backbone for LSTM) → sealed artifact → the ledgered OOS "
     "read → Train-derived interpretation. The same pass runs independently for every asset — "
-    "nothing is pooled, and each ticker gets its own model."
+    "nothing is pooled, and each ticker gets its own model. The models decide **ENTRY only**: "
+    "take-profit and stop-loss are a mechanical ATR contract, never a model decision."
 )
 st.caption(
     f"Sealed indicators in this release: {_n_xgb} XGB (1h) · {_n_lstm} LSTM (daily) — "
-    f"{_n_xgb + _n_lstm} artifacts. Counts read from the store; the map's own figures are frozen. "
+    f"{_n_xgb + _n_lstm} artifacts, presentation freeze "
+    f"`{_run.get('presentation_freeze') or '—'}`. Counts and freeze read from the store; the "
+    f"map's own figures are frozen. "
     "Some scenes are marked SCHEMATIC (the tuning-trial scatter and the sample OHLCV rows carry "
     "the mark; the detector wall and feature-matrix cells are likewise illustrative): they "
     "illustrate the shape of a process and are not measurements."
 )
-st.caption("Drag to pan · wheel to zoom · click a node for its contract · Esc closes.")
+st.caption(
+    "Drag to pan · **Ctrl + wheel** (or trackpad pinch) to zoom · a plain wheel scrolls this "
+    "page · click a node for its contract · Esc closes. The map is deliberately tall: sixteen "
+    "ladder levels need vertical room before their labels stop colliding, so scroll down "
+    "through it rather than expecting it on one screen."
+)
 
 if not FLOW.exists():
     st.error(f"Flow map not found: {FLOW.name} (expected at the repository root).")
     st.stop()
 
-st.iframe(_load(FLOW.stat().st_mtime), height=820)
-st.caption("Standalone file: data_flow_3d.html (repository root — opens in any browser).")
+# The map fits itself to the height it is given, and that fit is bound by the vertical: the
+# ladder's world is 1:11.4, so width has ~20x the slack. At 820 the sixteen levels landed 43px
+# apart and the labels — which the map floors at 80% however far it zooms out — overlapped into
+# the mess this height exists to fix. 4750 puts the fit just past that font floor, so text and
+# artwork are drawn in the proportion the map was designed for, ~306px per level.
+st.iframe(_load(FLOW.stat().st_mtime), height=4750)
+st.caption("Standalone file: data_flow_3d.html (repository root — opens in any browser, with "
+           "its own title, the whole ladder on one screen, and plain-wheel zoom).")

@@ -982,7 +982,12 @@
     function clearSelect(){selectedId=null;renderInventory();renderCanvas();renderInspector(null);}
 
     $('#flowCanvas').addEventListener('click',e=>{if(e.target===$('#flowCanvas')){if(panMoved){panMoved=false;return;}clearSelect();}});
-    $('#flowViewport').addEventListener('wheel',e=>{e.preventDefault();const vp=$('#flowViewport').getBoundingClientRect();const mx=e.clientX-vp.left,my=e.clientY-vp.top;const f=e.deltaY<0?1.12:1/1.12;const nz=Math.max(0.15,Math.min(3,zoom*f));const cx=(mx-panX)/zoom,cy=(my-panY)/zoom;panX=mx-cx*nz;panY=my-cy*nz;zoom=nz;applyTransform();},{passive:false});
+    /* Scroll chaining to the parent frame is the wheel's default action, so cancelling it
+       unconditionally traps a reader on a tall embed. Embedded: plain wheel goes to the host
+       page, Ctrl/Cmd+wheel (and trackpad pinch, which arrives as ctrlKey) zooms. Standalone
+       the body is 100vh/overflow:hidden with nothing to chain to, so nothing changes there. */
+    const EMBEDDED=(()=>{try{return window.self!==window.top;}catch(e){return true;}})();
+    $('#flowViewport').addEventListener('wheel',e=>{if(EMBEDDED&&!e.ctrlKey&&!e.metaKey)return;e.preventDefault();const vp=$('#flowViewport').getBoundingClientRect();const mx=e.clientX-vp.left,my=e.clientY-vp.top;const f=e.deltaY<0?1.12:1/1.12;const nz=Math.max(0.15,Math.min(3,zoom*f));const cx=(mx-panX)/zoom,cy=(my-panY)/zoom;panX=mx-cx*nz;panY=my-cy*nz;zoom=nz;applyTransform();},{passive:false});
     $('#flowCanvas').addEventListener('pointerdown',e=>{if(e.button!==0)return;if(e.target!==$('#flowCanvas'))return;panning={sx:e.clientX,sy:e.clientY,px:panX,py:panY};panMoved=false;$('#flowCanvas').classList.add('panning');});
     $('#flowCanvas').addEventListener('dblclick',e=>{if(e.target===$('#flowCanvas'))fitView();});
     document.addEventListener('pointermove',e=>{if(!panning)return;panX=panning.px+(e.clientX-panning.sx);panY=panning.py+(e.clientY-panning.sy);if(Math.abs(e.clientX-panning.sx)+Math.abs(e.clientY-panning.sy)>3)panMoved=true;applyTransform();});

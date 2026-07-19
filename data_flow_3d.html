@@ -43,6 +43,15 @@ body{
 h1.tlc-h{font-size:17px;margin:0 0 2px;font-weight:650}
 .tlc-sub{font-size:12.5px;color:var(--color-text-secondary);margin:0 0 8px;max-width:1100px}
 .tlc-sub b{color:var(--color-text-primary);font-weight:600}
+/* Embedded mode. The console page that iframes this file already renders the title and,
+   almost word for word, the subtitle — repeating them says everything twice and costs the
+   canvas ~110px, which is the only currency that buys space between the ladder's levels.
+   The markup stays in the document (this is display:none, not a deletion), so opening the
+   file directly is untouched. The panel gets a ceiling so its click-anchored placement
+   further down has room to clamp against. */
+.is-embedded h1.tlc-h,.is-embedded .tlc-sub{display:none}
+.is-embedded body{padding-top:8px}
+.is-embedded #panel{max-height:520px}
 .tlc-stage{position:relative;margin-top:2px;flex:1 1 auto;min-height:0;overflow:hidden}
 #tlc{position:absolute;inset:0;display:block;width:100%;height:100%;cursor:grab}
 #tip{position:absolute;display:none;pointer-events:none;z-index:3;max-width:280px;
@@ -62,6 +71,14 @@ h1.tlc-h{font-size:17px;margin:0 0 2px;font-weight:650}
 .tlc-leg i{width:11px;height:11px;border-radius:3px;display:inline-block}
 .tlc-leg .cav{color:var(--color-text-tertiary)}
 </style>
+<script>
+/* Set on <html> from <head>, before <body> is parsed: nothing flashes, and the first
+   resize() at the foot of this file already measures the taller stage — the ResizeObserver
+   never has to correct anything. A cross-origin embed would throw on window.top; throwing
+   means embedded, so the catch sets the same class. */
+try{if(window.self!==window.top)document.documentElement.className+=' is-embedded';}
+catch(e){document.documentElement.className+=' is-embedded';}
+</script>
 </head>
 <body>
 <h2 class="sr-only">Per-asset build path: one split-adjusted data root feeding two independent sealed
@@ -1785,7 +1802,7 @@ function goHome(){var f=homeFit();CAM.x=CAM.t.x=f.x;CAM.y=CAM.t.y=f.y;CAM.z=CAM.
 /* ================= tooltip + panel ================= */
 var tip=document.getElementById('tip'),panel=document.getElementById('panel'),
     panelBody=document.getElementById('panelBody'),panelTitle=document.getElementById('panelTitle');
-var SELECTED=null;
+var SELECTED=null,PANEL_Y=0;
 document.getElementById('panelClose').onclick=function(){SELECTED=null;panel.style.display='none';};
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 function openPanel(n){
@@ -1806,6 +1823,12 @@ function openPanel(n){
   h+='<span style="color:var(--color-text-tertiary)">status: '+(n.status==='warn'?'⚠ carries a declared limitation':'ok')+'</span>';
   panelBody.innerHTML=h;
   panel.style.display='block';
+  /* The stage is as tall as the frame it lives in. Anchored at top:10px the contract panel
+     would open thousands of pixels above a click near the foot of the ladder — invisible,
+     and it would silently break the map's primary interaction. Pin it to the click instead
+     and clamp it inside the stage. offsetHeight only reads true after display:block, hence
+     the order. On a short stage the clamp collapses to roughly the original placement. */
+  panel.style.top=clamp(PANEL_Y-24,10,Math.max(10,chh-panel.offsetHeight-10))+'px';
 }
 var TIP_BY_TYPE={
   universe:'S&P 500 universe — the procedure below runs once per asset: 498 sealed XGB + 495 sealed LSTM indicators.',
@@ -1857,7 +1880,7 @@ function invalidateRect(){RECT=null;}
 function localXY(e){var r=RECT||(RECT=cv.getBoundingClientRect());return {x:e.clientX-r.left,y:e.clientY-r.top};}
 cv.addEventListener('mousedown',function(e){dragging=true;moved=false;lx=e.clientX;ly=e.clientY;cv.style.cursor='grabbing';});
 window.addEventListener('mouseup',function(e){
-  if(dragging&&!moved){var p=localXY(e),h=HITS.find(p.x,p.y);
+  if(dragging&&!moved){var p=localXY(e),h=HITS.find(p.x,p.y);PANEL_Y=p.y;
     if(h&&h.lev!=null)openPanel(NODE_BY_LEV[h.lev]);
     else{SELECTED=null;panel.style.display='none';}}
   dragging=false;cv.style.cursor='grab';});
@@ -1873,7 +1896,17 @@ window.addEventListener('mousemove',function(e){
     var tx=clamp(p.x+16,0,cw-300),ty=clamp(p.y+14,0,chh-90);
     tip.style.left=tx+'px';tip.style.top=ty+'px';cv.style.cursor='pointer';}
   else{tip.style.display='none';cv.style.cursor=dragging?'grabbing':'grab';}});
+/* Scroll chaining to the parent frame IS the wheel event's default action, so an
+   unconditional preventDefault() here traps a reader on a tall embed with no way out but
+   the scrollbar. Embedded, the host page is the only thing that scrolls, so a plain wheel
+   is handed back to it and only Ctrl/Cmd+wheel zooms. Standalone the body is 100vh and
+   overflow:hidden — there is nothing to chain to — so a plain wheel keeps zooming exactly
+   as before. Trackpad pinch arrives as ctrlKey+wheel everywhere, so it zooms in both modes
+   and its preventDefault (below) is what stops the browser page-zooming instead.
+   Never add overscroll-behavior to body: it would re-arm the trap. */
+var EMBEDDED=document.documentElement.className.indexOf('is-embedded')>=0;
 cv.addEventListener('wheel',function(e){
+  if(EMBEDDED&&!e.ctrlKey&&!e.metaKey)return;   /* no preventDefault -> the host page scrolls */
   e.preventDefault();
   var p=localXY(e),z2=clamp(CAM.z*Math.exp(-e.deltaY*0.0011),0.3,4);
   var wx=(p.x-cw/2)/CAM.z+CAM.x,wy=(p.y-chh/2)/CAM.z+CAM.y;
@@ -1886,7 +1919,14 @@ window.addEventListener('keydown',function(e){
 
 /* ================= main loop ================= */
 function resize(){var st=cv.parentElement.getBoundingClientRect();
-  DPR=window.devicePixelRatio||1;cw=st.width;chh=st.height;
+  cw=st.width;chh=st.height;
+  /* A backing store is cw*chh*DPR^2 pixels and the flow dots repaint it every frame. On a
+     tall embed at DPR 2 that is ~24M pixels (~96MB) per frame, and the IntersectionObserver
+     below cannot help — a canvas this tall never leaves the viewport, and never exceeds ~19%
+     of it either, so no threshold both pauses it when hidden and runs it when read. Cap the
+     budget instead: full DPR on a short stage, degraded smoothly on a tall one, never below 1
+     (at z~0.8 the difference is invisible and the fan is audible). */
+  DPR=Math.max(1,Math.min(window.devicePixelRatio||1,Math.sqrt(12e6/Math.max(1,cw*chh))));
   var bw=Math.round(cw*DPR),bh=Math.round(chh*DPR);
   /* assigning cv.width/height reallocates and zeroes the backing store and resets ALL context
      state, so only do it when the pixel size actually changed. */

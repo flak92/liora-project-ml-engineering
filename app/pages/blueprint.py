@@ -67,11 +67,18 @@ st.caption(
     "tuning-trial cell values are marked SCHEMATIC and are not recorded trials — for LSTM no "
     "per-asset study ran in this epoch (the cold-start path exists behind LSTM_COLD_START=1)."
 )
+st.caption(
+    "Drag to pan · **Ctrl + wheel** (or trackpad pinch) to zoom · a plain wheel scrolls this "
+    "page · double-click the background to re-fit."
+)
 
 if not BLUEPRINT.exists():
     st.error(f"Blueprint not found: {BLUEPRINT.name} (expected at the repository root).")
     st.stop()
 
-st.iframe(_load(BLUEPRINT.stat().st_mtime), height=780)
+# The board is 1184x2706 and its fit is height-bound below ~1690px of frame, so 780 rendered
+# every brick title at under 3px. 1500 nearly doubles the fit (0.28 -> 0.55) and stays inside
+# that ceiling — past it width binds and the extra height would only add empty bands.
+st.iframe(_load(BLUEPRINT.stat().st_mtime), height=1500)
 st.markdown(LESSONS)
 st.caption("Standalone file: pipeline_lego_blueprint.html (repository root — opens in any browser).")
