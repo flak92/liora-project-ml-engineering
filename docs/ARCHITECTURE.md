@@ -132,8 +132,8 @@ Fail-closed statuses, bannered by the app:
 README.md, Makefile, requirements.txt, LICENSE
 app.py                      Streamlit entry point
 app/data.py                 the single data-access layer (section 7)
-app/pages/                  10 pages in three sidebar sections —
-                            Playground: Basket Simulator, Jupyter Notebook;
+app/pages/                   9 pages in three sidebar sections —
+                            Playground: Basket Simulator;
                             Results: Overview, Universe, Asset Indicator,
                             Feature Logic, Model Comparison;
                             Method & proof: Integrity, Data Pipeline Lego Plan,

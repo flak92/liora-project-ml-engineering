@@ -1,5 +1,5 @@
-"""Entry point: `streamlit run app.py` (or `make on`). Ten read-only pages in three
-sections: Playground (build a basket, read a notebook), Results (what the models did),
+"""Entry point: `streamlit run app.py` (or `make on`). Nine read-only pages in three
+sections: Playground (build a basket), Results (what the models did),
 Method & proof (how it was built and how to check it)."""
 import sys
 from pathlib import Path
@@ -17,7 +17,6 @@ st.set_page_config(
 pages = st.navigation({
     "Playground": [
         st.Page("app/pages/simulator.py", title="Basket Simulator", url_path="simulator"),
-        st.Page("app/pages/notebook.py", title="Jupyter Notebook", url_path="notebook"),
     ],
     "Results": [
         st.Page("app/pages/overview.py", title="Overview", url_path="overview", default=True),

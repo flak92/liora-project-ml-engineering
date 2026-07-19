@@ -13,7 +13,7 @@ OHLCV (1h / 1d)
   -> XGB | LSTM  (sealed per-asset models)
   -> per-asset artifact  (strategy + manifest + parameters + metrics + interpretation)
   -> data/results.db  (SQLite, read-only)
-  -> Streamlit console  (ten pages)
+  -> Streamlit console  (nine pages)
 ```
 
 ## Quickstart
@@ -56,7 +56,7 @@ Both models only decide ENTRY; take-profit and stop-loss are a mechanical ATR
 triple-barrier contract. An asset with no robust Train operating point stays idle by
 design. See `docs/METHODOLOGY.md`.
 
-## The ten pages
+## The nine pages
 
 The sidebar groups them the way a defence walks: **Playground** (do something), **Results**
 (what the models did), **Method & proof** (how it was built, and how to check it).
@@ -64,29 +64,27 @@ The sidebar groups them the way a defence walks: **Playground** (do something), 
 1. **Basket Simulator** — pick assets, by preset or by hand, and read what the sealed
    models did with them against the same basket simply held. Three numbers, never one:
    the executed path, the model result, and the price-only benchmark.
-2. **Jupyter Notebook** — one asset end-to-end, once per model: narrative, exact code and
-   the outputs that actually ran.
-3. **Overview** — what the study is, Train/OOS timeline, median outcomes, main finding.
-4. **Universe** — one operational table over all assets; search, filter, jump to an asset.
-5. **Asset Indicator** — the dedicated indicator of one asset: results, calibrated
+2. **Overview** — what the study is, Train/OOS timeline, median outcomes, main finding.
+3. **Universe** — one operational table over all assets; search, filter, jump to an asset.
+4. **Asset Indicator** — the dedicated indicator of one asset: results, calibrated
    threshold, direction mode, selected features, artifact path.
-6. **Feature Logic** — what each sealed model reads: XGB ENTRY ranges, LSTM occlusion
+5. **Feature Logic** — what each sealed model reads: XGB ENTRY ranges, LSTM occlusion
    and trajectories (Train-derived interpretation).
-7. **Model Comparison** — four charts: return, profit factor, trades, beats-HODL share.
-8. **Integrity** — the dataset's own record: epoch and recipe hashes, the frozen
+6. **Model Comparison** — four charts: return, profit factor, trades, beats-HODL share.
+7. **Integrity** — the dataset's own record: epoch and recipe hashes, the frozen
    parameters, the OOS read ledger (reads per pipeline, and the spread of the cumulative
    per-asset counter), interpretation coverage, when the model is not promoted, every
    integrity check, and the known limits.
-9. **Data Pipeline Lego Plan** — the procedure as an 18-brick ladder: contract, reasoning
+8. **Data Pipeline Lego Plan** — the procedure as an 18-brick ladder: contract, reasoning
    and lesson per brick, with the layer id the code uses (XGB L4-L9, LSTM D1-D9).
-10. **Data Flow 3D Visualization** — the build path drawn twice: the whole study as eight
+9. **Data Flow 3D Visualization** — the build path drawn twice: the whole study as eight
    boxes, then the same path as a 2.5D canvas map — sixteen levels, both pipelines in one
    ladder, every contract a click away.
 
 ## Repository structure
 
 ```text
-app.py            Streamlit entry point (ten pages under app/pages/, in three sections)
+app.py            Streamlit entry point (nine pages under app/pages/, in three sections)
 app/              console code; app/data.py is the ONLY module opening the database
 src/xgb/          XGB research code (pipeline L4-L9, feature search, artifact writers)
 src/lstm/         LSTM research code (pipeline D1-D6, model D7-D8, feature search)
