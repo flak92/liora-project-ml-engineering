@@ -244,7 +244,9 @@ def _go(stage):
 C.page_header("Basket Simulator",
               "Pick a basket of S&P 500 assets and read what the sealed models did with it — "
               "against the same basket simply held.")
-C.guard(stop=False)
+# stop=True like every other store-reading page: stop=False belongs to the three static
+# pages, which render fine without the database. This one queries it immediately.
+C.guard()
 
 st.session_state.setdefault("stage", "pick")
 st.session_state.setdefault("basket", set())
