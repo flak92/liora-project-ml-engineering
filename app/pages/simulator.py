@@ -312,32 +312,29 @@ elif n_sel:
     st.caption(f"Basket: **{n_sel}** ticker(s), picked by hand. "
                f"${B.ENTRY_USD * n_sel:,.0f} to invest.")
 else:
-    st.caption("Basket is empty — choose a preset above, or open the grid and pick by hand.")
+    st.caption("Basket is empty — choose a preset above, or pick from the grid below.")
 
 st.button("Calculate basket", type="primary", disabled=(n_sel == 0),
           on_click=_go, args=("result",))
 
-with st.expander(f"Pick manually — the {len(tickers)}-tile grid"):
-    # st.expander runs its body even when collapsed, so the tiles sit behind a toggle.
-    # NOT a fragment: a fragment rerun would update the counter inside this expander while
-    # the caption and the Calculate button above it kept the pre-click basket, which reads
-    # as "3 selected" next to a disabled button. A full rerun of this page costs ~0.6 s
-    # with every tile built, so one source of truth is worth more than the saved frame.
-    if st.toggle("Load the tile grid", key="grid_on"):
-        b1, b2, _ = st.columns([2, 2, 6])
-        b1.button("Select all", width="stretch", on_click=_select_all, args=(tickers,))
-        b2.button("Clear", width="stretch", on_click=_clear_basket)
+# The grid is always on screen: it is the page, not an option. Every tile is rebuilt on
+# every rerun (~0.6 s for the whole universe), which is the price of one source of truth —
+# a fragment kept the counter here in step while the caption and button above it lagged.
+st.subheader(f"Pick by hand — the {len(tickers)}-tile grid")
+b1, b2, _ = st.columns([2, 2, 6])
+b1.button("Select all", width="stretch", on_click=_select_all, args=(tickers,))
+b2.button("Clear", width="stretch", on_click=_clear_basket)
 
-        st.markdown(GRID_CSS, unsafe_allow_html=True)
-        picked = st.session_state.basket
-        st.caption(f"selected: **{len(picked)}** · to invest: "
-                   f"${B.ENTRY_USD * len(picked):,.0f}")
-        with st.container(height=560):
-            for start in range(0, len(tickers), GRID_COLS):
-                for col, tk in zip(st.columns(GRID_COLS), tickers[start:start + GRID_COLS]):
-                    col.button(tk, key=f"tk_{tk.replace('.', '_')}",
-                               type="primary" if tk in picked else "secondary",
-                               on_click=_toggle, args=(tk,), width="stretch")
+st.markdown(GRID_CSS, unsafe_allow_html=True)
+picked = st.session_state.basket
+st.caption(f"selected: **{len(picked)}** · to invest: ${B.ENTRY_USD * len(picked):,.0f}"
+           + (f" · {len(dropped)} not scored under {method}" if dropped else ""))
+with st.container(height=560):
+    for start in range(0, len(tickers), GRID_COLS):
+        for col, tk in zip(st.columns(GRID_COLS), tickers[start:start + GRID_COLS]):
+            col.button(tk, key=f"tk_{tk.replace('.', '_')}",
+                       type="primary" if tk in picked else "secondary",
+                       on_click=_toggle, args=(tk,), width="stretch")
 
 if st.session_state.stage != "result" or not n_sel:
     st.stop()
