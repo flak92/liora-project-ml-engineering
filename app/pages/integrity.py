@@ -173,7 +173,7 @@ st.markdown(
     "- **Bull OOS window** — buy-and-hold is a hard benchmark over this period.\n"
     "- **Barrier timing** — barriers are evaluated on closes, which is conservative on "
     "win-rate: the tighter stop is pierced intra-bar more often than the wider target.\n"
-    "- **In-sample interpretation** — the ENTRY ranges, contributions and trajectories are "
+    "- **In-sample interpretation** — the ENTRY ranges and contributions are "
     "**Train-derived descriptions of a sealed model**, not an out-of-sample result and not "
     "a live trading signal.")
 st.caption("Full written audits (Polish) live in docs-facts-infos/ at the repository root: "

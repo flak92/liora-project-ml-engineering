@@ -65,8 +65,8 @@ The sidebar groups them the way a defence walks: **Playground** (do something), 
    models did with them against the same basket simply held. Three numbers, never one:
    the executed path, the model result, and the price-only benchmark.
 2. **Overview** — what the study is, Train/OOS timeline, median outcomes, main finding.
-3. **Feature Logic** — what each sealed model reads: XGB ENTRY ranges, LSTM occlusion
-   and trajectories (Train-derived interpretation).
+3. **Feature Logic** — what each sealed model reads: XGB ENTRY ranges and LSTM channel
+   occlusion (Train-derived interpretation).
 4. **Model Comparison** — four charts: return, profit factor, trades, beats-HODL share.
 5. **Integrity** — the dataset's own record: epoch and recipe hashes, the frozen
    parameters, the OOS read ledger (reads per pipeline, and the spread of the cumulative

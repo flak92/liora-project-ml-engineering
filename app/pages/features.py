@@ -16,7 +16,7 @@ C.page_header("Feature Logic",
 C.guard()
 
 ticker = C.ticker_picker()
-tab_xgb, tab_lstm = st.tabs(["XGB — entry ranges", "LSTM — sequence & occlusion"])
+tab_xgb, tab_lstm = st.tabs(["XGB — entry ranges", "LSTM — occlusion"])
 
 
 def fmt_bound(value, sigma=False):
@@ -141,6 +141,11 @@ with tab_lstm:
     else:
         C.disclaimer_box(ticker, "lstm")
         doc = data.interpretation(ticker, "lstm")
+        # Fail loud on a missing payload: every view below degrades to an empty dict, which
+        # would draw a chart missing its grey trace under a caption still describing it.
+        if doc is None:
+            st.markdown('<span class="status-warn">ARTIFACT PAYLOAD MISSING</span>',
+                        unsafe_allow_html=True)
         occl = ((doc or {}).get("features_global") or {})
 
         st.markdown("**Input-channel contributions (occlusion)**")
@@ -179,51 +184,5 @@ with tab_lstm:
             "sigma_basis = artifact_norm_stats: these are the ACTUAL input normalization "
             "constants of the sealed network — unlike the XGB sigmas, which only "
             "describe the Train distribution.")
-
-        st.markdown("**State-sequence significance (60-step trajectories)**")
-        per_dir = (doc or {}).get("per_direction") or {}
-        if per_dir:
-            c1, c2 = st.columns([3, 1])
-            directions = sorted(per_dir.keys())
-            direction = c2.selectbox("Direction", directions, key="lstm_dir")
-            node = per_dir.get(direction) or {}
-            trajectories = node.get("trajectories") or {}
-            if trajectories:
-                traj_key = c1.selectbox("Channel", sorted(trajectories.keys()))
-                tr = trajectories.get(traj_key) or {}
-                steps = list(range(-len(tr.get("base_mean", [])) + 1, 1))
-                fig = go.Figure()
-                for mean_key, std_key, color, name in (
-                        ("base_mean", "base_std", theme.TEXT_DIM, "all windows"),
-                        ("entry_mean", "entry_std", theme.ACCENT, "ENTRY windows")):
-                    mean = tr.get(mean_key) or []
-                    std = tr.get(std_key) or []
-                    if not mean:
-                        continue
-                    if std and len(std) == len(mean):
-                        upper = [m + s for m, s in zip(mean, std)]
-                        lower = [m - s for m, s in zip(mean, std)]
-                        fig.add_trace(go.Scatter(x=steps + steps[::-1], y=upper + lower[::-1],
-                                                 fill="toself", fillcolor=color, opacity=0.12,
-                                                 line=dict(width=0), showlegend=False,
-                                                 hoverinfo="skip"))
-                    fig.add_trace(go.Scatter(x=steps, y=mean, mode="lines", name=name,
-                                             line=dict(color=color, width=2)))
-                fig.update_layout(**theme.plotly_layout(
-                    height=300,
-                    xaxis=dict(gridcolor=theme.BORDER, title="sessions before decision (0 = now)"),
-                    yaxis=dict(gridcolor=theme.BORDER, title="normalized channel value")))
-                st.plotly_chart(fig, width="stretch")
-                n_entry = tr.get("n_entry")
-                note = f"windows: {tr.get('n_base', '—')} all / {n_entry} ENTRY"
-                if node.get("low_evidence"):
-                    note += ' — <span class="status-warn">LOW EVIDENCE (few ENTRY windows)</span>'
-                st.markdown(note, unsafe_allow_html=True)
-                tp = node.get("tp_before_sl_rate_entry")
-                if tp is not None:
-                    st.caption(f"TP-before-SL rate on ENTRY windows ({direction}): {tp:.3f}")
-        elif doc is None:
-            st.markdown('<span class="status-warn">ARTIFACT PAYLOAD MISSING</span>',
-                        unsafe_allow_html=True)
 
 C.integrity_footer()
