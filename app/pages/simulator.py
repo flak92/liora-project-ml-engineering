@@ -418,7 +418,7 @@ if r["hodl_return_pct"] is not None:
         st.caption(f"Over this window the executed path {verdict} price-only buy & hold (splits "
                    "adjusted, dividends excluded — the same price plane the strategy trades). "
                    "The OOS window is never optimized against, and every read of it is counted "
-                   "in the ledger (Integrity page).")
+                   "in an append-only ledger inside the sealed store.")
 
 st.subheader("Per-asset detail")
 det = r["rows"].copy()

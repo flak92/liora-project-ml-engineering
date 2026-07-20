@@ -13,7 +13,7 @@ OHLCV (1h / 1d)
   -> XGB | LSTM  (sealed per-asset models)
   -> per-asset artifact  (strategy + manifest + parameters + metrics + interpretation)
   -> data/results.db  (SQLite, read-only)
-  -> Streamlit console  (seven pages)
+  -> Streamlit console  (six pages)
 ```
 
 ## Quickstart
@@ -56,7 +56,7 @@ Both models only decide ENTRY; take-profit and stop-loss are a mechanical ATR
 triple-barrier contract. An asset with no robust Train operating point stays idle by
 design. See `docs/METHODOLOGY.md`.
 
-## The seven pages
+## The six pages
 
 The sidebar groups them the way a defence walks: **Playground** (do something), **Results**
 (what the models did), **Method & proof** (how it was built, and how to check it).
@@ -70,20 +70,16 @@ The sidebar groups them the way a defence walks: **Playground** (do something), 
 3. **Feature Logic** — what each sealed model reads: XGB ENTRY ranges and LSTM channel
    occlusion (Train-derived interpretation).
 4. **Model Comparison** — four charts: return, profit factor, trades, beats-HODL share.
-5. **Integrity** — the dataset's own record: epoch and recipe hashes, the frozen
-   parameters, the OOS read ledger (reads per pipeline, and the spread of the cumulative
-   per-asset counter), interpretation coverage, when the model is not promoted, every
-   integrity check, and the known limits.
-6. **Data Pipeline Lego Plan** — the procedure as an 18-brick ladder: contract, reasoning
+5. **Data Pipeline Lego Plan** — the procedure as an 18-brick ladder: contract, reasoning
    and lesson per brick, with the layer id the code uses (XGB L4-L9, LSTM D1-D9).
-7. **Data Flow 3D Visualization** — the build path drawn twice: the whole study as eight
+6. **Data Flow 3D Visualization** — the build path drawn twice: the whole study as eight
    boxes, then the same path as a 2.5D canvas map — sixteen levels, both pipelines in one
    ladder, every contract a click away.
 
 ## Repository structure
 
 ```text
-app.py            Streamlit entry point (seven pages under app/pages/, in three sections)
+app.py            Streamlit entry point (six pages under app/pages/, in three sections)
 app/              console code; app/data.py is the ONLY module opening the database
 src/xgb/          XGB research code (pipeline L4-L9, feature search, artifact writers)
 src/lstm/         LSTM research code (pipeline D1-D6, model D7-D8, feature search)
@@ -116,6 +112,7 @@ same ticker.
 ## Limitation
 
 All results are historical out-of-sample reads of sealed models over fixed windows —
-every OOS read is counted in an append-only ledger (Integrity page). They are research
+every OOS read is counted in an append-only ledger (`oos_read_summary` in the sealed
+store). They are research
 output — **not a live trading signal** and not investment advice. The interpretation layer is Train-derived and must not be read as an OOS
 result.

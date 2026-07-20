@@ -10,7 +10,7 @@ contract, and how does it compare to buy-and-hold (HODL)?
 
 **Scope.** One sealed per-asset artifact per model per asset (this release: 498 XGBoost +
 495 LSTM = 993 — the authoritative counts live in `research_run`, which the console reads
-and the Integrity page shows). Each artifact carries a
+rather than hardcodes). Each artifact carries a
 single out-of-sample (OOS) evaluation:
 
 | model | bars | Train window | OOS window |
@@ -181,9 +181,9 @@ OOS data never feeds back into any choice — not HPO, not feature selection, no
 point, not even the ML-vs-HODL verdict wording. Feature search runs on Train-CV only; the
 sealing pass scores each asset at the verdict step, and every read of the OOS window —
 including re-reads from an interrupted, resumed pass — is recorded in an append-only ledger.
-The Integrity page shows that ledger summarised per pipeline: reads in this epoch, and the
-min / mean / max of the cumulative per-asset counter (the per-asset rows themselves stay in
-the research branch's ledger files). Each asset's
+`oos_read_summary` in the sealed store carries that ledger summarised per pipeline: reads in
+this epoch, and the min / mean / max of the cumulative per-asset counter (the per-asset rows
+themselves stay in the research branch's ledger files). Each asset's
 outcome is classified by `result_mode` (see ARCHITECTURE.md for the full enum): multi-trade
 result, single-trade low-evidence result, HODL fallback when the model produced zero OOS
 trades, or an explicit not-promoted verdict when the Train-OOF trade floor was never met (such
