@@ -13,7 +13,7 @@ OHLCV (1h / 1d)
   -> XGB | LSTM  (sealed per-asset models)
   -> per-asset artifact  (strategy + manifest + parameters + metrics + interpretation)
   -> data/results.db  (SQLite, read-only)
-  -> Streamlit console  (six pages)
+  -> Streamlit console  (five pages)
 ```
 
 ## Quickstart
@@ -56,7 +56,7 @@ Both models only decide ENTRY; take-profit and stop-loss are a mechanical ATR
 triple-barrier contract. An asset with no robust Train operating point stays idle by
 design. See `docs/METHODOLOGY.md`.
 
-## The six pages
+## The five pages
 
 The sidebar groups them the way a defence walks: **Playground** (do something), **Results**
 (what the models did), **Method & proof** (how it was built, and how to check it).
@@ -64,22 +64,21 @@ The sidebar groups them the way a defence walks: **Playground** (do something), 
 1. **Basket Simulator** — pick assets, by preset or by hand, and read what the sealed
    models did with them against the same basket simply held. Three numbers, never one:
    the executed path, the model result, and the price-only benchmark.
-2. **Overview** — the universe verdict in one table: median return against each model's
-   own buy-and-hold over the same window, how many assets beat it, and median profit
-   factor with its coverage.
-3. **Feature Logic** — what each sealed model reads: XGB ENTRY ranges and LSTM channel
-   occlusion (Train-derived interpretation).
-4. **Model Comparison** — four charts: return, profit factor, trades, beats-HODL share.
-5. **Data Pipeline Lego Plan** — the procedure as an 18-brick ladder: contract, reasoning
+2. **Overview** — the universe verdict in one table (median return against each model's
+   own buy-and-hold, how many assets beat it, median profit factor and its coverage),
+   then **Feature Logic**: which features one asset's sealed XGB model leans on, as a
+   share of its split total-gain (Train-derived interpretation).
+3. **Model Comparison** — four charts: return, profit factor, trades, beats-HODL share.
+4. **Data Pipeline Lego Plan** — the procedure as an 18-brick ladder: contract, reasoning
    and lesson per brick, with the layer id the code uses (XGB L4-L9, LSTM D1-D9).
-6. **Data Flow 3D Visualization** — the build path drawn twice: the whole study as eight
+5. **Data Flow 3D Visualization** — the build path drawn twice: the whole study as eight
    boxes, then the same path as a 2.5D canvas map — sixteen levels, both pipelines in one
    ladder, every contract a click away.
 
 ## Repository structure
 
 ```text
-app.py            Streamlit entry point (six pages under app/pages/, in three sections)
+app.py            Streamlit entry point (five pages under app/pages/, in three sections)
 app/              console code; app/data.py is the ONLY module opening the database
 src/xgb/          XGB research code (pipeline L4-L9, feature search, artifact writers)
 src/lstm/         LSTM research code (pipeline D1-D6, model D7-D8, feature search)

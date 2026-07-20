@@ -3,7 +3,7 @@
 The ONLY place in the app that:
 - opens data/results.db (sqlite, mode=ro),
 - verifies the schema and dataset completeness (fail-closed statuses),
-- holds every SQL query the six pages need,
+- holds every SQL query the five pages need,
 - caches small aggregates (lru_cache; the db is sealed, so caches never go stale),
 - lazy-loads per-asset JSONs ONLY after an asset is selected, strictly via
   asset_results.artifact_path -> manifest.json / parameters.json / metrics.json /
@@ -271,38 +271,6 @@ def features(ticker, model):
 def contributions(ticker, model):
     return _rows("select * from feature_contributions where ticker=? and model=? "
                  "order by contribution_share desc", (ticker, model))
-
-
-def train_stats(ticker, model):
-    return _rows("select * from feature_train_stats where ticker=? and model=? "
-                 "order by feature_position", (ticker, model))
-
-
-def entry_ranges(ticker, direction=None, feature_key=None):
-    sql = "select * from xgb_entry_ranges where ticker=?"
-    params = [ticker]
-    if direction:
-        sql += " and direction=?"
-        params.append(direction)
-    if feature_key:
-        sql += " and feature_key=?"
-        params.append(feature_key)
-    return _rows(sql + " order by feature_key, direction, segment_no", tuple(params))
-
-
-def range_feature_keys(ticker):
-    """Feature keys that have XGB entry-range segments (feeds the range explorer)."""
-    return [r["feature_key"] for r in _rows(
-        "select distinct feature_key from xgb_entry_ranges where ticker=? order by 1",
-        (ticker,))]
-
-
-def family_shares(ticker, model):
-    return _rows(
-        "select feature_family, max(family_share) as family_share,"
-        " count(*) as n_features from feature_contributions"
-        " where ticker=? and model=? group by feature_family order by family_share desc",
-        (ticker, model))
 
 
 # ---------------------------------------------------------------- lazy artifact JSONs
