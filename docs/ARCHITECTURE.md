@@ -34,7 +34,7 @@ and writes nothing.
 
 | phase | one sentence |
 |---|---|
-| D1 | The daily bar store is the frozen input; no acquisition happens in the pipeline. (The store itself stays on the research branch — this branch ships the sealed artifacts it produced.) |
+| D1 | The daily bar store is the frozen input; no acquisition happens in the pipeline. (The store itself stays in the unpublished research tree — this repository ships the sealed artifacts it produced.) |
 | D2 | Load one ticker ordered by date with fail-closed source QC — corrupt OHLCV raises, never gets cleaned. |
 | D3 | Warmup / Train / OOS masks with purge (= label horizon) and embargo on events. |
 | D4 | Causal daily indicators, z-scored with Train-only per-asset statistics. |
@@ -141,7 +141,7 @@ src/xgb/                    pipeline.py (L4-L9), feature_search.py, artifact.py,
 src/lstm/                   pipeline.py (D1-D6), model.py (D7-D8), features.py,
                             feature_search.py, universal.py, artifact.py
                             (the D9 read is driven by the research runner, which
-                             is not part of this presentation branch)
+                             is not part of this repository)
 src/shared/                 op_select.py, golden_calibration.py, interpretation.py
 config/                     xgb.json, lstm.json, feature_namespaces_xgb.json,
                             feature_families_{xgb,lstm}.json, xgboost_optuna_search_space.json,
@@ -160,5 +160,5 @@ docs/                       METHODOLOGY.md, ARCHITECTURE.md
 Version/epoch names do not appear in public paths, in the console, in README or in the
 presentation database; they may persist as immutable provenance inside the hash-sealed
 artifact JSONs. The written audits under `docs-facts-infos/` are the deliberate exception:
-they are dated records of the research branch and name its epoch, which is why they also
+they are dated records of the research tree and name its epoch, which is why they also
 state how the identity fields were anonymized here (`Raport_Spojnosci_Badan.md` §2).

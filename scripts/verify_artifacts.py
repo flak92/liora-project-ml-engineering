@@ -24,7 +24,7 @@ changed file fails both its own hash and its folder hash.
 What this does and does not prove: it proves the tree on disk is the tree the manifest
 describes, and that the manifest is internally consistent. The manifest is not signed,
 so it cannot prove the tree is the one the research run produced — for that, compare
-against the epoch's own committed manifest on the research branch.
+against the epoch's own committed manifest in the research tree.
 """
 import argparse
 import hashlib

@@ -100,9 +100,9 @@ The code under `src/` is the real research code that produced and describes the 
 artifacts: both pipelines, the feature searches, the artifact writers and the shared
 contracts, unmodified and readable. The acquisition and orchestration layer around it —
 bar loading with the corporate-action correction, the per-asset runner, the compute-run
-harness — stays on the research branch, together with the raw bar stores and the training
-stack (`torch`, `xgboost`, `optuna`, `duckdb`). So `src/` is here to be read and audited,
-not to re-run the universe; what you can re-verify on this branch is the artifact tree
+harness — stays in the research tree, which this repository does not publish, together with
+the raw bar stores and the training stack (`torch`, `xgboost`, `optuna`, `duckdb`). So `src/`
+is here to be read and audited, not to re-run the universe; what you can re-verify is the artifact tree
 (`make verify`) and the two executed notebooks under `examples/`, one per model on the
 same ticker.
 

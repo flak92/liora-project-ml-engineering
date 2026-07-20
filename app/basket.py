@@ -45,7 +45,7 @@ def compute_basket(selected, df, hodl):
     `result_mode == 'ML_MULTI_TRADE'` (floor met AND >= 2 trades). That is a STRICTER set — 774
     rows against 786 — because win/loss shares need at least two trades to mean anything. The 12
     rows between them are ML_ONE_TRADE_LOW_EVIDENCE: still a model result, too thin to compare.
-    Two questions, two predicates, two different words. (Counts re-derived on this branch.)
+    Two questions, two predicates, two different words. (Counts re-derived here.)
     """
     rows = df[df["ticker"].isin(selected)]
     invested = ENTRY_USD * len(rows)

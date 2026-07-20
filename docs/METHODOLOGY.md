@@ -183,7 +183,7 @@ sealing pass scores each asset at the verdict step, and every read of the OOS wi
 including re-reads from an interrupted, resumed pass — is recorded in an append-only ledger.
 `oos_read_summary` in the sealed store carries that ledger summarised per pipeline: reads in
 this epoch, and the min / mean / max of the cumulative per-asset counter (the per-asset rows
-themselves stay in the research branch's ledger files). Each asset's
+themselves stay in the research tree's ledger files). Each asset's
 outcome is classified by `result_mode` (see ARCHITECTURE.md for the full enum): multi-trade
 result, single-trade low-evidence result, HODL fallback when the model produced zero OOS
 trades, or an explicit not-promoted verdict when the Train-OOF trade floor was never met (such
