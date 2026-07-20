@@ -557,17 +557,17 @@
        depends:["C3"]},
 
       {id:"E4", group:"s4", title:"clone-and-show product (read-only console)", kind:"read-only presentation layer", viz:"folder",
-       short:"a five-page console over sealed artifacts; nothing trains at runtime",
+       short:"a four-page console over sealed artifacts; nothing trains at runtime",
        input:["sealed rows (E1) + benchmark (E2) + interpretation (E3) for BOTH models"],
        transform:["The application is a VIEWER: build a basket and read what the sealed models did with it, read the study, what the models read, the two models compared, the dataset's own integrity record, and the two standalone pipeline maps - nothing trains, trades or optimizes at runtime.",
                   "ONE module opens the database. Every page reads through it, so there is exactly one place where a query can be wrong and exactly one place to audit.",
                   "COUNTS ARE DERIVED, never typed into prose: a page that says how many assets were sealed asks the store. A new epoch must not be able to leave a stale number behind in the copy.",
                   "The dataset carries its own record - epoch and recipe hashes, the cumulative OOS read ledger, interpretation coverage, when the model stays idle, every check, and the declared limits - inside results.db, where `make verify` re-checks it offline."],
-       output:"a five-page Streamlit console rendering from committed artifacts on a fresh clone",
+       output:"a four-page Streamlit console rendering from committed artifacts on a fresh clone",
        invariant:["Read-only over sealed artifacts - the app can display results, never create them.",
                   "Evidence tiers stay separated: sealed numbers never share a table with Train-derived interpretation.",
                   "Every displayed comparison carries its honest benchmark; every interpretation view carries its three labels."],
-       knobs:["pages=5 in 3 sections (Playground 1 · Results 2 · Method & proof 2)", "runtime=read-only, mode=ro", "counts=derived from the store"],
+       knobs:["pages=4 in 3 sections (Playground 1 · Results 1 · Method & proof 2)", "runtime=read-only, mode=ro", "counts=derived from the store"],
        test:["a fresh clone renders every page without training", "automated gates walk every page"],
        depends:["E1","E2","E3"]},
 
@@ -932,7 +932,7 @@
           const x=18+i*19;
           return `<path d="M${x},16 h10 l5,5 v21 h-15 z" fill="${c}22" stroke="${c}" stroke-width="1"/><path d="M${x+10},16 v5 h5" fill="none" stroke="${c}" stroke-width="1"/>`;
         }).join('')}`)+
-        `<div class="f-legend"><span style="color:${PAL.store}">results.db</span><span style="color:${PAL.blue}">artifacts</span><span style="color:${PAL.amber}">interpretation</span><span style="color:${PAL.good}">5 pages</span><span style="color:${PAL.pink}">gates</span></div>
+        `<div class="f-legend"><span style="color:${PAL.store}">results.db</span><span style="color:${PAL.blue}">artifacts</span><span style="color:${PAL.amber}">interpretation</span><span style="color:${PAL.good}">4 pages</span><span style="color:${PAL.pink}">gates</span></div>
         <div class="viz-label">clone-and-show · read-only · counts derived from the store</div>`}
     };
     function vizCard(m){const v=VIZ[m.viz];return v?v.render(m):'';}
