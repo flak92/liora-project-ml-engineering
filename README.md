@@ -19,8 +19,7 @@ OHLCV (1h / 1d)
 ## Quickstart
 
 ```bash
-git clone --depth 1 --branch Stable_Presentable_Version \
-  https://github.com/flak92/liora-project-ml-engineering.git
+git clone --depth 1 https://github.com/flak92/liora-project-ml-engineering.git
 
 cd liora-project-ml-engineering
 
