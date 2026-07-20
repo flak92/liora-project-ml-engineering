@@ -36,6 +36,7 @@ off:
 verify:
 	python3 scripts/verify_artifacts.py
 	python3 scripts/verify_notebooks.py
+	python3 scripts/verify_figures.py --selftest
 	python3 scripts/verify_figures.py
 
 clean:

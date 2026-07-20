@@ -57,13 +57,38 @@ def normalize(text):
 _CACHE = {}
 
 
+def occurs(haystack, want):
+    """`want` appears in `haystack` as a figure, not as a fragment of a longer number.
+
+    Plain substring matching was safe while the universe was 498 assets: no map contains
+    "16 601" by accident. It stops being safe the moment the shipped sample is small —
+    "20" already sits inside 2016, 2024 and 2026, "40" inside 1940-style spans, "19"
+    inside 2019. Every one of those would have reported PASS while checking nothing, and a
+    gate that cannot fail is a gate that has been switched off.
+
+    So a digit may not touch either end of the match. Everything else stays as it was: the
+    haystack is already normalized, and non-numeric expectations ("## The four pages") are
+    unaffected because the guard only looks at characters adjacent to the match.
+    """
+    start = 0
+    while True:
+        i = haystack.find(want, start)
+        if i < 0:
+            return False
+        before = haystack[i - 1] if i else ""
+        after = haystack[i + len(want):i + len(want) + 1]
+        if not (before.isdigit() or after.isdigit()):
+            return True
+        start = i + 1
+
+
 def check(name, expected, *files, note=""):
     """`expected` must appear in every named file, up to number formatting."""
     want = normalize(expected)
     for f in files:
         if f not in _CACHE:
             _CACHE[f] = normalize(f.read_text(encoding="utf-8"))
-    missing = [f.name for f in files if want not in _CACHE[f]]
+    missing = [f.name for f in files if not occurs(_CACHE[f], want)]
     ok = not missing
     tail = "" if ok else f" — not found in {', '.join(missing)}"
     print(f"  {'PASS' if ok else 'FAIL'}  {name}: {expected}{tail}{'  (' + note + ')' if note and ok else ''}")
@@ -71,7 +96,41 @@ def check(name, expected, *files, note=""):
         FAILURES.append(name)
 
 
+def selftest():
+    """Prove the matcher can still fail. A gate nobody has seen fail is a rumour.
+
+    Each case is a hazard that plain substring matching walked straight into once the
+    universe shrank; the last two are the ordinary hits that must keep passing, because a
+    guard that also rejects real matches would be worse than the hole it closes.
+    """
+    cases = [
+        ("20 must not match inside 2016", "sealed in 2016 and read in 2024", "20", False),
+        ("40 must not match inside 1940", "the 1940s", "40", False),
+        ("19 must not match inside 2019", "through 2019", "19", False),
+        ("7 must not match inside 72",    "beats HODL 72/498", "7", False),
+        ("a real 20 still matches",       "20 tables ship here", "20", True),
+        ("a bounded figure matches",      "median return -1.78% over", "-1.78%", True),
+        ("prose still matches",           "## The four pages", "## The four pages", True),
+        ("a figure that drifted fails",   "median return -1.78%", "+2.80%", False),
+    ]
+    bad = 0
+    for name, haystack, want, expected in cases:
+        got = occurs(normalize(haystack), normalize(want))
+        ok = got is expected
+        bad += not ok
+        print(f"  {'PASS' if ok else 'FAIL'}  {name}"
+              f"{'' if ok else f' — expected {expected}, got {got}'}")
+    print()
+    if bad:
+        print(f"FAILED: {bad} matcher case(s) — the gate does not behave as documented.")
+        return 1
+    print("OK: the matcher rejects digit-embedded fragments and still accepts real figures.")
+    return 0
+
+
 def main():
+    if "--selftest" in sys.argv:
+        return selftest()
     if not DB.exists():
         print(f"store not found: {DB}")
         return 1
