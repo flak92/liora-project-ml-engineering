@@ -32,9 +32,8 @@ make on
 The app serves on `http://localhost:8503`; `make off` stops it again (it kills only the
 process listening on that port), and both accept `PORT=…` if 8503 is taken. The shallow clone is ~260 MB (every sealed
 artifact travels with the repo — 993 in this release). `make setup` installs the presentation
-dependencies (`streamlit`, `pandas`, `plotly`) plus `anthropic`, which only the optional
-Formular questionnaire on the Basket Simulator uses and which needs no key unless you open
-it; nothing is trained, recomputed or written at runtime.
+dependencies (`streamlit`, `pandas`, `plotly`) and nothing else; nothing is trained,
+recomputed or written at runtime.
 
 Do not take the numbers on trust: `make verify` needs no dependencies and no network. It
 recomputes the SHA-256 of every file in all 993 artifact folders, rebuilds each

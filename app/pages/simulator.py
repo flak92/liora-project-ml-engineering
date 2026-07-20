@@ -5,10 +5,10 @@ summed. There is no per-trade data in this release, so a basket is a sum of ENDP
 no equity curve, no drawdown path, no timing. The arithmetic and the two predicates live
 in app/basket.py; the diagram lives in app/venn.py; this file is the interface.
 
-Three ways to fill a basket — a random draw, the questionnaire adviser, or the tile grid —
-and they never fight: each writes `basket` and records where it came from in
-`basket_source`. Editing a tile afterwards keeps that origin and flips `basket_edited`, so
-the caption can say "drawn at random, edited by hand" rather than silently resetting.
+Two ways to fill a basket — a random draw or the tile grid — and they never fight: each
+writes `basket` and records where it came from in `basket_source`. Editing a tile
+afterwards keeps that origin and flips `basket_edited`, so the caption can say "drawn at
+random, edited by hand" rather than silently resetting.
 """
 import html
 import random
@@ -25,14 +25,6 @@ import components as C
 import data
 import theme
 import venn
-
-# Optional add-on, built to be deleted in one `git rm -r app/formular`. Caught broadly on
-# purpose: a missing folder, a syntax error or a malformed data file inside it must all
-# degrade to "the button is not there", never to a page that will not open.
-try:
-    import formular
-except Exception:
-    formular = None
 
 GRID_COLS = 10
 
@@ -282,16 +274,11 @@ edited = (", edited by hand" if st.session_state.basket_edited else "")
 if source == "random" and n_sel:
     st.caption(f"Basket: **{n_sel}** ticker(s), drawn at random{edited}. "
                f"${B.ENTRY_USD * n_sel:,.0f} to invest.")
-elif source == "formular" and n_sel:
-    st.caption(f"Basket: **{n_sel}** ticker(s), chosen by the questionnaire adviser"
-               f"{edited} — it answered before seeing any result. "
-               f"${B.ENTRY_USD * n_sel:,.0f} to invest.")
 elif n_sel:
     st.caption(f"Basket: **{n_sel}** ticker(s), picked by hand. "
                f"${B.ENTRY_USD * n_sel:,.0f} to invest.")
 else:
-    st.caption("Basket is empty — draw one at random, ask the questionnaire, or pick from "
-               "the grid below.")
+    st.caption("Basket is empty — draw one at random, or pick from the grid below.")
 
 st.button("Calculate basket", type="primary", disabled=(n_sel == 0),
           on_click=_go, args=("result",))
@@ -300,13 +287,11 @@ st.button("Calculate basket", type="primary", disabled=(n_sel == 0),
 # every rerun (~0.6 s for the whole universe), which is the price of one source of truth —
 # a fragment kept the counter here in step while the caption and button above it lagged.
 st.subheader(f"Pick by hand — the {len(tickers)}-tile grid")
-b1, b2, b3, _ = st.columns([2, 2, 2, 4])
+b1, b2, _ = st.columns([2, 2, 6])
 b1.button("Random", width="stretch",
           help=f"Draw a fresh basket of {RANDOM_MIN} to {RANDOM_MAX} tickers",
           on_click=_random_basket, args=(tickers,))
 b2.button("Clear", width="stretch", on_click=_clear_basket)
-if formular:
-    formular.render(b3)
 
 st.markdown(GRID_CSS, unsafe_allow_html=True)
 picked = st.session_state.basket
