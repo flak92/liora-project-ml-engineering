@@ -1,17 +1,20 @@
 # Raport spójności i poprawności prac badawczych nad algorytmem decyzji transakcyjnych w przestrzeniach giełdowych bazujących na komunikacji wartościami OHLCV opartym o machine- i deep-learning
 
 **Przedmiot audytu:** repozytorium `liora-project-ml-engineering`, epoka `2026-07-golden-v5`.
-Audyt wykonano na gałęzi badawczej `to_give_up_and_show`; w tej kopii dokumentu referencje
-plików przepisano na układ gałęzi prezentacyjnej `Stable_Presentable_Version`, a odwołania do
-warstwy orkiestracji, która nie jest częścią tej gałęzi, oznaczono „(gałąź badawcza)".
+Audyt wykonano na drzewie badawczym, które **nie jest publikowane w tym repozytorium**;
+referencje plików przepisano tu na układ obowiązujący w tym repo, a odwołania do warstwy
+orkiestracji — runnerów per aktywo, iteratorów, ledgerów odczytów OOS, pretreningu backbone'u,
+modułów ładowania barów, tabel zdarzeń i notebooków wykonawczych badania — oznaczono
+„(warstwa niepublikowana)". Tego, co tak oznaczono, czytelnik tutaj nie sprawdzi; pozostałe
+referencje wskazują pliki, które w tym repozytorium istnieją.
 **Stan badania:** `research_status = FROZEN_FINAL_RESEARCH_SNAPSHOT`, zamrożenie prezentacyjne
 `presentation-v1/2026-07-golden-v5`.
 **Data audytu:** 2026-07-19.
 
 Wszystkie liczby w tym dokumencie zostały **zmierzone** — zapytaniem do `data/results.db`,
-parsowaniem ledgerów odczytów OOS (gałąź badawcza; ich skumulowane liczniki są zsumowane
-w tabeli `oos_read_summary` wewnątrz `data/results.db` i pokazane na stronie Integrity) albo
-odczytem wskazanego miejsca w kodzie. Żadna nie została przepisana z prozy innego dokumentu.
+parsowaniem ledgerów odczytów OOS (warstwa niepublikowana; ich skumulowane liczniki są zsumowane
+w tabeli `oos_read_summary` wewnątrz `data/results.db` — i tam sprawdzalne) albo odczytem
+wskazanego miejsca w kodzie. Żadna nie została przepisana z prozy innego dokumentu.
 Tam, gdzie liczba pochodzi z pliku, podano `plik:linia`.
 
 ---
@@ -43,18 +46,19 @@ użycia na żywo, ani że wynik uogólnia się poza zbadane okno.
 |---|---|---|
 | Epoka | `2026-07-golden-v5` | `research_run` |
 | Recipe hash XGB | `447745d1059e560f` | `research_run` |
-| Recipe hash LSTM | `a4cc8f4a78ad8574` | `research_run`, przeliczalny z modułu ledgera OOS (gałąź badawcza) |
+| Recipe hash LSTM | `a4cc8f4a78ad8574` | `research_run`, przeliczalny z modułu ledgera OOS (warstwa niepublikowana) |
 | Okno Train / OOS — XGB | `2016-10-17 → 2023-12-29` / `2024-01-02 → 2026-05-29` | `research_run` |
 | Okno Train / OOS — LSTM | `2017-01-01 → 2023-12-31` / `2024-01-01 → 2026-04-30` | `research_run` |
 | Zapieczętowane wiersze | 498 XGB + 495 LSTM | `asset_results` |
 | Artefakty | 993 katalogi, po 5 plików | `artifacts/{xgb,lstm}/`, manifest `_meta.counts` |
 | Kontrole integralności | **16 / 16 PASS** | `integrity_checks` |
 
-Uwaga o tożsamości na tej gałęzi: pola identyfikacyjne `research_run` w `data/results.db` są
+Uwaga o tożsamości w tym repozytorium: pola identyfikacyjne `research_run` w `data/results.db` są
 zanonimizowane (`epoch = 'sealed'`, `run_id = 'sealed-final'`,
 `presentation_freeze = 'public/stable-2'`, `git_sha = NULL`). Wartości epoki i zamrożenia
-w tabeli powyżej pochodzą z audytu wykonanego na gałęzi badawczej; recipe hashe i okna czasowe
-są w obu miejscach identyczne.
+w tabeli powyżej pochodzą z audytu wykonanego na drzewie badawczym, którego tu nie ma; recipe
+hashe i okna czasowe są w obu miejscach identyczne i tutejsze wartości można odczytać wprost
+z `research_run` w `data/results.db`.
 
 `recipe_hash` obejmuje **konfigurację metody**, nie dane wejściowe. Nie jest to przeoczenie, lecz
 świadomy rozdział: tożsamość barów jest zapisana osobno (polityka corporate actions
@@ -77,9 +81,10 @@ trening, dobór cech, HPO lub punkt pracy.
   `t0 + H + embargo <= oos_start`, po czym **asertuje**, że żadne okno etykiety nie sięga OOS.
 - Ta sama granica jest egzekwowana wewnątrz walidacji krzyżowej (`src/xgb/pipeline.py:848`,
   `:933`) — każde okno silnika w każdym foldzie musi kończyć się przed początkiem OOS.
-- Odczyt OOS ma jeden **choke point** z bramką w runnerze badawczym (gałąź badawcza; runner nie
-  jest częścią tej gałęzi, por. `docs/ARCHITECTURE.md`): odmawia odczytu, gdy w ledgerze nie ma
-  otwartej epoki. Zamiast ostrzeżenia następuje przerwanie.
+- Odczyt OOS ma jeden **choke point** z bramką w runnerze badawczym (warstwa niepublikowana —
+  runnera per aktywo nie ma w tym repozytorium i nie da się w nim wskazać `plik:linia`, por.
+  `docs/ARCHITECTURE.md`): odmawia odczytu, gdy w ledgerze nie ma otwartej epoki. Zamiast
+  ostrzeżenia następuje przerwanie.
 
 **Wniosek:** nie znaleziono ścieżki przecieku z OOS do decyzji treningowych.
 
@@ -102,9 +107,11 @@ z projektu usunięte. Obowiązuje sformułowanie odpowiadające danym: *okno OOS
 żadnej decyzji po stronie Train, a każdy jego odczyt jest zapisany w dopisywalnym ledgerze; liczba
 odczytów w epoce bywa większa od liczby aktywów i jest raportowana wprost.*
 
-Uzasadnienie tej konstrukcji jest zapisane w samym ledgerze (moduł ledgera OOS, gałąź badawcza):
-ponowne pieczętowanie jest dozwolone, natomiast **nieodnotowany** ponowny odczyt byłby nie do
-odróżnienia od przebierania w wynikach.
+Uzasadnienie tej konstrukcji jest zapisane w samym ledgerze (moduł ledgera OOS — warstwa
+niepublikowana, tutaj nie do obejrzenia): ponowne pieczętowanie jest dozwolone, natomiast
+**nieodnotowany** ponowny odczyt byłby nie do odróżnienia od przebierania w wynikach. Sam
+produkt tego mechanizmu jest sprawdzalny — skumulowane liczniki siedzą w tabeli
+`oos_read_summary` w `data/results.db`.
 
 ### 3.3 Kontrakt etykiety i egzekucji
 
@@ -170,10 +177,11 @@ warunkowi `trade_floor_met = 1 AND model_trades >= 2` — zero rozbieżności na
 
 Audyt wykazał rozbieżność między opisem a przebiegiem. Aplikacja mówiła czytelnikowi, że oba
 modele stroi Optuna. **Dla LSTM w tej epoce Optuna per asset nie biegła.** Gdy istnieje
-zacommitowany backbone (gałąź badawcza: `lstm/data/universal_backbone.json`), runner badawczy
-bierze architekturę z `warm["arch"]` **zamiast** wołać `M.hpo(...)`. Backbone niesie jedną
-architekturę (`hidden 32`, `num_layers 1`, `dropout 0.3`, `lr 0.001`, `weight_decay 1e-4`),
-wspólną dla wszystkich 495 aktywów; per-asset pozostaje kalibracja punktu pracy (θ, kierunek)
+zacommitowany backbone (`lstm/data/universal_backbone.json` — warstwa niepublikowana; w tym
+repozytorium jest sam mechanizm ładowania, `src/lstm/universal.py`, ale nie checkpoint),
+runner badawczy (również niepublikowany) bierze architekturę z `warm["arch"]` **zamiast**
+wołać `M.hpo(...)`. Backbone niesie jedną architekturę (`hidden 32`, `num_layers 1`,
+`dropout 0.3`, `lr 0.001`, `weight_decay 1e-4`), wspólną dla wszystkich 495 aktywów; per-asset pozostaje kalibracja punktu pracy (θ, kierunek)
 i wybór cech.
 
 Opis w aplikacji został poprawiony tak, by mówił to wprost, wraz z zastrzeżeniem o czystości
@@ -183,13 +191,16 @@ foldów. Ścieżka cold-start z Optuną per asset istnieje i jest wyzwalana zmie
 ### 3.5 Dane wejściowe i zdarzenia korporacyjne
 
 Korekta splitów jest nakładana na barach **godzinowych, przed jakąkolwiek agregacją**. Powód jest
-arytmetyczny i podany w kodzie: skalowanie jest przemienne z `first/max/min/last`, ale **nie**
-z całkowitą sumą wolumenu — korekta po agregacji zepsułaby wolumen.
+arytmetyczny i podany w kodzie modułu ładowania barów (warstwa niepublikowana): skalowanie jest
+przemienne z `first/max/min/last`, ale **nie** z całkowitą sumą wolumenu — korekta po agregacji
+zepsułaby wolumen.
 
 Tabela detektora zawiera 88 zdarzeń na 73 tickerach; po 28 wpisach nadpisujących (usunięcia
 fałszywych trafień, dodania zdarzeń niewykrywalnych z barów) obowiązujący stan to **83 zdarzenia
 na 69 tickerach**, `events_sha256 = 5989535b02f384f8`, zapisany w `oos_read_summary.reason` obu
-pipeline'ów.
+pipeline'ów. Same tabele — detektora i nadpisań — należą do warstwy niepublikowanej; tutaj
+sprawdzalny jest ich skrót w `data/results.db` oraz opis polityki w `docs/METHODOLOGY.md` §6
+i wartość `CORP_ACTIONS_POLICY` w `config/xgb.json`.
 
 ### 3.6 Warstwa interpretacji
 
@@ -251,12 +262,13 @@ pozwala.
    Metodologia jest izolująca OOS; nie jest bezwarunkowo „leak-free".
 6. **Kumulacja odczytów OOS.** Opisana w 3.2. Zapieczętowany wynik jest warunkowany wiedzą
    z wcześniejszych odczytów tego samego okresu.
-7. **Zakres weryfikatorów.** Weryfikatory `make verify-*` działają na gałęzi badawczej
-   i odtwarzają **próbkę** wierszy: XGB porównuje 5 pól na committed store'ze 15 tickerów, LSTM
-   4 pola na próbce 10 tickerów, oba z tolerancją `1e-6`. Jest to deterministyczna reprodukcja
-   wybranych wierszy, **nie** identyczność bajtowa i **nie** całe uniwersum — pełny store
-   godzinowy XGB nie jest częścią repozytorium. Na tej gałęzi drzewo artefaktów jest weryfikowane
-   skrótami SHA-256 per katalog (`artifacts/manifest.json`), a dwa wykonane notebooki w
+7. **Zakres weryfikatorów.** Weryfikatory `make verify-*` należą do warstwy niepublikowanej
+   (tutejszy `Makefile` takich celów nie ma) i odtwarzają **próbkę** wierszy: XGB porównuje 5 pól
+   na committed store'ze 15 tickerów, LSTM 4 pola na próbce 10 tickerów, oba z tolerancją `1e-6`.
+   Jest to deterministyczna reprodukcja wybranych wierszy, **nie** identyczność bajtowa i **nie**
+   całe uniwersum — pełny store godzinowy XGB nie jest częścią repozytorium. W tym repozytorium
+   drzewo artefaktów jest weryfikowane skrótami SHA-256 per katalog (`artifacts/manifest.json`,
+   sprawdzane przez `scripts/verify_artifacts.py` w celu `make verify`), a dwa wykonane notebooki w
    `examples/` pokazują odtworzone wiersze XGB **i LSTM** (ten sam ticker, po jednym
    notebooku na model).
 8. **Interpretacja jest in-sample.** Opisuje zachowanie modelu na oknie Train. Nie jest wynikiem
@@ -266,8 +278,10 @@ pozwala.
 
 ## 5. Ścieżka remediacji
 
-Audyt nie zastał projektu w stanie końcowym — poprzedziła go seria poprawek (commity gałęzi
-badawczej), którą odnotowujemy, bo jest częścią ścieżki audytowej.
+Audyt nie zastał projektu w stanie końcowym — poprzedziła go seria poprawek w drzewie badawczym,
+którą odnotowujemy, bo jest częścią ścieżki audytowej. Identyfikatory w tabeli poniżej są
+**zapisem historycznym**: odpowiadające im commity nie są osiągalne w tym repozytorium, więc
+tabela służy do czytania przebiegu, a nie do `git show`.
 
 | Commit | Czego dotyczył |
 |---|---|
@@ -289,13 +303,14 @@ widoczne w prezentowanej aplikacji.
 Dodatkowo okazało się, że były to nie tylko stare *wyniki*, ale i stary *kod*: komórka wołała
 `strategy_meta(..., BEST, {}, ...)`, przekazując pusty rekord kalibracji tam, gdzie pipeline v5
 wymaga punktu pracy z `op_select`. Notebooki XGB odtworzono, wykonując **kanoniczny szablon**
-per-asset (gałąź badawcza: `xgb/src/notebook_template.ipynb` — ten sam, którego używa runner
-badawczy); notebooki LSTM zregenerowano wiernie z bieżącego runnera LSTM (gałąź badawcza), wraz
-ze ścieżką warm-start. Wszystkie cztery przebiegi wykonano wobec **scratch store'u**
+per-asset (`xgb/src/notebook_template.ipynb` — ten sam, którego używa runner badawczy; zarówno
+szablon, jak i runner są w warstwie niepublikowanej); notebooki LSTM zregenerowano wiernie
+z bieżącego runnera LSTM (również niepublikowanego), wraz ze ścieżką warm-start. Wszystkie
+cztery przebiegi wykonano wobec **scratch store'u**
 (`OOS_METRICS_DB`), więc nie były to odczyty pieczętujące i ledgery pozostały nietknięte. Wynik:
 **4 / 4 odtwarzają zapieczętowane wiersze** (XGB NVDA `3390,0761316752228`, XGB AAPL
-`941,9721600160755`, LSTM NVDA `1363,2486792394723`, LSTM AAPL `874,7211883830511`). Na tej
-gałęzi zacommitowane są dwa wykonania **na tym samym tickerze, po jednym na model** —
+`941,9721600160755`, LSTM NVDA `1363,2486792394723`, LSTM AAPL `874,7211883830511`). W tym
+repozytorium zacommitowane są dwa wykonania **na tym samym tickerze, po jednym na model** —
 `examples/Example_XGB.ipynb` (XGB NVDA) i `examples/Example_LSTM.ipynb` (LSTM NVDA) —
 żeby porównanie ML↔DL było apples-to-apples. Notebook LSTM niesie własną bramkę
 reprodukcji (porównanie z zapieczętowanym wierszem w 1e-6); zgodność obu z bazą jest
@@ -321,9 +336,10 @@ czytelnika: była to **procedura audytu**, nie artefakt repozytorium — w repo 
 zacommitowanej bramki skanującej tekst pod kątem zakazanych twierdzeń, więc kontrola nie
 powtarza się sama i każdy kolejny przegląd trzeba przeprowadzić świadomie.
 
-Przy tej okazji wykryto i naprawiono defekt czynny: domyślna ścieżka `make verify-lstm` (gałąź
-badawcza) przerywała się wyjątkiem, odkąd plik nadpisań cech zmienił kształt w epoce v5 —
-komenda, którą dokumentacja każe uruchomić czytelnikowi, nie weryfikowała niczego. Po naprawie
+Przy tej okazji wykryto i naprawiono defekt czynny: domyślna ścieżka `make verify-lstm` (cel
+z warstwy niepublikowanej) przerywała się wyjątkiem, odkąd plik nadpisań cech zmienił kształt
+w epoce v5 — komenda, którą dokumentacja każe uruchomić czytelnikowi, nie weryfikowała
+niczego. Po naprawie
 uruchomiono ją: **10 / 10 wierszy odtworzonych**.
 
 ---
@@ -333,9 +349,9 @@ uruchomiono ją: **10 / 10 wierszy odtworzonych**.
 **„Twierdzicie, że OOS czytacie raz, a ledger pokazuje 588 odczytów na 498 aktywów."**
 Nie twierdzimy tego i nigdzie tak nie napisano. Gwarancją nie jest jednokrotność odczytu, lecz to,
 że **każdy odczyt jest policzony**. 588 odczytów pochodzi z przerwanego pieczętowania (89 aktywów)
-i przebiegu właściwego (499 odczytów, jedno powtórzenie — AAPL). Skumulowane liczniki są pokazane
-na stronie Integrity. Konsekwencję nazywamy wprost: wynik jest warunkowany wcześniejszymi odczytami
-tego samego okresu.
+i przebiegu właściwego (499 odczytów, jedno powtórzenie — AAPL). Skumulowane liczniki są zapisane
+w tabeli `oos_read_summary` w `data/results.db` i stamtąd sprawdzalne. Konsekwencję nazywamy
+wprost: wynik jest warunkowany wcześniejszymi odczytami tego samego okresu.
 
 **„Skoro bariery są 2:1, jedna wygrana pokrywa dwie przegrane — więc wystarczy 33 % trafień."**
 Nie wystarczy, bo 2:1 to geometria nominalna, nie zrealizowany payoff. Zmierzona mediana stosunku

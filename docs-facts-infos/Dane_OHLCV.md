@@ -2,20 +2,27 @@
 
 Ten dokument opisuje **dane** w projekcie: skąd pochodzą, jak są przetwarzane w cechy
 i etykiety, oraz co potwierdziła weryfikacja na realnych zapieczętowanych barach.
-Wszystkie fakty mają źródło (plik:linia / pomiar). Stan: 2026-07-19, epoka **`2026-07-golden-v5`** (bary skorygowane o splity),
-gałąź `Stable_Presentable_Version`.
+Wszystkie fakty mają źródło (plik:linia / pomiar). Stan: 2026-07-19, epoka **`2026-07-golden-v5`** (bary skorygowane o splity).
 
-> **Mapa referencji do kodu i danych:** dokument opisuje przetwarzanie danych tak, jak
-> przebiegło ono na **gałęzi badawczej** `to_give_up_and_show`, i cytuje jej układ plików.
-> Na tej gałęzi istnieją odpowiedniki: `src/xgb/pipeline.py`, `src/lstm/pipeline.py`,
-> `src/shared/op_select.py`, `config/{xgb,lstm}.json`, `data/results.db`. **Wyłącznie na
-> gałęzi badawczej** żyją natomiast: store'y barów (`data/sp500_1d.duckdb` dzienny oraz
-> godzinowy `liora.duckdb`), moduł ładowania barów `xgb/src/bars.py` z korektą splitów,
-> `xgb/src/corporate_actions.py` wraz z bramką `cross_bar_qc` i tabelami
-> `splits_sp500.csv` / `overrides.csv`, warstwa orkiestracji (`run_asset.py`, `iterators/`,
-> ledgery `oos_read_ledger.jsonl`) oraz robocze parquety `<T>_ohlcv_1h.parquet`. Ta gałąź
-> wozi **wynik** tamtego przetwarzania: 993 zapieczętowane foldery artefaktów i
+> **Mapa referencji do kodu i danych — co da się tu sprawdzić, a czego nie.** Dokument
+> opisuje przetwarzanie danych tak, jak przebiegło ono w **drzewie badawczym, które nie
+> jest opublikowane w tym repozytorium**, i miejscami cytuje jego układ plików.
+> **W tym repozytorium czytelnik znajdzie** warstwę obliczeniową i wynik:
+> `src/xgb/pipeline.py`, `src/lstm/pipeline.py`, `src/shared/op_select.py`,
+> `config/{xgb,lstm}.json`, `docs/METHODOLOGY.md`, `docs/ARCHITECTURE.md` oraz **wynik**
+> tamtego przetwarzania: 993 zapieczętowane foldery artefaktów w `artifacts/` i
 > `data/results.db` (integralność sprawdzalna offline przez `make verify`).
+> **Nie ma tu natomiast** warstwy wejścia i orkiestracji — tych odniesień nie da się w tym
+> repozytorium zweryfikować: store'y barów (`data/sp500_1d.duckdb` dzienny oraz godzinowy
+> `liora.duckdb`), moduł ładowania barów `bars.py` z korektą splitów, `corporate_actions.py`
+> wraz z bramką `cross_bar_qc` i tabelami `splits_sp500.csv` / `overrides.csv`, entrypointy
+> i pętle badawcze (`run_asset.py`, katalog `iterators/` — sam moduł wyboru punktu
+> operacyjnego jest tu dostępny jako `src/shared/op_select.py`), ledgery `oos_read_ledger.jsonl`
+> (ich skumulowane liczniki przetrwały w tabeli `oos_read_summary` w `data/results.db`)
+> oraz robocze parquety `<T>_ohlcv_1h.parquet` / `<T>_ohlcv_1w.parquet`.
+> **Uwaga na jeden fałszywy trop:** plik `src/xgb/pipeline.py` w tym repozytorium
+> **jest**, ale cytowanej dalej bramki `cross_bar_qc` w nim **nie ma** — należy ona do
+> warstwy niepublikowanej i nie da się jej tutaj obejrzeć.
 
 ## 1. Źródła danych
 
@@ -23,8 +30,12 @@ Dwa surowe strumienie OHLCV, po jednym na model:
 
 - **XGB → bary 1-godzinne (1h)** — S&P 500, zapieczętowane per asset w
   `<T>_ohlcv_1h.parquet`.
-- **LSTM → bary dzienne (1d)** — S&P 500, ze store'u `data/sp500_1d.duckdb` (gałąź
-  badawcza; ta gałąź nie wozi barów — patrz mapa referencji powyżej).
+- **LSTM → bary dzienne (1d)** — S&P 500, ze store'u `data/sp500_1d.duckdb`.
+
+Ani parquety, ani store'y barów **nie są opublikowane w tym repozytorium** — nie wozi ono
+surowych ani zapieczętowanych barów (patrz mapa referencji powyżej). Nazwy plików i store'ów
+podajemy za drzewem badawczym, żeby opis był kompletny; tutaj sprawdzalny jest kod, który
+te bary przetwarza, oraz wynik przetwarzania.
 
 **Interwały 1d i 1w w plikach XGB to NIE trzecie źródło danych** — są **wyliczane z tego
 samego strumienia 1h** jako kontekst wielointerwałowy (`CONTEXT_TIMEFRAMES = ("1d","1w")`,
@@ -32,7 +43,8 @@ samego strumienia 1h** jako kontekst wielointerwałowy (`CONTEXT_TIMEFRAMES = ("
 następnie **przyczynowo** rzutowane z powrotem na oś godzinową (merge_asof po zamknięciu
 ukończonego dnia/tygodnia). Stąd cechy z sufiksami `_1d`/`_1w` (np. `volume_z_score_20_1w`)
 i cechy zestrojenia między interwałami. Snapshot `<T>_ohlcv_1w.parquet` w folderach
-roboczych to zmaterializowana ta sama agregacja (do reprodukcji), nie osobne wejście.
+roboczych drzewa badawczego (niepublikowanych tutaj) to zmaterializowana ta sama agregacja
+(do reprodukcji), nie osobne wejście.
 
 ## 2. Jak dane są przetwarzane
 
@@ -83,6 +95,10 @@ Dowody:
   sesji ze slippage (gap nocny/weekendowy poniesiony, nie fantazyjna cena); purge/embargo
   `t0+H+embargo ≤ oos_start` zweryfikowane; wagi unikalności w (0,1].
 
+Pomiary powyżej wykonano na barach drzewa badawczego (parquety, store'y). **Materiał do ich
+powtórzenia nie jest opublikowany w tym repozytorium** — sprawdzalny jest tu wyłącznie kod,
+który te bary przetwarza (`src/xgb/pipeline.py`, `src/lstm/pipeline.py`), oraz wynik.
+
 ## 4. Splity — DOMKNIĘTE (epoka 2026-07-golden-v5, 2026-07-19)
 
 Błąd opisany wcześniej (bary nieskorygowane o splity) **został naprawiony u źródła**
@@ -98,13 +114,19 @@ zdarzeń powstała **z danych + przeglądu człowieka**:
   fałszywki (spinoffy DELL/DD/PNR, dywidenda specjalna KDP, krachy PG&E/OPEC/CVNA/TTD/VRT),
   a 5 dopisano ręcznie (SHW 3:1 i ROL 3:2 tuż za progiem; HLT i DD 1:3 odwrotne wplecione
   w spinoffy; EXE 1:200 zniekształcone upadłością). **Wynik: 83 zdarzenia / 69 tickerów**,
-  każde z uzasadnieniem w `overrides.csv`. Sama tabela nadpisań liczy łącznie **28 wpisów**;
-  ich efektem netto na zbiorze auto-zaakceptowanych są opisane usunięcia i dodania
+  każde z uzasadnieniem w `overrides.csv` (tabela z drzewa badawczego, **nieopublikowana
+  tutaj**; skrót zaakceptowanej tabeli zdarzeń przetrwał jako `events_sha256` w kolumnie
+  `reason` tabeli `oos_read_summary` w `data/results.db`). Tabela nadpisań liczy łącznie
+  **28 wpisów**; ich efektem netto na zbiorze auto-zaakceptowanych są opisane usunięcia i dodania
   (88 → 83 zdarzeń). Kanoniczna księgowość: `Raport_Spojnosci_Badan.md` §3.5.
-- Korekta nakładana w `xgb/src/bars.py:load_bars()` (gałąź badawcza) **na barach 1h, PRZED roll-upem**
-  (ceny × faktor, wolumen ÷ faktor); dzienny store LSTM rolluje się z tego samego
-  skorygowanego strumienia, więc 1h i 1d są spójne z konstrukcji.
+- Korekta nakładana w module ładowania barów 1h z drzewa badawczego (`bars.py`) **na barach
+  1h, PRZED roll-upem** (ceny × faktor, wolumen ÷ faktor); dzienny store LSTM rolluje się
+  z tego samego skorygowanego strumienia, więc 1h i 1d są spójne z konstrukcji. Moduł ten
+  należy do warstwy wejścia i **nie jest opublikowany w tym repozytorium**.
 - `CORP_ACTIONS_POLICY` przestała być martwą konfiguracją — `A_adjusted` realnie rozgałęzia kod.
+  Sama polityka jest tutaj sprawdzalna (`config/xgb.json` ustawia wartość `A_adjusted`,
+  `src/xgb/pipeline.py` waliduje dopuszczalny zbiór `{deferred, A_adjusted, B_raw_exclude}`),
+  ale kod, który się na niej rozgałęzia, żył w niepublikowanym `bars.py`.
 
 **Dowody poprawności (zmierzone, nie deklarowane):**
 | Test | Wynik |
@@ -150,8 +172,9 @@ je potwierdził, co jest mocnym dowodem, że korekta zrobiła dokładnie to, co 
   (2021-04-19, 2021-10-25, 2022-03-08; + 2018-05-02/03) zwijają sesję do jednego płaskiego
   bara — **3825 płaskich barów u 475 tickerów (0,4% wszystkich)**, wszystkie w Train, wpływ
   niewielki i ograniczony do wąskiego okna kroczącego. **Domknięte:** w v5 objęte jawną
-  bramką (`cross_bar_qc` w `xgb/src/pipeline.py`, gałąź badawcza — płaskie bary z progami
-  udziałowymi).
+  bramką `cross_bar_qc` (płaskie bary z progami udziałowymi). Bramka jest częścią warstwy
+  wejścia i **nie jest opublikowana w tym repozytorium** — mimo że plik pipeline'u XGB
+  (`src/xgb/pipeline.py`) tutaj istnieje, symbolu `cross_bar_qc` w nim nie znajdziesz.
 - **Detekcja barier po CLOSE** jest z natury ostrożna po stronie win-rate o ~5 pp (ciaśniejszy
   SL 1×ATR bywa dotykany intra-bar częściej niż TP 2×ATR); mechanizm jest w kodzie.
   **Domknięte:** kierunek i skala są opisane w `docs/METHODOLOGY.md` §6 (wiersz „Barrier
@@ -166,7 +189,8 @@ je potwierdził, co jest mocnym dowodem, że korekta zrobiła dokładnie to, co 
 
 1. **Korekta splitów** — zrealizowana w epoce v5 (sekcja 4 — DOMKNIĘTE).
 2. **Dalej z designem** — dziewięć stron konsoli Streamlit nad gotowym `data/results.db`
-   (jedyny moduł dostępu `app/data.py`), z jawną notą o splitach.
+   (jedyny moduł dostępu `app/data.py`), z jawną notą o splitach. *(Plan z dnia audytu;
+   konsola została później sprowadzona do czterech stron — `app.py` na tej gałęzi.)*
 3. **Tłumaczenie tego, co najważniejsze** — dane są środkiem, nie celem:
 
 > Nie chodzi o trenowanie artefaktu dla samego trenowania (maksymalne dopasowanie do
