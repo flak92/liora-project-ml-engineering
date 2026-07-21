@@ -1,0 +1,28 @@
+{
+  "schema_version": "xgb_search_space.v2",
+  "_meta": {
+    "purpose": "Research-only model space for feature discovery. Read by scripts/model_viability.py and the nested runner; NEVER by the sealed pipeline. config/xgboost_optuna_search_space.json stays untouched because its bytes are part of the sealed epoch's identity, and numbers produced under this space are NOT comparable with the sealed ones.",
+    "why_relative": "gamma and min_child_weight are thresholds in HESSIAN units: for binary:logistic a row contributes w_i * p(1-p). The label_uniqueness_weight shrinks the effective sample about eighteen-fold - 9629 rows carry 524.7 of weight, so a fold's total hessian is 50-100 where unweighted data would give ~1400. The v1 ranges (gamma 0..5, min_child_weight 1..10) were calibrated for that larger scale and are an order of magnitude too aggressive here: measured on MTD (hessian 75), gamma 1.0 leaves 29 split nodes and gamma 5.0 leaves ONE. Expressed relative to the fold's own hessian the same value means the same thing on every asset, which is what makes the space calibrate itself from each asset's data instead of being imposed on all of them.",
+    "measured_transfer": "Same g_rel across four assets and two fold sizes (hessians 47.8 to 101.3): g_rel=0 gives 979-1084 split nodes, 0.002 gives 480-919, 0.005 gives 66-260, 0.02 gives 3-19. Absolute gamma cannot do this - one value collapsed some assets and not others.",
+    "not_comparable_with": "2026-07-golden-v5"
+  },
+  "hessian_relative": ["gamma", "min_child_weight"],
+  "parameters": [
+    {"name": "max_depth", "suggest": "int", "low": 2, "high": 5},
+    {"name": "eta", "suggest": "float", "low": 0.02, "high": 0.3, "log": true},
+    {"name": "subsample", "suggest": "float", "low": 0.6, "high": 1.0},
+    {"name": "colsample_bytree", "suggest": "float", "low": 0.6, "high": 1.0},
+    {"name": "min_child_weight", "suggest": "float", "low": 0.002, "high": 0.05, "relative_to": "hessian"},
+    {"name": "reg_lambda", "suggest": "float", "low": 0.5, "high": 5.0},
+    {"name": "reg_alpha", "suggest": "float", "low": 0.0, "high": 5.0},
+    {"name": "gamma", "suggest": "float", "low": 0.0, "high": 0.004, "relative_to": "hessian"},
+    {"name": "n_estimators", "suggest": "int", "low": 40, "high": 300}
+  ],
+  "viability": {
+    "_note": "A trial that cannot differentiate its predictions has not tested the feature space, and its feature comparisons carry no information. Read off the register in xgb/data/model_viability.json (600 draws per space over 20 tables) and DECLARED HERE BEFORE the nested re-run, so they cannot be tuned to its outcome.",
+    "_evidence": "Median out-of-fold log-growth by split-node count: 0 splits -1.4629 (0% of trials positive), 1-20 splits -0.6222 (22%), 21-200 splits +0.1789 (59%), >200 splits +0.3871 (84%). Prediction spread over the same buckets: 0.0000, <=0.0030, 0.0083, 0.0446. Below twenty splits a model's predictions vary by less than a third of a percentage point, which is not enough to express what a feature did; the sign of the objective flips at the same place.",
+    "_negative_control": "The floor rejects 525 of 600 draws (88%) from the sealed v1 space and 156 of 600 (26%) from this one. A gate that never rejects validates nothing; this one discriminates between the spaces it was built to tell apart.",
+    "min_split_nodes": 20,
+    "min_pred_std": 0.005
+  }
+}
