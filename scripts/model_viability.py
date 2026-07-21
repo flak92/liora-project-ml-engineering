@@ -121,6 +121,8 @@ def evaluate(dfx, dfb, tev, bnds, params, names, seed, mode="quantile"):
         return None
     sel = NV.choose_operating_point(P, dfx, fold_data, mode)
     return {"split_nodes": int(sum(splits)), "split_nodes_per_fold": splits,
+            "fold_growth": [float(g) for g in sel["fold_growth"]],
+            "fold_trades": [int(n) for n in sel["fold_trades"]],
             "leaves": int(sum(leaves)),
             "pred_std": round(float(sum(stds) / len(stds)), 6),
             "pred_min": round(pmin, 6), "pred_max": round(pmax, 6),
