@@ -133,7 +133,21 @@ Two arms, both declared before the run so that neither is a repair fitted to ear
 |---|---|---|
 | naive procedure | 66/80 | — |
 | flat | **14/80** | +0.0419 → **+0.0000** |
-| hierarchical | **11/80** | +0.0239 → **−0.0003** |
+| hierarchical | **12/80** | +0.0239 → **−0.0003** |
+
+**The selection rule, and why it had to change.** A fold's verdict is
+`T = max(median_j − 0.004)` over units that are *eligible* — picked in at least two rotations, with
+a majority of positive confirmation deltas — and `T = 0` when nothing is eligible. `T > 0` is
+exactly the old acceptance, since the median threshold and the complexity charge are the same
+0.004, so no threshold moved.
+
+What moved is the tie-break. The rule used to examine only the modal pick. On NOW's outer fold 0
+two families were each chosen twice and the tie fell to insertion order, handing the verdict to
+`price_distance` (positive in 1 of 2, median −0.0070) while `volume` sat there having won both of
+its rotations with a median of +0.0298. The fold was rejected on an ordering accident. Counter's
+ordering is not reproducible across Python versions, and — the reason this is mandatory rather than
+merely tidier — **a permutation cannot honestly reproduce "whichever unit Counter returned
+first"**. Replaying the corrected rule over the stored rotations changed exactly one decision.
 
 **Cross-fitting cuts acceptances fivefold.** One table shows the mechanism bare: a feature chosen in
 *all four* rotations, with a positive discovery gain every time, confirmed at
@@ -172,19 +186,110 @@ hierarchical, the full `family → representative` path; and in both, the operat
 because the chosen `q` is candidate-dependent in 60% of configurations and a null that froze it
 would test a different procedure than the one that ran.
 
-**What this test does and does not cover.** *Max-null controls candidate-search multiplicity within
-a discovery rotation; cross-rotation and cross-asset evidence is controlled by the stability and
-confirmation contract.* The distribution of the maximum over 45 candidates answers "how large a
-maximum does searching this pool produce by itself, in this rotation". It says nothing about the 42
-tests run across rotations, folds and tickers — that burden is carried by requiring recurrence in at
-least two rotations and a majority of positive confirmations. One max-null does not control the
-multiplicity of the project and must not be described as if it did.
+#### The unit is the outer fold, and the permutation belongs to outer-train
 
-`M = 50`, `α = 0.10`, `b = #{null ≥ real}`. Pass requires `b ≤ 4` after the full fifty.
-**Futility bound:** stop at `b = 5` — even if every remaining permutation fell short,
-`p ≥ 6/51 = 0.1176` and the candidate cannot pass. Early-stopped tests report `rejected_early`, the
-permutations performed, the exceedances and a *lower bound* on the p-value; `(1+b)/(1+n)` is not a
-fixed-budget p-value for a test that stopped early.
+A per-rotation null answers a smaller question than the one that matters: it controls "45
+candidates, one maximum, one rotation". The procedure being defended is larger — four rotations,
+recurrence of the pick, a majority of positive confirmations, a median clearing the complexity
+charge — and a null that never reproduces those clauses cannot control the multiplicity they
+introduce. So one permutation produces one null realisation of the **whole outer-train optional
+matrix**, and the four rotations are merely different *views* of that same realisation. The
+statistic is `T`, computed by the same function that produced the real verdict.
+
+This also dissolves a problem with no other solution. Purged walk-forward inner folds **overlap**: a
+row belongs to several at once, so "permute within a fold" is not well defined and the natural-
+sounding requirement *no block crosses a fold boundary* is unsatisfiable. We do not protect the
+boundary of each overlapping fold. We protect the boundary that exists — outer-train against
+outer-validation — and purge and embargo are applied afterwards, when the folds are cut out of the
+already-permuted object. The confirmation fold is permuted along with the rest: H₀ says the
+features are uninformative *everywhere*, and leaving confirmation intact would test the value of
+selection rather than the absence of information.
+
+Measured consequence: the procedure-level null sits far higher than the rotation-level one. On
+ADBE's outer fold 2 a permutation produced `T = 0.1048` against a real `T = 0.0822` within the
+first few draws. **The rotation-level test was too easy**, and the aggregation is what reveals it.
+Conversely, a permutation whose best single rotation reached +0.056 scored `T = 0` because no unit
+recurred with a majority — the same aggregation cutting the other way.
+
+**What this test does and does not cover.** *Max-null controls candidate-search, operating-point and
+rotation-aggregation multiplicity within one outer fold; cross-fold and cross-asset evidence is
+controlled by the stability and confirmation contract.* It says nothing about the 16 outer folds and
+12 tickers the test is run across. One max-null does not control the multiplicity of the project and
+must not be described as if it did.
+
+**A consequence of choosing which folds to test.** The 16 folds are tested *because* the real
+procedure accepted something there. The per-fold p-value survives that unharmed — the permutation
+distribution is built from that fold's own data, so the conditional argument does not depend on how
+the fold was chosen. What does **not** survive is reading the count of passes as a calibrated
+family-wise statement. The folds were not sampled; they were selected for having accepted. Report
+per-fold verdicts; never "x of 16 passed, expected y under the null".
+
+#### Three nulls, differing only in how the features are made uninformative
+
+Everything downstream is byte-identical between them, which is what makes them comparable.
+
+| | mechanism | what it controls | status of the evidence |
+|---|---|---|---|
+| **A1** | global block permutation across outer-train | `optional ↔ outcome` alignment | **marginal**, not the conditional H₀ |
+| **A2** | blocks permuted only within `G = 4` chronological macro-segments of equal *bar* span | the same, with the local regime held | sensitivity check on A1 survivors |
+| **B** | cross-fitted `g`: permute the residual `optional − g(core)`, rebuild as `g(core) + residual_perm` | keeps the dependence on core | **sensitivity check, not an exact CRT** |
+
+A1 is honest about its own limitation: it destroys `optional ↔ core` as well as
+`optional ↔ outcome`, so it is a *marginal alignment* null, not the
+`X_optional ⊥ Y | X_core` that the hypothesis names. Breaking the coupling to core can actively
+hurt a model — changed competition for splits, `colsample_bytree`, gain dilution, changed available
+interactions — which would shift the whole null distribution left and make it too easy to beat.
+That is what B exists to detect, and why "A passed, B rejected" has its own row in the
+interpretation table rather than being treated as noise.
+
+B's honesty runs the other way: `P(X_optional | X_core)` is *estimated*, not known, so its
+correctness depends on the quality of `g`. Its alpha is chosen by held-out reconstruction MSE of the
+features alone — no label, no outcome, no trading result enters the nuisance model — and rebuilding
+as `g(core) + residual_perm` does not reproduce each column's original marginal, a drift that is
+measured and recorded rather than hidden.
+
+**A2's segments are cut by bar span, not row count.** An equal-row split would make a quiet stretch
+span years and a busy one span weeks, which is the opposite of holding the local distribution fixed.
+
+`M = 50`, `α = 0.10`, `b = #{null ≥ real}`. Pass requires `b ≤ 4` after the full fifty
+(`p = 5/51 = 0.0980 ≤ α`). **Futility bound:** stop at `b = 5` — even if every remaining permutation
+fell short, `p ≥ 6/51 = 0.1176` and the candidate cannot pass. Early-stopped tests report
+`rejected_early`, the permutations performed, the exceedances and a *lower bound* on the p-value;
+`(1+b)/(1+n)` is not a fixed-budget p-value for a test that stopped early.
+
+The futility bound is **deterministic, not statistical**: `b` never decreases, so once it reaches
+five it is still ≥ 5 at fifty, and the early verdict and the full-budget verdict agree by
+construction. Checking that they agree therefore proves nothing. What is worth checking on real
+data — and is checked — is that the number reported at the stop genuinely *bounds* the one a full
+run produces.
+
+#### Two controls, because failing in either direction is invisible from the results
+
+A methodology that always rejects is exactly as useless as one that never rejects, and neither
+failure shows up in a run that produced few survivors.
+
+The **negative control** costs nothing, because every permutation already *is* an independent
+synthetic-null experiment: under it the optional features carry no information by construction, so
+`T_null > 0` means the acceptance contract accepted something when there was nothing there. The rate
+of that across all permutations is the type-I error of the four-rotation rule *on its own* — the
+multiplicity the max-null exists to remove — reported with a Wilson interval, because the normal
+approximation is wrong exactly where these rates live.
+
+The **positive control** plants a column of known strength,
+`z = a·standardised(y) + √(1−a²)·noise`, replacing an existing candidate's column so the name and
+family machinery cannot tell it apart. It reports the minimum detectable effect at power 0.8, the
+power at each strength, the cost, and how power decays as the candidate pool grows from 5 to 45.
+The plant is deliberately unrealistic. It is a ruler, not a feature.
+
+#### Known property, recorded rather than repaired
+
+The quantile arm calls `select_operating_point` with `min_oof_trades` only, leaving
+`min_active_folds = 0` and `max_fold_trade_share = 1.0` at their defaults, so an operating point
+whose trades all come from a single fold is admissible. This cannot bias the permutation test — the
+real run and every permutation take the identical code path — so it is a property of the *procedure
+being defended*, not of the test defending it. It is recorded here because it matters when the
+methodology is carried to a new panel, and left alone because changing it now would alter the
+procedure mid-test.
 
 ---
 
@@ -289,9 +394,29 @@ thread configuration, wall and core seconds, and artifact hashes.
 | 4 | feature utility register | `scripts/feature_utility.py --jobs 4` | a window with no viable model contributes no feature evidence |
 | 5 | outer evaluation | `scripts/nested_outer.py --jobs 4` | — |
 | 6 | cross-fitted selection | `scripts/crossfit_selection.py --jobs 4` | **zero provisional acceptances ends the run** — the null cannot rescue anything |
-| 7 | max-null, survivors only | *(runner pending)* | `b = 5` ends that candidate |
+| 7 | procedure-level null A1 | `scripts/procedure_null.py --null a1 --jobs 4` | `b = 5` ends that fold and arm |
+| 8 | grouped-null sensitivity | `scripts/procedure_null.py --null a2 --survivors-from …a1.json` | no survivors is a complete result, not a failure |
+| 9 | conditional-null sensitivity | `scripts/procedure_null.py --null b --survivors-from …a1.json` | as above |
+| 10 | controls | `scripts/null_controls.py --negative --positive` | a ladder that never finds the plant is not a ladder |
+| 11 | summary | `scripts/rung5_summary.py` | a human reads this and writes the verdict |
 
-Verify at every step: `make verify` green, sealed pipeline untouched, zero OOS reads.
+Steps 7–11 run unattended under `make loop-start`, which puts the supervisor inside a tmux session
+so the tmux *server* is the daemon and the terminal can be closed. The chain is resumable at the
+permutation: every finished unit is a ledger line, so a machine that dies at hour four resumes at
+hour four rather than starting again. `make loop-status` shows the session, the lock, the control
+channel, per-stage progress and the ledger's hash-chain integrity; `make loop-stop` sets a
+cooperative halt that lands between units, never mid-unit.
+
+The chain **never makes a methodological decision**. It computes, checks invariants, and records.
+Its gates test only things that must hold regardless of which way the verdict went — permutation
+uniqueness, block displacement, verdict/exceedance consistency, the p-value bound, manifest
+completeness. A gate that fired on "too few survivors" would be the chain forming an opinion.
+
+Verify at every step: `make verify` green, sealed pipeline untouched, zero OOS reads. And
+`make loop-selftest`, which proves the orchestration itself — that a child forked without `9>&-`
+really does keep the lock alive (the negative control, without which the test proves nothing), that
+an artifact survives SIGKILL mid-write, that the watchdog actually restarts a dead chain, and that
+the gates fail closed on a missing or truncated input.
 
 **An empty subset is a complete and correct answer.** The procedure does not pick the best available
 feature; it picks only features that survived being chosen and judged by different data.
