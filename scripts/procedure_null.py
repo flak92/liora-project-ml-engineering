@@ -341,8 +341,20 @@ def one_permutation(ctx, ofold, perm_id):
 
     t_flat, _ = ACC.T(rots, "flat")
     t_hier, _ = ACC.T(rots, "hierarchical")
+
+    # The rotation-level statistic falls out of the same work, so the diagnostic that would
+    # otherwise cost a separate 7.8 core-hour run is free here — and better. Run separately it
+    # would use its own permutations, so "how many conclusions change when the whole rule is
+    # aggregated instead of tested rotation by rotation" would compare two independent draws.
+    # Taken from the same realisation the comparison is PAIRED, which is the only way that
+    # question has a clean answer.
+    per_rot = [[None if r["arms"]["flat"]["confirm_delta"] is None
+                else round(float(r["arms"]["flat"]["confirm_delta"]), 6),
+                None if r["arms"]["hierarchical"]["confirm_delta"] is None
+                else round(float(r["arms"]["hierarchical"]["confirm_delta"]), 6)]
+               for r in rots]
     return {"T_flat": round(float(t_flat), 8), "T_hierarchical": round(float(t_hier), 8),
-            "rotations_scored": len(rots), **prov}
+            "rotation_deltas": per_rot, "rotations_scored": len(rots), **prov}
 
 
 # ---------------------------------------------------------------------------------------------
@@ -434,6 +446,7 @@ def run_ticker(job):
         state = {a: {"exceed": 0, "null": [], "stopped_at": None} for a in arms}
         executed = 0
         prov_last = {}
+        rot_deltas, hashes = [], []
 
         # Replay whatever the ledger already holds, so a resume neither repeats work nor loses
         # the exceedance counts that drive futility stopping.
@@ -449,9 +462,16 @@ def run_ticker(job):
                 cached = one_permutation(ctx, ofold, pid)
                 led.append(stage, unit, "completed", payload={
                     "T_flat": cached["T_flat"], "T_hierarchical": cached["T_hierarchical"],
+                    "rotation_deltas": cached["rotation_deltas"],
                     "index_hash": cached["index_hash"], "n_blocks": cached["n_blocks"]})
             executed = pid + 1
             prov_last = cached
+            rot_deltas.append(cached.get("rotation_deltas"))
+            h = cached.get("index_hash")
+            if h in hashes:
+                raise RuntimeError(
+                    f"powtórzona permutacja {h} w {ticker}/{ofold} — losowanie nie jest niezależne")
+            hashes.append(h)
             for a, s in state.items():
                 if s["stopped_at"] is not None:
                     continue
@@ -464,7 +484,14 @@ def run_ticker(job):
 
         row = {"ticker": ticker, "outer_fold": ofold, "permutations_executed": executed,
                "provenance": {k: v for k, v in prov_last.items()
-                              if k not in ("T_flat", "T_hierarchical")},
+                              if k not in ("T_flat", "T_hierarchical", "rotation_deltas")},
+               "index_hashes": hashes,
+               "rotation_level_diagnostic": {
+                   "_role": ("paired by-product: the rotation-level null from the SAME permutations, "
+                             "so 'how many conclusions change when the whole rule is aggregated' "
+                             "is a paired comparison rather than two independent draws"),
+                   "_must_not": "be used as the max-null verdict",
+                   "null_deltas_per_permutation": rot_deltas},
                "arms": {}}
         for a, s in state.items():
             n = s["stopped_at"] or executed
