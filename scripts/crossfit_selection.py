@@ -58,13 +58,16 @@ DEFAULT_OUT = XGB / "data" / "crossfit_selection.json"
 MODE = "quantile"
 SEED = 42
 
-# The acceptance contract, frozen before the run. Every clause must hold; failing any of them
-# means the evidence is insufficient, and insufficient evidence returns nothing rather than the
-# best of what was on offer.
-MIN_ROTATIONS = 2               # picked in at least 2 of the 4 rotations (which overlap in their
-                                # discovery sets — "at least 2", not "independent")
-MIN_MEDIAN_DELTA = 0.004        # the same complexity cost the search has always charged
-MAJORITY = 0.5                  # strictly more than half the comparable confirmations positive
+# The acceptance contract now lives in `acceptance.py`, imported here and by the null runner so
+# that both sides of the permutation test compute the statistic with literally the same code. Every
+# clause must hold; failing any of them means the evidence is insufficient, and insufficient
+# evidence returns nothing rather than the best of what was on offer.
+import acceptance as ACC                                                   # noqa: E402
+
+MIN_ROTATIONS = ACC.MIN_ROTATIONS       # picked in at least 2 of the 4 rotations (which overlap in
+                                        # their discovery sets — "at least 2", not "independent")
+MIN_MEDIAN_DELTA = ACC.COMPLEXITY_PEN   # the same complexity cost the search has always charged
+MAJORITY = ACC.MAJORITY                 # strictly more than half the comparable confirmations positive
 
 
 def _fold_data(dfx, dfb, tev, folds, params, names, seed):
@@ -180,34 +183,18 @@ def rotation(dfx, dfb, tev, inner, r, params, ticker, cands, fam_of, simplicity,
 
 
 def accept(rots):
-    """Apply the frozen contract. Returns the provisional acceptance, or None with the reason."""
-    import statistics as st
-    from collections import Counter
+    """Apply the frozen contract — delegated, so the null runs this exact code.
 
-    out = {}
-    for arm, key in (("flat", "picked"), ("hierarchical", "family")):
-        picks = [r["arms"][arm] for r in rots if r and arm in r["arms"]]
-        chosen = [p[key] for p in picks if p["confirm_delta"] is not None]
-        if not chosen:
-            out[arm] = {"accepted": None, "reason": "no comparable confirmation"}
-            continue
-        unit, n = Counter(chosen).most_common(1)[0]
-        deltas = [p["confirm_delta"] for p in picks
-                  if p[key] == unit and p["confirm_delta"] is not None]
-        med = st.median(deltas)
-        wins = sum(1 for d in deltas if d > 0)
-        why = []
-        if n < MIN_ROTATIONS:
-            why.append(f"chosen in {n} rotation(s), needs {MIN_ROTATIONS}")
-        if med <= MIN_MEDIAN_DELTA:
-            why.append(f"median confirmation delta {med:+.4f} <= {MIN_MEDIAN_DELTA}")
-        if wins <= len(deltas) * MAJORITY:
-            why.append(f"positive in {wins}/{len(deltas)}, needs a majority")
-        out[arm] = {"unit": unit, "rotations": n, "median_delta": round(med, 8),
-                    "wins": wins, "n_deltas": len(deltas),
-                    "representatives": sorted({p["picked"] for p in picks if p[key] == unit}),
-                    "accepted": not why, "reason": "; ".join(why) or "all clauses hold"}
-    return out
+    The previous implementation examined only the modal pick (`Counter.most_common(1)`). On NOW's
+    outer fold 0 two families were each chosen twice and the tie was broken by insertion order,
+    handing the verdict to `price_distance` (positive in 1 of 2, median -0.0070) while `volume`
+    sat there having won both of its rotations with a median of +0.0298. The fold was rejected on
+    an ordering accident. Taking the maximum over everything eligible is what a search actually
+    does, it is reproducible across Python versions, and — the reason it is mandatory rather than
+    merely better — a permutation cannot honestly reproduce "whichever unit Counter returned
+    first".
+    """
+    return ACC.verdict(rots)
 
 
 def table(ticker):
@@ -254,12 +241,46 @@ def _line(r, total, done):
           f"hierarchical={acc['hierarchical']}/{len(r['folds'])}  ({r['seconds']:.0f}s){flag}")
 
 
+def recompute_verdicts(path):
+    """Re-apply the acceptance rule to rotations already on disk — no model is retrained.
+
+    The rotations are the measurement; the verdict is a function of them. When the rule changes,
+    replaying it costs a second and is exactly reproducible, whereas re-running 3B would cost two
+    core-hours and, because it is deterministic, would produce the identical rotations anyway.
+    """
+    from artifact_io import read_json, write_json_atomic
+
+    doc = read_json(path)
+    if doc is None:
+        raise SystemExit(f"brak lub uszkodzony artefakt: {path}")
+    before = after = 0
+    for rec in doc["tables"].values():
+        for f in rec["folds"]:
+            before += sum(1 for a in ("flat", "hierarchical")
+                          if f.get("verdict", {}).get(a, {}).get("accepted"))
+            f["verdict"] = ACC.verdict(f["rotations"])
+            after += sum(1 for a in ("flat", "hierarchical") if f["verdict"][a]["accepted"])
+    doc["contract"] = dict(doc.get("contract", {}),
+                           rule="max-over-eligible", complexity_pen=ACC.COMPLEXITY_PEN,
+                           min_rotations=ACC.MIN_ROTATIONS, majority=ACC.MAJORITY)
+    sha = write_json_atomic(path, doc)
+    print(f"werdykty przeliczone regułą max-over-eligible: {before} -> {after} przyjęć")
+    print(f"  {path}  sha256 {sha[:16]}…")
+    return doc
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("tickers", nargs="*")
     ap.add_argument("--jobs", type=int, default=1)
     ap.add_argument("--out", default=str(DEFAULT_OUT))
+    ap.add_argument("--recompute-verdicts", action="store_true",
+                    help="replay the acceptance rule over the stored rotations; trains nothing")
     args = ap.parse_args()
+
+    if args.recompute_verdicts:
+        recompute_verdicts(Path(args.out))
+        return 0
 
     reg = json.loads(REGISTER.read_text(encoding="utf-8"))
     tickers = args.tickers or list(reg["tables"])
@@ -281,11 +302,13 @@ def main():
             results[t] = r
             _line(r, len(tickers), i)
 
-    Path(args.out).write_text(json.dumps(
-        {"contract": {"min_rotations": MIN_ROTATIONS, "min_median_delta": MIN_MEDIAN_DELTA,
-                      "majority": MAJORITY, "mode": MODE, "seed": SEED},
-         "tables": results}, indent=1) + "\n", encoding="utf-8")
-    print(f"\nwrote {args.out}")
+    from artifact_io import write_json_atomic
+    sha = write_json_atomic(args.out, {
+        "contract": {"min_rotations": MIN_ROTATIONS, "min_median_delta": MIN_MEDIAN_DELTA,
+                     "majority": MAJORITY, "rule": "max-over-eligible",
+                     "complexity_pen": ACC.COMPLEXITY_PEN, "mode": MODE, "seed": SEED},
+        "tables": results})
+    print(f"\nwrote {args.out}  sha256 {sha[:16]}…")
     return 0
 
 
