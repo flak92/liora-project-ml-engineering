@@ -1,0 +1,121 @@
+{
+  "schema_version": "feature_discovery_contract.v1",
+  "methodology": "Golden Calibration Development Candidate",
+  "_status": "DEVELOPMENT CANDIDATE, NOT v1. The twenty tickers below are a development panel: outer-fold results were used to decide subsequent methodology changes, so their numbers measure the procedure's construction, not its performance. The name Golden Calibration v1 is earned only after the certification run described under `certification` — a fresh panel, this contract frozen, no threshold touched.",
+  "_purpose": "The machine-readable definition of the feature-discovery procedure. docs/FEATURE_DISCOVERY_METHODOLOGY.md describes this file; it does not replace it. Where the two disagree, this file is the contract.",
+
+  "identity": {
+    "commit_sha": "982cdce5857d97e95b99ae0e9cfc18f1919fcc32",
+    "bar_store": "xgb/data/liora.duckdb",
+    "bar_store_sha256_prefix": "57d9a2243958ae7d",
+    "sample": "config/sample_20.json",
+    "sample_sha256_prefix": "62a50615440e7797",
+    "not_comparable_with": "2026-07-golden-v5",
+    "_why": "The model space below differs from the sealed epoch's, so numbers produced under this contract must never be tabulated beside sealed ones."
+  },
+
+  "data_boundary": {
+    "train_end": "2023-12-29",
+    "oos_start": "2024-01-02",
+    "label_horizon_bars": 24,
+    "embargo_bars": 35,
+    "oos_reads": 0,
+    "_rule": "Every outer fold is carved out of Train. The OOS window is not read at any stage of discovery, selection, confirmation or the null. The single sealed OOS read remains reserved for after the methodology is frozen."
+  },
+
+  "model_space": {
+    "file": "config/xgb_search_space_v2.json",
+    "hessian_relative": ["gamma", "min_child_weight"],
+    "hpo_trials": 30,
+    "hpo_target": "core features only",
+    "_why_core": "Tuning on the 45-candidate superset co-adapts the parameters to features the baseline lacks, which inflates every subsequent gain. Tuning on core and freezing gives all configurations the same protocol."
+  },
+
+  "viability": {
+    "min_split_nodes": 20,
+    "min_pred_std": 0.005,
+    "role": "admissibility only",
+    "_rule": "A configuration below the floor has not tested its features, so its gain is not evidence. The gate never ranks and never picks a winner; ranking remains marginal Train-OOF log-growth and fold-win fraction.",
+    "_evidence": "Median out-of-fold log-growth by split-node count: 0 splits -1.4629 (0% of trials positive), 1-20 -0.6222 (22%), 21-200 +0.1789 (59%), >200 +0.3871 (84%).",
+    "_negative_control": "Rejects 525/600 draws (88%) of the sealed v1 space and 156/600 (26%) of v2."
+  },
+
+  "operating_point": {
+    "mode": "quantile",
+    "grid": [0.75, 0.82, 0.88, 0.92, 0.96, 0.99],
+    "cut_source": "the model's predictions on its own training rows",
+    "chosen_on": "discovery folds",
+    "applied_to": "confirmation and outer folds as a fixed level",
+    "candidate_dependent": true,
+    "_measured": "The candidate's theta differs from core's in 2149 of 3600 configurations (60%), spanning the whole grid. The null must therefore reproduce theta selection inside every permutation, and it controls feature multiplicity AND operating-point multiplicity jointly."
+  },
+
+  "arms": {
+    "flat": "45 candidates -> discovery ranking -> single maximum -> confirmation",
+    "hierarchical": "12 families -> strongest family -> its representative (one-SE plateau, simplest member) -> confirmation",
+    "stability_unit": {"flat": "feature", "hierarchical": "family"},
+    "_paired": "Both arms consume the same permutations so their results are paired, but each builds its own maximum distribution and its own p-value. There is no shared threshold."
+  },
+
+  "cross_fitting": {
+    "inner_folds": 4,
+    "rotations": 4,
+    "role_split": "one confirmation fold held out, the rest discover; the confirmation fold rotates so each inner fold serves once as untouched validation",
+    "_independence": "Rotations are NOT independent — their discovery sets overlap. The contract says 'at least 2 rotations' and claims nothing more."
+  },
+
+  "acceptance": {
+    "min_rotations": 2,
+    "min_median_confirmation_delta": 0.004,
+    "complexity_penalty": 0.004,
+    "majority_positive": true,
+    "max_null_required": true,
+    "empty_subset_is_valid": true,
+    "_rule": "All clauses must hold simultaneously. Insufficient evidence returns nothing rather than the best of what was on offer."
+  },
+
+  "max_null": {
+    "status": "SPECIFIED, NOT YET EXECUTED",
+    "null_hypothesis": "Optional features carry no incremental information over the frozen core; the observed maximum gain is what searching a pool of candidates produces by itself.",
+    "mechanism": "block shift of the whole optional-feature matrix within the discovery fold",
+    "_why_not_label_shuffle": "Permuting Y_outcome alone leaves the economic scoring reading non-permuted trade outcomes, so the null would not correspond to the statistic being tested. Shifting the optional block keeps core, labels and outcome intact, preserves feature autocorrelation and cross-correlation, and destroys only the temporal alignment between optional features and outcome.",
+    "block_length": {"rule": "L = max(label_horizon_bars, empirical_dependency_length)", "value": null, "sensitivity": ["L", "2L"], "_status": "to be measured, not assumed"},
+    "permutations_max": 50,
+    "alpha": 0.10,
+    "pass_condition": "b <= 4 after the full 50 permutations, where b = #{null statistic >= real statistic}; p_mc = (1+b)/51 <= 5/51",
+    "futility_bound": "stop at b = 5 — even if every remaining permutation fell below the real value, p_mc >= 6/51 = 0.1176 and the candidate cannot pass",
+    "early_stop_reporting": "verdict rejected_early, permutations performed, exceedances, and a LOWER BOUND on the final p-value. (1+b)/(1+n) must not be reported as a fixed-budget p-value for an early-stopped test.",
+    "scope": "only rotations supporting a provisional acceptance — 42 rotations, 16 outer folds, 12 tickers",
+    "_why_scoped": "The null can only reject a provisional acceptance, never rescue a candidate that failed confirmation. Running it where nothing was accepted cannot change a decision."
+  },
+
+  "runtime": {
+    "seed": 42,
+    "thread_pools": {"OMP_NUM_THREADS": 1, "OPENBLAS_NUM_THREADS": 1, "MKL_NUM_THREADS": 1, "NUMEXPR_NUM_THREADS": 1, "XGBOOST_N_JOBS": 1},
+    "workers": 4,
+    "scratch": "scratch/<run_id>/<ticker>/<pid>/",
+    "_measured": "Capping the pools: 12.33 s -> 8.15 s at three workers (1.51x). Worker benchmark over eight tables: 63.90 s / 33.71 / 24.62 / 19.72 wall at jobs 1..4, core-seconds 63.88 / 65.73 / 65.96 / 67.88 — wall falls monotonically while core-seconds rise 6%, so four workers are Pareto-optimal.",
+    "_reproducibility": "Capping does not touch the arithmetic: stage 3 re-run on TDG reproduced [-0.09471459, -0.11062278, +0.04853174, +0.24495527] exactly."
+  },
+
+  "cost_model_core_seconds_per_ticker": {
+    "viability_register": 90,
+    "feature_utility_register": 400,
+    "outer_evaluation": 19,
+    "cross_fitting_both_arms": 590,
+    "_note": "Measured before the runtime fix, at three workers with uncapped pools. Re-measure under the new configuration before budgeting a new panel."
+  },
+
+  "stop_conditions": {
+    "no_viable_model": "if the model space cannot produce a learnable model for a window, that window reports no_viable_model and contributes nothing to feature evidence",
+    "no_provisional_acceptance": "if cross-fitting accepts nothing in either arm, the stage ends without the null",
+    "null_rejects_all": "the feature space fails the declared standard of proof; this is a result, not a failure",
+    "futility": "see max_null.futility_bound"
+  },
+
+  "certification": {
+    "status": "not started",
+    "requirement": "freeze this contract and the code, select a fresh panel by a declared rule, run the whole ladder without touching thresholds, null, HPO or selection logic, and report accuracy, cost and the number of empty subsets",
+    "grants_name": "Golden Calibration v1"
+  }
+}
