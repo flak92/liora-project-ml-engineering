@@ -5,13 +5,29 @@
   "_purpose": "The machine-readable definition of the feature-discovery procedure. docs/FEATURE_DISCOVERY_METHODOLOGY.md describes this file; it does not replace it. Where the two disagree, this file is the contract.",
 
   "identity": {
-    "commit_sha": "982cdce5857d97e95b99ae0e9cfc18f1919fcc32",
+    "contract_version": "golden-calibration-dc.1",
+    "implementation_base_sha": "982cdce5857d97e95b99ae0e9cfc18f1919fcc32",
+    "contract_commit_sha": null,
+    "_why_null": "A contract cannot carry the SHA of the commit that contains it: writing the SHA changes the file, which changes the commit, which changes the SHA. This file names the implementation it describes; the commit that actually ran is recorded at runtime in run_manifest.execution_head_sha, together with the sha256 of this file as it stood.",
     "bar_store": "xgb/data/liora.duckdb",
     "bar_store_sha256_prefix": "57d9a2243958ae7d",
     "sample": "config/sample_20.json",
     "sample_sha256_prefix": "62a50615440e7797",
     "not_comparable_with": "2026-07-golden-v5",
     "_why": "The model space below differs from the sealed epoch's, so numbers produced under this contract must never be tabulated beside sealed ones."
+  },
+
+  "run_manifest_required_fields": {
+    "execution_head_sha": "git HEAD at the moment the run started",
+    "contract_sha256": "sha256 of this file as read by the run",
+    "code_dirty": "whether the working tree carried uncommitted changes",
+    "environment": "python, platform, cpu count, thread pool settings and what the pools actually reported",
+    "workers": "process count actually used",
+    "wall_seconds": null,
+    "core_seconds": null,
+    "permutations_executed": "per candidate, so an early stop is visible",
+    "verdicts": null,
+    "artifact_sha256": "per output file"
   },
 
   "data_boundary": {
@@ -79,14 +95,34 @@
     "null_hypothesis": "Optional features carry no incremental information over the frozen core; the observed maximum gain is what searching a pool of candidates produces by itself.",
     "mechanism": "block shift of the whole optional-feature matrix within the discovery fold",
     "_why_not_label_shuffle": "Permuting Y_outcome alone leaves the economic scoring reading non-permuted trade outcomes, so the null would not correspond to the statistic being tested. Shifting the optional block keeps core, labels and outcome intact, preserves feature autocorrelation and cross-correlation, and destroys only the temporal alignment between optional features and outcome.",
-    "block_length": {"rule": "L = max(label_horizon_bars, empirical_dependency_length)", "value": null, "sensitivity": ["L", "2L"], "_status": "to be measured, not assumed"},
+    "block_length": {
+      "_status": "rule frozen before any null result is seen; the value is measured under it",
+      "rule": "L_block = max(H, L_dependency)",
+      "L_dependency": "the first lag after which |ACF| stays inside the noise band for K consecutive lags",
+      "lag_unit": "bars",
+      "_why_bars": "The event rows are not an evenly spaced series — events cluster and their t0 gaps vary — so an autocorrelation computed over consecutive rows would measure event density as much as dependence. Dependence is measured in bar time and blocks are then mapped onto events through t0.",
+      "noise_band": "±1.96/sqrt(n)",
+      "K_consecutive_lags": 5,
+      "floor": 24,
+      "_floor_is": "H, the label horizon: two events closer than the horizon share outcome bars, so no block may be shorter than it",
+      "max_block_fraction_of_fold": 0.25,
+      "_why_max": "A fold must contain at least four blocks or the shift has too few positions to be a permutation at all",
+      "short_fold_behaviour": "if max(H, L_dependency) exceeds a quarter of the fold, use the quarter and flag the rotation as block_length_clamped",
+      "value_bars": 24,
+      "_measured": "L_dependency in bar time: NVDA 24, MTD 14, GWW 7, AZO 9. The floor binds on all four — the label horizon outlasts the measured dependence everywhere, so L_block = 24 for the panel. This is expected rather than lucky: the label is built over 24 bars, so events closer than that share outcome bars whatever the ACF says.",
+      "sensitivity": ["L", "2L"],
+      "_sensitivity_rule": "the verdict must not depend on one arbitrary block size; if L and 2L disagree for a candidate, that candidate is reported as block_sensitive and does not pass"
+    },
     "permutations_max": 50,
     "alpha": 0.10,
     "pass_condition": "b <= 4 after the full 50 permutations, where b = #{null statistic >= real statistic}; p_mc = (1+b)/51 <= 5/51",
     "futility_bound": "stop at b = 5 — even if every remaining permutation fell below the real value, p_mc >= 6/51 = 0.1176 and the candidate cannot pass",
     "early_stop_reporting": "verdict rejected_early, permutations performed, exceedances, and a LOWER BOUND on the final p-value. (1+b)/(1+n) must not be reported as a fixed-budget p-value for an early-stopped test.",
     "scope": "only rotations supporting a provisional acceptance — 42 rotations, 16 outer folds, 12 tickers",
-    "_why_scoped": "The null can only reject a provisional acceptance, never rescue a candidate that failed confirmation. Running it where nothing was accepted cannot change a decision."
+    "_why_scoped": "The null can only reject a provisional acceptance, never rescue a candidate that failed confirmation. Running it where nothing was accepted cannot change a decision.",
+    "controls": "candidate-search multiplicity WITHIN a discovery rotation",
+    "does_not_control": "the 42 tests run across rotations, folds and tickers",
+    "_scope_statement": "max-null controls candidate-search multiplicity within a discovery rotation; cross-rotation and cross-asset evidence is controlled by the stability and confirmation contract. One max-null does not control the multiplicity of the project, and must never be described as if it did."
   },
 
   "runtime": {

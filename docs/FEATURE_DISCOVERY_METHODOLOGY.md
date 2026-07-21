@@ -148,7 +148,21 @@ a distinction the whole earlier procedure could not see.
 > maximum gain is what searching a pool of candidates produces by itself.
 
 The null shifts the **whole optional-feature block** within the discovery fold, in blocks long
-enough to respect label dependence. Core, labels and economic outcome stay intact: permuting
+enough to respect label dependence — the rule is `L_block = max(H, L_dependency)`, where
+`L_dependency` is the first lag after which `|ACF|` stays inside `±1.96/√n` for `K = 5` consecutive
+lags. Dependence is measured in **bar time**, not over consecutive event rows: events cluster and
+their spacing varies, so a row-wise autocorrelation would measure event density as much as
+dependence. Blocks are then mapped onto events through `t0`. A fold must hold at least four blocks,
+so `L` is clamped at a quarter of the fold and the rotation flagged if the rule asks for more.
+
+*The rule was frozen before any null was run, and the value measured under it.* On the panel,
+`L_dependency` came out 24 bars on NVDA, 14 on MTD, 7 on GWW and 9 on AZO — **the floor binds
+everywhere, so `L_block = 24`**. That is the expected outcome rather than a lucky one: the label is
+built over 24 bars, so two events closer than the horizon share outcome bars whatever the ACF says.
+Verdicts are re-checked at `2L`; a candidate whose verdict depends on the block size is reported
+`block_sensitive` and does not pass.
+
+Core, labels and economic outcome stay intact: permuting
 `Y_outcome` alone would leave the economic scoring reading unpermuted trade outcomes, so the null
 would not match the statistic being tested. Block shifting preserves each feature's autocorrelation
 and the correlations among them, and destroys only their temporal alignment to the outcome.
@@ -157,6 +171,14 @@ Each permutation reproduces **the entire act of choosing** — for flat, the max
 hierarchical, the full `family → representative` path; and in both, the operating-point selection,
 because the chosen `q` is candidate-dependent in 60% of configurations and a null that froze it
 would test a different procedure than the one that ran.
+
+**What this test does and does not cover.** *Max-null controls candidate-search multiplicity within
+a discovery rotation; cross-rotation and cross-asset evidence is controlled by the stability and
+confirmation contract.* The distribution of the maximum over 45 candidates answers "how large a
+maximum does searching this pool produce by itself, in this rotation". It says nothing about the 42
+tests run across rotations, folds and tickers — that burden is carried by requiring recurrence in at
+least two rotations and a majority of positive confirmations. One max-null does not control the
+multiplicity of the project and must not be described as if it did.
 
 `M = 50`, `α = 0.10`, `b = #{null ≥ real}`. Pass requires `b ≤ 4` after the full fifty.
 **Futility bound:** stop at `b = 5` — even if every remaining permutation fell short,
