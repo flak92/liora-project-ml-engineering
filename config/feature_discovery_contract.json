@@ -190,9 +190,23 @@
     "early_stop_reporting": "verdict rejected_early, permutations performed, exceedances, and a LOWER BOUND on the final p-value. (1+b)/(1+n) must not be reported as a fixed-budget p-value for an early-stopped test.",
     "scope": "only rotations supporting a provisional acceptance — 42 rotations, 16 outer folds, 12 tickers",
     "_why_scoped": "The null can only reject a provisional acceptance, never rescue a candidate that failed confirmation. Running it where nothing was accepted cannot change a decision.",
-    "controls": "candidate-search multiplicity WITHIN a discovery rotation",
-    "does_not_control": "the 42 tests run across rotations, folds and tickers",
-    "_scope_statement": "max-null controls candidate-search multiplicity within a discovery rotation; cross-rotation and cross-asset evidence is controlled by the stability and confirmation contract. One max-null does not control the multiplicity of the project, and must never be described as if it did."
+    "controls": "candidate-search, operating-point and rotation-aggregation multiplicity WITHIN one outer fold",
+    "does_not_control": "the 16 outer folds and 12 tickers the test is run on",
+    "_scope_statement": "max-null controls candidate-search, operating-point and rotation-aggregation multiplicity within one outer fold; cross-fold and cross-asset evidence is controlled by the stability and confirmation contract. One max-null does not control the multiplicity of the project, and must never be described as if it did.",
+    "_superseded_scope_statement": "An earlier version of this clause said 'within a discovery rotation'. It was written when the unit was the rotation and became false when the unit became the outer fold, because the four-rotation aggregation is now INSIDE what the null reproduces. Recorded rather than deleted: a frozen document that quietly changes its own claims is worse than one that shows its corrections.",
+
+    "conditioning_on_acceptance": {
+      "_what": "The 16 outer folds are tested BECAUSE the real procedure accepted something there. That selection has a consequence that must be stated wherever the results are.",
+      "still_valid": "the per-fold p-value. The permutation distribution is built from that fold's own data, so the conditional argument is untouched by how the fold was chosen.",
+      "not_valid": "reading the COUNT of passes across the 16 folds as a calibrated family-wise error statement, or comparing it to an expected count under H0. The folds were not sampled; they were selected for having accepted.",
+      "_rule": "report per-fold verdicts and per-fold p-values; never report 'x of 16 passed, expected y under the null'."
+    },
+
+    "known_properties_of_the_operating_point": {
+      "fold_spread_constraints": "NOT applied in the quantile arm — nested_validation.choose_operating_point calls op_select.select_operating_point with min_oof_trades only, leaving min_active_folds=0 and max_fold_trade_share=1.0 at their defaults, so an operating point whose trades all come from one fold is admissible.",
+      "_effect_on_the_test": "None. The real run and every permutation take the identical code path, so this cannot bias the permutation distribution. It is a property of the PROCEDURE being defended, not of the test defending it — and a procedure whose operating point can rest on a single fold is worth knowing about when the methodology is transferred to a new panel.",
+      "_status": "recorded, not repaired: changing it now would alter the procedure mid-test."
+    }
   },
 
   "runtime": {
