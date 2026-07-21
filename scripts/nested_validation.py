@@ -43,7 +43,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 XGB = ROOT / "xgb"
-os.environ.setdefault("LIORA_EPOCH", "sealed")
+sys.path.insert(0, str(ROOT / "scripts"))
+import runtime_init  # noqa: E402,F401 — caps BLAS/OpenMP pools before anything numeric loads
+runtime_init.apply()
 sys.path.insert(0, str(XGB / "src"))
 sys.path.insert(0, str(XGB / "tools"))
 
