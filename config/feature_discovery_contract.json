@@ -81,18 +81,86 @@
   },
 
   "acceptance": {
+    "implementation": "scripts/acceptance.py — imported by BOTH the real run and every permutation, so the test cannot measure a difference between two implementations",
     "min_rotations": 2,
     "min_median_confirmation_delta": 0.004,
     "complexity_penalty": 0.004,
     "majority_positive": true,
     "max_null_required": true,
     "empty_subset_is_valid": true,
-    "_rule": "All clauses must hold simultaneously. Insufficient evidence returns nothing rather than the best of what was on offer."
+    "_rule": "All clauses must hold simultaneously. Insufficient evidence returns nothing rather than the best of what was on offer.",
+    "unit_of_decision": "outer fold",
+    "stability_unit": {"flat": "feature", "hierarchical": "family"},
+    "statistic": {
+      "eligible_j": "selection_count_j >= 2 AND win_rate_j > 0.5",
+      "score_j": "median_confirmation_delta_j - complexity_penalty",
+      "T": "max(score_j over eligible j), or 0.0 when nothing is eligible",
+      "accepted": "T > 0",
+      "_equivalence": "T > 0 is exactly the previous acceptance: min_median_confirmation_delta and complexity_penalty are the same 0.004, so no threshold moved when the rule was rewritten.",
+      "_zero_is_a_result": "T = 0 encodes 'the procedure accepted nothing', which is a valid and complete outcome, not a missing value."
+    },
+    "selection_rule": "max-over-eligible",
+    "_why_not_modal": "The previous rule examined only the modal pick (Counter.most_common(1)). On NOW outer fold 0 two families were each chosen twice and the tie was broken by insertion order, handing the verdict to price_distance (positive in 1 of 2, median -0.0070) while volume had won both of its rotations with a median of +0.0298. Counter's ordering is not reproducible across Python versions, and a permutation cannot honestly reproduce 'whichever unit Counter returned first'.",
+    "_recount": "Replaying the rule over the stored rotations changed exactly one decision: flat 14 unchanged, hierarchical 11 -> 12, scope unchanged at 16 outer folds. units_eligible = 1 in every acceptance."
   },
 
   "max_null": {
     "status": "SPECIFIED, NOT YET EXECUTED",
     "null_hypothesis": "Optional features carry no incremental information over the frozen core; the observed maximum gain is what searching a pool of candidates produces by itself.",
+
+    "unit": "ticker x outer_fold x permutation_id",
+    "_why_this_unit": "A per-rotation null controls only '45 candidates, one maximum, one rotation'. The procedure being defended is larger — four rotations, recurrence of the pick, a majority of positive confirmations, a median clearing the complexity charge — and a null that never reproduces those clauses cannot control the multiplicity they introduce. One permutation therefore produces one null realisation of the WHOLE outer-train optional matrix, and the four rotations are views of that same realisation.",
+    "permutation_belongs_to": "outer-train",
+    "_overlapping_folds": "Purged walk-forward inner folds overlap: a row belongs to several of them at once, so 'permute within a fold' is not well defined and the literal requirement 'no block crosses a fold boundary' is unsatisfiable. The boundary that exists and is protected is outer-train against outer-validation; purge and embargo are applied afterwards, when the folds are cut out of the already-permuted object.",
+    "_confirmation_is_permuted_too": "H0 says the optional features are uninformative EVERYWHERE, so leaving the confirmation fold unpermuted would test the value of selection (does choosing beat picking at random) rather than the absence of information.",
+    "statistic": "acceptance.T per arm — the same function, the same code path, that produced the real verdict",
+    "arms_share_permutations": "paired results, separate exceedance counters, separate verdicts, no shared threshold",
+
+    "null_constructions": {
+      "_shared": "The three differ ONLY in how the optional matrix is made uninformative; everything downstream is byte-identical, which is what makes them comparable.",
+      "a1": {
+        "name": "joint block-alignment null (marginal)",
+        "mechanism": "global block permutation of the whole optional matrix across outer-train",
+        "controls": "optional <-> outcome alignment",
+        "_limitation": "also destroys optional <-> core, so this is a MARGINAL alignment null, not the conditional X_optional independent of Y given X_core that the hypothesis names"
+      },
+      "a2": {
+        "name": "grouped block-alignment null",
+        "mechanism": "outer-train cut into G chronological macro-segments; blocks permuted only WITHIN a segment",
+        "segments": 4,
+        "segment_rule": "equal BAR span, not equal row count",
+        "_why_bar_span": "An equal-row split would make a quiet stretch span years and a busy one span weeks, which is the opposite of holding the local distribution fixed.",
+        "_why": "A1 can carry a block from a distant volatility regime to the start of the window: local autocorrelation survives but the local distribution does not. A2 keeps the regime and is the more defensive of the two.",
+        "role": "sensitivity check on the survivors of A1"
+      },
+      "b": {
+        "name": "conditional residual null",
+        "mechanism": "optional_hat = g(core) cross-fitted; residual = optional - optional_hat; residual grouped-block permuted; optional_null = optional_hat + residual_perm",
+        "g": "multi-output Ridge, core -> all optional columns",
+        "cross_fitting": "5 contiguous chronological blocks over outer-train with a 35-bar embargo, so a row's fitted value never comes from a model that saw that row and neighbouring rows inside the embargo cannot stand in for it",
+        "_why_not_the_inner_folds": "They overlap, so 'trained without this row' would be unenforceable.",
+        "alpha_selection": "held-out reconstruction MSE of the FEATURES; no label, outcome or trading result enters the nuisance model",
+        "_marginal_drift": "fitted + permuted residual does not reproduce each column's original marginal; the drift is measured and recorded in the artifact rather than hidden",
+        "status_of_evidence": "SENSITIVITY CHECK, NOT an exact conditional randomization test — P(X_optional | X_core) is estimated, not known, so its correctness depends on the quality of g and it must never be reported as exact",
+        "role": "run only on the survivors of A1"
+      }
+    },
+    "interpretation": {
+      "a_rejects_b_rejects": "no advantage; strong",
+      "a_passes_b_passes": "stable survivor",
+      "a_passes_b_rejects": "the A result probably came from breaking optional <-> core rather than from information in the feature",
+      "a_rejects_b_passes": "A was too conservative, or the conditional model is defective; investigate g before believing either"
+    },
+
+    "permutation_audit": {
+      "index_hash": "sha256 prefix of the block order, recorded per unit",
+      "identity_rejected": true,
+      "min_displaced_fraction": 0.5,
+      "_why_min_displacement": "A permutation that leaves more than half the blocks in place would be a permutation in name while testing almost the original alignment.",
+      "duplicate_index_hash": "rejected within an outer fold",
+      "_space": "With ~200-300 blocks the space is ~n! and identity has probability 1/n!. The assertions cost nothing and are required anyway; the fallback of exact enumeration applies only if n_blocks ever becomes small enough for 50 draws to collide, which the recorded n_blocks per unit makes checkable."
+    },
+
     "mechanism": "block shift of the whole optional-feature matrix within the discovery fold",
     "_why_not_label_shuffle": "Permuting Y_outcome alone leaves the economic scoring reading non-permuted trade outcomes, so the null would not correspond to the statistic being tested. Shifting the optional block keeps core, labels and outcome intact, preserves feature autocorrelation and cross-correlation, and destroys only the temporal alignment between optional features and outcome.",
     "block_length": {
@@ -103,6 +171,8 @@
       "_why_bars": "The event rows are not an evenly spaced series — events cluster and their t0 gaps vary — so an autocorrelation computed over consecutive rows would measure event density as much as dependence. Dependence is measured in bar time and blocks are then mapped onto events through t0.",
       "noise_band": "±1.96/sqrt(n)",
       "K_consecutive_lags": 5,
+      "min_event_pairs_per_lag": 200,
+      "_why_pair_count": "A lag supported by a handful of event pairs has a huge sampling error, so it can fall inside the noise band for reasons that have nothing to do with dependence. Lags below the pair floor are inadmissible for the K-consecutive rule; per-lag lag_bars, n_event_pairs_at_lag, acf and inside_band are recorded so the rule can be audited rather than trusted. On this panel the floor H binds everywhere, so nothing here changed the value — it protects a NEW panel.",
       "floor": 24,
       "_floor_is": "H, the label horizon: two events closer than the horizon share outcome bars, so no block may be shorter than it",
       "max_block_fraction_of_fold": 0.25,
@@ -147,6 +217,27 @@
     "no_provisional_acceptance": "if cross-fitting accepts nothing in either arm, the stage ends without the null",
     "null_rejects_all": "the feature space fails the declared standard of proof; this is a result, not a failure",
     "futility": "see max_null.futility_bound"
+  },
+
+  "rotation_level_null": {
+    "label": "Rung 5 diagnostic: rotation-level Null-A — NOT the procedure-level multiplicity verdict",
+    "implementation": "scripts/max_null.py",
+    "role": [
+      "cost benchmark for the procedure-level runner",
+      "diagnostic of the rotation-level distribution",
+      "measurement of how many conclusions change when the whole rule is aggregated instead of tested rotation by rotation"
+    ],
+    "_must_not": "be used as the final max-null verdict"
+  },
+
+  "rung_6_survivor_hpo": {
+    "status": "SPECIFIED, NOT EXECUTED",
+    "question": "The ladder measures a feature's utility at hyper-parameters frozen on core. It does not measure the maximum utility of that feature under an optimally tuned core + feature.",
+    "protocol": "for each survivor of confirmation AND the null: tune core with a local budget B, tune core + survivor with the SAME budget B, tuning on discovery folds only, then compare on an untouched confirmation fold",
+    "_why_legitimate_here_and_not_earlier": "Tuning on the superset co-adapts the parameters to features the baseline lacks and inflates every gain, which is why screening freezes core. Rung 6 relaxes that deliberately and only after the screening verdict exists, so the relaxation cannot manufacture a survivor — it can only measure how much more a confirmed one is worth.",
+    "_must_not": "overturn a rung-5 rejection; if it could, the screening was pointless",
+    "open_question": "whether the hyper-parameter search reintroduces winner's curse and therefore needs its own null, and whether a confirmation fold reused from rungs 4-5 is still untouched",
+    "phase": "MAXIMUM OPTIMIZATION, after the FAST SCREENING phase closes"
   },
 
   "certification": {
