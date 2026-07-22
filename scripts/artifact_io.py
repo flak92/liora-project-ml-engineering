@@ -44,6 +44,12 @@ def write_json_atomic(path, obj, indent=1):
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = (json.dumps(obj, indent=indent, ensure_ascii=False) + "\n").encode("utf-8")
 
+    # Sweep temp files a previous writer left behind. os.replace makes the target crash-safe, but a
+    # writer that took a SIGKILL between open and replace cannot run its own cleanup, so its .tmp
+    # lingers. Over a long unattended run those accumulate. Each carries the writer's pid, so we can
+    # remove only the ones whose process is gone — never a live concurrent writer's.
+    _sweep_stale_tmps(path)
+
     # The temporary file is a sibling, not /tmp: os.replace is only atomic within one filesystem,
     # and on this machine /tmp may well be a different one.
     tmp = path.with_name(path.name + f".tmp.{os.getpid()}")
@@ -58,6 +64,28 @@ def write_json_atomic(path, obj, indent=1):
         tmp.unlink(missing_ok=True)
         raise
     return hashlib.sha256(payload).hexdigest()
+
+
+def _sweep_stale_tmps(path):
+    """Remove `<name>.tmp.<pid>` siblings whose writer process is dead. Dead-pid only, so a live
+    concurrent writer of the same target (there is none by design, but be safe) is never touched."""
+    prefix = path.name + ".tmp."
+    for p in path.parent.glob(path.name + ".tmp.*"):
+        try:
+            pid = int(p.name[len(prefix):])
+        except ValueError:
+            continue
+        try:
+            os.kill(pid, 0)
+            continue                                   # alive — leave it
+        except ProcessLookupError:
+            pass                                       # dead — sweep it
+        except PermissionError:
+            continue                                   # alive under another uid — leave it
+        try:
+            p.unlink()
+        except OSError:
+            pass
 
 
 def _fsync_dir(d):

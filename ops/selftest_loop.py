@@ -136,10 +136,19 @@ for i in range(1, 100000):
         valid = "generation" in doc
     except Exception as e:                                        # noqa: BLE001
         valid, doc = False, str(e)
-    leftovers = list(d.glob("*.tmp*"))
     check("plik docelowy nadal jest poprawnym JSON-em", valid,
           f"generation={doc.get('generation') if isinstance(doc, dict) else doc}")
-    check("brak osieroconych plików tymczasowych", not leftovers, str(leftovers))
+
+    # A SIGKILL mid-write CANNOT run cleanup, so a .tmp from the dead writer may linger — that is
+    # acceptable (atomicity means the TARGET is never corrupt, not that no tmp ever exists). The
+    # guarantee we do assert: the next successful write sweeps the dead writer's leftover.
+    subprocess.run([PY, "-c", f"""
+import sys; sys.path.insert(0, {str(ROOT / 'scripts')!r})
+from artifact_io import write_json_atomic
+write_json_atomic({str(target)!r}, {{"generation": "final"}})
+"""], check=True)
+    leftovers = list(d.glob("*.tmp.*"))
+    check("kolejny zapis sprząta plik tymczasowy martwego pisarza", not leftovers, str(leftovers))
     shutil.rmtree(d, ignore_errors=True)
 
 
