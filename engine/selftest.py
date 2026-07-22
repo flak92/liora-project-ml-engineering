@@ -35,6 +35,25 @@ def check(name, ok, detail=""):
         FAILS.append(name)
 
 
+def _mk_run(d, run_id="r", assets=("A",)):
+    """A minimal contract snapshot so read_artifact/derive_state can resolve thresholds and hashes."""
+    (Path(d) / "contract.json").write_text(json.dumps({
+        "run_id": run_id, "contract_hash": "GOOD", "assets": list(assets), "seed": 42,
+        "contract": {"viability": {"min_split_nodes": 20, "min_pred_std": 0.005},
+                     "acceptance": {"complexity_penalty": 0.004}}}))
+
+
+def _mk_artifact(d, run_id, rung, asset, result):
+    """Write a per-asset artifact at the DETERMINISTIC task_hash path derived from the unit."""
+    th = SC.task_hash({"run_id": run_id, "asset": asset, "rung": rung})
+    p = Path(d) / "results" / ST.RUNG_DIR[rung] / asset / f"{th}.json"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps({"task": {"asset": asset, "rung": rung}, "result": result,
+                             "produced_utc": "t", "runner_exit_code": 0, "contract_hash": "GOOD",
+                             "result_sha256": "x"}))
+    return th
+
+
 def _drain(run_dir):
     q = Queue(run_dir)
     claimed = []
@@ -68,48 +87,87 @@ def test_contract_enforcement():
     """A task whose contract_hash does not match the run's frozen contract is refused before compute."""
     print("\n2. egzekucja kontraktu: zły contract_hash odrzucony przed dispatchem")
     d = Path(tempfile.mkdtemp())
-    (d / "contract.json").write_text(json.dumps({"contract_hash": "GOOD", "assets": ["A"], "seed": 42}))
+    _mk_run(d)
     q = Queue(d)
     q.enqueue(SC.make_task("r", "A", 1, "WRONG", 42))       # mismatched hash
     import worker as WK
+    ST._CONTRACT.clear()
     r = WK.run_one(str(d), "worker-01")
     check("zadanie z błędnym hashem odrzucone", r and r["outcome"] == "contract_mismatch", str(r and r.get("outcome")))
-    # no artifact was published, and it landed in failed/
-    art = ST.latest_artifact(str(d), 1, "A")
-    check("żaden artefakt nie powstał", art is None)
+    check("żaden artefakt nie powstał", ST.read_artifact(str(d), 1, "A") is None)
     check("zadanie w failed/", q.counts()["failed"] == 1)
     shutil.rmtree(d, ignore_errors=True)
 
 
-def test_immutable_publish():
-    """Each attempt publishes a NEW file; the newest valid one is the state, older ones are kept."""
-    print("\n3. niezmienne artefakty: publikacja nie nadpisuje, najnowszy = stan")
+def test_idempotent_publish():
+    """One deterministic path per unit: identical retry is a no-op success, a divergent result is
+    FAILED_INTEGRITY (not silently overwritten)."""
+    print("\n3. idempotentny retry: identyczny = no-op, rozbieżny = FAILED_INTEGRITY")
+    import worker as WK
     d = Path(tempfile.mkdtemp())
-    base = d / "results" / ST.RUNG_DIR[1] / "A"
-    base.mkdir(parents=True)
-    for i, sn in enumerate((0, 72)):        # first non-viable, then a viable re-run
-        (base / f"h{i}.json").write_text(json.dumps({
-            "task": {"asset": "A", "rung": 1}, "result": {"spaces": {"v2_hessian_relative": [{"split_nodes": sn}] * 3}},
-            "produced_utc": f"t{i}", "runner_exit_code": 0, "contract_hash": "h"}))
-        os.utime(base / f"h{i}.json", (100 + i, 100 + i))
-    check("oba artefakty współistnieją", len(list(base.glob("*.json"))) == 2)
-    art = ST.latest_artifact(str(d), 1, "A")
-    check("najnowszy artefakt jest stanem (viable)", ST._viable(art))
+    _mk_run(d)
+    ST._CONTRACT.clear()
+    task = SC.make_task("r", "A", 1, "GOOD", 42)
+    env = SC.wrap_result(task, {"spaces": {"v2_hessian_relative": [{"split_nodes": 72, "pred_std": 0.02}]}}, 0, "t")
+    sha1, p1 = WK._publish(str(d), task, env)
+    sha2, p2 = WK._publish(str(d), task, env)                # identical retry
+    check("pierwsza publikacja", p1 == "published")
+    check("identyczny retry to no-op (idempotent)", p2 == "idempotent" and sha1 == sha2)
+    env2 = SC.wrap_result(task, {"spaces": {"v2_hessian_relative": [{"split_nodes": 99, "pred_std": 0.9}]}}, 0, "t")
+    _sha3, p3 = WK._publish(str(d), task, env2)              # divergent result, same unit
+    check("rozbieżny wynik -> integrity_mismatch (bez nadpisania)", p3 == "integrity_mismatch")
+    check("jeden plik na jednostkę (deterministyczna ścieżka)",
+          len(list((d / "results" / ST.RUNG_DIR[1] / "A").glob("*.json"))) == 1)
     shutil.rmtree(d, ignore_errors=True)
 
 
 def test_state_from_artifacts_not_ledger():
-    """State is a function of artifacts, reconstructible with no ledger present at all."""
+    """State is a function of artifacts + contract, reconstructible with no ledger present at all."""
     print("\n4. stan wyprowadzany z artefaktów, nie z ledgera")
     d = Path(tempfile.mkdtemp())
-    b = d / "results" / ST.RUNG_DIR[1] / "A"
-    b.mkdir(parents=True)
-    (b / "h.json").write_text(json.dumps({"task": {}, "result": {"spaces": {"v2_hessian_relative": [{"split_nodes": 0}] * 3}},
-                                          "produced_utc": "t", "runner_exit_code": 0, "contract_hash": "h"}))
+    _mk_run(d)
+    ST._CONTRACT.clear()
+    _mk_artifact(d, "r", 1, "A", {"spaces": {"v2_hessian_relative": [{"split_nodes": 0, "pred_std": 0.0}] * 3}})
     st = ST.derive_state(str(d), "A")
-    check("nie-viable Rung 1 -> NEEDS_CONTRACT (bez ledgera)", st["state"] == "NEEDS_CONTRACT",
-          st["state"])
+    check("nie-viable Rung 1 -> NEEDS_CONTRACT (bez ledgera)", st["state"] == "NEEDS_CONTRACT", st["state"])
     check("NEEDS_CONTRACT oddzielone od błędu technicznego", st.get("required_human_action") is not None)
+    shutil.rmtree(d, ignore_errors=True)
+
+
+def test_viability_both_gates():
+    """The viability floor is BOTH split_nodes AND pred_std, read from the contract — not the engine."""
+    print("\n4b. viability: obie bramki z kontraktu (split_nodes I pred_std)")
+    d = Path(tempfile.mkdtemp())
+    _mk_run(d)
+    ST._CONTRACT.clear()
+    # splits fine, but prediction spread below the floor -> a constant dressed up -> NOT viable.
+    _mk_artifact(d, "r", 1, "A", {"spaces": {"v2_hessian_relative": [{"split_nodes": 72, "pred_std": 0.001}] * 3}})
+    check("splits OK ale pred_std < floor -> NEEDS_CONTRACT",
+          ST.derive_state(str(d), "A")["state"] == "NEEDS_CONTRACT")
+    check("brak zaszytych progów w engine/states.py",
+          "= 20" not in (ROOT / "engine" / "states.py").read_text() and
+          "0.005" not in (ROOT / "engine" / "states.py").read_text())
+    shutil.rmtree(d, ignore_errors=True)
+
+
+def test_rung5_stable_survivor():
+    """NULL_VALIDATED requires a stable survivor across A1 ∩ A2 ∩ B — A1 alone is not enough, and the
+    a1/a2/b result shape (not `folds` at the top level) is read correctly."""
+    print("\n4c. werdykt Rung 5: kanoniczny A1∩A2∩B, nie samo A1")
+    import rung5_verdict as RV
+    passed = {"folds": [{"outer_fold": 0, "arms": {"hierarchical": {"verdict": "passed", "unit": "macd"}}}]}
+    rej = {"folds": [{"outer_fold": 0, "arms": {"hierarchical": {"verdict": "rejected_early", "unit": "macd"}}}]}
+    check("A1 przeszedł, ale A2 odrzucił -> NIE null_validated",
+          not RV.null_validated({"a1": passed, "a2": rej, "b": passed}))
+    check("A1∩A2∩B wszystkie przeszły -> null_validated",
+          RV.null_validated({"a1": passed, "a2": passed, "b": passed}))
+    check("brak a2/b (tylko a1) -> NIE stabilny (bez korzyści wątpliwości)",
+          not RV.null_validated({"a1": passed, "a2": None, "b": None}))
+    # and states._null_validated reads {a1,a2,b}, not art["result"]["folds"] (the old bug)
+    d = Path(tempfile.mkdtemp()); _mk_run(d); ST._CONTRACT.clear()
+    _mk_artifact(d, "r", 5, "A", {"a1": passed, "a2": passed, "b": passed})
+    art = ST.read_artifact(str(d), 5, "A")
+    check("states._null_validated czyta strukturę a1/a2/b", ST._null_validated(art))
     shutil.rmtree(d, ignore_errors=True)
 
 
@@ -155,8 +213,9 @@ def test_oos_purge_present():
 
 def main():
     print("engine selftest — gwarancje wykonania (bez uruchamiania nauki)")
-    for t in (test_queue_atomicity, test_contract_enforcement, test_immutable_publish,
-              test_state_from_artifacts_not_ledger, test_ledger_separation, test_oos_purge_present):
+    for t in (test_queue_atomicity, test_contract_enforcement, test_idempotent_publish,
+              test_state_from_artifacts_not_ledger, test_viability_both_gates,
+              test_rung5_stable_survivor, test_ledger_separation, test_oos_purge_present):
         try:
             t()
         except Exception as e:                                      # noqa: BLE001

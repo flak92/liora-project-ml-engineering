@@ -44,13 +44,14 @@ def _accepted_arms(crossfit):
 
 
 def _passed(null_doc):
+    """Passed (ticker, fold, arm, candidate) across the panel — via the canonical per-asset verdict,
+    so the funnel and the engine's state machine share one definition of who survived the null."""
+    import rung5_verdict as RV
     keys = set()
     if null_doc:
         for t, rec in null_doc["tables"].items():
-            for f in rec["folds"]:
-                for arm, v in f["arms"].items():
-                    if v.get("verdict") == "passed":
-                        keys.add((t, f["outer_fold"], arm))
+            for fold, arm, unit in RV.passed_arms(rec):
+                keys.add((t, fold, arm, unit))
     return keys
 
 
@@ -73,7 +74,7 @@ def funnel(source):
         "stable_a1_a2_b": len(stable),
         "retained_rung6": retained,
         "_note": "derived from artifacts; a fresh panel may differ and still be correct",
-        "stable_units": sorted(f"{t}/{o}/{a}" for t, o, a in stable),
+        "stable_units": sorted(f"{t}/{o}/{a}/{u}" for t, o, a, u in stable),
     }
 
 

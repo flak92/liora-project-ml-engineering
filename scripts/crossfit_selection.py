@@ -46,6 +46,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 XGB = ROOT / "xgb"
+DATA_DIR = Path(os.environ.get("LIORA_RESEARCH_DATA_DIR") or str(XGB / "data"))  # run-scoped przez engine, domyślnie kanoniczne
 sys.path.insert(0, str(ROOT / "scripts"))
 import runtime_init  # noqa: E402,F401 — caps BLAS/OpenMP pools before anything numeric loads
 runtime_init.apply()
@@ -53,8 +54,8 @@ sys.path.insert(0, str(XGB / "src"))
 sys.path.insert(0, str(XGB / "tools"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-REGISTER = XGB / "data" / "feature_utility.json"
-DEFAULT_OUT = XGB / "data" / "crossfit_selection.json"
+REGISTER = DATA_DIR / "feature_utility.json"
+DEFAULT_OUT = DATA_DIR / "crossfit_selection.json"
 MODE = "quantile"
 SEED = 42
 

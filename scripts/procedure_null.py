@@ -58,6 +58,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 XGB = ROOT / "xgb"
+DATA_DIR = Path(os.environ.get("LIORA_RESEARCH_DATA_DIR") or str(XGB / "data"))  # run-scoped przez engine, domyślnie kanoniczne
 sys.path.insert(0, str(ROOT / "scripts"))
 import runtime_init  # noqa: E402,F401 — caps BLAS/OpenMP pools before anything numeric loads
 runtime_init.apply()
@@ -69,8 +70,8 @@ import acceptance as ACC                                                   # noq
 from artifact_io import read_json, write_json_atomic                       # noqa: E402
 from ledger import Ledger                                                  # noqa: E402
 
-CROSSFIT = XGB / "data" / "crossfit_selection.json"
-REGISTER = XGB / "data" / "feature_utility.json"
+CROSSFIT = DATA_DIR / "crossfit_selection.json"
+REGISTER = DATA_DIR / "feature_utility.json"
 CONTRACT = ROOT / "config" / "feature_discovery_contract.json"
 
 _C = json.loads(CONTRACT.read_text(encoding="utf-8"))["max_null"]
@@ -600,9 +601,9 @@ def main():
     tickers = sorted({k[0] for k in scope})
 
     run_id = f"proc_null_{args.null}_L{args.block_mult}"
-    run_dir = Path(args.run_dir) if args.run_dir else XGB / "data" / "runs" / run_id
+    run_dir = Path(args.run_dir) if args.run_dir else DATA_DIR / "runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
-    out = Path(args.out) if args.out else XGB / "data" / f"procedure_null_{args.null}.json"
+    out = Path(args.out) if args.out else DATA_DIR / f"procedure_null_{args.null}.json"
     ledger_path = run_dir / "ledger.jsonl"
 
     led = Ledger(ledger_path)

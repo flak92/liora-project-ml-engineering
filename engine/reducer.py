@@ -24,7 +24,15 @@ from artifact_io import write_json_atomic                                  # noq
 import contract as CT                                                      # noqa: E402
 import states as ST                                                        # noqa: E402
 
-XGB_DATA = ROOT / "xgb" / "data"
+
+def workspace(run_dir):
+    """The run's private panel directory. Runners are pointed here via LIORA_RESEARCH_DATA_DIR, so a
+    run's assembled panels never touch the canonical xgb/data or another run's — two runs, or a
+    report during a run, cannot read each other's overwritten registers. Bars and the parquet scratch
+    stay canonical (read-only, deterministic), so only the mutable panel registers are isolated."""
+    d = Path(run_dir) / "workspace" / "xgb" / "data"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
 
 
 def _asset_results(run_dir, rung):
@@ -46,7 +54,7 @@ def assemble_feature_utility(run_dir):
     doc = {"hpo_trials": c["model_space"]["hpo_trials"], "seed": 42,
            "viability": c["viability"], "operating_point": c["operating_point"],
            "_generated": "engine reducer from per-asset Rung 3 artifacts", "tables": tables}
-    write_json_atomic(XGB_DATA / "feature_utility.json", doc)
+    write_json_atomic(workspace(run_dir) / "feature_utility.json", doc)
     write_json_atomic(Path(run_dir) / "results" / "panels" / "feature_utility.json", doc)
     return len(tables)
 
@@ -57,7 +65,7 @@ def assemble_crossfit(run_dir):
     if not tables:
         return None
     doc = {"contract": {"rule": "max-over-eligible", "_generated": "engine reducer"}, "tables": tables}
-    write_json_atomic(XGB_DATA / "crossfit_selection.json", doc)
+    write_json_atomic(workspace(run_dir) / "crossfit_selection.json", doc)
     write_json_atomic(Path(run_dir) / "results" / "panels" / "crossfit_selection.json", doc)
     return len(tables)
 
@@ -69,7 +77,7 @@ def assemble_null(run_dir, kind="a1"):
     if not tables:
         return None
     doc = {"contract": {"null": kind, "_generated": "engine reducer"}, "tables": tables}
-    write_json_atomic(XGB_DATA / f"procedure_null_{kind}.json", doc)
+    write_json_atomic(workspace(run_dir) / f"procedure_null_{kind}.json", doc)
     write_json_atomic(Path(run_dir) / "results" / "panels" / f"procedure_null_{kind}.json", doc)
     return len(tables)
 

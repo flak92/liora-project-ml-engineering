@@ -45,6 +45,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 XGB = ROOT / "xgb"
+DATA_DIR = Path(os.environ.get("LIORA_RESEARCH_DATA_DIR") or str(XGB / "data"))  # run-scoped przez engine, domyślnie kanoniczne
 sys.path.insert(0, str(ROOT / "scripts"))
 import runtime_init  # noqa: E402,F401 — caps BLAS/OpenMP pools before anything numeric loads
 runtime_init.apply()
@@ -54,7 +55,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 SAMPLE = ROOT / "config" / "sample_20.json"
 SPACE_V2 = ROOT / "config" / "xgb_search_space_v2.json"
-DEFAULT_OUT = XGB / "data" / "feature_utility.json"
+DEFAULT_OUT = DATA_DIR / "feature_utility.json"
 HPO_TRIALS = 30
 SEED = 42
 

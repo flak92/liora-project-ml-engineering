@@ -61,7 +61,8 @@ def next_action(run_dir, asset, contract):
     # A rung whose runner reads a panel register can only run once that panel holds this asset. The
     # reducer (a planner pre-step) assembles panels from the per-asset artifacts, so a rung unblocks
     # the cycle after its upstream rung has produced this asset's artifact.
-    missing = [n for n in DP.NEEDS.get(rung, []) if not RD.has_asset(DATA / n, asset)]
+    ws = RD.workspace(run_dir)
+    missing = [n for n in DP.NEEDS.get(rung, []) if not RD.has_asset(ws / n, asset)]
     if missing:
         return {"asset": asset, "state": state, "next_action": None,
                 "rung": rung, "reason": f"blocked: panel(e) niegotowe {missing}", "blocked": True}

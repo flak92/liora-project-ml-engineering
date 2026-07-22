@@ -34,10 +34,32 @@ from exec_ledger import ExecLedger                                         # noq
 
 
 def _publish(run_dir, task, envelope):
-    """Write the immutable per-asset-per-task artifact. New task_hash each attempt, so a publish
-    never overwrites an earlier result — history is preserved, the newest valid file is the state."""
-    d = Path(run_dir) / "results" / RUNG_DIR[task["rung"]] / task["asset"]
-    return write_json_atomic(d / f"{task['task_hash']}.json", envelope)
+    """Publish the per-asset result idempotently, addressed by the DETERMINISTIC task_hash.
+
+    task_hash identifies the logical scientific unit (run, asset, rung, unit) — it does NOT carry an
+    attempt number, so a retry addresses the same path. That is deliberate: a retry of a
+    deterministic experiment must reproduce the same bytes.
+
+      absent            -> publish
+      present, same sha -> success, no overwrite (an idempotent retry)
+      present, diff sha -> FAILED_INTEGRITY (the experiment was not reproducible — do not overwrite)
+
+    This is a stronger determinism guarantee than keeping many attempts and picking the newest.
+    """
+    import json as _json
+    path = (Path(run_dir) / "results" / RUNG_DIR[task["rung"]] / task["asset"]
+            / f"{task['task_hash']}.json")
+    new_sha = envelope["result_sha256"]
+    if path.exists():
+        try:
+            existing = _json.loads(path.read_text(encoding="utf-8"))
+            if existing.get("result_sha256") == new_sha:
+                return new_sha, "idempotent"
+            return existing.get("result_sha256"), "integrity_mismatch"
+        except (_json.JSONDecodeError, OSError):
+            pass                                    # a corrupt prior file: overwrite it
+    write_json_atomic(path, envelope)
+    return new_sha, "published"
 
 
 def run_one(run_dir, worker_id):
@@ -57,7 +79,7 @@ def run_one(run_dir, worker_id):
 
     led.running(task, worker_id)
     t0 = time.time()
-    result, rc, err = DP.dispatch(task)
+    result, rc, err = DP.dispatch(task, run_dir)
     secs = time.time() - t0
 
     if result is None or rc != 0:
@@ -73,10 +95,16 @@ def run_one(run_dir, worker_id):
         q.finish(task, "failed")
         return {**task, "outcome": "invalid", "problems": problems}
 
-    sha = _publish(run_dir, task, envelope)
+    sha, pub = _publish(run_dir, task, envelope)
+    if pub == "integrity_mismatch":
+        # A retry produced different bytes than the first run — the experiment was not reproducible.
+        # This is a scientific-integrity failure, not a transient one; do not overwrite, do not retry.
+        led.failed(task, worker_id, secs, 95, f"FAILED_INTEGRITY: sha {sha} != {envelope['result_sha256']}")
+        q.finish(task, "failed")
+        return {**task, "outcome": "failed_integrity", "existing_sha": sha}
     led.done(task, worker_id, secs, rc, sha)
     q.finish(task, "done")
-    return {**task, "outcome": "done", "seconds": round(secs, 1), "artifact_sha256": sha}
+    return {**task, "outcome": pub, "seconds": round(secs, 1), "artifact_sha256": sha}
 
 
 def main():

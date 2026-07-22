@@ -38,6 +38,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 XGB = ROOT / "xgb"
+DATA_DIR = Path(os.environ.get("LIORA_RESEARCH_DATA_DIR") or str(XGB / "data"))  # run-scoped przez engine, domyślnie kanoniczne
 sys.path.insert(0, str(ROOT / "scripts"))
 import runtime_init  # noqa: E402,F401 — caps BLAS/OpenMP pools before anything numeric loads
 runtime_init.apply()
@@ -47,7 +48,7 @@ sys.path.insert(0, str(XGB / "tools"))
 SAMPLE = ROOT / "config" / "sample_20.json"
 SPACE_V2 = ROOT / "config" / "xgb_search_space_v2.json"
 SPACE_V1 = ROOT / "config" / "xgboost_optuna_search_space.json"
-DEFAULT_OUT = XGB / "data" / "model_viability.json"
+DEFAULT_OUT = DATA_DIR / "model_viability.json"
 
 
 def hessian_total(y, w, idx):

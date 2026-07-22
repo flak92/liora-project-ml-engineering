@@ -33,12 +33,14 @@ here can shrink the confirmed set, never grow it.
 """
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 XGB = ROOT / "xgb"
+DATA_DIR = Path(os.environ.get("LIORA_RESEARCH_DATA_DIR") or str(XGB / "data"))  # run-scoped przez engine, domyślnie kanoniczne
 sys.path.insert(0, str(ROOT / "scripts"))
 import runtime_init  # noqa: E402,F401
 runtime_init.apply()
@@ -49,7 +51,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from artifact_io import read_json, write_json_atomic                       # noqa: E402
 from ledger import Ledger                                                  # noqa: E402
 
-DATA = XGB / "data"
+DATA = DATA_DIR
 CROSSFIT = DATA / "crossfit_selection.json"
 REGISTER = DATA / "feature_utility.json"
 DEFAULT_NULL = DATA / "procedure_null_a1.json"
