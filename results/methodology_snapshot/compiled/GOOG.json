@@ -1,0 +1,94 @@
+{
+ "ticker": "GOOG",
+ "model": "xgb",
+ "status": "resolved",
+ "null_authority": "a1",
+ "selection_mode": "flat",
+ "selected_features": [
+  205,
+  "price_distance"
+ ],
+ "n_selected": 2,
+ "rejected_features": 43,
+ "confirmation_win_rate": 1.0,
+ "max_null_p": [
+  {
+   "unit": 205,
+   "arm": "flat",
+   "p_mc": 0.039216,
+   "basis": "fixed budget, 50 permutations"
+  },
+  {
+   "unit": "price_distance",
+   "arm": "hierarchical",
+   "p_mc": 0.019608,
+   "basis": "fixed budget, 50 permutations"
+  }
+ ],
+ "outer_delta": 0.162643,
+ "compute_seconds": 460.4,
+ "stop_reason": "survived all three nulls (marginal, regime, conditional)",
+ "evidence": {
+  "accepted": [
+   {
+    "outer_fold": 1,
+    "arm": "flat",
+    "unit": 205,
+    "representatives": [
+     205
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.162643,
+    "T_real": 0.15864312,
+    "max_null": {
+     "p_mc": 0.039216,
+     "basis": "fixed budget, 50 permutations"
+    },
+    "stability": {
+     "class": "stable",
+     "a2_passed": true,
+     "b_passed": true
+    }
+   },
+   {
+    "outer_fold": 1,
+    "arm": "hierarchical",
+    "unit": "price_distance",
+    "representatives": [
+     205
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.162643,
+    "T_real": 0.15864312,
+    "max_null": {
+     "p_mc": 0.019608,
+     "basis": "fixed budget, 50 permutations"
+    },
+    "stability": {
+     "class": "stable",
+     "a2_passed": true,
+     "b_passed": true
+    }
+   }
+  ],
+  "rejected_by_null": [],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": 0.189091,
+  "components": {
+   "U_outer": 0.162643,
+   "optimism": -0.039052,
+   "instability": 0.0,
+   "complexity": 2,
+   "cost_core_seconds": 460.4
+  },
+  "weights": {
+   "optimism": 1.0,
+   "instability": 0.5,
+   "complexity": 0.004,
+   "cost": 1e-05
+  },
+  "_status": "REPORTING scalar — ranks survivors and books cost; never a gate; cannot overturn the max-null or the acceptance contract"
+ }
+}

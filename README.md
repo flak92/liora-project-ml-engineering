@@ -1,115 +1,109 @@
-# S&P 500 ML Indicator Study
+# Golden Calibration — automatic OHLCV feature discovery
 
-One dedicated, sealed machine-learning ENTRY indicator per S&P 500 asset — XGBoost on
-1-hour bars and an LSTM on daily bars, evaluated once out-of-sample against buy-and-hold —
-presented through a read-only Streamlit console.
+This branch does not start from a model or a backtest. It starts from a question:
 
-## Architecture
+> **How do you automatically, reproducibly and cheaply go from raw OHLCV to the smallest confirmed set
+> of features for a given asset — without mistaking the maximum of a wide search for a real edge?**
 
-```text
-OHLCV (1h / 1d)
-  -> features / sequences
-  -> Train-only calibration (theta, trade floor, OOF operating point)
-  -> XGB | LSTM  (sealed per-asset models)
-  -> per-asset artifact  (strategy + manifest + parameters + metrics + interpretation)
-  -> data/results.db  (SQLite, read-only)
-  -> Streamlit console  (four pages)
+The answer is a **Calibration DAG**: a ladder of questions where each rung has a statistic, a
+threshold fixed before the data is seen, a negative control, a stop condition, and one admissible
+next step. A feature is not "good" because it ranked high; it is confirmed only if it survives being
+chosen and judged by data that played no part in choosing it — and if it beats the maximum that
+searching a pool of candidates produces by itself.
+
+## The funnel — the whole story in four numbers
+
+On the twenty-asset development panel, the ladder discriminated hard:
+
+```
+26 provisional (cross-fit accepted)
+   → 11 passed the procedure-level max-null (marginal)
+      → 9 stable across all three nulls (marginal × regime × conditional)
+         → 4 retained after survivor-specific tuning
 ```
 
-## Quickstart
+The single most robust finding: **ORLY/1 `oscillator_rsi`** — the only arm stable across every null
+*and* retained once the model was allowed to tune around it. Everything else showed dependence on the
+asset, the regime, or the tuning. That is the point of the method: it does not chase one universal
+strategy, it shows **which OHLCV relationships hold, where, and how strongly** — and returns an empty
+set, honestly, when the evidence does not support one.
+
+These numbers are a *snapshot* of one research run, not a target. A fresh panel may produce
+`30 → 7 → 2 → 0` and be exactly as correct — the funnel is a property of the data, computed from
+artifacts, never hard-coded.
 
 ```bash
-git clone --depth 1 https://github.com/flak92/liora-project-ml-engineering.git
-
-cd liora-project-ml-engineering
-
-make verify     # optional, stdlib only: recompute every artifact hash
-make setup
-make on
+make methodology-report        # prints the funnel from the frozen snapshot, in a blink
 ```
 
-The app serves on `http://localhost:8503`; `make off` stops it again (it kills only the
-process listening on that port), and both accept `PORT=…` if 8503 is taken. The shallow clone is ~260 MB (every sealed
-artifact travels with the repo — 993 in this release). `make setup` installs the presentation
-dependencies (`streamlit`, `pandas`, `plotly`) and nothing else; nothing is trained,
-recomputed or written at runtime.
+## Two layers, kept apart
 
-Do not take the numbers on trust: `make verify` needs no dependencies and no network. It
-recomputes the SHA-256 of every file in all 993 artifact folders, rebuilds each
-`folder_sha256` from those digests, checks the manifest's count arithmetic, and confirms
-every sealed row resolves to a folder the manifest knows.
+**A — the science.** The Calibration DAG, its statistics, the frozen contract, the negative and
+positive controls, the acceptance rules, the stop conditions. This is what decides what is true. It
+lives in [`scripts/`](scripts/) and [`config/`](config/) and is described in
+[`docs/FEATURE_DISCOVERY_METHODOLOGY.md`](docs/FEATURE_DISCOVERY_METHODOLOGY.md).
 
-## The two models
+**B — the execution engine.** A planner, a task queue, a pool of workers, a tmux session, resume,
+guards and two technical ledgers. This is what *runs* the science across many assets — long,
+parallel, deterministic, without an operator hand-picking favourable results. It lives in
+[`engine/`](engine/) and [`ops/`](ops/) and is described in
+[`docs/METHODOLOGY_ENGINE.md`](docs/METHODOLOGY_ENGINE.md).
 
-- **XGBoost (1h)** — per asset: engineered 1h features (with 1d/1w roll-ups), an ATR
-  triple-barrier label, Train-only HPO and threshold calibration. The interpretation
-  layer projects the sealed model into per-feature ENTRY value ranges (raw and in
-  Train sigmas) with TP-before-SL rates.
-- **LSTM (1d)** — per asset: 60-session sequences of normalized daily state channels,
-  deterministic CPU training warm-started from a universal backbone. The
-  interpretation layer measures channel occlusion (ENTRY-conditioned vs global) and
-  state-sequence trajectories.
+The engine executes the science; it never changes it. Every transition between rungs comes from an
+immutable result artifact and the frozen contract — never from the scheduler, spare CPU, another
+asset's result, or a human nudging the queue. tmux and cron are how the proof is *carried out*, not
+where the proof lives.
 
-Both models only decide ENTRY; take-profit and stop-loss are a mechanical ATR
-triple-barrier contract. An asset with no robust Train operating point stays idle by
-design. See `docs/METHODOLOGY.md`.
+## The Calibration DAG
 
-## The four pages
+| Rung | Question | Unit |
+|---|---|---|
+| 0 | Is the problem frozen — data, labels, splits, the OOS boundary, the hashes? | run |
+| 1 | Can the model learn at all? | asset |
+| 2 | Does the operating point transfer? *(folded into 3–4 here)* | asset |
+| 3 | Does a feature improve a model that can learn? | asset |
+| 4 | Does the choice survive data that did not choose it? | asset |
+| 5 | Is the edge bigger than the maximum a search produces by itself? | asset |
+| 6 | How much more is a survivor worth under its own tuned model? | asset |
+| 7 | Do survivors combine — interactions and sequences? | asset · *specified, unvalidated* |
+| 8 | Which OHLCV families travel across assets? | panel |
+| 9 | Does the whole method hold on a fresh panel? | new panel |
 
-A flat sidebar, in reading order: how it was built, what came out, something to try, then
-the procedure in full. Overview is the landing page.
+Each asset walks this ladder as a state machine:
 
-1. **Data Flow 3D Visualization** — the build path drawn twice: the whole study as eight
-   boxes, then the same path as a 2.5D canvas map — sixteen levels, both pipelines in one
-   ladder, every contract a click away.
-2. **Overview** — the whole result in one page. **Median outcomes**: median return against
-   each model's own buy-and-hold, how many assets beat it, median profit factor and its
-   coverage. **Feature Logic**: which features one asset's sealed XGB model leans on, as a
-   share of its split total-gain (Train-derived interpretation). **Model Comparison**: four
-   charts — return, profit factor, trades, beats-HODL share.
-3. **Basket Simulator** — pick assets, by preset or by hand, and read what the sealed
-   models did with them against the same basket simply held. Three numbers, never one:
-   the executed path, the model result, and the price-only benchmark.
-4. **Data Pipeline Lego Plan** — the procedure as an 18-brick ladder: contract, reasoning
-   and lesson per brick, with the layer id the code uses (XGB L4-L9, LSTM D1-D9).
-
-## Repository structure
-
-```text
-app.py            Streamlit entry point (four pages under app/pages/, flat sidebar)
-app/              console code; app/data.py is the ONLY module opening the database
-src/xgb/          XGB research code (pipeline L4-L9, feature search, artifact writers)
-src/lstm/         LSTM research code (pipeline D1-D6, model D7-D8, feature search)
-src/shared/       contracts shared by both pipelines (op_select, golden_calibration,
-                  interpretation)
-config/           frozen configuration the code reads
-artifacts/        sealed per-asset artifacts (xgb/<T>/, lstm/<T>/) + manifest.json
-data/results.db   sealed SQLite results store (read-only)
-examples/         two executed notebooks for one asset (NVDA), one per model:
-                  Example_XGB.ipynb (L4→L9) and Example_LSTM.ipynb (D2→D9)
-scripts/          the offline verifiers behind `make verify`: artifact hashes and
-                  the notebooks' parity with the store
-docs/             METHODOLOGY.md, ARCHITECTURE.md
-docs-facts-infos/ written audits (Polish): OHLCV data, methodological integrity,
-                  and the research-consistency report
-data_pipeline_lego_plan.html   standalone 18-brick pipeline map (embedded by the Lego Plan page)
-data_flow_3d_visualization.html  standalone 2.5D build-path map (embedded by the 3D Visualization page)
+```
+PENDING_VIABILITY → VIABLE → OPERATING_POINT_VALID → UTILITY_REGISTERED → CONFIRMED
+   → NULL_VALIDATED → LOCALLY_OPTIMIZED → INTERACTIONS_EVALUATED → RESOLVED
 ```
 
-The code under `src/` is the real research code that produced and describes the sealed
-artifacts: both pipelines, the feature searches, the artifact writers and the shared
-contracts, unmodified and readable. The acquisition and orchestration layer around it —
-bar loading with the corporate-action correction, the per-asset runner, the compute-run
-harness — stays in the research tree, which this repository does not publish, together with
-the raw bar stores and the training stack (`torch`, `xgboost`, `optuna`, `duckdb`). So `src/`
-is here to be read and audited, not to re-run the universe; what you can re-verify is the artifact tree
-(`make verify`) and the two executed notebooks under `examples/`, one per model on the
-same ticker.
+and, just as validly, into `RESOLVED_EMPTY` (nothing survived) or `NEEDS_CONTRACT` (the current rules
+cannot honestly continue — a human must mint a new contract version; the engine never does it itself).
 
-## Limitation
+## Two ways to use the branch
 
-All results are historical out-of-sample reads of sealed models over fixed windows —
-every OOS read is counted in an append-only ledger (`oos_read_summary` in the sealed
-store). They are research
-output — **not a live trading signal** and not investment advice. The interpretation layer is Train-derived and must not be read as an OOS
-result.
+```bash
+# PRESENTATION — read the frozen development-panel artifacts, print the funnel and per-asset verdicts.
+make methodology-report
+
+# REPRODUCTION — run the Calibration DAG per asset in a detached tmux session, produce new artifacts.
+make engine-smoke              # the full DAG on three assets (a validation run)
+make engine-start ASSETS="…"   # the full panel, detached; survives closing the terminal
+make engine-status             # session, queue, per-asset states, ledgers, memory
+make engine-plan               # the deterministic plan, read before anything runs
+
+make engine-selftest           # prove the execution guarantees (no science runs)
+```
+
+## What the project is actually about
+
+The most important result is not a configuration or a backtest. It is an **auditable process** that,
+for each asset, builds its own mathematical description, selects stable features, calibrates parameter
+ranges to the geometry of the data, freezes the rules before OOS, and shows honestly both where the
+model works and where it should stay idle. The full argument is in
+[`docs/SUMMARY.md`](docs/SUMMARY.md).
+
+---
+
+*This is the `methodology` branch — the executable method and its engine. The `main` branch is the
+sealed-model presentation console; this branch answers how those models are discovered, not how they
+are shown.*

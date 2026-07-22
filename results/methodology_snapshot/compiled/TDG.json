@@ -1,0 +1,95 @@
+{
+ "ticker": "TDG",
+ "model": "xgb",
+ "status": "resolved",
+ "null_authority": "a1",
+ "selection_mode": "flat",
+ "selected_features": [
+  101,
+  "momentum_return"
+ ],
+ "n_selected": 2,
+ "rejected_features": 43,
+ "confirmation_win_rate": 0.834,
+ "max_null_p": [
+  {
+   "unit": 101,
+   "arm": "flat",
+   "p_mc": 0.039216,
+   "basis": "fixed budget, 50 permutations"
+  },
+  {
+   "unit": "momentum_return",
+   "arm": "hierarchical",
+   "p_mc": 0.058824,
+   "basis": "fixed budget, 50 permutations"
+  }
+ ],
+ "outer_delta": 0.103161,
+ "compute_seconds": 443.5,
+ "stop_reason": "survived all three nulls (marginal, regime, conditional)",
+ "evidence": {
+  "accepted": [
+   {
+    "outer_fold": 1,
+    "arm": "flat",
+    "unit": 101,
+    "representatives": [
+     101
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.103161,
+    "T_real": 0.0991611,
+    "max_null": {
+     "p_mc": 0.039216,
+     "basis": "fixed budget, 50 permutations"
+    },
+    "stability": {
+     "class": "stable",
+     "a2_passed": true,
+     "b_passed": true
+    }
+   },
+   {
+    "outer_fold": 1,
+    "arm": "hierarchical",
+    "unit": "momentum_return",
+    "representatives": [
+     101,
+     102
+    ],
+    "confirmation_win_rate": 0.667,
+    "outer_delta": 0.085903,
+    "T_real": 0.08190347,
+    "max_null": {
+     "p_mc": 0.058824,
+     "basis": "fixed budget, 50 permutations"
+    },
+    "stability": {
+     "class": "stable",
+     "a2_passed": true,
+     "b_passed": true
+    }
+   }
+  ],
+  "rejected_by_null": [],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": 0.054406,
+  "components": {
+   "U_outer": 0.103161,
+   "optimism": -0.04693,
+   "instability": 0.1665,
+   "complexity": 2,
+   "cost_core_seconds": 443.5
+  },
+  "weights": {
+   "optimism": 1.0,
+   "instability": 0.5,
+   "complexity": 0.004,
+   "cost": 1e-05
+  },
+  "_status": "REPORTING scalar — ranks survivors and books cost; never a gate; cannot overturn the max-null or the acceptance contract"
+ }
+}

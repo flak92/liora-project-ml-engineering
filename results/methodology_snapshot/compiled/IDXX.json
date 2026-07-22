@@ -1,0 +1,67 @@
+{
+ "ticker": "IDXX",
+ "model": "xgb",
+ "status": "resolved_conditional",
+ "null_authority": "a1",
+ "selection_mode": "flat",
+ "selected_features": [
+  208
+ ],
+ "n_selected": 1,
+ "rejected_features": 44,
+ "confirmation_win_rate": 1.0,
+ "max_null_p": [
+  {
+   "unit": 208,
+   "arm": "flat",
+   "p_mc": 0.058824,
+   "basis": "fixed budget, 50 permutations"
+  }
+ ],
+ "outer_delta": 0.048405,
+ "compute_seconds": 284.1,
+ "stop_reason": "passed the primary null but a sensitivity null rejects it — qualified, not stable",
+ "evidence": {
+  "accepted": [
+   {
+    "outer_fold": 2,
+    "arm": "flat",
+    "unit": 208,
+    "representatives": [
+     208
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.048405,
+    "T_real": 0.04440515,
+    "max_null": {
+     "p_mc": 0.058824,
+     "basis": "fixed budget, 50 permutations"
+    },
+    "stability": {
+     "class": "regime_sensitive",
+     "a2_passed": false,
+     "b_passed": true
+    }
+   }
+  ],
+  "rejected_by_null": [],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": 0.010763,
+  "components": {
+   "U_outer": 0.048405,
+   "optimism": 0.030801,
+   "instability": 0.0,
+   "complexity": 1,
+   "cost_core_seconds": 284.1
+  },
+  "weights": {
+   "optimism": 1.0,
+   "instability": 0.5,
+   "complexity": 0.004,
+   "cost": 1e-05
+  },
+  "_status": "REPORTING scalar — ranks survivors and books cost; never a gate; cannot overturn the max-null or the acceptance contract"
+ }
+}

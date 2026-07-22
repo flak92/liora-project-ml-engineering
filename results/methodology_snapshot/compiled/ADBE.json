@@ -1,0 +1,55 @@
+{
+ "ticker": "ADBE",
+ "model": "xgb",
+ "status": "resolved_empty",
+ "null_authority": "a1",
+ "selection_mode": null,
+ "selected_features": [],
+ "n_selected": 0,
+ "rejected_features": 45,
+ "confirmation_win_rate": null,
+ "max_null_p": [],
+ "outer_delta": null,
+ "compute_seconds": 473.7,
+ "stop_reason": "no unit exceeded the procedure-level max-null",
+ "evidence": {
+  "accepted": [],
+  "rejected_by_null": [
+   {
+    "outer_fold": 2,
+    "arm": "flat",
+    "unit": 105,
+    "representatives": [
+     105
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.086234,
+    "T_real": 0.08223393,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   },
+   {
+    "outer_fold": 2,
+    "arm": "hierarchical",
+    "unit": "price_distance",
+    "representatives": [
+     105
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.086234,
+    "T_real": 0.08223393,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   }
+  ],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": null,
+  "_note": "no survivor to rank"
+ }
+}

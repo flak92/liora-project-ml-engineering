@@ -1,0 +1,24 @@
+{
+ "ticker": "ISRG",
+ "model": "xgb",
+ "status": "resolved_empty",
+ "null_authority": "a1",
+ "selection_mode": null,
+ "selected_features": [],
+ "n_selected": 0,
+ "rejected_features": 45,
+ "confirmation_win_rate": null,
+ "max_null_p": [],
+ "outer_delta": null,
+ "compute_seconds": 405.1,
+ "stop_reason": "cross-fit accepted nothing (no provisional survivor)",
+ "evidence": {
+  "accepted": [],
+  "rejected_by_null": [],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": null,
+  "_note": "no survivor to rank"
+ }
+}

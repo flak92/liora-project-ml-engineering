@@ -1,0 +1,70 @@
+{
+ "ticker": "NOW",
+ "model": "xgb",
+ "status": "resolved_empty",
+ "null_authority": "a1",
+ "selection_mode": null,
+ "selected_features": [],
+ "n_selected": 0,
+ "rejected_features": 45,
+ "confirmation_win_rate": null,
+ "max_null_p": [],
+ "outer_delta": null,
+ "compute_seconds": 536.5,
+ "stop_reason": "no unit exceeded the procedure-level max-null",
+ "evidence": {
+  "accepted": [],
+  "rejected_by_null": [
+   {
+    "outer_fold": 0,
+    "arm": "flat",
+    "unit": 209,
+    "representatives": [
+     209
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.029752,
+    "T_real": 0.02575154,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   },
+   {
+    "outer_fold": 0,
+    "arm": "hierarchical",
+    "unit": "volume",
+    "representatives": [
+     209
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.029752,
+    "T_real": 0.02575154,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   },
+   {
+    "outer_fold": 1,
+    "arm": "flat",
+    "unit": 203,
+    "representatives": [
+     203
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.027932,
+    "T_real": 0.02393218,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   }
+  ],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": null,
+  "_note": "no survivor to rank"
+ }
+}

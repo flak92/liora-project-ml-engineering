@@ -1,0 +1,41 @@
+{
+ "ticker": "NVDA",
+ "model": "xgb",
+ "status": "resolved_empty",
+ "null_authority": "a1",
+ "selection_mode": null,
+ "selected_features": [],
+ "n_selected": 0,
+ "rejected_features": 45,
+ "confirmation_win_rate": null,
+ "max_null_p": [],
+ "outer_delta": null,
+ "compute_seconds": 557.3,
+ "stop_reason": "no unit exceeded the procedure-level max-null",
+ "evidence": {
+  "accepted": [],
+  "rejected_by_null": [
+   {
+    "outer_fold": 0,
+    "arm": "hierarchical",
+    "unit": "macd",
+    "representatives": [
+     117,
+     216
+    ],
+    "confirmation_win_rate": 0.667,
+    "outer_delta": 0.037767,
+    "T_real": 0.03376686,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   }
+  ],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": null,
+  "_note": "no survivor to rank"
+ }
+}

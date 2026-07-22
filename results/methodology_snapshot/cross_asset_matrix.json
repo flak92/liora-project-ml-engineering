@@ -1,0 +1,455 @@
+{
+ "_what": "ticker x family recurrence of ladder-confirmed OHLCV relationships",
+ "null_authority": "a1",
+ "_null_note": "full 16-fold A1",
+ "majority_threshold": 0.5,
+ "counts": {
+  "universal": 1,
+  "conditional": 1,
+  "asset_specific": 3,
+  "screening_only": 0,
+  "unconfirmed": 2
+ },
+ "families": [
+  {
+   "family": "macd",
+   "classification": "unconfirmed",
+   "provisional_tickers": [
+    "NVDA",
+    "ORLY"
+   ],
+   "confirmed_tickers": [],
+   "screening_tickers": [],
+   "n_provisional": 2,
+   "n_confirmed": 0,
+   "recurrence": 0.0,
+   "cells": {
+    "NVDA": {
+     "provisional": true,
+     "null_passed": false,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 0.667,
+     "best_outer_delta": 0.037767,
+     "folds": [
+      {
+       "outer_fold": 0,
+       "arm": "hierarchical"
+      }
+     ]
+    },
+    "ORLY": {
+     "provisional": true,
+     "null_passed": false,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 0.667,
+     "best_outer_delta": 0.135664,
+     "folds": [
+      {
+       "outer_fold": 3,
+       "arm": "flat"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "family": "momentum_return",
+   "classification": "conditional",
+   "provisional_tickers": [
+    "AZO",
+    "BLK",
+    "NOW",
+    "REGN",
+    "TDG"
+   ],
+   "confirmed_tickers": [
+    "AZO",
+    "TDG"
+   ],
+   "screening_tickers": [],
+   "n_provisional": 5,
+   "n_confirmed": 2,
+   "recurrence": 0.4,
+   "cells": {
+    "AZO": {
+     "provisional": true,
+     "null_passed": true,
+     "null_rejected": false,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.058349,
+     "folds": [
+      {
+       "outer_fold": 0,
+       "arm": "hierarchical"
+      }
+     ]
+    },
+    "BLK": {
+     "provisional": true,
+     "null_passed": false,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.042853,
+     "folds": [
+      {
+       "outer_fold": 2,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 2,
+       "arm": "hierarchical"
+      }
+     ]
+    },
+    "NOW": {
+     "provisional": true,
+     "null_passed": false,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.027932,
+     "folds": [
+      {
+       "outer_fold": 1,
+       "arm": "flat"
+      }
+     ]
+    },
+    "REGN": {
+     "provisional": true,
+     "null_passed": false,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.074163,
+     "folds": [
+      {
+       "outer_fold": 3,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 3,
+       "arm": "hierarchical"
+      }
+     ]
+    },
+    "TDG": {
+     "provisional": true,
+     "null_passed": true,
+     "null_rejected": false,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.103161,
+     "folds": [
+      {
+       "outer_fold": 1,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 1,
+       "arm": "hierarchical"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "family": "oscillator_rsi",
+   "classification": "universal",
+   "provisional_tickers": [
+    "NVR",
+    "ORLY"
+   ],
+   "confirmed_tickers": [
+    "NVR",
+    "ORLY"
+   ],
+   "screening_tickers": [],
+   "n_provisional": 2,
+   "n_confirmed": 2,
+   "recurrence": 1.0,
+   "cells": {
+    "NVR": {
+     "provisional": true,
+     "null_passed": true,
+     "null_rejected": false,
+     "screening": false,
+     "best_win_rate": 0.667,
+     "best_outer_delta": 0.047084,
+     "folds": [
+      {
+       "outer_fold": 0,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 0,
+       "arm": "hierarchical"
+      }
+     ]
+    },
+    "ORLY": {
+     "provisional": true,
+     "null_passed": true,
+     "null_rejected": false,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.101353,
+     "folds": [
+      {
+       "outer_fold": 1,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 1,
+       "arm": "hierarchical"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "family": "price_distance",
+   "classification": "asset_specific",
+   "provisional_tickers": [
+    "ADBE",
+    "BLK",
+    "GOOG"
+   ],
+   "confirmed_tickers": [
+    "GOOG"
+   ],
+   "screening_tickers": [],
+   "n_provisional": 3,
+   "n_confirmed": 1,
+   "recurrence": 0.333,
+   "cells": {
+    "ADBE": {
+     "provisional": true,
+     "null_passed": false,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.086234,
+     "folds": [
+      {
+       "outer_fold": 2,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 2,
+       "arm": "hierarchical"
+      }
+     ]
+    },
+    "BLK": {
+     "provisional": true,
+     "null_passed": false,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.023195,
+     "folds": [
+      {
+       "outer_fold": 0,
+       "arm": "flat"
+      }
+     ]
+    },
+    "GOOG": {
+     "provisional": true,
+     "null_passed": true,
+     "null_rejected": false,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.162643,
+     "folds": [
+      {
+       "outer_fold": 1,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 1,
+       "arm": "hierarchical"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "family": "trend_slope_ma",
+   "classification": "asset_specific",
+   "provisional_tickers": [
+    "IDXX"
+   ],
+   "confirmed_tickers": [
+    "IDXX"
+   ],
+   "screening_tickers": [],
+   "n_provisional": 1,
+   "n_confirmed": 1,
+   "recurrence": 1.0,
+   "cells": {
+    "IDXX": {
+     "provisional": true,
+     "null_passed": true,
+     "null_rejected": false,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.048405,
+     "folds": [
+      {
+       "outer_fold": 2,
+       "arm": "flat"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "family": "volatility_level",
+   "classification": "unconfirmed",
+   "provisional_tickers": [
+    "AZO"
+   ],
+   "confirmed_tickers": [],
+   "screening_tickers": [],
+   "n_provisional": 1,
+   "n_confirmed": 0,
+   "recurrence": 0.0,
+   "cells": {
+    "AZO": {
+     "provisional": true,
+     "null_passed": false,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 0.667,
+     "best_outer_delta": 0.091175,
+     "folds": [
+      {
+       "outer_fold": 1,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 1,
+       "arm": "hierarchical"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "family": "volume",
+   "classification": "asset_specific",
+   "provisional_tickers": [
+    "BKNG",
+    "NOW"
+   ],
+   "confirmed_tickers": [
+    "BKNG"
+   ],
+   "screening_tickers": [],
+   "n_provisional": 2,
+   "n_confirmed": 1,
+   "recurrence": 0.5,
+   "cells": {
+    "BKNG": {
+     "provisional": true,
+     "null_passed": true,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 0.667,
+     "best_outer_delta": 0.018831,
+     "folds": [
+      {
+       "outer_fold": 0,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 0,
+       "arm": "hierarchical"
+      }
+     ]
+    },
+    "NOW": {
+     "provisional": true,
+     "null_passed": false,
+     "null_rejected": true,
+     "screening": false,
+     "best_win_rate": 1.0,
+     "best_outer_delta": 0.029752,
+     "folds": [
+      {
+       "outer_fold": 0,
+       "arm": "flat"
+      },
+      {
+       "outer_fold": 0,
+       "arm": "hierarchical"
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "transfer_prior": [
+  {
+   "family": "oscillator_rsi",
+   "classification": "universal",
+   "confirmed_tickers": [
+    "NVR",
+    "ORLY"
+   ],
+   "recurrence": 1.0
+  },
+  {
+   "family": "momentum_return",
+   "classification": "conditional",
+   "confirmed_tickers": [
+    "AZO",
+    "TDG"
+   ],
+   "recurrence": 0.4
+  },
+  {
+   "family": "trend_slope_ma",
+   "classification": "asset_specific",
+   "confirmed_tickers": [
+    "IDXX"
+   ],
+   "recurrence": 1.0
+  },
+  {
+   "family": "volume",
+   "classification": "asset_specific",
+   "confirmed_tickers": [
+    "BKNG"
+   ],
+   "recurrence": 0.5
+  },
+  {
+   "family": "price_distance",
+   "classification": "asset_specific",
+   "confirmed_tickers": [
+    "GOOG"
+   ],
+   "recurrence": 0.333
+  },
+  {
+   "family": "macd",
+   "classification": "unconfirmed",
+   "confirmed_tickers": [],
+   "recurrence": 0.0
+  },
+  {
+   "family": "volatility_level",
+   "classification": "unconfirmed",
+   "confirmed_tickers": [],
+   "recurrence": 0.0
+  }
+ ],
+ "_transfer_prior_use": "order in which to search families on a NEW ticker; it narrows effort and never skips the ladder — a new asset earns its own confirmation"
+}

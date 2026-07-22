@@ -1,0 +1,83 @@
+{
+ "ticker": "BKNG",
+ "model": "xgb",
+ "status": "resolved_conditional",
+ "null_authority": "a1",
+ "selection_mode": "hierarchical",
+ "selected_features": [
+  "volume"
+ ],
+ "n_selected": 1,
+ "rejected_features": 44,
+ "confirmation_win_rate": 0.667,
+ "max_null_p": [
+  {
+   "unit": "volume",
+   "arm": "hierarchical",
+   "p_mc": 0.078431,
+   "basis": "fixed budget, 50 permutations"
+  }
+ ],
+ "outer_delta": 0.018831,
+ "compute_seconds": 431.3,
+ "stop_reason": "passed the primary null but a sensitivity null rejects it — qualified, not stable",
+ "evidence": {
+  "accepted": [
+   {
+    "outer_fold": 0,
+    "arm": "hierarchical",
+    "unit": "volume",
+    "representatives": [
+     209
+    ],
+    "confirmation_win_rate": 0.667,
+    "outer_delta": 0.018831,
+    "T_real": 0.01483076,
+    "max_null": {
+     "p_mc": 0.078431,
+     "basis": "fixed budget, 50 permutations"
+    },
+    "stability": {
+     "class": "weak",
+     "a2_passed": false,
+     "b_passed": false
+    }
+   }
+  ],
+  "rejected_by_null": [
+   {
+    "outer_fold": 0,
+    "arm": "flat",
+    "unit": 209,
+    "representatives": [
+     209
+    ],
+    "confirmation_win_rate": 0.667,
+    "outer_delta": 0.018831,
+    "T_real": 0.01483076,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   }
+  ],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": -0.125893,
+  "components": {
+   "U_outer": 0.018831,
+   "optimism": -0.030089,
+   "instability": 0.333,
+   "complexity": 1,
+   "cost_core_seconds": 431.3
+  },
+  "weights": {
+   "optimism": 1.0,
+   "instability": 0.5,
+   "complexity": 0.004,
+   "cost": 1e-05
+  },
+  "_status": "REPORTING scalar — ranks survivors and books cost; never a gate; cannot overturn the max-null or the acceptance contract"
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "negative_control": {
+  "_what": "every permutation is an independent synthetic null; T > 0 means the acceptance contract accepted something when nothing was there",
+  "declared_alpha": 0.1,
+  "by_null": {
+   "a1": {
+    "flat": {
+     "replicates": 478,
+     "false_acceptances": 171,
+     "rate": 0.3577,
+     "wilson_95": [
+      0.3161,
+      0.4017
+     ],
+     "median_T_under_null": 0.0,
+     "q90_T_under_null": 0.070522,
+     "_reading": "this is the rate BEFORE the max-null filters anything; it is the multiplicity the max-null exists to remove, not a defect",
+     "exceeds_declared_alpha": true
+    },
+    "hierarchical": {
+     "replicates": 419,
+     "false_acceptances": 147,
+     "rate": 0.3508,
+     "wilson_95": [
+      0.3067,
+      0.3977
+     ],
+     "median_T_under_null": 0.0,
+     "q90_T_under_null": 0.054084,
+     "_reading": "this is the rate BEFORE the max-null filters anything; it is the multiplicity the max-null exists to remove, not a defect",
+     "exceeds_declared_alpha": true
+    }
+   },
+   "a2": {
+    "hierarchical": {
+     "replicates": 272,
+     "false_acceptances": 83,
+     "rate": 0.3051,
+     "wilson_95": [
+      0.2535,
+      0.3623
+     ],
+     "median_T_under_null": 0.0,
+     "q90_T_under_null": 0.049223,
+     "_reading": "this is the rate BEFORE the max-null filters anything; it is the multiplicity the max-null exists to remove, not a defect",
+     "exceeds_declared_alpha": true
+    },
+    "flat": {
+     "replicates": 242,
+     "false_acceptances": 72,
+     "rate": 0.2975,
+     "wilson_95": [
+      0.2434,
+      0.3579
+     ],
+     "median_T_under_null": 0.0,
+     "q90_T_under_null": 0.056564,
+     "_reading": "this is the rate BEFORE the max-null filters anything; it is the multiplicity the max-null exists to remove, not a defect",
+     "exceeds_declared_alpha": true
+    }
+   },
+   "b": {
+    "hierarchical": {
+     "replicates": 267,
+     "false_acceptances": 76,
+     "rate": 0.2846,
+     "wilson_95": [
+      0.2339,
+      0.3415
+     ],
+     "median_T_under_null": 0.0,
+     "q90_T_under_null": 0.041621,
+     "_reading": "this is the rate BEFORE the max-null filters anything; it is the multiplicity the max-null exists to remove, not a defect",
+     "exceeds_declared_alpha": true
+    },
+    "flat": {
+     "replicates": 250,
+     "false_acceptances": 82,
+     "rate": 0.328,
+     "wilson_95": [
+      0.2728,
+      0.3884
+     ],
+     "median_T_under_null": 0.0,
+     "q90_T_under_null": 0.050164,
+     "_reading": "this is the rate BEFORE the max-null filters anything; it is the multiplicity the max-null exists to remove, not a defect",
+     "exceeds_declared_alpha": true
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "ticker": "REGN",
+ "model": "xgb",
+ "status": "resolved_empty",
+ "null_authority": "a1",
+ "selection_mode": null,
+ "selected_features": [],
+ "n_selected": 0,
+ "rejected_features": 45,
+ "confirmation_win_rate": null,
+ "max_null_p": [],
+ "outer_delta": null,
+ "compute_seconds": 531.0,
+ "stop_reason": "no unit exceeded the procedure-level max-null",
+ "evidence": {
+  "accepted": [],
+  "rejected_by_null": [
+   {
+    "outer_fold": 3,
+    "arm": "flat",
+    "unit": 203,
+    "representatives": [
+     203
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.074163,
+    "T_real": 0.0701627,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   },
+   {
+    "outer_fold": 3,
+    "arm": "hierarchical",
+    "unit": "momentum_return",
+    "representatives": [
+     201,
+     203
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.051009,
+    "T_real": 0.04700861,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   }
+  ],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": null,
+  "_note": "no survivor to rank"
+ }
+}

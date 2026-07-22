@@ -1,0 +1,98 @@
+{
+ "ticker": "AZO",
+ "model": "xgb",
+ "status": "resolved",
+ "null_authority": "a1",
+ "selection_mode": "hierarchical",
+ "selected_features": [
+  "momentum_return"
+ ],
+ "n_selected": 1,
+ "rejected_features": 44,
+ "confirmation_win_rate": 1.0,
+ "max_null_p": [
+  {
+   "unit": "momentum_return",
+   "arm": "hierarchical",
+   "p_mc": 0.058824,
+   "basis": "fixed budget, 50 permutations"
+  }
+ ],
+ "outer_delta": 0.058349,
+ "compute_seconds": 540.8,
+ "stop_reason": "survived all three nulls (marginal, regime, conditional)",
+ "evidence": {
+  "accepted": [
+   {
+    "outer_fold": 0,
+    "arm": "hierarchical",
+    "unit": "momentum_return",
+    "representatives": [
+     102
+    ],
+    "confirmation_win_rate": 1.0,
+    "outer_delta": 0.058349,
+    "T_real": 0.05434855,
+    "max_null": {
+     "p_mc": 0.058824,
+     "basis": "fixed budget, 50 permutations"
+    },
+    "stability": {
+     "class": "stable",
+     "a2_passed": true,
+     "b_passed": true
+    }
+   }
+  ],
+  "rejected_by_null": [
+   {
+    "outer_fold": 1,
+    "arm": "flat",
+    "unit": 211,
+    "representatives": [
+     211
+    ],
+    "confirmation_win_rate": 0.667,
+    "outer_delta": 0.091175,
+    "T_real": 0.08717548,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   },
+   {
+    "outer_fold": 1,
+    "arm": "hierarchical",
+    "unit": "volatility_level",
+    "representatives": [
+     111
+    ],
+    "confirmation_win_rate": 0.667,
+    "outer_delta": 0.05328,
+    "T_real": 0.04927967,
+    "max_null": {
+     "p_lower_bound": 0.117647,
+     "basis": "futility stop — a lower bound, not a fixed-budget p-value"
+    }
+   }
+  ],
+  "screening_only": []
+ },
+ "J_report": {
+  "J": 0.12134,
+  "components": {
+   "U_outer": 0.058349,
+   "optimism": -0.072399,
+   "instability": 0.0,
+   "complexity": 1,
+   "cost_core_seconds": 540.8
+  },
+  "weights": {
+   "optimism": 1.0,
+   "instability": 0.5,
+   "complexity": 0.004,
+   "cost": 1e-05
+  },
+  "_status": "REPORTING scalar — ranks survivors and books cost; never a gate; cannot overturn the max-null or the acceptance contract"
+ }
+}
