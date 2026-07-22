@@ -28,7 +28,7 @@ from artifact_io import write_json_atomic                                  # noq
 import contract as CT                                                      # noqa: E402
 import dispatch as DP                                                      # noqa: E402
 import schemas as SC                                                       # noqa: E402
-from queue import Queue                                                    # noqa: E402
+from taskqueue import Queue                                                    # noqa: E402
 from states import RUNG_DIR                                                # noqa: E402
 from exec_ledger import ExecLedger                                         # noqa: E402
 

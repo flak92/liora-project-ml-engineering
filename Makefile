@@ -1,4 +1,6 @@
 .PHONY: setup on off verify clean help \
+        methodology-report engine-plan engine-enqueue engine-start engine-smoke \
+        engine-status engine-attach engine-stop engine-report engine-selftest \
         loop-start loop-status loop-attach loop-stop loop-kill loop-logs loop-selftest
 
 PY := .venv/bin/python3
@@ -111,6 +113,48 @@ loop-selftest:
 lint-contract:
 	@$(PY) scripts/contract_loader.py --regenerate
 	@$(PY) scripts/contract_lint.py
+
+# --- methodology execution engine (branch `methodology`) --------------------------------------
+# Two ways to use the branch. PRESENTATION reads frozen artifacts and prints the funnel in a blink;
+# REPRODUCTION runs the Calibration DAG per asset in a detached tmux session and produces new ones.
+ASSETS  ?=
+WORKERS ?= 4
+HOURS   ?= 8
+
+methodology-report:                 ## presentation: funnel + per-asset descriptions from the snapshot
+	@$(PY) engine/report.py --snapshot --parity 26 11 9 4
+
+engine-plan:                        ## deterministic plan (enqueue nothing); DRY_RUN=1 for explicit dry
+	@d=$$(cat ops/.engine.current 2>/dev/null); [ -n "$$d" ] || { echo "brak runu; make engine-start"; exit 1; }; \
+	$(PY) engine/planner.py --run-dir runs/$$d
+
+engine-enqueue:                     ## plan, then write the next tasks to the queue
+	@d=$$(cat ops/.engine.current 2>/dev/null); $(PY) engine/planner.py --run-dir runs/$$d --enqueue
+
+engine-start:                       ## start the engine detached in tmux (ASSETS, WORKERS, HOURS)
+	@ASSETS="$(ASSETS)" WORKERS=$(WORKERS) HOURS=$(HOURS) ALLOW_DIRTY=$${ALLOW_DIRTY:-0} \
+		bash ops/engine.sh >runs/.engine-start.log 2>&1 & echo "engine startuje; make engine-status"
+
+engine-smoke:                       ## full DAG on three assets, detached (validation run)
+	@ASSETS="AZO ADBE GOOG" WORKERS=3 HOURS=6 ALLOW_DIRTY=1 \
+		bash ops/engine.sh >runs/.engine-smoke.log 2>&1 & echo "smoke startuje; make engine-status"
+
+engine-status:                      ## session, queue, per-asset states, ledgers, memory
+	@bash ops/status.sh
+
+engine-attach:                      ## watch the engine live (detach with Ctrl-b d)
+	@tmux attach -t golden-calibration
+
+engine-stop:                        ## cooperative halt — finishes the current tasks
+	@d=$$(cat ops/.engine.current 2>/dev/null); \
+	$(PY) -c "import json,os;p='runs/'+'$$d'+'/control.json';c=json.load(open(p));c['halt']=True;open(p+'.t','w').write(json.dumps(c));os.replace(p+'.t',p)" \
+		&& echo "halt ustawiony (runs/$$d)"
+
+engine-report:                      ## rebuild the run report from a live/finished run
+	@d=$$(cat ops/.engine.current 2>/dev/null); $(PY) engine/report.py --run-dir runs/$$d
+
+engine-selftest:                    ## prove queue claim atomicity, contract enforcement, resume, OOS
+	@$(PY) engine/selftest.py
 
 help:
 	@echo "make setup        Install presentation dependencies"

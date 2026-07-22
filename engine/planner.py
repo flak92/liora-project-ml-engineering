@@ -24,10 +24,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "engine"))
 sys.path.insert(0, str(ROOT / "scripts"))
 import contract as CT                                                      # noqa: E402
+import dispatch as DP                                                      # noqa: E402
+import reducer as RD                                                       # noqa: E402
 import schemas as SC                                                       # noqa: E402
 import states as ST                                                        # noqa: E402
-from queue import Queue                                                    # noqa: E402
+from taskqueue import Queue                                                    # noqa: E402
 from method_ledger import MethodLedger                                     # noqa: E402
+
+DATA = ROOT / "xgb" / "data"
 
 # state -> the rung whose experiment moves it forward (absent = terminal, nothing to schedule)
 NEXT_RUNG = {"PENDING_VIABILITY": 1, "VIABLE": 3, "UTILITY_REGISTERED": 4,
@@ -54,14 +58,23 @@ def next_action(run_dir, asset, contract):
     if rung is None:
         return {"asset": asset, "state": state, "next_action": None,
                 "reason": "no scheduled experiment for this state"}
+    # A rung whose runner reads a panel register can only run once that panel holds this asset. The
+    # reducer (a planner pre-step) assembles panels from the per-asset artifacts, so a rung unblocks
+    # the cycle after its upstream rung has produced this asset's artifact.
+    missing = [n for n in DP.NEEDS.get(rung, []) if not RD.has_asset(DATA / n, asset)]
+    if missing:
+        return {"asset": asset, "state": state, "next_action": None,
+                "rung": rung, "reason": f"blocked: panel(e) niegotowe {missing}", "blocked": True}
     task = SC.make_task(contract["run_id"], asset, rung,
                         contract["contract_hash"], contract["seed"])
     return {"asset": asset, "state": state, "next_action": f"RUN_RUNG_{rung}",
             "rung": rung, "question": QUESTION.get(rung), "task": task}
 
 
-def plan(run_dir):
+def plan(run_dir, assemble=True):
     contract = CT.load(run_dir)
+    if assemble:
+        RD.assemble_inputs(run_dir)                # rebuild panel inputs before deriving next steps
     return [next_action(run_dir, a, contract) for a in contract["assets"]]
 
 
