@@ -29,3 +29,7 @@ __pycache__/
 
 # runtime lock for the unattended chain
 ops/.golden.lock
+
+# execution engine runtime state (methodology branch)
+runs/
+queue/
