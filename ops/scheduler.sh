@@ -30,12 +30,21 @@ echo "[scheduler] start (planner co ${PLAN_EVERY}s, report co ${REPORT_EVERY}s)"
 "$PY" "$ROOT/engine/planner.py" --run-dir "$RUN_DIR" --enqueue 2>/dev/null | tail -1
 last_plan=$(date -u +%s)
 
+_queue_empty() { "$PY" - "$RUN_DIR" <<'PYEOF' 2>/dev/null
+import sys; sys.path.insert(0,"engine")
+from taskqueue import Queue
+c=Queue(sys.argv[1]).counts(); print(1 if c["pending"]==0 and c["running"]==0 else 0)
+PYEOF
+}
+
 while true; do
   sleep 10
   date -u +%s > "$HB"
   [[ "$(_halted)" == "1" ]] && { echo "[scheduler] halt — koniec"; break; }
   now=$(date -u +%s)
-  if (( now - last_plan >= PLAN_EVERY )); then
+  # Re-plan on the cadence OR the moment the queue drains and work may remain — the engine should
+  # not idle for minutes between rungs when the next experiment can already be derived.
+  if (( now - last_plan >= PLAN_EVERY )) || [[ "$(_queue_empty)" == "1" ]]; then
     "$PY" "$ROOT/engine/planner.py" --run-dir "$RUN_DIR" --enqueue 2>/dev/null | tail -1
     last_plan=$now
   fi
