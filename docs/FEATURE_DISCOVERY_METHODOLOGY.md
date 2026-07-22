@@ -37,11 +37,48 @@ construction, and no amount of care downstream removes it.
 
 ---
 
-## 2. The ladder
+## 2. The ladder — a Rung 0–9 DAG
 
-Five questions, in order. Each has a statistic, a threshold fixed before the data is seen, a
-negative control, a stop condition and a cost. A stage that fails ends the ladder — later stages
-cannot repair an earlier one, they can only inherit its error.
+Ten questions, in order, as a directed acyclic graph: each node has inputs, a statistic, a threshold
+fixed before the data is seen, a negative control, a stop condition, a cost, an artifact, and one
+admissible next step. A node that fails ends the walk — later nodes cannot repair an earlier one,
+they can only inherit its error. Rungs 0–5 are built and run; Rung 6 is built; Rungs 7 and 9 are
+specified and frozen; Rung 8 aggregates what the earlier rungs wrote.
+
+| Rung | Question | Status |
+|---|---|---|
+| 0 | Is the problem frozen — data, labels, splits, the OOS boundary, the hashes? | built |
+| 1 | Can the model learn at all? | built |
+| 2 | Does the operating point transfer? | built |
+| 3 | Does a feature improve a model that can learn? | built |
+| 4 | Does the choice survive data that did not choose it? | built |
+| 5 | Is the edge bigger than the maximum a search produces by itself? | built |
+| 6 | How much more is a survivor worth under its own tuned model? | built |
+| 7 | Do survivors combine — interactions and sequences? | specified |
+| 8 | Which OHLCV families travel across assets? | built (aggregation) |
+| 9 | Does the whole method hold on a fresh panel? | specified |
+
+**Four classes of variable.** Every configurable in the contract is tagged with the class that
+governs when it may move. *Structural* (interval, label horizon, triple-barrier, costs, embargo, the
+OOS ban) — changing one changes the problem, so it is frozen at Rung 0. *Calibratable* (`gamma`,
+`min_child_weight`, the q-grid, block length, permutation count, HPO budget) — chosen from
+data-fitted ranges, never imposed as one absolute number across assets. *Searched* (features,
+families, interactions, subsets) — the objects the ladder is looking for. *Methodology-governing*
+(the viability floor, confirmation rotations, the test level, the early-stop rule, the empty-subset
+acceptance) — the numbers that decide how much proof is enough. The classes are what let the
+contract say not just *what* a value is but *when it is allowed to change and what goes stale when
+it does*.
+
+### Rung 0 — Is the problem frozen?
+
+Before any measurement, the identity of the problem is fixed and hashed: the bar store and its
+sha256, the sample and its sha256, the label horizon and embargo, the Train/OOS boundary with
+`oos_reads = 0`, the seeds, the thread-pool caps. Every run writes a `run_manifest.json` recording
+the executing commit, the contract's hash as it stood, whether the tree was dirty, the environment
+and the measured wall and core seconds. This is why the contract can carry a null commit SHA: a file
+cannot hold the hash of the commit that contains it, so the commit that actually ran is recorded at
+runtime instead. Without this rung two runs are not comparable; with it, a number can always be
+traced to the exact code and data that produced it.
 
 ### Rung 1 — Can the model learn at all?
 
@@ -291,6 +328,96 @@ being defended*, not of the test defending it. It is recorded here because it ma
 methodology is carried to a new panel, and left alone because changing it now would alter the
 procedure mid-test.
 
+### Rung 6 — How much more is a survivor worth under its own tuned model?
+
+Everything up to here freezes the hyper-parameters on core, deliberately: tuning on the superset
+co-adapts the parameters to features the baseline lacks and inflates every gain. That is the right
+discipline for *screening* — cheaply eliminating the many — but it undersells the few that survive,
+because it never asks what a confirmed feature is worth once the model is allowed to tune *with* it.
+
+Rung 6 asks exactly that, and only of survivors. For each unit that cleared Rung 4 and Rung 5, it
+tunes core alone at a budget `B` and core+survivor at the *same* budget `B`, both on discovery folds
+only, then compares the two on a confirmation fold neither tuning ever saw. Equal budget is the
+fairness constraint: a survivor must earn its keep against a core that had the same chance to
+improve, not against a core frozen at last rung's parameters.
+
+The danger is that tuning is itself a search, so Rung 6 could manufacture an improvement the way any
+search manufactures a maximum. Two guards prevent it. The comparison fold is untouched by the
+tuning, so the reported gain is out-of-sample for the hyper-parameter search. And Rung 6 **can only
+demote, never promote**: it may find that a Rung-5 survivor adds nothing once core is retuned (and
+strike it), but it cannot resurrect anything Rung 5 rejected — if it could, the screening was
+pointless. This splits the method cleanly into a FAST SCREENING phase (frozen core, all 45
+candidates, cross-fitting, max-null) and a MAXIMUM EXTRACTION phase (survivors only,
+candidate-specific tuning), spending the full per-feature cost only where the evidence already
+points.
+
+### Rung 7 — Do survivors combine? *(specified, not executed)*
+
+A feature can be weak alone and valuable in combination — with a volatility regime, a trend
+direction, another feature. Searching all pairs of 45 candidates is `O(N²)` = 990 evaluations and
+re-imports every winner's-curse problem the ladder just controlled. Restricting the search to
+survivors makes it `O(S²)`: with the handful that survive Rung 5, the pair space is single digits.
+The same subset evaluator and family machinery the earlier rungs use carry over unchanged; the
+interaction gate is the confirmation/null discipline of Rungs 4–5 applied to pairs. It is specified
+and frozen, to be built once there are at least two survivors to combine.
+
+### Rung 8 — Which OHLCV families travel across assets?
+
+The per-ticker ladder says what works for one asset. Transfer asks whether a surviving family is a
+universal edge, a regime-conditional one, or one asset's artefact — answerable only across the
+panel. Rung 8 aggregates the per-ticker verdicts into a ticker×family matrix, on the family as the
+stability unit, and classifies each: **universal** (confirmed on a majority of the tickers where it
+was even a candidate), **conditional** (more than one, not a majority), **asset-specific** (exactly
+one). The output doubles as a transfer prior — the order in which to search families on a new asset —
+which narrows effort without ever skipping the ladder: a new asset still earns its own confirmation.
+
+---
+
+## 2b. Objective and stopping
+
+**The objective function `J` is a report, not a gate.** The vision writes it as
+`J = U_outer − λ₁·optimism − λ₂·instability − λ₃·complexity − λ₄·cost`, and that is exactly how it is
+used — to *rank* the survivors and book the compute, never to decide admissibility. Admissibility is
+the gates and the max-null, which are hard constraints; a feature with a poor `J` that nonetheless
+passed every gate is still selected, and a feature with a fine `J` that failed a gate is still
+rejected. Writing `J` as a soft selection criterion — letting high outer utility buy back a large
+optimism gap — would reopen precisely the winner's-curse door Rungs 4 and 5 exist to shut. So `J`
+orders what the gates have already admitted, and nothing more.
+
+**The stopping rule is: what is the smallest experiment that could still change the verdict?** At
+every point the method prefers the least compute that reaches the same decision. The futility bound
+is one instance — a null stops at `b = 5` because no remaining permutation can change it. The general
+form is an automaton that reads the artifacts each rung wrote and names the next admissible
+experiment: viability → utility → cross-fit → null → survivor HPO → transfer, halting with an empty
+subset the moment the evidence cannot support one. The automaton advises; it never acts, and it
+never auto-recalibrates. A state like "the model cannot learn — widen the space" does not loop back
+into an automatic retune, because widening the space is co-adaptation to the panel and a decision
+that mints a new contract version. Those states stop and ask for human authorization.
+
+## 2c. The Compiler output
+
+The end of the method, for one asset, is a single resolved record — assembled from the artifacts,
+never recomputed:
+
+```json
+{ "ticker": "AZO", "model": "xgb", "status": "resolved",
+  "selection_mode": "hierarchical", "selected_features": ["momentum_return"],
+  "rejected_features": 44, "confirmation_win_rate": 1.0,
+  "max_null_p": [{"unit": "momentum_return", "p_mc": 0.058824}],
+  "outer_delta": 0.058349, "compute_seconds": 540.8,
+  "stop_reason": "survived the procedure-level max-null" }
+```
+
+or, just as valid, the empty resolution:
+
+```json
+{ "ticker": "ADBE", "status": "resolved_empty",
+  "stop_reason": "no unit exceeded the procedure-level max-null" }
+```
+
+Both are answers. The method does not pick the best available feature; it reports only what survived
+being chosen and judged by different data — and reports plainly when that set is empty.
+
 ---
 
 ## 3. The smallest sufficient step
@@ -423,9 +550,10 @@ feature; it picks only features that survived being chosen and judged by differe
 
 ---
 
-## 8. Certification
+## 8. Rung 9 — Certification on a fresh panel
 
-The current panel cannot certify the method, because its outer results informed the method's design.
+The terminal rung, and the only one that measures the method rather than builds it. The current
+panel cannot certify anything, because its outer results informed the method's design.
 Certification requires:
 
 1. freeze this contract and the code;
