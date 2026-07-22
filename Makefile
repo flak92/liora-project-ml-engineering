@@ -106,6 +106,12 @@ loop-logs:
 loop-selftest:
 	@$(PY) ops/selftest_loop.py
 
+# Contract consistency: every split file tagged, the generated monolith in step with the splits,
+# and no hardcoded constant drifted from its contract value. Run after editing config/contract/*.
+lint-contract:
+	@$(PY) scripts/contract_loader.py --regenerate
+	@$(PY) scripts/contract_lint.py
+
 help:
 	@echo "make setup        Install presentation dependencies"
 	@echo "make on           Run the Streamlit presentation on port $(PORT)"
@@ -121,5 +127,7 @@ help:
 	@echo "  make loop-kill     Hard stop and close the tmux session"
 	@echo "  make loop-logs     Tail the chain and watchdog logs"
 	@echo "  make loop-selftest Prove the lock, resume, atomicity and watchdog actually work"
+	@echo ""
+	@echo "  make lint-contract Regenerate the monolith from config/contract/*, then check consistency"
 	@echo ""
 	@echo "Another port: make on PORT=8600  ·  make off PORT=8600"

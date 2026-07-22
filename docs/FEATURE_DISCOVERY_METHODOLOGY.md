@@ -80,6 +80,13 @@ cannot hold the hash of the commit that contains it, so the commit that actually
 runtime instead. Without this rung two runs are not comparable; with it, a number can always be
 traced to the exact code and data that produced it.
 
+The contract is split by concern into `config/contract/*.json`, each file tagged with its variable
+class, the rung it governs, what reads it (`affects`) and what must be recomputed if it changes
+(`invalidates`). Those split files are the source of truth; `feature_discovery_contract.json` is
+regenerated from them as a single-file view for the code that reads it. `make lint-contract` proves
+the two are in step and that no constant still hardcoded in code has drifted from its contract
+value — so the JSON is the authority even where the code has not been rewired to read it.
+
 ### Rung 1 — Can the model learn at all?
 
 `gamma` and `min_child_weight` are thresholds in units of summed **hessian**: a row contributes
