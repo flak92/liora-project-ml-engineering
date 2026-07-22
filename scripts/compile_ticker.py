@@ -71,6 +71,34 @@ def _candidate_count():
         return None
 
 
+def _stability(nulls, ticker, ofold, arm):
+    """Fold the two sensitivity nulls into a stability class, per the contract's interpretation table.
+
+    A2 keeps each block in its own market regime; B keeps the dependence on core. A survivor of the
+    primary null that fails A2 leaned on carrying blocks across regimes; one that fails B leaned on
+    breaking the coupling to core. Passing all three is the only unqualified pass.
+    """
+    def verdict(kind):
+        idx = nulls.get(kind)
+        if idx is None:
+            return None
+        v = idx.get((ticker, ofold, arm))
+        return None if v is None else (v["verdict"] == "passed")
+    a2, b = verdict("a2"), verdict("b")
+    if a2 is None and b is None:
+        return {"class": "primary_only", "a2": None, "b": None,
+                "_note": "sensitivity nulls not run for this arm"}
+    if a2 and b:
+        cls = "stable"
+    elif (not a2) and b:
+        cls = "regime_sensitive"
+    elif a2 and (not b):
+        cls = "core_coupled"
+    else:
+        cls = "weak"
+    return {"class": cls, "a2_passed": a2, "b_passed": b}
+
+
 def _null_p(v):
     """The p-value to report, faithful to how the test ended."""
     if v["verdict"] == "passed":
@@ -109,14 +137,23 @@ def compile_ticker(ticker, crossfit, nulls, n_candidates):
                 screening_only.append(entry)
             elif nv["verdict"] == "passed":
                 entry["max_null"] = _null_p(nv)
+                entry["stability"] = _stability(nulls, ticker, f["outer_fold"], arm)
                 accepted.append(entry)
             else:
                 entry["max_null"] = _null_p(nv)
                 rejected_by_null.append(entry)
 
+    # A survivor is only as strong as the weakest null it faced. "resolved" is reserved for a ticker
+    # with at least one survivor stable across all three nulls; a ticker whose survivors passed the
+    # primary null but failed a sensitivity null is "resolved_conditional" — a real but qualified
+    # result, not the same thing as a stable one.
+    stable = [e for e in accepted if e.get("stability", {}).get("class") == "stable"]
     units = sorted({e["unit"] for e in accepted}, key=str)
-    if accepted:
-        status, stop = "resolved", "survived the procedure-level max-null"
+    if stable:
+        status, stop = "resolved", "survived all three nulls (marginal, regime, conditional)"
+    elif accepted:
+        status, stop = "resolved_conditional", \
+            "passed the primary null but a sensitivity null rejects it — qualified, not stable"
     elif screening_only and not null_idx:
         status, stop = "screening_only", "cross-fit accepted; procedure null not yet run"
     elif rejected_by_null or screening_only:
@@ -205,19 +242,21 @@ def main():
             write_json_atomic(outdir / f"{t}.json", rec)
 
     resolved = [r for r in records if r["status"] == "resolved"]
+    conditional = [r for r in records if r["status"] == "resolved_conditional"]
     empty = [r for r in records if r["status"] == "resolved_empty"]
     print(f"Feature Discovery Compiler — {len(tickers)} tabel  "
           f"(null: {records[0].get('null_authority')})\n")
-    print(f"{'ticker':<7}{'status':<16}{'tryb':<14}{'wybrane':<28}{'win':>6}{'J':>9}")
+    print(f"{'ticker':<7}{'status':<22}{'tryb':<14}{'wybrane':<28}{'win':>6}{'J':>9}")
     for r in records:
         feats = ",".join(map(str, r["selected_features"])) or "—"
         wr = f"{r['confirmation_win_rate']:.2f}" if r["confirmation_win_rate"] is not None else "—"
         j = r.get("J_report", {}).get("J")
         js = f"{j:+.4f}" if j is not None else "—"
-        print(f"{r['ticker']:<7}{r['status']:<16}{str(r['selection_mode'] or '—'):<14}"
+        print(f"{r['ticker']:<7}{r['status']:<22}{str(r['selection_mode'] or '—'):<14}"
               f"{feats[:26]:<28}{wr:>6}{js:>9}")
-    print(f"\n  resolved: {len(resolved)}   resolved_empty: {len(empty)}   "
-          f"pozostałe: {len(records) - len(resolved) - len(empty)}")
+    print(f"\n  resolved (stabilne 3/3): {len(resolved)}   resolved_conditional: {len(conditional)}"
+          f"   resolved_empty: {len(empty)}   pozostałe: "
+          f"{len(records) - len(resolved) - len(conditional) - len(empty)}")
 
     if args.to_stdout:
         print("\n" + json.dumps(records[0] if len(records) == 1 else records, indent=1,
