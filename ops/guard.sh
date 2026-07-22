@@ -89,11 +89,19 @@ while true; do
   fi
 
   # --- 2. memory pressure ---------------------------------------------------------------------
+  # Real distance to OOM = physical MemAvailable + free swap. Without swap these are equal, so this
+  # keeps the old behaviour on a swapless box. WITH swap, low physical RAM is no longer an
+  # emergency: the kernel pages out cold pages (the mostly-idle session) instead of OOM-killing, so
+  # the workers keep their hot pages resident and the chain stays at full width. Degrade only when
+  # BOTH physical RAM and swap are nearly gone (true thrash/OOM risk). MemAvailable alone would
+  # ignore the swap safety valve entirely and degrade needlessly.
   AVAIL=$(awk '/MemAvailable/{print int($2/1024)}' /proc/meminfo 2>/dev/null || echo 99999)
+  SWAPFREE=$(awk '/SwapFree/{print int($2/1024)}' /proc/meminfo 2>/dev/null || echo 0)
+  HEADROOM=$(( AVAIL + SWAPFREE ))
   CUR="$(_control workers)"; CUR="${CUR:-4}"
-  if (( AVAIL < MIN_AVAIL_MB )) && (( CUR > MIN_WORKERS )); then
+  if (( HEADROOM < MIN_AVAIL_MB )) && (( CUR > MIN_WORKERS )); then
     NEW=$(( CUR - 1 ))
-    log "dostępne ${AVAIL}MB < ${MIN_AVAIL_MB}MB — obniżam workerów $CUR -> $NEW (zero swapu)"
+    log "zapas ${HEADROOM}MB (RAM ${AVAIL} + swap ${SWAPFREE}) < ${MIN_AVAIL_MB}MB — obniżam workerów $CUR -> $NEW"
     _set_control workers "$NEW"
   fi
 
