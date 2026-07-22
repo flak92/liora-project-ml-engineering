@@ -210,7 +210,8 @@ def build_null(kind, ctx, rows, rng):
     prov["residual_share"] = ctx["residual_share"]
     prov["_marginal_note"] = ("fitted + permuted residual does not reproduce each column's original "
                               "marginal; the drift is recorded in the artifact rather than hidden")
-    prov["marginal_drift"] = float(np.abs(rebuilt.std(axis=0) - optional.std(axis=0)).mean())
+    prov["marginal_drift"] = float(np.abs(np.nanstd(rebuilt, axis=0)
+                                          - np.nanstd(optional, axis=0)).mean())
     return rebuilt, prov
 
 
@@ -240,6 +241,23 @@ def fit_conditional(ctx, rows):
         lo, hi = t0s[te[0]] - EMBARGO_BARS, t0s[te[-1]] + EMBARGO_BARS
         return np.array([j for j in rows if not (lo <= t0s[j] <= hi)])
 
+    # A handful of optional columns (the 1w multi-timeframe features) carry NaN. XGBoost handles
+    # NaN natively, so A1 and A2 pass it straight through — but sklearn's Ridge rejects NaN in its
+    # target. Impute the FIT target with train-column means so g can fit; the residual is then taken
+    # against the ORIGINAL optional, so `optional - fitted` stays NaN exactly where the feature was
+    # missing. Block-permuting that residual and adding fitted back reproduces the same NaN COUNT,
+    # its positions shuffled — which is what the null intends anyway. Core has no NaN, so the Ridge
+    # inputs and predictions are always defined.
+    def _fill(y):
+        if not np.isnan(y).any():
+            return y
+        y = y.copy()
+        cm = np.nanmean(y, axis=0)
+        cm = np.where(np.isnan(cm), 0.0, cm)              # a column that is all-NaN on this fold -> 0
+        idx = np.where(np.isnan(y))
+        y[idx] = np.take(cm, idx[1])
+        return y
+
     grid = [0.1, 1.0, 10.0, 100.0, 1000.0]
     best, best_mse = None, np.inf
     splits = [(_train_idx(te), te) for te in folds]
@@ -250,26 +268,28 @@ def fit_conditional(ctx, rows):
                 continue
             mu, sd = core[tr].mean(0), core[tr].std(0) + 1e-12
             m = Ridge(alpha=a, fit_intercept=True)
-            m.fit((core[tr] - mu) / sd, optional[tr])
-            errs.append(float(((m.predict((core[te] - mu) / sd) - optional[te]) ** 2).mean()))
+            m.fit((core[tr] - mu) / sd, _fill(optional[tr]))
+            se = (m.predict((core[te] - mu) / sd) - optional[te]) ** 2
+            errs.append(float(np.nanmean(se)))            # ignore cells the feature never had
         if errs and np.mean(errs) < best_mse:
             best, best_mse = a, float(np.mean(errs))
 
     fitted = np.zeros_like(optional)
     for tr, te in splits:
         if len(tr) < 50:
-            fitted[te] = optional[tr].mean(0) if len(tr) else 0.0
+            fitted[te] = _fill(optional[tr]).mean(0) if len(tr) else 0.0
             continue
         mu, sd = core[tr].mean(0), core[tr].std(0) + 1e-12
         m = Ridge(alpha=best, fit_intercept=True)
-        m.fit((core[tr] - mu) / sd, optional[tr])
+        m.fit((core[tr] - mu) / sd, _fill(optional[tr]))
         fitted[te] = m.predict((core[te] - mu) / sd)
 
-    resid = optional - fitted
-    var_o = optional[rows].var(axis=0).sum()
-    share = float(resid[rows].var(axis=0).sum() / var_o) if var_o > 0 else 1.0
+    resid = optional - fitted                              # NaN preserved where optional was NaN
+    var_o = float(np.nansum(np.nanvar(optional[rows], axis=0)))
+    share = float(np.nansum(np.nanvar(resid[rows], axis=0)) / var_o) if var_o > 0 else 1.0
     return {"fitted": fitted, "residual": resid, "ridge_alpha": best,
-            "residual_share": round(share, 4), "recon_mse": round(best_mse, 8)}
+            "residual_share": round(share, 4), "recon_mse": round(best_mse, 8),
+            "nan_columns": int((np.isnan(optional).any(axis=0)).sum())}
 
 
 # ---------------------------------------------------------------------------------------------
