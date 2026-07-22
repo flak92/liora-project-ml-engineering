@@ -1,0 +1,112 @@
+{
+ "_meta": {
+  "variable_class": "methodology_governing",
+  "rung": [
+   3,
+   4,
+   6,
+   7
+  ],
+  "affects": [
+   "crossfit_selection",
+   "procedure_null (acceptance.T)",
+   "rung6",
+   "rung7"
+  ],
+  "invalidates": [
+   "crossfit_selection.json",
+   "procedure_null_*.json",
+   "rung6_survivor_hpo.json"
+  ],
+  "sections": [
+   "arms",
+   "cross_fitting",
+   "acceptance",
+   "stop_conditions",
+   "rung_6_survivor_hpo",
+   "rung_7_interactions"
+  ],
+  "_rule": "edit HERE, then run contract_loader.py --regenerate"
+ },
+ "arms": {
+  "flat": "45 candidates -> discovery ranking -> single maximum -> confirmation",
+  "hierarchical": "12 families -> strongest family -> its representative (one-SE plateau, simplest member) -> confirmation",
+  "stability_unit": {
+   "flat": "feature",
+   "hierarchical": "family"
+  },
+  "_paired": "Both arms consume the same permutations so their results are paired, but each builds its own maximum distribution and its own p-value. There is no shared threshold."
+ },
+ "cross_fitting": {
+  "inner_folds": 4,
+  "rotations": 4,
+  "role_split": "one confirmation fold held out, the rest discover; the confirmation fold rotates so each inner fold serves once as untouched validation",
+  "_independence": "Rotations are NOT independent — their discovery sets overlap. The contract says 'at least 2 rotations' and claims nothing more."
+ },
+ "acceptance": {
+  "implementation": "scripts/acceptance.py — imported by BOTH the real run and every permutation, so the test cannot measure a difference between two implementations",
+  "min_rotations": 2,
+  "min_median_confirmation_delta": 0.004,
+  "complexity_penalty": 0.004,
+  "majority_positive": true,
+  "max_null_required": true,
+  "empty_subset_is_valid": true,
+  "_rule": "All clauses must hold simultaneously. Insufficient evidence returns nothing rather than the best of what was on offer.",
+  "unit_of_decision": "outer fold",
+  "stability_unit": {
+   "flat": "feature",
+   "hierarchical": "family"
+  },
+  "statistic": {
+   "eligible_j": "selection_count_j >= 2 AND win_rate_j > 0.5",
+   "score_j": "median_confirmation_delta_j - complexity_penalty",
+   "T": "max(score_j over eligible j), or 0.0 when nothing is eligible",
+   "accepted": "T > 0",
+   "_equivalence": "T > 0 is exactly the previous acceptance: min_median_confirmation_delta and complexity_penalty are the same 0.004, so no threshold moved when the rule was rewritten.",
+   "_zero_is_a_result": "T = 0 encodes 'the procedure accepted nothing', which is a valid and complete outcome, not a missing value."
+  },
+  "selection_rule": "max-over-eligible",
+  "_why_not_modal": "The previous rule examined only the modal pick (Counter.most_common(1)). On NOW outer fold 0 two families were each chosen twice and the tie was broken by insertion order, handing the verdict to price_distance (positive in 1 of 2, median -0.0070) while volume had won both of its rotations with a median of +0.0298. Counter's ordering is not reproducible across Python versions, and a permutation cannot honestly reproduce 'whichever unit Counter returned first'.",
+  "_recount": "Replaying the rule over the stored rotations changed exactly one decision: flat 14 unchanged, hierarchical 11 -> 12, scope unchanged at 16 outer folds. units_eligible = 1 in every acceptance."
+ },
+ "stop_conditions": {
+  "no_viable_model": "if the model space cannot produce a learnable model for a window, that window reports no_viable_model and contributes nothing to feature evidence",
+  "no_provisional_acceptance": "if cross-fitting accepts nothing in either arm, the stage ends without the null",
+  "null_rejects_all": "the feature space fails the declared standard of proof; this is a result, not a failure",
+  "futility": "see max_null.futility_bound"
+ },
+ "rung_6_survivor_hpo": {
+  "status": "EXECUTED",
+  "result": {
+   "survivors_in": 11,
+   "retained": 4,
+   "demoted": 7,
+   "retained_units": [
+    "ORLY/1 oscillator_rsi",
+    "ORLY/1 112",
+    "IDXX/2 208",
+    "BKNG/0 volume"
+   ],
+   "_finding": "GOOG (+0.037) and NVR (+0.087) had POSITIVE tuned deltas yet were demoted at b=5 — tuning a block-permuted (noise) column matched the improvement, so the gain was the hyper-parameter search overfitting the extra column, not the feature. The own-null caught the winner's-curse-of-tuning a naive core-vs-core+feature comparison would have missed.",
+   "_most_robust": "ORLY/1 oscillator_rsi (rep 112) — the only arm stable across A1/A2/B AND retained by Rung 6",
+   "budget_B": 20,
+   "own_null_permutations": 20,
+   "invariant_held": "retained (4) <= survivors (11); only demotion"
+  },
+  "question": "The ladder measures a feature's utility at hyper-parameters frozen on core. It does not measure the maximum utility of that feature under an optimally tuned core + feature.",
+  "protocol": "for each survivor of confirmation AND the null: tune core with a local budget B, tune core + survivor with the SAME budget B, tuning on discovery folds only, then compare on an untouched confirmation fold",
+  "_why_legitimate_here_and_not_earlier": "Tuning on the superset co-adapts the parameters to features the baseline lacks and inflates every gain, which is why screening freezes core. Rung 6 relaxes that deliberately and only after the screening verdict exists, so the relaxation cannot manufacture a survivor — it can only measure how much more a confirmed one is worth.",
+  "_must_not": "overturn a rung-5 rejection; if it could, the screening was pointless",
+  "open_question": "whether the hyper-parameter search reintroduces winner's curse and therefore needs its own null, and whether a confirmation fold reused from rungs 4-5 is still untouched",
+  "phase": "MAXIMUM OPTIMIZATION, after the FAST SCREENING phase closes"
+ },
+ "rung_7_interactions": {
+  "status": "SPECIFIED, NOT EXECUTED",
+  "question": "A feature can be weak alone and valuable in combination — with a regime, a direction, or another feature.",
+  "scope": "survivors only — O(S^2), not O(N^2). With the handful that survive Rung 5, the pair space is single digits, versus 990 for all 45 candidates.",
+  "reuse": "the subset evaluator (feature_search.eval_subset) and family machinery (golden.*) unchanged; the interaction gate is the confirmation/null discipline of Rungs 4-5 applied to pairs",
+  "own_gate": "a pair must beat both its own best single member AND its own permutation null, or it is not an interaction — only a coincidence of two singles",
+  "_precondition": "at least two survivors to combine; on this panel Rung 6 retained 4, so the pair space exists but is tiny",
+  "phase": "MAXIMUM EXTRACTION, after Rung 6"
+ }
+}

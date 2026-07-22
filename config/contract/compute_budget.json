@@ -1,0 +1,51 @@
+{
+ "_meta": {
+  "variable_class": "mixed (structural seed/threads + calibratable workers)",
+  "rung": "infra",
+  "affects": [
+   "every run's parallelism, determinism and provenance"
+  ],
+  "invalidates": [
+   "cost_report.json"
+  ],
+  "sections": [
+   "runtime",
+   "cost_model_core_seconds_per_ticker",
+   "run_manifest_required_fields"
+  ],
+  "_rule": "edit HERE, then run contract_loader.py --regenerate"
+ },
+ "runtime": {
+  "seed": 42,
+  "thread_pools": {
+   "OMP_NUM_THREADS": 1,
+   "OPENBLAS_NUM_THREADS": 1,
+   "MKL_NUM_THREADS": 1,
+   "NUMEXPR_NUM_THREADS": 1,
+   "XGBOOST_N_JOBS": 1
+  },
+  "workers": 4,
+  "scratch": "scratch/<run_id>/<ticker>/<pid>/",
+  "_measured": "Capping the pools: 12.33 s -> 8.15 s at three workers (1.51x). Worker benchmark over eight tables: 63.90 s / 33.71 / 24.62 / 19.72 wall at jobs 1..4, core-seconds 63.88 / 65.73 / 65.96 / 67.88 — wall falls monotonically while core-seconds rise 6%, so four workers are Pareto-optimal.",
+  "_reproducibility": "Capping does not touch the arithmetic: stage 3 re-run on TDG reproduced [-0.09471459, -0.11062278, +0.04853174, +0.24495527] exactly."
+ },
+ "cost_model_core_seconds_per_ticker": {
+  "viability_register": 90,
+  "feature_utility_register": 400,
+  "outer_evaluation": 19,
+  "cross_fitting_both_arms": 590,
+  "_note": "Measured before the runtime fix, at three workers with uncapped pools. Re-measure under the new configuration before budgeting a new panel."
+ },
+ "run_manifest_required_fields": {
+  "execution_head_sha": "git HEAD at the moment the run started",
+  "contract_sha256": "sha256 of this file as read by the run",
+  "code_dirty": "whether the working tree carried uncommitted changes",
+  "environment": "python, platform, cpu count, thread pool settings and what the pools actually reported",
+  "workers": "process count actually used",
+  "wall_seconds": null,
+  "core_seconds": null,
+  "permutations_executed": "per candidate, so an early stop is visible",
+  "verdicts": null,
+  "artifact_sha256": "per output file"
+ }
+}

@@ -1,0 +1,26 @@
+{
+ "_meta": {
+  "variable_class": "structural",
+  "rung": 0,
+  "affects": [
+   "event generation",
+   "purge and embargo",
+   "every fold boundary"
+  ],
+  "invalidates": [
+   "ALL artifacts — the label geometry defines the problem being studied"
+  ],
+  "sections": [
+   "data_boundary"
+  ],
+  "_rule": "edit HERE, then run contract_loader.py --regenerate"
+ },
+ "data_boundary": {
+  "train_end": "2023-12-29",
+  "oos_start": "2024-01-02",
+  "label_horizon_bars": 24,
+  "embargo_bars": 35,
+  "oos_reads": 0,
+  "_rule": "Every outer fold is carved out of Train. The OOS window is not read at any stage of discovery, selection, confirmation or the null. The single sealed OOS read remains reserved for after the methodology is frozen."
+ }
+}

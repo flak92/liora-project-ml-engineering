@@ -1,0 +1,34 @@
+{
+ "_meta": {
+  "variable_class": "mixed (structural mode + calibratable q-grid)",
+  "rung": 2,
+  "affects": [
+   "the operating point in every rung that trades"
+  ],
+  "invalidates": [
+   "nested_*.json",
+   "crossfit_selection.json",
+   "procedure_null_*.json"
+  ],
+  "sections": [
+   "operating_point"
+  ],
+  "_rule": "edit HERE, then run contract_loader.py --regenerate"
+ },
+ "operating_point": {
+  "mode": "quantile",
+  "grid": [
+   0.75,
+   0.82,
+   0.88,
+   0.92,
+   0.96,
+   0.99
+  ],
+  "cut_source": "the model's predictions on its own training rows",
+  "chosen_on": "discovery folds",
+  "applied_to": "confirmation and outer folds as a fixed level",
+  "candidate_dependent": true,
+  "_measured": "The candidate's theta differs from core's in 2149 of 3600 configurations (60%), spanning the whole grid. The null must therefore reproduce theta selection inside every permutation, and it controls feature multiplicity AND operating-point multiplicity jointly."
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "_meta": {
+  "variable_class": "structural",
+  "rung": 0,
+  "affects": [
+   "every rung — this file is the problem's identity"
+  ],
+  "invalidates": [
+   "ALL artifacts if the bar-store or sample hash changes"
+  ],
+  "sections": [
+   "identity"
+  ],
+  "_rule": "edit HERE, then run contract_loader.py --regenerate"
+ },
+ "_contract": {
+  "schema_version": "feature_discovery_contract.v1",
+  "methodology": "Golden Calibration Development Candidate",
+  "_status": "DEVELOPMENT CANDIDATE, NOT v1. The twenty tickers below are a development panel: outer-fold results were used to decide subsequent methodology changes, so their numbers measure the procedure's construction, not its performance. The name Golden Calibration v1 is earned only after the certification run described under `certification` — a fresh panel, this contract frozen, no threshold touched.",
+  "_purpose": "The machine-readable definition of the feature-discovery procedure. docs/FEATURE_DISCOVERY_METHODOLOGY.md describes this file; it does not replace it. Where the two disagree, this file is the contract."
+ },
+ "identity": {
+  "contract_version": "golden-calibration-dc.1",
+  "implementation_base_sha": "982cdce5857d97e95b99ae0e9cfc18f1919fcc32",
+  "contract_commit_sha": null,
+  "_why_null": "A contract cannot carry the SHA of the commit that contains it: writing the SHA changes the file, which changes the commit, which changes the SHA. This file names the implementation it describes; the commit that actually ran is recorded at runtime in run_manifest.execution_head_sha, together with the sha256 of this file as it stood.",
+  "bar_store": "xgb/data/liora.duckdb",
+  "bar_store_sha256_prefix": "57d9a2243958ae7d",
+  "sample": "config/sample_20.json",
+  "sample_sha256_prefix": "62a50615440e7797",
+  "not_comparable_with": "2026-07-golden-v5",
+  "_why": "The model space below differs from the sealed epoch's, so numbers produced under this contract must never be tabulated beside sealed ones."
+ }
+}

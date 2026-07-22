@@ -1,0 +1,20 @@
+{
+ "_meta": {
+  "variable_class": "structural + searched",
+  "rung": [
+   3,
+   4,
+   8
+  ],
+  "affects": [
+   "family grouping — the hierarchical arm's stability unit and Rung 8"
+  ],
+  "invalidates": [
+   "crossfit_selection.json (hierarchical arm)",
+   "cross_asset_matrix.json"
+  ],
+  "_rule": "reference pointer — the content lives in source_file"
+ },
+ "source_file": "config/feature_families_xgb.json",
+ "exists": true
+}

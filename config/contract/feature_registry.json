@@ -1,0 +1,15 @@
+{
+ "_meta": {
+  "variable_class": "structural + searched",
+  "rung": 3,
+  "affects": [
+   "which features exist to be searched"
+  ],
+  "invalidates": [
+   "feature_utility.json and everything downstream if a feature is added/removed"
+  ],
+  "_rule": "reference pointer — the content lives in source_file"
+ },
+ "source_file": "config/feature_namespaces_xgb.json",
+ "exists": true
+}

@@ -1,0 +1,19 @@
+{
+ "_meta": {
+  "variable_class": "methodology_governing / structural",
+  "rung": 9,
+  "affects": [
+   "the certification run"
+  ],
+  "invalidates": [],
+  "sections": [
+   "certification"
+  ],
+  "_rule": "edit HERE, then run contract_loader.py --regenerate"
+ },
+ "certification": {
+  "status": "not started",
+  "requirement": "freeze this contract and the code, select a fresh panel by a declared rule, run the whole ladder without touching thresholds, null, HPO or selection logic, and report accuracy, cost and the number of empty subsets",
+  "grants_name": "Golden Calibration v1"
+ }
+}

@@ -1,142 +1,22 @@
 {
- "schema_version": "feature_discovery_contract.v1",
- "methodology": "Golden Calibration Development Candidate",
- "_status": "DEVELOPMENT CANDIDATE, NOT v1. The twenty tickers below are a development panel: outer-fold results were used to decide subsequent methodology changes, so their numbers measure the procedure's construction, not its performance. The name Golden Calibration v1 is earned only after the certification run described under `certification` — a fresh panel, this contract frozen, no threshold touched.",
- "_purpose": "The machine-readable definition of the feature-discovery procedure. docs/FEATURE_DISCOVERY_METHODOLOGY.md describes this file; it does not replace it. Where the two disagree, this file is the contract.",
- "identity": {
-  "contract_version": "golden-calibration-dc.1",
-  "implementation_base_sha": "982cdce5857d97e95b99ae0e9cfc18f1919fcc32",
-  "contract_commit_sha": null,
-  "_why_null": "A contract cannot carry the SHA of the commit that contains it: writing the SHA changes the file, which changes the commit, which changes the SHA. This file names the implementation it describes; the commit that actually ran is recorded at runtime in run_manifest.execution_head_sha, together with the sha256 of this file as it stood.",
-  "bar_store": "xgb/data/liora.duckdb",
-  "bar_store_sha256_prefix": "57d9a2243958ae7d",
-  "sample": "config/sample_20.json",
-  "sample_sha256_prefix": "62a50615440e7797",
-  "not_comparable_with": "2026-07-golden-v5",
-  "_why": "The model space below differs from the sealed epoch's, so numbers produced under this contract must never be tabulated beside sealed ones."
- },
- "data_boundary": {
-  "train_end": "2023-12-29",
-  "oos_start": "2024-01-02",
-  "label_horizon_bars": 24,
-  "embargo_bars": 35,
-  "oos_reads": 0,
-  "_rule": "Every outer fold is carved out of Train. The OOS window is not read at any stage of discovery, selection, confirmation or the null. The single sealed OOS read remains reserved for after the methodology is frozen."
- },
- "model_space": {
-  "file": "config/xgb_search_space_v2.json",
-  "hessian_relative": [
-   "gamma",
-   "min_child_weight"
+ "_meta": {
+  "variable_class": "methodology_governing",
+  "rung": 5,
+  "affects": [
+   "procedure_null"
   ],
-  "hpo_trials": 30,
-  "hpo_target": "core features only",
-  "_why_core": "Tuning on the 45-candidate superset co-adapts the parameters to features the baseline lacks, which inflates every subsequent gain. Tuning on core and freezing gives all configurations the same protocol."
- },
- "viability": {
-  "min_split_nodes": 20,
-  "min_pred_std": 0.005,
-  "role": "admissibility only",
-  "_rule": "A configuration below the floor has not tested its features, so its gain is not evidence. The gate never ranks and never picks a winner; ranking remains marginal Train-OOF log-growth and fold-win fraction.",
-  "_evidence": "Median out-of-fold log-growth by split-node count: 0 splits -1.4629 (0% of trials positive), 1-20 -0.6222 (22%), 21-200 +0.1789 (59%), >200 +0.3871 (84%).",
-  "_negative_control": "Rejects 525/600 draws (88%) of the sealed v1 space and 156/600 (26%) of v2."
- },
- "operating_point": {
-  "mode": "quantile",
-  "grid": [
-   0.75,
-   0.82,
-   0.88,
-   0.92,
-   0.96,
-   0.99
+  "invalidates": [
+   "procedure_null_*.json",
+   "rung5_summary.json",
+   "cross_asset_matrix.json",
+   "null_controls.json",
+   "compiled/*.json"
   ],
-  "cut_source": "the model's predictions on its own training rows",
-  "chosen_on": "discovery folds",
-  "applied_to": "confirmation and outer folds as a fixed level",
-  "candidate_dependent": true,
-  "_measured": "The candidate's theta differs from core's in 2149 of 3600 configurations (60%), spanning the whole grid. The null must therefore reproduce theta selection inside every permutation, and it controls feature multiplicity AND operating-point multiplicity jointly."
- },
- "arms": {
-  "flat": "45 candidates -> discovery ranking -> single maximum -> confirmation",
-  "hierarchical": "12 families -> strongest family -> its representative (one-SE plateau, simplest member) -> confirmation",
-  "stability_unit": {
-   "flat": "feature",
-   "hierarchical": "family"
-  },
-  "_paired": "Both arms consume the same permutations so their results are paired, but each builds its own maximum distribution and its own p-value. There is no shared threshold."
- },
- "cross_fitting": {
-  "inner_folds": 4,
-  "rotations": 4,
-  "role_split": "one confirmation fold held out, the rest discover; the confirmation fold rotates so each inner fold serves once as untouched validation",
-  "_independence": "Rotations are NOT independent — their discovery sets overlap. The contract says 'at least 2 rotations' and claims nothing more."
- },
- "acceptance": {
-  "implementation": "scripts/acceptance.py — imported by BOTH the real run and every permutation, so the test cannot measure a difference between two implementations",
-  "min_rotations": 2,
-  "min_median_confirmation_delta": 0.004,
-  "complexity_penalty": 0.004,
-  "majority_positive": true,
-  "max_null_required": true,
-  "empty_subset_is_valid": true,
-  "_rule": "All clauses must hold simultaneously. Insufficient evidence returns nothing rather than the best of what was on offer.",
-  "unit_of_decision": "outer fold",
-  "stability_unit": {
-   "flat": "feature",
-   "hierarchical": "family"
-  },
-  "statistic": {
-   "eligible_j": "selection_count_j >= 2 AND win_rate_j > 0.5",
-   "score_j": "median_confirmation_delta_j - complexity_penalty",
-   "T": "max(score_j over eligible j), or 0.0 when nothing is eligible",
-   "accepted": "T > 0",
-   "_equivalence": "T > 0 is exactly the previous acceptance: min_median_confirmation_delta and complexity_penalty are the same 0.004, so no threshold moved when the rule was rewritten.",
-   "_zero_is_a_result": "T = 0 encodes 'the procedure accepted nothing', which is a valid and complete outcome, not a missing value."
-  },
-  "selection_rule": "max-over-eligible",
-  "_why_not_modal": "The previous rule examined only the modal pick (Counter.most_common(1)). On NOW outer fold 0 two families were each chosen twice and the tie was broken by insertion order, handing the verdict to price_distance (positive in 1 of 2, median -0.0070) while volume had won both of its rotations with a median of +0.0298. Counter's ordering is not reproducible across Python versions, and a permutation cannot honestly reproduce 'whichever unit Counter returned first'.",
-  "_recount": "Replaying the rule over the stored rotations changed exactly one decision: flat 14 unchanged, hierarchical 11 -> 12, scope unchanged at 16 outer folds. units_eligible = 1 in every acceptance."
- },
- "stop_conditions": {
-  "no_viable_model": "if the model space cannot produce a learnable model for a window, that window reports no_viable_model and contributes nothing to feature evidence",
-  "no_provisional_acceptance": "if cross-fitting accepts nothing in either arm, the stage ends without the null",
-  "null_rejects_all": "the feature space fails the declared standard of proof; this is a result, not a failure",
-  "futility": "see max_null.futility_bound"
- },
- "rung_6_survivor_hpo": {
-  "status": "EXECUTED",
-  "result": {
-   "survivors_in": 11,
-   "retained": 4,
-   "demoted": 7,
-   "retained_units": [
-    "ORLY/1 oscillator_rsi",
-    "ORLY/1 112",
-    "IDXX/2 208",
-    "BKNG/0 volume"
-   ],
-   "_finding": "GOOG (+0.037) and NVR (+0.087) had POSITIVE tuned deltas yet were demoted at b=5 — tuning a block-permuted (noise) column matched the improvement, so the gain was the hyper-parameter search overfitting the extra column, not the feature. The own-null caught the winner's-curse-of-tuning a naive core-vs-core+feature comparison would have missed.",
-   "_most_robust": "ORLY/1 oscillator_rsi (rep 112) — the only arm stable across A1/A2/B AND retained by Rung 6",
-   "budget_B": 20,
-   "own_null_permutations": 20,
-   "invariant_held": "retained (4) <= survivors (11); only demotion"
-  },
-  "question": "The ladder measures a feature's utility at hyper-parameters frozen on core. It does not measure the maximum utility of that feature under an optimally tuned core + feature.",
-  "protocol": "for each survivor of confirmation AND the null: tune core with a local budget B, tune core + survivor with the SAME budget B, tuning on discovery folds only, then compare on an untouched confirmation fold",
-  "_why_legitimate_here_and_not_earlier": "Tuning on the superset co-adapts the parameters to features the baseline lacks and inflates every gain, which is why screening freezes core. Rung 6 relaxes that deliberately and only after the screening verdict exists, so the relaxation cannot manufacture a survivor — it can only measure how much more a confirmed one is worth.",
-  "_must_not": "overturn a rung-5 rejection; if it could, the screening was pointless",
-  "open_question": "whether the hyper-parameter search reintroduces winner's curse and therefore needs its own null, and whether a confirmation fold reused from rungs 4-5 is still untouched",
-  "phase": "MAXIMUM OPTIMIZATION, after the FAST SCREENING phase closes"
- },
- "rung_7_interactions": {
-  "status": "SPECIFIED, NOT EXECUTED",
-  "question": "A feature can be weak alone and valuable in combination — with a regime, a direction, or another feature.",
-  "scope": "survivors only — O(S^2), not O(N^2). With the handful that survive Rung 5, the pair space is single digits, versus 990 for all 45 candidates.",
-  "reuse": "the subset evaluator (feature_search.eval_subset) and family machinery (golden.*) unchanged; the interaction gate is the confirmation/null discipline of Rungs 4-5 applied to pairs",
-  "own_gate": "a pair must beat both its own best single member AND its own permutation null, or it is not an interaction — only a coincidence of two singles",
-  "_precondition": "at least two survivors to combine; on this panel Rung 6 retained 4, so the pair space exists but is tiny",
-  "phase": "MAXIMUM EXTRACTION, after Rung 6"
+  "sections": [
+   "max_null",
+   "rotation_level_null"
+  ],
+  "_rule": "edit HERE, then run contract_loader.py --regenerate"
  },
  "max_null": {
   "status": "EXECUTED",
@@ -268,44 +148,5 @@
    "measurement of how many conclusions change when the whole rule is aggregated instead of tested rotation by rotation"
   ],
   "_must_not": "be used as the final max-null verdict"
- },
- "runtime": {
-  "seed": 42,
-  "thread_pools": {
-   "OMP_NUM_THREADS": 1,
-   "OPENBLAS_NUM_THREADS": 1,
-   "MKL_NUM_THREADS": 1,
-   "NUMEXPR_NUM_THREADS": 1,
-   "XGBOOST_N_JOBS": 1
-  },
-  "workers": 4,
-  "scratch": "scratch/<run_id>/<ticker>/<pid>/",
-  "_measured": "Capping the pools: 12.33 s -> 8.15 s at three workers (1.51x). Worker benchmark over eight tables: 63.90 s / 33.71 / 24.62 / 19.72 wall at jobs 1..4, core-seconds 63.88 / 65.73 / 65.96 / 67.88 — wall falls monotonically while core-seconds rise 6%, so four workers are Pareto-optimal.",
-  "_reproducibility": "Capping does not touch the arithmetic: stage 3 re-run on TDG reproduced [-0.09471459, -0.11062278, +0.04853174, +0.24495527] exactly."
- },
- "cost_model_core_seconds_per_ticker": {
-  "viability_register": 90,
-  "feature_utility_register": 400,
-  "outer_evaluation": 19,
-  "cross_fitting_both_arms": 590,
-  "_note": "Measured before the runtime fix, at three workers with uncapped pools. Re-measure under the new configuration before budgeting a new panel."
- },
- "run_manifest_required_fields": {
-  "execution_head_sha": "git HEAD at the moment the run started",
-  "contract_sha256": "sha256 of this file as read by the run",
-  "code_dirty": "whether the working tree carried uncommitted changes",
-  "environment": "python, platform, cpu count, thread pool settings and what the pools actually reported",
-  "workers": "process count actually used",
-  "wall_seconds": null,
-  "core_seconds": null,
-  "permutations_executed": "per candidate, so an early stop is visible",
-  "verdicts": null,
-  "artifact_sha256": "per output file"
- },
- "certification": {
-  "status": "not started",
-  "requirement": "freeze this contract and the code, select a fresh panel by a declared rule, run the whole ladder without touching thresholds, null, HPO or selection logic, and report accuracy, cost and the number of empty subsets",
-  "grants_name": "Golden Calibration v1"
- },
- "_generated": "assembled from config/contract/*.json — DO NOT EDIT; edit the splits"
+ }
 }
