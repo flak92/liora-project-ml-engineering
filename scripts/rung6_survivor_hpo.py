@@ -205,7 +205,13 @@ def evaluate_survivor(job):
     plus = FS._names(ticker, [rep])
     y = dfb["Y_outcome"].to_numpy(int)
     w = dfb["label_uniqueness_weight"].to_numpy(float)
-    H = MV.hessian_total(y, w, np.arange(len(dfb)))
+    # The hessian MUST be measured over the inner-train rows only, exactly as stage 2 did
+    # (feature_utility.register_fold), not over the whole frame. The space is hessian-relative, so a
+    # different H rescales every gamma and would put Rung 6's tuning in a different parameter regime
+    # than the one the frozen rungs calibrated — a larger H (all rows) inflates absolute gamma and
+    # forbids nearly every split, which is why an earlier version found no viable draw at all.
+    inner_rows = [j for j, x in enumerate(t0s) if x <= fold["inner_train_end_idx"]]
+    H = MV.hessian_total(y, w, np.asarray(inner_rows))
 
     real = _tuned_delta(dfx, dfb, tev, disc, conf, core, plus, H, budget, SEED)
     if real is None:
