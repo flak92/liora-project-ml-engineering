@@ -29,6 +29,7 @@ nonetheless passed every gate is still selected — J cannot overturn a gate, by
 """
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -41,7 +42,7 @@ import runtime_init  # noqa: E402,F401
 runtime_init.apply()
 from artifact_io import read_json, write_json_atomic                       # noqa: E402
 
-DATA = XGB / "data"
+DATA = Path(os.environ.get("LIORA_RESEARCH_DATA_DIR") or str(XGB / "data"))  # run-scoped (default: canonical)
 CROSSFIT = DATA / "crossfit_selection.json"
 NULLS = {"a1": DATA / "procedure_null_a1.json",
          "a1_smoke": DATA / "procedure_null_a1_smoke.json",

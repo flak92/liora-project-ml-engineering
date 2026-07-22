@@ -1,0 +1,68 @@
+{
+ "_meta": {
+  "variable_class": "execution_governing",
+  "rung": "iteration-loop (ponad Calibration DAG)",
+  "affects": [
+   "kadencja pętli iteracji, drabina wersji kontraktu, kryterium zbieżności, budżet, naprawy techniczne"
+  ],
+  "invalidates": [],
+  "sections": ["autonomy", "ladder", "convergence", "budget", "repair", "execution", "resources"],
+  "_rule": "Policy WYKONAWCZA — celowo POZA contract_hash. NIE rejestrować w scripts/contract_loader.py::assemble(): nie wolno jej mieszać do hasha kontraktu naukowego. Nic tutaj nie zmienia werdyktu naukowego; steruje wyłącznie tym, JAK pętla liczy, nie CZY cecha jest prawdziwa.",
+  "_status": "domyślna drabina 2-wersjowa (baza + jedna alternatywna hipoteza operating-point) jako demonstrowalny default; user rozszerza listę `ladder`."
+ },
+
+ "autonomy": "ladder_walk",
+ "_autonomy_note": "ladder_walk = pętla przechodzi SAMA po `ladder`. Każdy patch przechodzi przez strażnika engine/contract_patch.py, który ODRZUCA dotknięcie zamrożonego standardu dowodu. Ustaw 'single_contract' by zatrzymać się po epoce bazowej i tylko wypisać propozycje.",
+
+ "ladder": [
+  {
+   "version_id": "operating_point_coarser",
+   "patch": { "operating_point": { "grid": [0.80, 0.90, 0.95] } },
+   "admissible_scope": ["operating_point"],
+   "rationale": "Alternatywna hipoteza o progu decyzyjnym: rzadsza, trzypunktowa siatka kwantyli zamiast sześciopunktowej. Standard dowodu (acceptance, max_null, cross_fitting, granica OOS, viability) NIEZMIENIONY — zmienia się tylko przestrzeń rozważanych operating-pointów; zamrożony null poprawnie kontroluje multiplicity nad nową siatką."
+  }
+ ],
+ "_ladder_extension_examples": {
+  "_note": "przykłady dopuszczalnych patchy do rozszerzenia drabiny — każdy dotyka WYŁĄCZNIE przestrzeni hipotez; wklej do `ladder` z własnym rationale.",
+  "model_space_more_trials": { "model_space": { "hpo_trials": 60 } },
+  "arms_variant": { "arms": {} },
+  "rung6_variant": { "rung_6_survivor_hpo": {} }
+ },
+ "_ladder_forbidden_examples": {
+  "_note": "te patch'e ZOSTANĄ ODRZUCONE przez strażnika (naruszają standard dowodu) — pokazane, by było jasne czego drabina NIE może zrobić:",
+  "loosen_acceptance": { "acceptance": { "min_win_rate": 0.0 } },
+  "weaken_null": { "max_null": { "B": 1 } },
+  "loosen_viability": { "viability": { "min_split_nodes": 1 } },
+  "move_oos_boundary": { "data_boundary": { "oos_start": "9999-01-01" } }
+ },
+
+ "convergence": {
+  "metric": "net_new_confirmed_features",
+  "patience": 1,
+  "_definition": "Cecha potwierdzona = null-validated stabilny survivor (A1∩A2∩B), para (asset, unit). Zbieżność = po co najmniej jednej wersji-wariancie kolejne `patience` epok nie dodają ŻADNEJ nowej pary do skumulowanego zbioru → 'brak widocznych popraw'. Rung 6 dostraja survivorów, ale nie dodaje nowych cech, więc metryka jest monotoniczna."
+ },
+
+ "budget": {
+  "core_hours_cap": null,
+  "wall_hours_per_epoch": 8,
+  "_note": "core_hours_cap=null → brak twardego limitu rdzeniogodzin (tylko deadline ścienny per epoka egzekwowany przez ops/guard.sh). Ustaw liczbę, by pętla zatrzymała się jako HALTED_BUDGET po przekroczeniu zmierzonych rdzeniosekund (suma completed z exec_ledger)."
+ },
+
+ "repair": {
+  "max_retries": 2,
+  "integrity_action": "quarantine",
+  "_note": "Repair Loop (engine/repair.py): transient (OOM/timeout) → retry do max_retries → potem FAILED_TECHNICAL; exit 95 (niereprodukowalny artefakt) → kwarantanna bez retry; exit 7/92 (kontrakt/schemat) → FAILED_TECHNICAL. Nic naukowego."
+ },
+
+ "execution": {
+  "workers": 4,
+  "max_cycles": 80,
+  "_note": "workers = pula workerów dla backendu external (ops/engine.sh per epoka). max_cycles = zabezpieczenie przed spinem w backendzie inproc (smoke/selftest)."
+ },
+
+ "resources": {
+  "min_avail_mb": 700,
+  "min_workers": 2,
+  "_note": "Przekazywane do ops/guard.sh (świadomy swapu): przy niskim MemAvailable+SwapFree guard zmniejsza liczbę workerów do min_workers, nie dotykając niczego naukowego."
+ }
+}

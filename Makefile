@@ -1,6 +1,8 @@
 .PHONY: setup on off verify clean help \
         methodology-report engine-plan engine-enqueue engine-start engine-smoke \
         engine-status engine-attach engine-stop engine-report engine-selftest \
+        iteration-start iteration-status iteration-plan iteration-report iteration-stop \
+        iteration-smoke iteration-selftest \
         loop-start loop-status loop-attach loop-stop loop-kill loop-logs loop-selftest
 
 PY := .venv/bin/python3
@@ -156,6 +158,41 @@ engine-report:                      ## rebuild the run report from a live/finish
 engine-selftest:                    ## prove queue claim atomicity, contract enforcement, resume, OOS
 	@$(PY) engine/selftest.py
 
+# --- Iterative Calibration Loop (ladder of frozen contract versions) ---------------------------
+# The outer loop: walk a human-pre-authorized ladder of frozen contract versions, drive each to a
+# fixpoint by reusing the engine per epoch, stop when a new hypothesis adds no confirmed feature.
+# The proof standard is frozen across the whole ladder (engine/contract_patch.py enforces it); only
+# the hypothesis space varies. Detached like the engine; stop is cooperative, never pkill.
+iteration-start:                    ## walk the pre-authorized ladder, detached in tmux (ASSETS, WORKERS)
+	@ASSETS="$(ASSETS)" WORKERS=$(WORKERS) ALLOW_DIRTY=$${ALLOW_DIRTY:-0} bash ops/iteration_loop.sh
+
+iteration-status:                   ## ladder progress (epochs, convergence, budget) + tmux liveness
+	@d=$$(cat ops/.iteration.current 2>/dev/null); [ -n "$$d" ] || { echo "brak drabiny; make iteration-start"; exit 1; }; \
+	tmux has-session -t iterative-calibration 2>/dev/null && echo "sesja iterative-calibration: ŻYWA" || echo "sesja iterative-calibration: brak"; \
+	$(PY) engine/iteration_planner.py --ladder-dir runs/$$d --status
+
+iteration-plan:                     ## print the ladder (guard-checked), compute nothing
+	@$(PY) engine/iteration_planner.py --ladder-dir /tmp/iteration-plan --plan-only
+
+iteration-report:                   ## (re)generate iteration_summary.md from the ladder's artifacts
+	@d=$$(cat ops/.iteration.current 2>/dev/null); $(PY) engine/iteration_report.py --ladder-dir runs/$$d
+
+iteration-stop:                     ## cooperative halt — finishes the current epoch, stops the ladder
+	@d=$$(cat ops/.iteration.current 2>/dev/null); \
+	$(PY) -c "import json,os;p='runs/'+'$$d'+'/control.json';c=json.load(open(p));c['halt']=True;open(p+'.t','w').write(json.dumps(c));os.replace(p+'.t',p)" && echo "halt drabiny ustawiony (runs/$$d)"; \
+	e=$$(cat ops/.engine.current 2>/dev/null); \
+	if [ -n "$$e" ] && [ -f runs/$$e/control.json ]; then \
+	  $(PY) -c "import json,os;p='runs/'+'$$e'+'/control.json';c=json.load(open(p));c['halt']=True;open(p+'.t','w').write(json.dumps(c));os.replace(p+'.t',p)" && echo "halt bieżącej epoki ustawiony (runs/$$e)"; \
+	fi
+
+iteration-smoke:                    ## 2-version ladder on three assets, inproc (deterministic validation)
+	@id=icl_smoke_$$(git rev-parse --short HEAD); \
+	$(PY) engine/iteration_planner.py --ladder-dir runs/$$id --assets AZO ADBE GOOG --mode inproc --allow-dirty && \
+	$(PY) engine/iteration_report.py --ladder-dir runs/$$id
+
+iteration-selftest:                 ## engine guarantees + ladder guard, convergence, repair, budget
+	@$(PY) engine/iteration_selftest.py
+
 help:
 	@echo "make setup        Install presentation dependencies"
 	@echo "make on           Run the Streamlit presentation on port $(PORT)"
@@ -173,5 +210,13 @@ help:
 	@echo "  make loop-selftest Prove the lock, resume, atomicity and watchdog actually work"
 	@echo ""
 	@echo "  make lint-contract Regenerate the monolith from config/contract/*, then check consistency"
+	@echo ""
+	@echo "Iterative Calibration Loop (walks a pre-authorized ladder of frozen contract versions):"
+	@echo "  make iteration-start    Detached ladder walk in tmux 'iterative-calibration' (ASSETS, WORKERS)"
+	@echo "  make iteration-status   Epochs, convergence, budget, tmux liveness"
+	@echo "  make iteration-plan     Print the guard-checked ladder; compute nothing"
+	@echo "  make iteration-report   (Re)generate iteration_summary.md — methodology + corrections"
+	@echo "  make iteration-stop     Cooperative halt — finishes the current epoch, stops the ladder"
+	@echo "  make iteration-selftest Prove the safety kernel, convergence, repair and budget"
 	@echo ""
 	@echo "Another port: make on PORT=8600  ·  make off PORT=8600"
