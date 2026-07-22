@@ -446,7 +446,7 @@ def run_ticker(job):
         state = {a: {"exceed": 0, "null": [], "stopped_at": None} for a in arms}
         executed = 0
         prov_last = {}
-        rot_deltas, hashes = [], []
+        rot_deltas, hashes, disp_fracs = [], [], []
 
         # Replay whatever the ledger already holds, so a resume neither repeats work nor loses
         # the exceedance counts that drive futility stopping.
@@ -463,10 +463,19 @@ def run_ticker(job):
                 led.append(stage, unit, "completed", payload={
                     "T_flat": cached["T_flat"], "T_hierarchical": cached["T_hierarchical"],
                     "rotation_deltas": cached["rotation_deltas"],
-                    "index_hash": cached["index_hash"], "n_blocks": cached["n_blocks"]})
+                    "index_hash": cached["index_hash"], "n_blocks": cached["n_blocks"],
+                    "displaced": cached.get("displaced")})
             executed = pid + 1
             prov_last = cached
             rot_deltas.append(cached.get("rotation_deltas"))
+            # The displacement fraction is summarised per fold, not sampled from the last
+            # permutation: draw_permutation guarantees each draw moves >= MIN_DISPLACED of the
+            # blocks or raises, so a completed unit already implies the invariant. Persisting it
+            # per unit lets the gate re-check the fold's WORST permutation even after a resume
+            # rebuilds the fold from cache. Legacy units written before this field contribute None.
+            d, nb = cached.get("displaced"), cached.get("n_blocks")
+            if d is not None and nb:
+                disp_fracs.append(d / nb)
             h = cached.get("index_hash")
             if h in hashes:
                 raise RuntimeError(
@@ -482,9 +491,14 @@ def run_ticker(job):
                 if s["exceed"] >= FUTILITY_B:
                     s["stopped_at"] = executed
 
+        prov = {k: v for k, v in prov_last.items()
+                if k not in ("T_flat", "T_hierarchical", "rotation_deltas")}
+        # Worst displacement over the whole fold — reliably persisted, so the gate survives a
+        # resume. None only when every unit predates the field (a pure-cache legacy replay), which
+        # the gate treats as "guaranteed at generation, not re-checkable" rather than a violation.
+        prov["min_displaced_fraction"] = round(min(disp_fracs), 4) if disp_fracs else None
         row = {"ticker": ticker, "outer_fold": ofold, "permutations_executed": executed,
-               "provenance": {k: v for k, v in prov_last.items()
-                              if k not in ("T_flat", "T_hierarchical", "rotation_deltas")},
+               "provenance": prov,
                "index_hashes": hashes,
                "rotation_level_diagnostic": {
                    "_role": ("paired by-product: the rotation-level null from the SAME permutations, "

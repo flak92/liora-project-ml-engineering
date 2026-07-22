@@ -290,11 +290,12 @@ def test_gates_are_fail_closed():
     bad = d / "x.json"
     bad.write_text(json.dumps({"contract": {"null": "a1"}, "tables": {"T": {"folds": [{
         "ticker": "T", "outer_fold": 0, "permutations_executed": 50,
-        "index_hashes": ["a", "a"], "provenance": {"n_blocks": 100, "displaced": 90},
+        "index_hashes": ["a", "a"],
+        "provenance": {"n_blocks": 100, "min_displaced_fraction": 0.30},
         "arms": {"flat": {"verdict": "passed", "exceedances": 9,
                           "permutations_executed": 50}}}]}}}))
     ok, why = gate_null(bad, d)
-    check("powtórzona permutacja i b=9 z werdyktem passed są wyłapane", not ok, why[:64])
+    check("dup permutacji, przemieszczenie 0.30<0.5 i b=9/passed są wyłapane", not ok, why[:90])
 
     # Regression: a legitimate futility stop (b=5) reports lb = round(6/51, 6) = 0.117647, which is
     # ~5.9e-8 below the unrounded 6/51. The gate must NOT read that rounding gap as an anomaly — this

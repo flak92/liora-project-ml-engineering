@@ -128,8 +128,13 @@ def gate_null(out, run_dir):
         if len(h) != len(set(h)):
             problems.append(f"{tag}: powtórzone permutacje")
         prov = f.get("provenance", {})
-        if prov.get("displaced", 0) < 0.5 * prov.get("n_blocks", 1):
-            problems.append(f"{tag}: permutacja przemieszcza mniej niż połowę bloków")
+        # The fold's WORST displacement fraction, persisted per unit so it survives a resume. When
+        # absent (a legacy pure-cache replay predating the field) it is not a violation: a completed
+        # unit could only exist if draw_permutation met the displacement floor at generation, or it
+        # would have raised. We check it when present and trust generation when not.
+        mdf = prov.get("min_displaced_fraction")
+        if mdf is not None and mdf < 0.5:
+            problems.append(f"{tag}: najgorsza permutacja przemieszcza {mdf:.2f} < 0.5 bloków")
         if prov.get("n_blocks", 0) < 8:
             problems.append(f"{tag}: {prov.get('n_blocks')} bloków — przestrzeń permutacji za mała")
         for a, v in f["arms"].items():
