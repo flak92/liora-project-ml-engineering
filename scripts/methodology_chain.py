@@ -140,7 +140,12 @@ def gate_null(out, run_dir):
             if v["verdict"] == "passed" and v["exceedances"] > 4:
                 problems.append(f"{tag}/{a}: passed przy b={v['exceedances']}")
             lb = v.get("final_p_lower_bound")
-            if lb is not None and lb < 6 / 51 - 1e-9:
+            # The reported bound is round((1+b)/51, 6); at the futility stop b = 5 exactly, so lb is
+            # 6/51 rounded to six places = 0.117647, which sits ~5.9e-8 BELOW the unrounded 6/51.
+            # The 1e-9 epsilon could not absorb that rounding gap, so a correct futility bound tripped
+            # a guard meant only for a genuinely-too-low bound (a coding error producing, say, 0.10).
+            # A 1e-6 tolerance clears the rounding by two orders of magnitude and still catches that.
+            if lb is not None and lb < 6 / 51 - 1e-6:
                 problems.append(f"{tag}/{a}: dolna granica p {lb} poniżej 6/51")
 
     man = run_dir / f"null_{doc['contract']['null']}" / "run_manifest.json"

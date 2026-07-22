@@ -60,6 +60,18 @@ loop-start:
 	@echo "pętla wystartowana w tmux '$(SESSION)' (JOBS=$(JOBS) HOURS=$(HOURS))"
 	@echo "stan: make loop-status   ·   podgląd: make loop-attach   ·   stop: make loop-stop"
 
+# Resume the most recent run in place: reuses its stages.json + ledgers, so finished units are not
+# recomputed. A failed or interrupted stage is re-entered; a fresh deadline is stamped.
+loop-resume:
+	@d=$$(ls -1dt xgb/data/runs/golden_* 2>/dev/null | head -1); \
+	if [ -z "$$d" ]; then echo "brak przebiegu do wznowienia"; exit 1; fi; \
+	id=$$(basename $$d); \
+	tmux has-session -t $(SESSION) 2>/dev/null && \
+		{ echo "sesja '$(SESSION)' już istnieje — make loop-attach"; exit 1; } || true; \
+	tmux new-session -d -s $(SESSION) -c "$(CURDIR)" \
+		"$(OPS)/loop.sh --resume-run $$id --jobs $(JOBS) --hours $(HOURS)"; \
+	echo "wznowiono $$id w tmux '$(SESSION)' (JOBS=$(JOBS) HOURS=$(HOURS)); stan: make loop-status"
+
 loop-status:
 	@SESSION=$(SESSION) $(OPS)/status.sh
 

@@ -295,6 +295,20 @@ def test_gates_are_fail_closed():
                           "permutations_executed": 50}}}]}}}))
     ok, why = gate_null(bad, d)
     check("powtórzona permutacja i b=9 z werdyktem passed są wyłapane", not ok, why[:64])
+
+    # Regression: a legitimate futility stop (b=5) reports lb = round(6/51, 6) = 0.117647, which is
+    # ~5.9e-8 below the unrounded 6/51. The gate must NOT read that rounding gap as an anomaly — this
+    # is the bug that halted the real S1 smoke fail-closed on a correct result.
+    fut = d / "fut.json"
+    fut.write_text(json.dumps({"contract": {"null": "a1"}, "tables": {"T": {"folds": [{
+        "ticker": "T", "outer_fold": 0, "permutations_executed": 38,
+        "index_hashes": [f"h{i}" for i in range(38)],
+        "provenance": {"n_blocks": 300, "displaced": 300},
+        "arms": {"flat": {"verdict": "rejected_early", "exceedances": 5,
+                          "permutations_executed": 38,
+                          "final_p_lower_bound": round(6 / 51, 6)}}}]}}}))
+    ok, why = gate_null(fut, d)
+    check("poprawny futility stop (b=5, lb=6/51) PRZECHODZI bramkę", ok, why[:64])
     shutil.rmtree(d, ignore_errors=True)
 
 

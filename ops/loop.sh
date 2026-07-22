@@ -65,7 +65,12 @@ DEADLINE=$(( $(date -u +%s) + HOURS * 3600 ))
 
 # The control channel. Cooperative halt is read between units of work, so a stop always lands on a
 # consistent ledger; the deadline is the watchdog's backstop for when cooperation fails.
-[[ -f "$RUNDIR/control.json" ]] || cat > "$RUNDIR/control.json" <<JSON
+#
+# Always (re)written, even on resume: resumability lives in stages.json + the per-stage ledgers, not
+# here. A resumed run must get a FRESH deadline and worker count — a preserved control.json would
+# carry last run's stale deadline (guard hardkills at once) and any workers value the guard had
+# degraded to under memory pressure.
+cat > "$RUNDIR/control.json" <<JSON
 {"halt": false, "finalize": false, "workers": $JOBS,
  "deadline_utc": "$(date -u -d "@$DEADLINE" +%Y-%m-%dT%H:%M:%SZ)",
  "deadline_epoch": $DEADLINE, "deadline_hardkill": false}
