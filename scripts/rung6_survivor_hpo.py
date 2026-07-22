@@ -150,21 +150,29 @@ def _tune(dfx, dfb, tev, disc, names, H, budget, seed):
     return best
 
 
-def _tuned_delta(dfx, dfb, tev, disc, conf, core, plus, H, budget, seed):
-    """(core+feature) minus core, each tuned at budget B on discovery, both confirmed on the
-    untouched fold at their own tuned operating point."""
+def _tune_and_confirm(dfx, dfb, tev, disc, conf, names, H, budget, seed):
+    """Tune one feature set at budget B on discovery, confirm on the untouched fold at its own q."""
     import crossfit_selection as CF
-
-    bc = _tune(dfx, dfb, tev, disc, core, H, budget, seed)
-    bp = _tune(dfx, dfb, tev, disc, plus, H, budget, seed)
-    if bc is None or bp is None:
+    b = _tune(dfx, dfb, tev, disc, names, H, budget, seed)
+    if b is None:
         return None
-    cc = CF.confirm(dfx, dfb, tev, conf, bc["params"], core, seed, bc["q"])
-    cp = CF.confirm(dfx, dfb, tev, conf, bp["params"], plus, seed, bp["q"])
+    c = CF.confirm(dfx, dfb, tev, conf, b["params"], names, seed, b["q"])
+    if c is None:
+        return None
+    return {"growth": c["growth"], "q": b["q"]}
+
+
+def _tuned_delta(dfx, dfb, tev, disc, conf, core, plus, H, budget, seed, core_side=None):
+    """(core+feature) minus core. The core side is invariant across the null — permuting the
+    survivor's column leaves every core column untouched — so it is computed once by the caller and
+    passed in; only the plus side is recomputed per permutation. This halves Rung 6's cost."""
+    cc = core_side if core_side is not None else \
+        _tune_and_confirm(dfx, dfb, tev, disc, conf, core, H, budget, seed)
+    cp = _tune_and_confirm(dfx, dfb, tev, disc, conf, plus, H, budget, seed)
     if cc is None or cp is None:
         return None
     return {"delta": cp["growth"] - cc["growth"], "core_growth": cc["growth"],
-            "plus_growth": cp["growth"], "core_q": bc["q"], "plus_q": bp["q"]}
+            "plus_growth": cp["growth"], "core_q": cc["q"], "plus_q": cp["q"]}
 
 
 def evaluate_survivor(job):
@@ -213,7 +221,10 @@ def evaluate_survivor(job):
     inner_rows = [j for j, x in enumerate(t0s) if x <= fold["inner_train_end_idx"]]
     H = MV.hessian_total(y, w, np.asarray(inner_rows))
 
-    real = _tuned_delta(dfx, dfb, tev, disc, conf, core, plus, H, budget, SEED)
+    # Tune+confirm core ONCE. Permuting the survivor's column never touches a core column, so the
+    # core side is identical on the real data and under every null permutation. Reused below.
+    core_side = _tune_and_confirm(dfx, dfb, tev, disc, conf, core, H, budget, SEED)
+    real = _tuned_delta(dfx, dfb, tev, disc, conf, core, plus, H, budget, SEED, core_side=core_side)
     if real is None:
         return {**s, "representative": rep, "status": "not_evaluable",
                 "seconds": round(time.time() - t0, 1)}
@@ -237,7 +248,7 @@ def evaluate_survivor(job):
         permuted = PN.apply_block_order(base_col, blocks, order)
         dfp = dfb.copy(deep=False)
         dfp[col] = permuted[:, 0]
-        nd = _tuned_delta(dfx, dfp, tev, disc, conf, core, plus, H, budget, SEED)
+        nd = _tuned_delta(dfx, dfp, tev, disc, conf, core, plus, H, budget, SEED, core_side=core_side)
         if nd is None:
             continue
         null_deltas.append(round(nd["delta"], 8))

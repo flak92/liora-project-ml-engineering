@@ -26,3 +26,6 @@ __pycache__/
 /experiments/
 /tools/
 /.publish_stage/
+
+# runtime lock for the unattended chain
+ops/.golden.lock
