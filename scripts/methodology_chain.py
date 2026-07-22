@@ -101,6 +101,27 @@ def stages(run_dir, jobs):
          "cmd": [PY, str(ROOT / "scripts" / "rung5_summary.py"),
                  "--run-dir", str(run_dir), "--out", str(DATA / "rung5_summary.json")],
          "out": DATA / "rung5_summary.json", "gate": "gate_summary"},
+
+        {"name": "S6_controls",
+         "why": "the ladder must reject noise and recover a planted signal — both are required",
+         "needs": [A1],
+         "cmd": [PY, str(ROOT / "scripts" / "null_controls.py"), "--negative",
+                 "--out", str(DATA / "null_controls.json")],
+         "out": DATA / "null_controls.json", "gate": "gate_summary"},
+
+        {"name": "S7_compile",
+         "why": "one resolved verdict per ticker — the Feature Discovery Compiler output",
+         "needs": [A1, DATA / "crossfit_selection.json"],
+         "cmd": [PY, str(ROOT / "scripts" / "compile_ticker.py"),
+                 "--outdir", str(DATA / "compiled")],
+         "out": DATA / "compiled", "gate": "gate_exists"},
+
+        {"name": "S8_cross_asset",
+         "why": "Rung 8 — which OHLCV families travel across the panel",
+         "needs": [A1],
+         "cmd": [PY, str(ROOT / "scripts" / "cross_asset_matrix.py"),
+                 "--out", str(DATA / "cross_asset_matrix.json")],
+         "out": DATA / "cross_asset_matrix.json", "gate": "gate_exists"},
     ]
 
 
@@ -178,8 +199,17 @@ def gate_summary(out, run_dir):
     return (doc is not None), ("podsumowanie zapisane" if doc else "brak podsumowania")
 
 
+def gate_exists(out, run_dir):
+    """A reporting stage need only have produced its artifact (a file, or a non-empty directory)."""
+    p = Path(out)
+    if p.is_dir():
+        ok = any(p.iterdir())
+        return ok, ("katalog zapisany" if ok else "katalog pusty")
+    return p.exists(), ("artefakt zapisany" if p.exists() else "brak artefaktu")
+
+
 GATES = {"gate_null": gate_null, "gate_null_optional": gate_null_optional,
-         "gate_summary": gate_summary}
+         "gate_summary": gate_summary, "gate_exists": gate_exists}
 
 
 # ---------------------------------------------------------------------------------------------

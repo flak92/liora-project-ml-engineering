@@ -106,13 +106,21 @@ while true; do
     else
       HB_AGE=$(( STALE + 1 ))
     fi
+    # Done = a stage failed (chain exited fail-closed) OR the supervisor already finalized. A
+    # completed-count threshold would be wrong: it changes with the number of stages and could read
+    # "done" mid-run after the null stages while the reporting stages still had work. A chain that
+    # merely crashed mid-stage leaves neither marker, so it is correctly NOT done and gets restarted.
     DONE=$("$PY" -c "
 import json,sys
 try: s=json.load(open(sys.argv[1]))
 except Exception: print(0); raise SystemExit
-print(1 if any(v.get('status')=='failed' for v in s.values()) or
-      len([v for v in s.values() if v.get('status')=='completed'])>=5 else 0)
+print(1 if any(v.get('status')=='failed' for v in s.values()) else 0)
 " "$RUN_DIR/stages.json" 2>/dev/null || echo 0)
+    if [[ -f "$RUN_DIR/supervisor.json" ]]; then
+      FIN=$("$PY" -c "import json,sys;print(0 if json.load(open(sys.argv[1])).get('status')=='RUNNING' else 1)" \
+            "$RUN_DIR/supervisor.json" 2>/dev/null || echo 0)
+      [[ "$FIN" == "1" ]] && DONE=1
+    fi
     if (( DONE == 1 )); then
       log "łańcuch zakończony (stages.json) — kończę"
       exit 0
