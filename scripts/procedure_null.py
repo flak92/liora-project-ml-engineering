@@ -459,12 +459,14 @@ def run_ticker(job):
                 if all(s["stopped_at"] is not None for s in state.values()):
                     break
                 led.append(stage, unit, "running")
+                _u0 = time.time()
                 cached = one_permutation(ctx, ofold, pid)
                 led.append(stage, unit, "completed", payload={
                     "T_flat": cached["T_flat"], "T_hierarchical": cached["T_hierarchical"],
                     "rotation_deltas": cached["rotation_deltas"],
                     "index_hash": cached["index_hash"], "n_blocks": cached["n_blocks"],
-                    "displaced": cached.get("displaced")})
+                    "displaced": cached.get("displaced"),
+                    "seconds": round(time.time() - _u0, 2)})    # per-unit cost for cost_report.py
             executed = pid + 1
             prov_last = cached
             rot_deltas.append(cached.get("rotation_deltas"))
