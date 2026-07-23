@@ -66,10 +66,12 @@ _CANON = json.loads((ROOT / "config" / "feature_discovery_contract.json").read_t
 
 
 def _own_null_alpha():
-    """Rung 6's own-null significance level. Read from the run's rung_6_survivor_hpo.alpha (ADMISSIBLE,
-    via RESEARCH_CONTRACT) else the canonical rung_6 alpha, else the frozen max_null.alpha (0.10). One
-    lab significance; the pass threshold is DERIVED from it and the permutation count, never a constant
-    calibrated to a different M (the b<=4 constant was for M=50 → it admitted p=5/21=0.238 at M=20)."""
+    """Rung 6's own-null significance level. Read from rung_6_survivor_hpo.alpha — a FROZEN field:
+    contract_patch.guard rejects any ladder patch that sets it, so it always resolves to the canonical
+    value (still read via RESEARCH_CONTRACT so a hand-authored contract is honoured), else the frozen
+    max_null.alpha (0.10). One lab significance; the pass threshold is DERIVED from it and the
+    permutation count, never a constant calibrated to a different M (b<=4 for M=50; it admitted
+    p=5/21=0.238 at M=20)."""
     c = RC.contract() or _CANON
     r6 = c.get("rung_6_survivor_hpo") or {}
     if r6.get("alpha") is not None:
@@ -78,7 +80,8 @@ def _own_null_alpha():
 
 
 def _own_null_permutations():
-    """Rung 6's own-null size M, from rung_6_survivor_hpo.own_null.permutations (ADMISSIBLE), default 50.
+    """Rung 6's own-null size M, from rung_6_survivor_hpo.own_null.permutations — a FROZEN field
+    (contract_patch.guard rejects any ladder patch to it), default 50.
     Rung 6 is the headline gate, so its null must be no coarser than the max-null above it (M=50): at
     M=20 the retain/demote boundary (b<=1 vs b>=2) sits within one MC standard deviation, so a marginal
     unit's verdict is a function of the seed, not the data. M=50 makes it as sharp as max_null; alpha_eff

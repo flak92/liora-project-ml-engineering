@@ -68,6 +68,24 @@ def test_patch_guard():
     check("patch operating_point zmienia hash i jest self-consistent",
           hv != h0 and CP._hash(_pv) == hv)
 
+    # FIELD-LEVEL guard: a FROZEN leaf nested inside an ADMISSIBLE section must be rejected, while an
+    # admissible leaf and an empty section-variant placeholder pass. (regression: the hole where
+    # rung_6_survivor_hpo being admissible let a patch set own_null.permutations=5, loosening M=50.)
+    def _guard_is(name, patch, want_pass):
+        try:
+            CP.guard(patch); got = True
+        except CP.PatchRejected:
+            got = False
+        check(name, got == want_pass, "PRZESZŁO" if got else "ODRZUCONE")
+    _guard_is("pole: rung_6.alpha ODRZUCONE (była dziura)", {"rung_6_survivor_hpo": {"alpha": 0.5}}, False)
+    _guard_is("pole: rung_6.own_null.permutations=5 ODRZUCONE (2 poziomy w głąb)",
+              {"rung_6_survivor_hpo": {"own_null": {"permutations": 5}}}, False)
+    _guard_is("pole: operating_point.mode ODRZUCONE (structural)", {"operating_point": {"mode": "topk"}}, False)
+    _guard_is("pole: operating_point.grid PRZECHODZI", {"operating_point": {"grid": [0.8, 0.9, 0.95]}}, True)
+    _guard_is("pole: model_space.hpo_trials=60 PRZECHODZI", {"model_space": {"hpo_trials": 60}}, True)
+    _guard_is("pole: puste rung_6 (extension placeholder) PRZECHODZI", {"rung_6_survivor_hpo": {}}, True)
+    _guard_is("pole: data_boundary top-level nadal ODRZUCONE", {"data_boundary": {"oos_start": "9999-01-01"}}, False)
+
 
 def test_convergence():
     """convergence_update + should_converge stop exactly at the first variant that adds nothing."""

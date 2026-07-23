@@ -9,6 +9,25 @@ threshold touched.
 The contract is [`config/feature_discovery_contract.json`](../config/feature_discovery_contract.json).
 This document describes it. Where the two disagree, the JSON is the contract.
 
+## What this document answers, in six questions
+
+- **A. What is the problem?** §1 — the smallest OHLCV feature set that improves a learnable model, survives
+  confirmation on data that did not choose it, beats the maximum a search produces by itself, holds across
+  three nulls, survives its own tuning null, and may honestly end empty.
+- **B. What is frozen?** §2 (four variable classes) — *Structural* / *Calibratable* (data-fitted ranges) /
+  *Searched* / *Methodology-governing* (the proof standard). Calibratable ≠ mutable within a run: a value
+  changes only in a new, hashed contract version.
+- **C. How does the DAG run?** §2 — Rung 0–9, each `EXECUTED` / `SPECIFIED · NOT EXECUTED` /
+  `CERTIFICATION · NOT STARTED`. Implementation status is not a scientific result.
+- **D. How is the search controlled?** Rungs 4–6 — discovery vs confirmation, the max-null (A1/A2/B), and
+  survivor HPO with its own null. **α = 0.10 and M = 50 are the proof standard**; futility is a cost
+  optimization, not a change to the test.
+- **E. What does the result mean?** `26 → 11 → 9 → 2 arms → 1 unique feature` (representative 112) on the
+  development panel — evidence, **not certification**. Both `ORLY/1` arms resolve to feature 112; Rung-6
+  own-null strength is `b = 0/50` (p = 0.020) and `b = 1/50` (p = 0.039).
+- **F. What remains for certification?** §8 (Rung 9) — a fresh panel, the contract and code frozen, no
+  threshold touched, plus negative and positive controls; only then `Golden Calibration v1`.
+
 ---
 
 ## 1. The problem
@@ -47,16 +66,16 @@ specified and frozen; Rung 8 aggregates what the earlier rungs wrote.
 
 | Rung | Question | Status |
 |---|---|---|
-| 0 | Is the problem frozen — data, labels, splits, the OOS boundary, the hashes? | built |
-| 1 | Can the model learn at all? | built |
-| 2 | Does the operating point transfer? | built |
-| 3 | Does a feature improve a model that can learn? | built |
-| 4 | Does the choice survive data that did not choose it? | built |
-| 5 | Is the edge bigger than the maximum a search produces by itself? | built |
-| 6 | How much more is a survivor worth under its own tuned model? | built |
-| 7 | Do survivors combine — interactions and sequences? | specified |
-| 8 | Which OHLCV families travel across assets? | built (aggregation) |
-| 9 | Does the whole method hold on a fresh panel? | specified |
+| 0 | Is the problem frozen — data, labels, splits, the OOS boundary, the hashes? | EXECUTED |
+| 1 | Can the model learn at all? | EXECUTED |
+| 2 | Does the operating point transfer? | EXECUTED (folded into 3–4) |
+| 3 | Does a feature improve a model that can learn? | EXECUTED |
+| 4 | Does the choice survive data that did not choose it? | EXECUTED |
+| 5 | Is the edge bigger than the maximum a search produces by itself? | EXECUTED |
+| 6 | How much more is a survivor worth under its own tuned model? | EXECUTED |
+| 7 | Do survivors combine — interactions and sequences? | SPECIFIED · NOT EXECUTED |
+| 8 | Which OHLCV families travel across assets? | EXECUTED (aggregation) |
+| 9 | Does the whole method hold on a fresh panel? | CERTIFICATION · NOT STARTED |
 
 **Four classes of variable.** Every configurable in the contract is tagged with the class that
 governs when it may move. *Structural* (interval, label horizon, triple-barrier, costs, embargo, the

@@ -1,7 +1,7 @@
-<title>Calibration configurables — tunable numbers of the Golden Calibration ladder</title>
+<title>Golden Calibration — methodology map &amp; calibration configurables</title>
 <style>
-  /* Single dark theme — matches the operational console (app/theme.py). Green = ADMISSIBLE
-     (tunable), amber = FROZEN (proof standard, locked); the word is always written, colour reinforces. */
+  /* Single dark theme — matches the operational console (app/theme.py). Green = ADMISSIBLE / executed,
+     amber = FROZEN / pending, steel = specified. Status is ALWAYS written as a word; colour reinforces. */
   :root{
     --ground:#0D1117; --surface:#161B22; --surface-2:#1c2230; --raise:#222b38;
     --ink:#E6EDF3; --ink-soft:#8B949E; --ink-faint:#6E7681;
@@ -9,6 +9,7 @@
     --accent:#6EA8CF;
     --frozen:#D29922; --frozen-bg:#2a2412; --frozen-line:#D29922;
     --adm:#3FB950; --adm-bg:#10331b; --adm-line:#3FB950;
+    --spec:#6EA8CF; --spec-bg:#10222e;
     --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
     --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     --maxw:1120px;
@@ -21,134 +22,319 @@
   a:hover{border-bottom-color:var(--accent)}
   code,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 
-  /* ---- header ---- */
-  header{border-bottom:1px solid var(--hairline);padding-bottom:26px;margin-bottom:30px}
+  header{border-bottom:1px solid var(--hairline);padding-bottom:24px;margin-bottom:8px}
   .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--ink-faint);margin:0 0 12px}
-  h1{font-size:clamp(26px,4.4vw,40px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;
-    font-weight:680;text-wrap:balance;max-width:20ch}
-  .lede{font-size:clamp(15px,1.7vw,17px);color:var(--ink-soft);max-width:66ch;margin:0}
+  h1{font-size:clamp(24px,4vw,38px);line-height:1.08;letter-spacing:-.02em;margin:0 0 12px;
+    font-weight:680;text-wrap:balance;max-width:24ch}
+  .lede{font-size:clamp(14.5px,1.6vw,16.5px);color:var(--ink-soft);max-width:70ch;margin:0}
   .lede b{color:var(--ink);font-weight:620}
 
-  /* ---- class legend ---- */
-  .classes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:28px 0 8px}
-  .cls{background:var(--surface);border:1px solid var(--hairline);border-radius:11px;padding:13px 15px;
-    border-left:3px solid var(--stripe,var(--hairline-strong))}
-  .cls h3{margin:0 0 3px;font-size:13.5px;letter-spacing:.01em}
-  .cls p{margin:0;font-size:12.5px;color:var(--ink-soft)}
-  .cls .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase}
-
-  /* ---- flow diagram ---- */
-  section{margin-top:46px}
+  section{margin-top:44px}
   h2{font-size:13px;font-family:var(--mono);letter-spacing:.13em;text-transform:uppercase;
     color:var(--accent);margin:0 0 4px;font-weight:600}
-  .sub{color:var(--ink-soft);font-size:13.5px;margin:0 0 18px;max-width:70ch}
-  .flowcard{background:var(--surface);border:1px solid var(--hairline);border-radius:14px;
-    padding:22px clamp(16px,3vw,26px)}
-  .chain{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px}
-  .node{flex:1 1 150px;min-width:130px;background:var(--surface-2);border:1px solid var(--hairline);
-    border-radius:10px;padding:11px 13px}
-  .node .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
-    color:var(--ink-faint);margin-bottom:3px}
-  .node .v{font-size:13.5px;font-weight:560}
-  .arrow{align-self:center;color:var(--ink-faint);font-size:18px;flex:0 0 auto}
-  .gate{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
-  .branch{border-radius:10px;padding:12px 14px;border:1px solid var(--hairline);background:var(--surface-2);
-    border-left:3px solid var(--bl,var(--hairline-strong))}
-  .branch .h{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;
-    margin-bottom:4px;color:var(--bl)}
-  .branch p{margin:0;font-size:12.5px;color:var(--ink-soft)}
-  .branch b{color:var(--ink)}
+  .sub{color:var(--ink-soft);font-size:13.5px;margin:0 0 18px;max-width:74ch}
+  .sub b{color:var(--ink)}
 
-  /* ---- tables ---- */
+  /* status word-pills (word carries; colour reinforces) */
+  .pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.05em;
+    padding:2px 8px;border-radius:999px;white-space:nowrap;font-weight:600}
+  .pill.exec{background:var(--adm-bg);color:var(--adm)}
+  .pill.spec{background:var(--spec-bg);color:var(--spec)}
+  .pill.cert{background:var(--frozen-bg);color:var(--frozen)}
+  .pill.machine{background:var(--adm-bg);color:var(--adm)}
+  .pill.human{background:var(--frozen-bg);color:var(--frozen)}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.04em;
+    padding:2px 8px;border-radius:999px;white-space:nowrap;font-weight:600}
+  .chip.adm{background:var(--adm-bg);color:var(--adm)}
+  .chip.frz{background:var(--frozen-bg);color:var(--frozen)}
+
+  /* V1 evidence hero */
+  .hero{background:var(--surface);border:1px solid var(--hairline);border-radius:16px;
+    padding:clamp(18px,3vw,28px);margin-top:26px}
+  .funnel{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+  .fstep{flex:1 1 120px;min-width:112px;background:var(--surface-2);border:1px solid var(--hairline);
+    border-radius:11px;padding:12px 13px}
+  .fstep .n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:clamp(24px,3.4vw,32px);
+    font-weight:680;line-height:1;color:var(--ink)}
+  .fstep .l{font-size:11.5px;color:var(--ink-soft);margin-top:6px}
+  .fstep.final{border-color:var(--adm-line);border-left:3px solid var(--adm-line)}
+  .fstep.final .n{color:var(--adm)}
+  .farrow{align-self:center;color:var(--ink-faint);font-size:17px}
+  .heroline{margin-top:14px;font-size:13.5px;color:var(--ink-soft);display:flex;flex-wrap:wrap;
+    gap:8px 18px;align-items:baseline}
+  .heroline b{color:var(--ink)}
+  .certbanner{margin-top:14px;background:var(--frozen-bg);border:1px solid var(--hairline);
+    border-left:3px solid var(--frozen-line);border-radius:0 10px 10px 0;padding:10px 14px;
+    font-size:12.5px;color:var(--ink-soft)}
+  .certbanner b{color:var(--frozen)}
+
+  /* generic cards / grids */
+  .card{background:var(--surface);border:1px solid var(--hairline);border-radius:13px;padding:16px 18px}
+  .cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  .col h3{margin:0 0 8px;font-size:13px;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase}
+  .col.adm{border-left:3px solid var(--adm-line)} .col.frz{border-left:3px solid var(--frozen-line)}
+  .col ul{margin:0;padding-left:16px;color:var(--ink-soft);font-size:13px}
+  .col li{margin:3px 0}
+  .col li code{color:var(--ink)}
+
+  .stack{display:flex;flex-direction:column;gap:8px}
+  .layer{background:var(--surface-2);border:1px solid var(--hairline);border-radius:10px;padding:11px 14px}
+  .layer .t{font-weight:600;font-size:13.5px}
+  .layer .d{font-size:12.5px;color:var(--ink-soft)}
+  .stackarrow{color:var(--ink-faint);text-align:center;font-size:15px;line-height:1}
+
+  /* DAG rungs */
+  .rungs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .rung{background:var(--surface);border:1px solid var(--hairline);border-radius:11px;padding:12px 13px;
+    border-left:3px solid var(--edge,var(--hairline-strong))}
+  .rung.exec{--edge:var(--adm-line)} .rung.spec{--edge:var(--spec)} .rung.cert{--edge:var(--frozen-line)}
+  .rung .hd{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:4px}
+  .rung .id{font-family:var(--mono);font-weight:680;font-size:13px}
+  .rung .q{font-size:12.5px;color:var(--ink);margin-bottom:5px}
+  .rung .m{font-size:11.5px;color:var(--ink-soft);font-family:var(--mono)}
+
+  /* terminal states */
+  .terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .term{background:var(--surface);border:1px solid var(--hairline);border-radius:11px;padding:13px 15px;
+    border-left:3px solid var(--edge,var(--hairline-strong))}
+  .term.ok{--edge:var(--adm-line)} .term.empty{--edge:var(--spec)} .term.human{--edge:var(--frozen-line)}
+  .term .s{font-family:var(--mono);font-weight:640;font-size:13px;margin-bottom:3px}
+  .term p{margin:4px 0 0;font-size:12.5px;color:var(--ink-soft)}
+
+  /* tables */
   .scroll{overflow-x:auto;border:1px solid var(--hairline);border-radius:13px;background:var(--surface)}
-  table{border-collapse:collapse;width:100%;font-size:13px;min-width:720px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
   thead th{position:sticky;top:0;background:var(--raise);text-align:left;font-weight:600;
     font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
     color:var(--ink-soft);padding:10px 13px;white-space:nowrap;border-bottom:1px solid var(--hairline-strong)}
   tbody td{padding:10px 13px;border-bottom:1px solid var(--hairline);vertical-align:top}
   tbody tr:last-child td{border-bottom:none}
   tbody tr{border-left:3px solid transparent}
-  tr.adm{border-left-color:var(--adm-line)}
-  tr.frz{border-left-color:var(--frozen-line)}
+  tr.adm{border-left-color:var(--adm-line)} tr.frz{border-left-color:var(--frozen-line)}
   td.name{font-family:var(--mono);font-weight:560;white-space:nowrap;color:var(--ink)}
   td.range{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
-  td.dim{color:var(--ink-soft)}
-  td.widen{color:var(--ink-soft);font-size:12.5px}
-  td.na{color:var(--ink-faint)}
-  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.04em;
-    padding:2px 8px;border-radius:999px;white-space:nowrap;font-weight:600}
-  .chip.adm{background:var(--adm-bg);color:var(--adm)}
-  .chip.frz{background:var(--frozen-bg);color:var(--frozen)}
+  td.dim{color:var(--ink-soft)} td.widen{color:var(--ink-soft);font-size:12.5px} td.na{color:var(--ink-faint)}
+  td.yes{color:var(--adm)} td.no{color:var(--frozen)}
   .cl{font-family:var(--mono);font-size:11px;color:var(--ink-faint);white-space:nowrap}
-  .rmul{color:var(--adm);font-weight:600}   /* ×H marker */
+  .rmul{color:var(--adm);font-weight:600}
 
-  .grp{margin:34px 0 12px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .grp{margin:32px 0 12px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
   .grp h3{margin:0;font-size:18px;letter-spacing:-.01em}
   .grp .note{color:var(--ink-soft);font-size:13px}
-
   .callout{margin-top:16px;background:var(--surface-2);border:1px solid var(--hairline);
     border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;
     font-size:13px;color:var(--ink-soft)}
   .callout b{color:var(--ink)}
 
-  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--hairline);
+  footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--hairline);
     color:var(--ink-faint);font-size:12.5px}
   footer code{color:var(--ink-soft)}
+  .seal{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px 22px;
+    margin-bottom:14px;font-family:var(--mono);font-size:11.5px}
+  .seal div span{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;font-size:9.5px;
+    display:block;margin-bottom:1px}
+  .seal div b{color:var(--ink-soft);font-weight:600;font-variant-numeric:tabular-nums}
   @media (max-width:560px){body{font-size:14px}}
 </style>
 
 <div class="wrap">
+<!-- CALIBRATION-SEAL {"contract_hash": "c45d57b3b60389ea", "contract_version": "golden-calibration-dc.1", "data_boundary": ["2023-12-29", "2024-01-02"], "funnel": [26, 11, 9, 2], "retained_b_over_M": ["0/50", "1/50"], "retained_representatives": [112], "retained_units": ["ORLY/1/flat/112", "ORLY/1/hierarchical/oscillator_rsi"], "seed": 42} CALIBRATION-SEAL -->
 <header>
-  <p class="eyebrow">Golden Calibration · methodology branch</p>
-  <h1>Calibration configurables</h1>
-  <p class="lede">Every tunable number in the ladder, as a <b>range</b> — with where it is calibrated, what
-  it depends on, and which knob to widen when a step comes up empty. The distinction that runs through the
-  whole page: a <span class="chip adm">ADMISSIBLE</span> number is a hypothesis you may widen; a
-  <span class="chip frz">FROZEN</span> number is the standard of proof and may not be tuned away.</p>
-
-  <div class="classes">
-    <div class="cls" style="--stripe:var(--frozen-line)">
-      <h3>Structural</h3><p><span class="tag">frozen @ Rung 0</span> — interval, label horizon, barriers, costs, embargo, the OOS ban. One value; moving it changes the problem.</p></div>
-    <div class="cls" style="--stripe:var(--adm-line)">
-      <h3>Calibratable</h3><p><span class="tag">data-fitted range</span> — gamma, min_child_weight, θ-grid, block length, permutation count, HPO budget. Never one absolute number across assets.</p></div>
-    <div class="cls" style="--stripe:var(--adm-line)">
-      <h3>Searched</h3><p><span class="tag">the objects</span> — features, families, interactions, subsets. What the ladder looks for, gated at each rung.</p></div>
-    <div class="cls" style="--stripe:var(--frozen-line)">
-      <h3>Methodology-governing</h3><p><span class="tag">proof standard</span> — viability floor, rotations, α, early-stop. Frozen so a null result cannot be tuned away.</p></div>
-  </div>
+  <p class="eyebrow">Golden Calibration · methodology branch · Development Candidate</p>
+  <h1>Methodology map &amp; calibration configurables</h1>
+  <p class="lede">What the ladder found, how it found it, what may vary and what may not. The result is
+  a <b>development-panel candidate, not a certification</b> — and every number below is copied from the
+  frozen contract and the snapshot artifacts, sealed and lint-checked, never hand-maintained in isolation.</p>
 </header>
 
+<!-- ============ V1 CURRENT EVIDENCE ============ -->
+<section>
+  <h2>Current evidence</h2>
+  <p class="sub">The funnel is a property of the data, computed from artifacts — not a target. On the
+  20-asset development panel:</p>
+  <div class="hero">
+    <div class="funnel">
+      <div class="fstep"><div class="n">26</div><div class="l">provisional arms (cross-fit accepted)</div></div>
+      <div class="farrow" aria-hidden="true">→</div>
+      <div class="fstep"><div class="n">11</div><div class="l">passed A1 (marginal max-null)</div></div>
+      <div class="farrow" aria-hidden="true">→</div>
+      <div class="fstep"><div class="n">9</div><div class="l">stable A1 ∩ A2 ∩ B</div></div>
+      <div class="farrow" aria-hidden="true">→</div>
+      <div class="fstep"><div class="n">2</div><div class="l">retained arms (survivor HPO)</div></div>
+      <div class="farrow" aria-hidden="true">→</div>
+      <div class="fstep final"><div class="n">1</div><div class="l">unique feature (rep 112)</div></div>
+    </div>
+    <div class="heroline">
+      <span><b>2 retained arms → 1 feature.</b> Both <code>ORLY/1</code> arms — <code>flat 112</code> and
+      <code>hierarchical oscillator_rsi</code> — resolve to representative <b>112</b>, two selection paths to one feature.</span>
+    </div>
+    <div class="heroline">
+      <span><b>Strength (Rung-6 own-null):</b></span>
+      <span><code>ORLY/1 flat 112</code> — <b>b = 0/50</b>, p = 0.020</span>
+      <span><code>ORLY/1 hierarchical oscillator_rsi</code> — <b>b = 1/50</b>, p = 0.039</span>
+    </div>
+    <div class="certbanner"><b>Certification: NOT STARTED.</b> These outer results informed the method's
+    design, so this panel cannot certify itself. The name <em>Golden Calibration v1</em> is earned only by
+    a full run of the frozen ladder on a fresh, declared panel (Rung 9).</div>
+  </div>
+</section>
+
+<!-- ============ V2 EVIDENCE STRENGTH ============ -->
+<section>
+  <h2>Evidence strength — verdict is not enough</h2>
+  <p class="sub"><b>b/M</b>, not just "retained/demoted". <span class="pill cert">CENSORED</span> marks a
+  demoted arm stopped early by futility (<code>b = 5</code> reached before the full M) — it says "did not pass",
+  not "by how much". Retained arms ran the full <code>M = 50</code>.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Arm</th><th>feature</th><th>b / M</th><th>p</th><th>verdict</th></tr></thead>
+    <tbody>
+      <tr class="adm"><td class="name">ORLY/1 flat 112</td><td class="range">112</td><td class="range">0 / 50</td><td class="range">0.020</td><td class="yes">retained</td></tr>
+      <tr class="adm"><td class="name">ORLY/1 hierarchical oscillator_rsi</td><td class="range">112</td><td class="range">1 / 50</td><td class="range">0.039</td><td class="yes">retained</td></tr>
+      <tr class="frz"><td class="name">GOOG/1 · NVR/0 · TDG/1 · AZO/0 (7 arms)</td><td class="range">—</td><td class="range">5 / &lt;50</td><td class="range">≥ 0.098</td><td class="no">demoted · <span class="pill cert">CENSORED</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ V3 CALIBRATION DAG ============ -->
+<section>
+  <h2>The Calibration DAG — Rung 0–9</h2>
+  <p class="sub">Each rung has one question, an input, a statistic, a threshold fixed before the data, a
+  stop condition and an artifact. A rung that fails ends the walk. Status:
+  <span class="pill exec">EXECUTED</span> <span class="pill spec">SPECIFIED · NOT EXECUTED</span>
+  <span class="pill cert">CERTIFICATION · NOT STARTED</span>.</p>
+  <div class="rungs">
+    <div class="rung exec"><div class="hd"><span class="id">Rung 0</span><span class="pill exec">EXECUTED</span></div><div class="q">Is the problem frozen?</div><div class="m">structural constants · oos_reads = 0 · contract hash</div></div>
+    <div class="rung exec"><div class="hd"><span class="id">Rung 1</span><span class="pill exec">EXECUTED</span></div><div class="q">Can the model learn at all?</div><div class="m">viability floor: split_nodes ≥ 20 · pred_std ≥ 0.005</div></div>
+    <div class="rung exec"><div class="hd"><span class="id">Rung 2</span><span class="pill exec">EXECUTED</span></div><div class="q">Does the operating point transfer?</div><div class="m">quantile θ · folded into Rungs 3–4</div></div>
+    <div class="rung exec"><div class="hd"><span class="id">Rung 3</span><span class="pill exec">EXECUTED</span></div><div class="q">Does a feature improve a learnable model?</div><div class="m">marginal gain &gt; complexity_penalty 0.004</div></div>
+    <div class="rung exec"><div class="hd"><span class="id">Rung 4</span><span class="pill exec">EXECUTED</span></div><div class="q">Does the choice survive data that didn't choose it?</div><div class="m">cross-fit · flat &amp; hierarchical arms</div></div>
+    <div class="rung exec"><div class="hd"><span class="id">Rung 5</span><span class="pill exec">EXECUTED</span></div><div class="q">Bigger than the max a search makes by itself?</div><div class="m">block-perm null A1/A2/B · M = 50 · α = 0.10 · b ≤ 4</div></div>
+    <div class="rung exec"><div class="hd"><span class="id">Rung 6</span><span class="pill exec">EXECUTED</span></div><div class="q">Worth more under its own tuned model?</div><div class="m">survivor HPO B = 20 · own-null M = 50 · can only demote</div></div>
+    <div class="rung spec"><div class="hd"><span class="id">Rung 7</span><span class="pill spec">SPECIFIED · NOT EXECUTED</span></div><div class="q">Do survivors combine?</div><div class="m">interactions, survivors only · O(S²) · ADMISSIBLE</div></div>
+    <div class="rung exec"><div class="hd"><span class="id">Rung 8</span><span class="pill exec">EXECUTED</span></div><div class="q">Which OHLCV families travel across assets?</div><div class="m">ticker × family transfer matrix (aggregation)</div></div>
+    <div class="rung cert"><div class="hd"><span class="id">Rung 9</span><span class="pill cert">CERTIFICATION · NOT STARTED</span></div><div class="q">Does the whole method hold on a fresh panel?</div><div class="m">frozen ladder · fresh panel · + / − controls → v1</div></div>
+  </div>
+</section>
+
+<!-- ============ SEPARATION OF CONCERNS ============ -->
+<section>
+  <h2>Separation of concerns</h2>
+  <p class="sub">The scheduler decides <b>nothing</b> scientific. Every verdict is a pure function of the
+  frozen contract and the immutable artifacts; tmux / workers / queue only move work.</p>
+  <div class="stack">
+    <div class="layer"><div class="t">Scientific contract <span class="chip frz">FROZEN proof standard + ADMISSIBLE hypothesis</span></div><div class="d">the rules a feature is judged by — hashed, versioned, never touched by the engine</div></div>
+    <div class="stackarrow" aria-hidden="true">↓</div>
+    <div class="layer"><div class="t">Immutable result artifacts</div><div class="d">per-asset JSON, addressed by task hash; a re-run must reproduce the same bytes (byte-level integrity)</div></div>
+    <div class="stackarrow" aria-hidden="true">↓</div>
+    <div class="layer"><div class="t">Execution engine — queue · workers · tmux</div><div class="d">moves work and resumes from the ledger; it never decides what is true</div></div>
+  </div>
+</section>
+
+<!-- ============ V7 HYPOTHESIS vs PROOF STANDARD ============ -->
+<section>
+  <h2>Hypothesis space vs proof standard</h2>
+  <p class="sub">The one invariant that makes autonomy honest: a ladder version may vary the
+  <span class="chip adm">ADMISSIBLE</span> hypothesis, but never the <span class="chip frz">FROZEN</span>
+  proof standard. <b>Now enforced field-by-field</b> — <code>rung_6_survivor_hpo</code> is admissible, yet
+  <code>.alpha</code> and <code>.own_null.permutations</code> are frozen leaves the guard rejects.</p>
+  <div class="cols2">
+    <div class="card col adm"><h3>ADMISSIBLE — hypothesis</h3><ul>
+      <li><code>model_space</code> ranges &amp; <code>hpo_trials</code></li>
+      <li><code>operating_point.grid</code> (θ)</li>
+      <li>candidate families &amp; <code>arms</code></li>
+      <li>survivor-HPO <code>budget_B</code></li>
+      <li>rung 7 interaction scope</li>
+    </ul></div>
+    <div class="card col frz"><h3>FROZEN — proof standard</h3><ul>
+      <li>viability floor (split_nodes, pred_std)</li>
+      <li>cross-fit rules &amp; acceptance statistic</li>
+      <li><code>α = 0.10</code> · permutation budget <code>M = 50</code></li>
+      <li>block length &amp; <code>operating_point.mode</code></li>
+      <li>data boundary · OOS ban · certification</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ============ TERMINAL STATES + WHO ACTS ============ -->
+<section>
+  <h2>Terminal states — and who acts</h2>
+  <p class="sub">Three of the four terminals are the machine finishing honestly. The fourth is the only
+  place a <b>human</b> acts — the boundary of autonomy, made visible.</p>
+  <div class="terms">
+    <div class="term ok"><div class="s">RESOLVED_RETAINED</div><span class="pill machine">MACHINE</span><p>a stable survivor was retained — the confirmed set.</p></div>
+    <div class="term empty"><div class="s">RESOLVED_EMPTY</div><span class="pill machine">MACHINE</span><p>the evidence honestly supports no feature here. <b>A result, not a failure</b> — never hidden for a cleaner funnel.</p></div>
+    <div class="term empty"><div class="s">LADDER_EXHAUSTED</div><span class="pill machine">MACHINE</span><p>every pre-authorized version walked, none added a confirmed feature. Stop.</p></div>
+    <div class="term human"><div class="s">NEEDS_CONTRACT</div><span class="pill human">HUMAN</span><p>the current contract cannot proceed honestly. A person may author the next version (widening ADMISSIBLE only). <b>Never an automatic loop side-effect.</b></p></div>
+  </div>
+</section>
+
+<!-- ============ REPRODUCIBILITY MATRIX ============ -->
+<section>
+  <h2>Reproducibility — what a fresh clone can and cannot do</h2>
+  <p class="sub">The methodology, contract, artifacts and selftests are public; the raw bars and the
+  deployable pipeline code are not. A clone reproduces the <b>mechanism</b>, not a new number without data.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Element</th><th>Public clone</th><th>Private research tree</th></tr></thead>
+    <tbody>
+      <tr class="adm"><td class="name">frozen artifacts &amp; funnel</td><td class="yes">yes</td><td class="yes">yes</td></tr>
+      <tr class="adm"><td class="name">methodology report</td><td class="yes">yes</td><td class="yes">yes</td></tr>
+      <tr class="adm"><td class="name">selftests &amp; guards</td><td class="yes">yes</td><td class="yes">yes</td></tr>
+      <tr class="adm"><td class="name">numeric dependencies</td><td class="yes">yes (requirements-research.txt)</td><td class="yes">yes</td></tr>
+      <tr class="frz"><td class="name">new real-data run</td><td class="no">no</td><td class="yes">yes</td></tr>
+      <tr class="frz"><td class="name">real bar store (liora.duckdb)</td><td class="no">no</td><td class="yes">yes</td></tr>
+      <tr class="frz"><td class="name">deployable pipeline (xgb/src)</td><td class="no">no</td><td class="yes">yes</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ LSTM TRANSFER ============ -->
+<section>
+  <h2>LSTM transfer — <span class="pill cert">DERIVED PROTOCOL · NOT VALIDATED</span></h2>
+  <p class="sub">The ladder is written to carry to an LSTM, but <b>no LSTM result has been produced through
+  it</b>. This is the mapping, not a claim; nothing below is believed until the LSTM is run through the same
+  ladder. (Separate from the sealed LSTM presentation models on <code>main</code>.)</p>
+  <div class="scroll"><table>
+    <thead><tr><th>XGB (executed)</th><th>LSTM (derived, not validated)</th></tr></thead>
+    <tbody>
+      <tr class="frz"><td class="name">split-node viability</td><td class="dim">output / gradient / occlusion viability</td></tr>
+      <tr class="frz"><td class="name">single feature</td><td class="dim">a complete temporal channel</td></tr>
+      <tr class="frz"><td class="name">TreeSHAP diagnostic</td><td class="dim">block-occlusion diagnostic</td></tr>
+      <tr class="frz"><td class="name">max-null / knockoff controls</td><td class="dim">temporal-channel negative controls</td></tr>
+      <tr class="adm"><td class="name">walk-forward + embargo</td><td class="dim">unchanged</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ EXISTING: dependency order + catalog ============ -->
 <section>
   <h2>Dependency order &amp; the widen loop</h2>
   <p class="sub">Inside one outer fold the series calibrate in order — the feature set feeds HPO, HPO freezes,
   selection runs at frozen params, and the operating point θ is chosen <b>last</b>. A stuck rung never
   auto-widens: it stops and asks for the next hand-authored contract version.</p>
-  <div class="flowcard">
-    <div class="chain">
-      <div class="node"><div class="k">Features</div><div class="v">candidate manifest</div></div>
-      <div class="arrow" aria-hidden="true">→</div>
-      <div class="node"><div class="k">HPO</div><div class="v">params frozen on core</div></div>
-      <div class="arrow" aria-hidden="true">→</div>
-      <div class="node"><div class="k">Selection</div><div class="v">at frozen params</div></div>
-      <div class="arrow" aria-hidden="true">→</div>
-      <div class="node"><div class="k">θ · last</div><div class="v">chosen on inner folds</div></div>
-    </div>
-    <div class="gate">
-      <div class="branch" style="--bl:var(--adm-line)"><div class="h">gate passes</div><p>advance to the next rung.</p></div>
-      <div class="branch" style="--bl:var(--frozen-line)"><div class="h">honest empty</div><p><b>RESOLVED_EMPTY</b> — the evidence supports no feature here. A real answer, not a failure.</p></div>
-      <div class="branch" style="--bl:var(--accent)"><div class="h">cannot proceed</div><p><b>NEEDS_CONTRACT</b> → a human mints a new contract version and widens <b>ADMISSIBLE only</b>; the guard rejects any FROZEN touch. Forward-only, never a backtrack.</p></div>
+  <div class="card">
+    <div class="funnel">
+      <div class="fstep"><div class="l" style="margin-top:0"><b style="color:var(--ink)">Features</b><br>candidate manifest</div></div>
+      <div class="farrow" aria-hidden="true">→</div>
+      <div class="fstep"><div class="l" style="margin-top:0"><b style="color:var(--ink)">HPO</b><br>params frozen on core</div></div>
+      <div class="farrow" aria-hidden="true">→</div>
+      <div class="fstep"><div class="l" style="margin-top:0"><b style="color:var(--ink)">Selection</b><br>at frozen params</div></div>
+      <div class="farrow" aria-hidden="true">→</div>
+      <div class="fstep"><div class="l" style="margin-top:0"><b style="color:var(--ink)">θ · last</b><br>chosen on inner folds</div></div>
     </div>
   </div>
+  <div class="callout"><b>Vocabulary.</b> The ladder does <em>human-pre-authorized hypothesis-space
+  variation</em>, not blanket "widening". The default θ move <code>[0.75…0.99] → [0.80,0.90,0.95]</code> is
+  <b>coarser / alternative</b>, not a mathematical superset — "widen" is used only when the new range truly
+  contains the old.</div>
 </section>
 
 <section>
   <h2>The catalog</h2>
   <p class="sub">Grouped by the three dependency series the pipeline chains — HPO, strategy/θ, features —
-  plus the frozen proof-standard gates. Every value is current on the <code>methodology</code> branch;
-  the <span class="rmul">×H</span> marker means the range is scaled by each fold's own hessian.</p>
+  plus the frozen proof-standard gates. The <span class="rmul">×H</span> marker means the range is scaled
+  by each fold's own hessian.</p>
 
-  <!-- SERIES A -->
   <div class="grp"><h3>A · HPO / XGB</h3><span class="note">two regimes: research random-search (hessian-relative) &amp; sealed Optuna TPE</span></div>
   <div class="scroll"><table>
     <thead><tr><th>Configurable</th><th>Range / value</th><th>Class</th><th>State</th><th>Calibrated&nbsp;@</th><th>Depends on</th><th>If it can't calibrate → widen</th></tr></thead>
@@ -164,40 +350,39 @@
       <tr class="adm"><td class="name">gamma</td><td class="range">0.0 – 0.004 <span class="rmul">× H</span></td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">fold hessian H</td><td class="widen">this space</td></tr>
       <tr class="adm"><td class="name">n_estimators</td><td class="range">40 – 300</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">—</td><td class="widen">this space</td></tr>
       <tr class="adm"><td class="name">budget_B <span class="cl">(rung 6)</span></td><td class="range">20</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 6</td><td class="dim">stable survivors</td><td class="widen">itself</td></tr>
+      <tr class="frz"><td class="name">rung6 α · own_null M</td><td class="range">0.10 · 50</td><td class="cl">Method-gov</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 6</td><td class="dim">= max_null</td><td class="na">— FROZEN_PATHS (guard)</td></tr>
       <tr class="frz"><td class="name">N_TRIALS <span class="cl">(sealed Optuna)</span></td><td class="range">80</td><td class="cl">Calibratable</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L7</td><td class="dim">—</td><td class="na">— sealed-epoch identity</td></tr>
       <tr class="frz"><td class="name">sampler / pruner</td><td class="range">TPE · MedianPruner w2</td><td class="cl">Method-gov</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L7</td><td class="dim">—</td><td class="na">—</td></tr>
-      <tr class="frz"><td class="name">gamma / mcw <span class="cl">(sealed v1)</span></td><td class="range">0–5 / 1–10 <span class="cl">abs</span></td><td class="cl">Calibratable</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L7</td><td class="dim">—</td><td class="na">— not comparable with v2</td></tr>
     </tbody>
   </table></div>
 
-  <!-- SERIES B -->
   <div class="grp"><h3>B · Strategy / operating point θ</h3><span class="note">θ is a grid, candidate-dependent, chosen last &amp; applied fixed</span></div>
   <div class="scroll"><table>
     <thead><tr><th>Configurable</th><th>Range / value</th><th>Class</th><th>State</th><th>Calibrated&nbsp;@</th><th>Depends on</th><th>If it can't calibrate → widen</th></tr></thead>
     <tbody>
       <tr class="adm"><td class="name">operating_point.grid θ</td><td class="range">0.75 · 0.82 · 0.88 · 0.92 · 0.96 · 0.99</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 2 (in 3–5)</td><td class="dim">candidate</td><td class="widen">alter/coarsen grid (→ [0.80,0.90,0.95])</td></tr>
+      <tr class="frz"><td class="name">operating_point.mode</td><td class="range">quantile</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">— FROZEN_PATHS (guard)</td></tr>
       <tr class="frz"><td class="name">theta (sealed)</td><td class="range">0.40 … 0.60 · step 0.02</td><td class="cl">Calibratable</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L8</td><td class="dim">—</td><td class="na">—</td></tr>
       <tr class="frz"><td class="name">min_oof_trades</td><td class="range">8</td><td class="cl">Method-gov</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 3–5</td><td class="dim">—</td><td class="na">— a floor, not a knob</td></tr>
-      <tr class="frz"><td class="name">kelly lambda</td><td class="range">0.5 – 1.0 <span class="cl">inert all-in</span></td><td class="cl">Calibratable</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L8</td><td class="dim">CAPITAL_MODE</td><td class="na">—</td></tr>
       <tr class="frz"><td class="name">H · label horizon</td><td class="range">24</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">— a new problem</td></tr>
       <tr class="frz"><td class="name">triple-barrier TP / SL</td><td class="range">2.0 / 1.0</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">—</td></tr>
       <tr class="frz"><td class="name">costs · commission / slip</td><td class="range">1 / 2 bps</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">—</td></tr>
       <tr class="frz"><td class="name">embargo / purge</td><td class="range">35 / 24</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">—</td></tr>
-      <tr class="frz"><td class="name">initial capital</td><td class="range">1000</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">—</td></tr>
     </tbody>
   </table></div>
-  <div class="callout"><b>H = 24 is one number in four places</b> — label horizon, <code>data_boundary.label_horizon_bars</code>, the null <code>block_length.floor/value_bars</code>, and the Kelly payoff geometry all derive from it. Moving it invalidates labels, folds and the null at once.</div>
+  <div class="callout"><b>H = 24 is one number in four places</b> — label horizon,
+  <code>data_boundary.label_horizon_bars</code>, the null <code>block_length.floor/value_bars</code>, and the
+  Kelly payoff geometry all derive from it. Moving it invalidates labels, folds and the null at once.</div>
 
-  <!-- SERIES C -->
   <div class="grp"><h3>C · Features / OHLCV</h3><span class="note">the searched objects — fixed OHLCV over frozen windows; the search is over which families enter</span></div>
   <div class="scroll"><table>
     <thead><tr><th>Configurable</th><th>Range / value</th><th>Class</th><th>State</th><th>Calibrated&nbsp;@</th><th>Depends on</th><th>If it can't calibrate → widen</th></tr></thead>
     <tbody>
       <tr class="adm"><td class="name">candidate features</td><td class="range">45 <span class="cl">/ 12 families</span></td><td class="cl">Searched</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 3–4</td><td class="dim">—</td><td class="widen">add candidates / families</td></tr>
       <tr class="adm"><td class="name">families</td><td class="range">12</td><td class="cl">Searched</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 4 · hier.</td><td class="dim">—</td><td class="widen">add a family</td></tr>
+      <tr class="adm"><td class="name">arms</td><td class="range">flat / hierarchical</td><td class="cl">Searched</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 4</td><td class="dim">—</td><td class="widen">add/alter an arm</td></tr>
       <tr class="frz"><td class="name">frozen 1h core</td><td class="range">17 ids</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">— the baseline</td></tr>
       <tr class="frz"><td class="name">OHLCV windows / lags</td><td class="range">lag{1,5,20} MA{20,50} RSI{14} BB{20,2} MACD{12,26,9}</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">recipe_hash</td><td class="na">— a new literal is a new feature</td></tr>
-      <tr class="adm"><td class="name">arms</td><td class="range">flat / hierarchical</td><td class="cl">Searched</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 4</td><td class="dim">—</td><td class="widen">add/alter an arm</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -205,8 +390,8 @@
 <section>
   <h2>Proof-standard gates</h2>
   <p class="sub"><span class="chip frz">FROZEN</span> — the numbers that decide how much proof is enough.
-  <b>Not ranges, not widenable.</b> The contract kernel forbids any ladder patch from touching them; changing
-  one is a new science, done by hand.</p>
+  <b>Not ranges, not widenable.</b> The contract kernel forbids any ladder patch from touching them, now
+  down to the individual field.</p>
   <div class="scroll"><table>
     <thead><tr><th>Gate</th><th>Value</th><th>Rung</th><th>Source</th></tr></thead>
     <tbody>
@@ -219,32 +404,40 @@
   </table></div>
   <div class="callout"><b>α = 0.10 is one lab constant</b>, shared by <code>max_null.alpha</code> and
   <code>rung_6.own_null.alpha</code>; the pass-count bound <code>b</code> is <b>derived</b> from α and M,
-  never hard-coded. The old fixed <code>b ≤ 4</code> applied at M = 20 (admitting p = 5/21 = 0.238) was
-  the bug corrected by raising rung 6 to M = 50 — where the derivation gives <code>b ≤ 4</code> again
+  never hard-coded. The old fixed <code>b ≤ 4</code> at M = 20 (admitting p = 5/21 = 0.238) was the bug
+  corrected by raising rung 6 to M = 50 — where the derivation gives <code>b ≤ 4</code> again
   (p = 5/51 = 0.098) and the headline holds at <b>26 → 11 → 9 → 2</b> on the sharper test.</div>
 </section>
 
 <section>
   <h2>Widen protocol</h2>
   <p class="sub">Which knob when a rung yields nothing. Only <b>NEEDS_CONTRACT</b> widens, and only the
-  ADMISSIBLE space — widen a range where the object is a hypothesis, never where it is the standard of proof.</p>
+  ADMISSIBLE space — a range where the object is a hypothesis, never where it is the standard of proof.</p>
   <div class="scroll"><table>
     <thead><tr><th>Rung yields nothing</th><th>State</th><th>Widen-target (next contract version)</th></tr></thead>
     <tbody>
-      <tr class="adm"><td class="name">1 · no viable model</td><td><span class="chip frz">NEEDS_CONTRACT</span></td><td class="widen"><b>model_space</b> ranges / <b>hpo_trials</b> — never the viability floor</td></tr>
-      <tr class="adm"><td class="name">3 · no marginal candidate</td><td><span class="chip frz">RESOLVED_EMPTY</span></td><td class="widen">feature families / candidates, or the θ-grid</td></tr>
-      <tr class="adm"><td class="name">4 · no confirmed feature</td><td><span class="chip frz">RESOLVED_EMPTY</span></td><td class="widen">θ-grid / arms</td></tr>
-      <tr class="frz"><td class="name">5 · no stable survivor</td><td><span class="chip frz">RESOLVED_EMPTY</span></td><td class="na">— the null <b>is</b> the proof standard; a negative is the result</td></tr>
-      <tr class="frz"><td class="name">6 · retained = 0</td><td><span class="chip adm">RESOLVED</span></td><td class="na">— a valid, complete outcome</td></tr>
+      <tr class="adm"><td class="name">1 · no viable model</td><td><span class="pill human">NEEDS_CONTRACT</span></td><td class="widen"><b>model_space</b> ranges / <b>hpo_trials</b> — never the viability floor</td></tr>
+      <tr class="adm"><td class="name">3 · no marginal candidate</td><td><span class="pill spec">RESOLVED_EMPTY</span></td><td class="widen">feature families / candidates, or the θ-grid</td></tr>
+      <tr class="adm"><td class="name">4 · no confirmed feature</td><td><span class="pill spec">RESOLVED_EMPTY</span></td><td class="widen">θ-grid / arms</td></tr>
+      <tr class="frz"><td class="name">5 · no stable survivor</td><td><span class="pill spec">RESOLVED_EMPTY</span></td><td class="na">— the null <b>is</b> the proof standard; a negative is the result</td></tr>
+      <tr class="frz"><td class="name">6 · retained = 0</td><td><span class="pill machine">RESOLVED</span></td><td class="na">— a valid, complete outcome</td></tr>
     </tbody>
   </table></div>
 </section>
 
 <footer>
-  Sourced from the <code>methodology</code> branch — <code>config/feature_discovery_contract.json</code>,
-  <code>config/contract/*.json</code>, <code>config/xgb_search_space_v2.json</code>,
-  <code>xgb/src/config/*</code>. Full ordered method: <code>docs/FEATURE_DISCOVERY_METHODOLOGY.md</code> ·
-  version-ladder mechanics: <code>docs/ITERATIVE_CALIBRATION_LOOP.md</code> · catalog:
-  <code>docs/CALIBRATION_CONFIGURABLES.md</code>.
+  <div class="seal">
+    <div><span>contract_hash</span><b>c45d57b3b60389ea</b></div>
+    <div><span>contract_version</span><b>golden-calibration-dc.1</b></div>
+    <div><span>data boundary</span><b>train ≤ 2023-12-29 · oos ≥ 2024-01-02</b></div>
+    <div><span>funnel</span><b>26 → 11 → 9 → 2 → 112</b></div>
+    <div><span>retained b/M</span><b>0/50 · 1/50</b></div>
+    <div><span>seed</span><b>42</b></div>
+  </div>
+  Seal recomputed from <code>contract_loader.assemble()</code> + <code>report.funnel()</code> + the rung-6
+  artifact by <code>make verify-calibration-docs</code> — if the contract or snapshot drifts and this page is
+  not updated, the lint goes red. Sources: <code>config/contract/*.json</code>,
+  <code>config/xgb_search_space_v2.json</code>, <code>results/methodology_snapshot/</code>. Full method:
+  <code>docs/FEATURE_DISCOVERY_METHODOLOGY.md</code> · ladder: <code>docs/ITERATIVE_CALIBRATION_LOOP.md</code>.
 </footer>
 </div>

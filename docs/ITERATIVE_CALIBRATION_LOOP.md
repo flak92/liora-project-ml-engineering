@@ -81,6 +81,18 @@ by the existing supervisor; the ladder manifest (`ladder.json`), the hash-chaine
 (`iteration_trace.jsonl` → `iteration_trace.json`) and the summary tie them together at the ladder
 root.
 
+**Vocabulary — "variation", not "widening".** A rung does *human-pre-authorized hypothesis-space
+variation*, which is not the same as widening. The shipped default θ move
+`[0.75, 0.82, 0.88, 0.92, 0.96, 0.99] → [0.80, 0.90, 0.95]` is **coarser / alternative** — a different
+decision-threshold hypothesis, not a mathematical superset of the old grid. "Widen" is accurate only when
+the new range truly contains the old (e.g. `hpo_trials 30 → 60`). And the two terminal responses to a
+negative result are distinct: `RESOLVED_EMPTY` means the current contract finished with a valid empty answer
+(nothing is loosened); `NEEDS_CONTRACT` means it cannot proceed honestly, so a **human** may author the next
+pre-declared version. The guard is the same in both: only the ADMISSIBLE hypothesis may change — now
+enforced field by field, so an admissible section cannot smuggle a frozen leaf (`rung_6_survivor_hpo.alpha`,
+`own_null.permutations`) — never the FROZEN proof standard, and a later version never alters a prior
+version's result; it starts a new study.
+
 ## The deliverable: `iteration_summary.md`
 
 When the loop stops, `engine/iteration_report.py` reads everything it left behind and writes one Polish
@@ -111,3 +123,18 @@ terminal outcomes, the `iteration-*` commands, and a two-version default ladder 
 operating-point hypothesis). **Specified, unchanged:** Rung 7/9 remain `SPECIFIED / UNVALIDATED`;
 longer ladders are user-extensible in the policy. The point of the loop is methodological knowledge and
 an auditable record of its corrections — not the existence of models.
+
+## Limitations — what the fast gate does and does not cover
+
+**The fast smoke gate (`make iteration-smoke`, `RESEARCH_SMOKE_PERMS` / `FOLDS`) no longer reaches Rung 6.**
+After the fail-closed fix — a reduced-strength null verdicts `smoke_pass`, never scientific `passed` — a smoke
+run leaves every asset at `RESOLVED_EMPTY` after Rung 5: its `passed_arms` set is empty, so nothing reaches
+`NULL_VALIDATED`, so the Rung-6 survivor-HPO dispatch is a no-op. This is correct (a smoke must not
+manufacture a confirmation it had no power to make), but it means the **last gate of the chain is exercised
+only by a full-strength run**, not by the minutes-long smoke. The smoke validates orchestration (rungs 1–5
+dispatch, the reducer, the state machine, byte-level integrity); Rung 6's own scientific behavior is covered
+by a full golden run plus the field-level guard tests in `engine/iteration_selftest.py` — stated here rather
+than left implicit.
+
+**Estimator scope.** Everything above is `XGB = VALIDATED`. `LSTM = PENDING`: the ladder is written to carry
+to an LSTM (`docs/FEATURE_DISCOVERY_METHODOLOGY.md` §6), but no LSTM result has been produced through it.

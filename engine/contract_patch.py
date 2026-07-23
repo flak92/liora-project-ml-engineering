@@ -42,6 +42,19 @@ ADMISSIBLE = {"model_space", "operating_point", "arms",
 FROZEN = {"viability", "acceptance", "cross_fitting", "stop_conditions",
           "max_null", "rotation_level_null", "data_boundary", "certification"}
 
+# Some FIELDS nested inside an ADMISSIBLE section are still the frozen proof standard: the section as a
+# whole may be varied, but these exact leaves may not. Without this, a patch could vary the admissible
+# `rung_6_survivor_hpo` section and quietly set `own_null.permutations = 5` — loosening the headline
+# null from M=50 — because the top-level section is admissible. Classification is FIELD-LEVEL below.
+# (No per-field metadata exists to auto-derive this, so it is a hand-authored allowlist; contract_lint
+# separately enforces rung_6_survivor_hpo.alpha == max_null.alpha.)
+FROZEN_PATHS = {
+    "rung_6_survivor_hpo.alpha",                    # = max_null.alpha; the one lab significance level
+    "rung_6_survivor_hpo.own_null.permutations",    # headline-gate null size (M=50); never coarser
+    "rung_6_survivor_hpo.own_null.pass_condition",  # the retain rule itself
+    "operating_point.mode",                         # structural (quantile); only the grid may vary
+}
+
 # Everything else (schema_version, methodology, identity, runtime, cost_model_*, _status, ...) is
 # provenance / infrastructure — also off-limits to a hypothesis patch, caught by the allowlist below.
 
@@ -75,21 +88,47 @@ def _deep_merge(base, patch, path=""):
     return out
 
 
+def _leaf_paths(patch, path=""):
+    """Dotted paths of the LEAVES a patch actually sets. A non-empty dict recurses; an empty dict sets
+    nothing (an admissible 'section variant' placeholder, no leaf); any scalar/list is a set leaf. This
+    is what lets guard() classify a patch field by field, not just by its top-level section."""
+    for k, v in patch.items():
+        here = f"{path}.{k}" if path else k
+        if isinstance(v, dict):
+            if v:
+                yield from _leaf_paths(v, here)
+        else:
+            yield here
+
+
+def _is_frozen_leaf(leaf):
+    """A set leaf is frozen if it is a FROZEN_PATH, sits UNDER one (a deeper field of a frozen subtree),
+    or is a PARENT of one (replacing the parent wholesale would wipe the frozen child)."""
+    return any(leaf == fp or leaf.startswith(fp + ".") or fp.startswith(leaf + ".")
+               for fp in FROZEN_PATHS)
+
+
 def guard(patch):
-    """Reject a patch that reaches beyond the admissible hypothesis space. Returns the set of touched
-    top-level keys on success; raises PatchRejected otherwise. This is the single chokepoint; every
-    version the loop mints passes through it."""
+    """Reject a patch that reaches beyond the admissible hypothesis space. Classification is FIELD-LEVEL:
+    a patch may vary an ADMISSIBLE top-level section, but not a FROZEN sub-field nested inside one — e.g.
+    `rung_6_survivor_hpo` is admissible, yet `rung_6_survivor_hpo.alpha` and `.own_null.permutations` are
+    the frozen proof standard and are rejected. Returns the set of touched top-level keys on success;
+    raises PatchRejected otherwise. This is the single chokepoint; every version the loop mints passes it."""
     if not isinstance(patch, dict):
         raise PatchRejected(f"patch musi być obiektem, jest {type(patch).__name__}")
     touched = set(patch.keys())
     frozen_hit = touched & FROZEN
     if frozen_hit:
-        raise PatchRejected(f"patch narusza ZAMROŻONY standard dowodu: {sorted(frozen_hit)} — "
+        raise PatchRejected(f"patch narusza ZAMROŻONY standard dowodu (sekcja): {sorted(frozen_hit)} — "
                             f"luźniejszych kryteriów nie wolno wprowadzać automatycznie")
     outside = touched - ADMISSIBLE
     if outside:
         raise PatchRejected(f"patch poza dopuszczalną przestrzenią hipotez: {sorted(outside)} "
                             f"(dozwolone: {sorted(ADMISSIBLE)})")
+    frozen_leaves = sorted(p for p in _leaf_paths(patch) if _is_frozen_leaf(p))
+    if frozen_leaves:
+        raise PatchRejected(f"patch narusza ZAMROŻONE pole w dopuszczalnej sekcji: {frozen_leaves} — "
+                            f"sekcję wolno wariować, ale nie ten proof-standard leaf (FROZEN_PATHS)")
     return touched
 
 

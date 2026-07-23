@@ -7,6 +7,27 @@ calibrate — **which knob to widen**. For the ordered method itself see
 [`FEATURE_DISCOVERY_METHODOLOGY.md`](FEATURE_DISCOVERY_METHODOLOGY.md); for the version-ladder mechanics
 see [`ITERATIVE_CALIBRATION_LOOP.md`](ITERATIVE_CALIBRATION_LOOP.md).
 
+## Current evidence — development panel, not a certification
+
+The funnel is computed from artifacts (`make methodology-report`), never hand-set:
+
+```
+26 provisional arms → 11 passed A1 → 9 stable A1∩A2∩B → 2 retained arms → 1 unique feature (rep 112)
+```
+
+Both retained arms — `ORLY/1 flat 112` and `ORLY/1 hierarchical oscillator_rsi` — resolve to representative
+**112**, two selection paths to one feature. **Strength is not the verdict**: at the Rung-6 own-null (M = 50),
+`flat 112` is **b = 0/50** (p = 0.020) and `oscillator_rsi` is **b = 1/50** (p = 0.039). The 7 demoted arms hit
+`b = 5` early — **CENSORED** by futility (M < 50), so they say "did not pass", not "by how much".
+**Certification: NOT STARTED** — this panel informed the method's design, so it cannot certify itself; the
+name *Golden Calibration v1* is earned only by Rung 9 on a fresh panel.
+
+<!-- CALIBRATION-SEAL {"contract_hash": "c45d57b3b60389ea", "contract_version": "golden-calibration-dc.1", "data_boundary": ["2023-12-29", "2024-01-02"], "funnel": [26, 11, 9, 2], "retained_b_over_M": ["0/50", "1/50"], "retained_representatives": [112], "retained_units": ["ORLY/1/flat/112", "ORLY/1/hierarchical/oscillator_rsi"], "seed": 42} CALIBRATION-SEAL -->
+
+> **Seal.** Every number above is recomputed from the frozen contract + snapshot by
+> `make verify-calibration-docs`; if either drifts and this doc is not refreshed, the lint goes red.
+> `contract_hash c45d57b3b60389ea` · `golden-calibration-dc.1` · seed 42 · train ≤ 2023-12-29 / oos ≥ 2024-01-02.
+
 ## The four classes (this is why "everything is a range" is only half true)
 
 Declared in `docs/FEATURE_DISCOVERY_METHODOLOGY.md:61-70`:
@@ -162,3 +183,39 @@ wider hypothesis (`NEEDS_CONTRACT`). Only the second widens, and only the ADMISS
 Rule of thumb: **widen a range only where the object being widened is a hypothesis (ADMISSIBLE), never
 where it is the standard of proof (FROZEN).** Each widen is a new, hand-authored, self-consistent frozen
 contract version — the ladder advances forward; it never loosens a prior rung's proof standard.
+
+## Terminal states — and who acts
+
+| Terminal | Actor | Meaning |
+|---|---|---|
+| `RESOLVED_RETAINED` | **machine** | a stable survivor was retained — the confirmed set |
+| `RESOLVED_EMPTY` | **machine** | the evidence honestly supports no feature here — a result, not a failure |
+| `LADDER_EXHAUSTED` | **machine** | every pre-authorized version walked, none added a confirmed feature |
+| `NEEDS_CONTRACT` | **human** | the current contract cannot proceed honestly; a person authors the next version (ADMISSIBLE only) — never an automatic loop side-effect |
+
+The last row is the boundary of autonomy: the engine (queue / workers / tmux) moves work and resumes from
+the ledger, but a *widening* is a human decision, and `contract_patch.guard` forbids any patch — human or
+loop — from loosening the FROZEN proof standard.
+
+## Field-level protection (the proof standard is frozen down to the field)
+
+`contract_patch.guard` classifies a patch **field by field**, not just by section. `rung_6_survivor_hpo` is
+ADMISSIBLE as a whole (its `budget_B` may vary), yet these nested leaves are frozen and any patch that sets
+one is rejected (`FROZEN_PATHS`):
+
+- `rung_6_survivor_hpo.alpha` (= `max_null.alpha`)
+- `rung_6_survivor_hpo.own_null.permutations` (the headline-gate null size, M = 50)
+- `rung_6_survivor_hpo.own_null.pass_condition`
+- `operating_point.mode` (only the `grid` may vary)
+
+So "the proof standard cannot be loosened by the loop" is mechanical, down to the individual number.
+Regression tests in `engine/iteration_selftest.py` cover it (e.g. `own_null.permutations = 5` → rejected).
+
+## Estimator transfer — LSTM = `PENDING`
+
+The ladder is written to carry to an LSTM, but **no LSTM result has been produced through it**:
+`XGB = VALIDATED`, `LSTM = PENDING` — for the Golden Calibration ladder here, separate from the sealed LSTM
+presentation models on `main`. The derived mapping (not a claim): split-node viability → output / gradient /
+occlusion viability; a single feature → a complete temporal channel; TreeSHAP diagnostic → block-occlusion
+diagnostic; max-null / knockoff controls → temporal-channel negative controls; walk-forward + embargo
+unchanged. Nothing here is believed until the LSTM is run through the same ladder (WO C1).

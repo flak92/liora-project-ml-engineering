@@ -35,8 +35,8 @@ if not PAGE.exists():
     st.error(f"Not found: {PAGE.name} (expected at the repository root).")
     st.stop()
 
-# A flowing document, not a fixed-aspect board: sized to fit its content so the whole catalog
-# reads on one scroll of the Streamlit page rather than inside a short inner scrollbar.
-st.iframe(_load(PAGE.stat().st_mtime), height=3400)
+# A flowing document, not a fixed-aspect board: sized to fit its content (the methodology map + the
+# catalog) so the whole page reads on one scroll rather than inside a short inner scrollbar.
+st.iframe(_load(PAGE.stat().st_mtime), height=5400)
 st.caption("Standalone file: calibration_configurables.html (repository root — opens in any browser). "
            "Machine-readable catalog: docs/CALIBRATION_CONFIGURABLES.md.")

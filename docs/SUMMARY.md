@@ -21,7 +21,9 @@ lecz trajektorię stanów prowadzących do niego. Przy dziennych danych OHLCV li
 sekwencji jest jednak ograniczona, dlatego model musi pozostać prosty, regularizowany i oceniany
 konserwatywnie. Procedura wyprowadzona dla LSTM wymaga osobnej walidacji, ale zachowuje tę samą
 drabinę: viability, transfer punktu operacyjnego, utility, confirmation, multiplicity control i
-survivor-specific optimization.
+survivor-specific optimization. **Status estymatorów: `XGB = VALIDATED`, `LSTM = PENDING`** — drabina jest
+wyprowadzona dla LSTM, ale przez tę drabinę nie powstał jeszcze żaden wynik LSTM (osobno od zapieczętowanych
+modeli prezentacyjnych na `main`).
 
 Cały proces przypomina pracę specjalisty obserwującego rynek przez wiele lat: wykonującego kolejne
 próby, zapisującego rezultaty i stopniowo budującego zbiór reguł działających w określonych
@@ -46,6 +48,13 @@ zarówno miejsca, w których model działa, jak i te, w których powinien pozost
 To jest właściwy punkt wyjścia do systemu real-time: nie zbiór przypadkowych decyzji modelu, lecz
 uporządkowany, automatycznie wykonywany i zweryfikowany filtr logiki rynku.
 
+**Konkretny wynik (panel deweloperski, nie certyfikacja).** Lejek liczony z artefaktów:
+`26 → 11 → 9 → 2 ramiona → 1 unikalna cecha`. Oba zachowane ramiona — `ORLY/1 flat 112` i
+`ORLY/1 hierarchical oscillator_rsi` — prowadzą do reprezentanta **112** (dwie ścieżki selekcji, jedna
+cecha). Siła (own-null Rung 6, M=50): `flat 112` **b=0/50** (p=0.020), `oscillator_rsi` **b=1/50** (p=0.039);
+7 zdegradowanych ucięte przez futility (`b=5`, M<50 — *cenzura*). **Certyfikacja: NIEROZPOCZĘTA** — ten panel
+współtworzył metodę, więc nie może certyfikować sam siebie (Rung 9 na świeżym panelu).
+
 ---
 
 ## Najważniejsza decyzja architektoniczna
@@ -61,3 +70,9 @@ warto przeznaczyć na nią dodatkowy budżet.
 
 Tmux, workery i scheduler wykonują ten proces automatycznie. Nie decydują jednak, co jest prawdą
 naukową. Każda decyzja wynika z kontraktu i zapisanego wyniku.
+
+**Granica autonomii.** Pętla sama chodzi po ludzko-preautoryzowanej drabinie wersji kontraktu, ale gdy
+kontrakt nie pozwala uczciwie kontynuować, zwraca `NEEDS_CONTRACT` i zatrzymuje się — nową, szerszą hipotezę
+mintuje **człowiek**, nigdy pętla. Auto-poszerzanie jest zakazane (to co-adaptacja do panelu). `contract_patch.guard`
+egzekwuje to mechanicznie i **field-by-field**: sekcję hipotezy wolno wariować, ale zamrożonych pól proof-standardu
+(np. `rung_6_survivor_hpo.alpha`, `own_null.permutations`) żaden patch — człowieka ani pętli — nie ruszy.

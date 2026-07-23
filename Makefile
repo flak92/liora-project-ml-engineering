@@ -1,4 +1,4 @@
-.PHONY: setup on off verify clean help \
+.PHONY: setup on off verify clean help lint-contract verify-calibration-docs \
         methodology-report engine-plan engine-enqueue engine-start engine-smoke \
         engine-status engine-attach engine-stop engine-report engine-selftest \
         iteration-start iteration-status iteration-plan iteration-report iteration-stop \
@@ -115,6 +115,9 @@ loop-selftest:
 lint-contract:
 	@$(PY) scripts/contract_loader.py --regenerate
 	@$(PY) scripts/contract_lint.py
+
+verify-calibration-docs:            ## fail if the calibration docs' seal drifted from contract/snapshot
+	@$(PY) scripts/verify_calibration_docs.py
 
 # --- methodology execution engine (branch `methodology`) --------------------------------------
 # Two ways to use the branch. PRESENTATION reads frozen artifacts and prints the funnel in a blink;

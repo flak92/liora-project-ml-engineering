@@ -20,6 +20,7 @@ On the twenty-asset development panel, the ladder discriminated hard:
    → 11 passed the procedure-level max-null (marginal)
       → 9 stable across all three nulls (marginal × regime × conditional)
          → 2 retained after survivor-specific tuning
+            → 1 unique feature (representative 112)
 ```
 
 The retained set is **both `ORLY/1` arms** — `flat 112` and `hierarchical oscillator_rsi` — two
@@ -95,6 +96,17 @@ make engine-plan               # the deterministic plan, read before anything ru
 
 make engine-selftest           # prove the execution guarantees (no science runs)
 ```
+
+## The five pages
+
+`make on` opens a read-only Streamlit console — five pages, flat sidebar, counts derived from the store,
+nothing trains at runtime:
+
+- **Data Flow 3D Visualization** — the pipeline as a moving graph.
+- **Overview** — what came out of this: per-asset verdicts and the funnel.
+- **Basket Simulator** — build a basket and read what the sealed models did with it.
+- **Data Pipeline Lego Plan** — the procedure as an 18-brick board.
+- **Calibration Configurables** — every tunable number as a range, its FROZEN/ADMISSIBLE state, and which knob to widen when a step comes up empty.
 
 ## Reproducibility — what runs from a fresh clone, and what does not
 

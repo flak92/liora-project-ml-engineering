@@ -1,7 +1,7 @@
-"""Entry point: `streamlit run app.py` (or `make on`). Four read-only pages, flat.
+"""Entry point: `streamlit run app.py` (or `make on`). Five read-only pages, flat.
 
 A list rather than a dict: st.navigation only draws section headers when it is given
-groups, and four pages do not need three headers over them. Order is the reading order —
+groups, and five pages do not need three headers over them. Order is the reading order —
 the build path, then the result, then the thing to play with, then the procedure in full.
 Overview stays the landing page; it is the one that answers "what came out of this".
 """

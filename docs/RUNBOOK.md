@@ -8,7 +8,7 @@ runs the Calibration DAG per asset in a detached tmux session and produces new a
 ```bash
 make methodology-report          # funnel + per-asset descriptions from results/methodology_snapshot/
 ```
-The funnel is derived from the artifacts every time; `--parity 26 11 9 4` asserts the known
+The funnel is derived from the artifacts every time; `--parity 26 11 9 2` asserts the known
 development-panel numbers (a snapshot-parity check, not a success condition — a fresh panel may
 differ and be correct).
 

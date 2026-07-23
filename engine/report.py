@@ -14,7 +14,7 @@ Two sources, one code path:
 
     python3 engine/report.py --snapshot                     # presentation
     python3 engine/report.py --run-dir runs/<id>            # reproduction
-    python3 engine/report.py --snapshot --parity 26 11 9 4  # assert the known funnel
+    python3 engine/report.py --snapshot --parity 26 11 9 2  # assert the known funnel
 """
 import argparse
 import json
