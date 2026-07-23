@@ -42,6 +42,13 @@ def _run(cmd, timeout, ws):
     contract = ws.parents[2] / "contract.json"
     if contract.exists():
         env["RESEARCH_CONTRACT"] = str(contract)
+        # The run's DECLARED seed must reach the runners (they read RESEARCH_SEED, default 42) — else a
+        # run snapshotting seed=N would silently execute at the hardcoded 42, a provenance lie. One
+        # source of truth: the frozen snapshot, the same file RESEARCH_CONTRACT points at.
+        try:
+            env["RESEARCH_SEED"] = str(json.loads(contract.read_text(encoding="utf-8"))["seed"])
+        except (OSError, KeyError, json.JSONDecodeError):
+            pass
     p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, cwd=str(ROOT), env=env)
     return p.returncode, p.stdout, p.stderr
 

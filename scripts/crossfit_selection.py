@@ -57,7 +57,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 REGISTER = DATA_DIR / "feature_utility.json"
 DEFAULT_OUT = DATA_DIR / "crossfit_selection.json"
 MODE = "quantile"
-SEED = 42
+SEED = int(os.environ.get("RESEARCH_SEED", "42"))   # run-scoped przez engine (dispatch), domyślnie 42
 
 # The acceptance contract now lives in `acceptance.py`, imported here and by the null runner so
 # that both sides of the permutation test compute the statistic with literally the same code. Every

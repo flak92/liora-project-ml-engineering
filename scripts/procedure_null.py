@@ -84,7 +84,7 @@ G_SEGMENTS = 4                                            # macro-segments for t
 MIN_DISPLACED = 0.5                                       # at least half the blocks must move
 EMBARGO_BARS = 35
 MODE = "quantile"
-SEED = 42
+SEED = int(os.environ.get("RESEARCH_SEED", "42"))   # run-scoped przez engine (dispatch), domyślnie 42
 
 
 # ---------------------------------------------------------------------------------------------
@@ -347,7 +347,7 @@ def one_permutation(ctx, ofold, perm_id):
     rows = ctx["rows"][ofold]
 
     rng = np.random.default_rng(SEED + 100003 * ofold + perm_id)
-    mat, prov = build_null(ctx["null_kind"], dict(ctx, L=ctx["L"]), rows, rng)
+    mat, prov = build_null(ctx["null_kind"], dict(ctx, L=ctx["L_by_fold"].get(ofold, ctx["L"])), rows, rng)
 
     dfp = ctx["dfb"].copy(deep=False)
     for c, col in enumerate(ctx["opt_cols"]):
@@ -410,7 +410,8 @@ def prepare(ticker, scope, null_kind, run_id, block_mult):
            "simplicity": {int(f["id"]): golden.complexity_score(f.get("formula", ""), int(f["id"]))
                           for ns, rr in P.FEATURE_REGISTRIES.items() if ns != "1h"
                           for f in rr["features"] if bool(f.get("implemented", True))},
-           "params": {}, "inner": {}, "rows": {}, "base": {}, "base_conf": {}}
+           "params": {}, "inner": {}, "rows": {}, "base": {}, "base_conf": {},
+           "L_by_fold": {}, "clamped_folds": set()}
 
     folds = {ofold for (tk, ofold) in scope if tk == ticker}
     for f in reg["folds"]:
@@ -424,6 +425,17 @@ def prepare(ticker, scope, null_kind, run_id, block_mult):
         ctx["params"][i] = f["frozen_params"]
         ctx["inner"][i] = inner
         ctx["rows"][i] = sorted({j for tr, va in inner for j in list(tr) + list(va)})
+        # Contract short_fold_behaviour: a permutation block may span at most MAX_FRAC of the fold's
+        # bar range. On a short fold, L would exceed that; then use the quarter and flag it. On these
+        # folds (thousands of bars) the cap never binds, so L is unchanged and no flag is written — the
+        # artifact stays byte-identical; the clamp only ever activates for a future short fold.
+        _t0 = [t0s[j] for j in ctx["rows"][i]]
+        _cap = int(MAX_FRAC * (max(_t0) - min(_t0) + 1))
+        if ctx["L"] > _cap:
+            ctx["L_by_fold"][i] = max(1, _cap)
+            ctx["clamped_folds"].add(i)
+        else:
+            ctx["L_by_fold"][i] = ctx["L"]
         # Core is untouched by every null, so its discovery and confirmation are invariant across
         # all fifty permutations. Computing them once is exact, not an approximation.
         ctx["base"][i], ctx["base_conf"][i] = {}, {}
@@ -519,6 +531,8 @@ def _run_fold(ctx, ticker, ofold, arms, stage, ledger_path, control, m_max, redu
                "_must_not": "be used as the max-null verdict",
                "null_deltas_per_permutation": rot_deltas},
            "arms": {}}
+    if ofold in ctx.get("clamped_folds", ()):
+        row["block_length_clamped"] = ctx["L_by_fold"][ofold]     # only on a short fold; absent otherwise
     for a, s in state.items():
         n = s["stopped_at"] or executed
         b = s["exceed"]

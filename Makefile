@@ -12,7 +12,7 @@ PORT ?= 8503
 OPS     := ops
 SESSION ?= liora-golden
 JOBS    ?= 4
-HOURS   ?= 12
+LOOP_HOURS ?= 12
 
 setup:
 	python3 -m venv .venv
@@ -60,8 +60,8 @@ loop-start:
 	@tmux has-session -t $(SESSION) 2>/dev/null && \
 		{ echo "sesja '$(SESSION)' już istnieje — podgląd: make loop-attach"; exit 1; } || true
 	@tmux new-session -d -s $(SESSION) -c "$(CURDIR)" \
-		"$(OPS)/loop.sh --jobs $(JOBS) --hours $(HOURS)"
-	@echo "pętla wystartowana w tmux '$(SESSION)' (JOBS=$(JOBS) HOURS=$(HOURS))"
+		"$(OPS)/loop.sh --jobs $(JOBS) --hours $(LOOP_HOURS)"
+	@echo "pętla wystartowana w tmux '$(SESSION)' (JOBS=$(JOBS) HOURS=$(LOOP_HOURS))"
 	@echo "stan: make loop-status   ·   podgląd: make loop-attach   ·   stop: make loop-stop"
 
 # Resume the most recent run in place: reuses its stages.json + ledgers, so finished units are not
@@ -73,8 +73,8 @@ loop-resume:
 	tmux has-session -t $(SESSION) 2>/dev/null && \
 		{ echo "sesja '$(SESSION)' już istnieje — make loop-attach"; exit 1; } || true; \
 	tmux new-session -d -s $(SESSION) -c "$(CURDIR)" \
-		"$(OPS)/loop.sh --resume-run $$id --jobs $(JOBS) --hours $(HOURS)"; \
-	echo "wznowiono $$id w tmux '$(SESSION)' (JOBS=$(JOBS) HOURS=$(HOURS)); stan: make loop-status"
+		"$(OPS)/loop.sh --resume-run $$id --jobs $(JOBS) --hours $(LOOP_HOURS)"; \
+	echo "wznowiono $$id w tmux '$(SESSION)' (JOBS=$(JOBS) HOURS=$(LOOP_HOURS)); stan: make loop-status"
 
 loop-status:
 	@SESSION=$(SESSION) $(OPS)/status.sh
@@ -121,7 +121,7 @@ lint-contract:
 # REPRODUCTION runs the Calibration DAG per asset in a detached tmux session and produces new ones.
 ASSETS  ?=
 WORKERS ?= 4
-HOURS   ?= 8
+ENGINE_HOURS ?= 8
 
 methodology-report:                 ## presentation: funnel + per-asset descriptions from the snapshot
 	@$(PY) engine/report.py --snapshot --parity 26 11 9 2
@@ -134,7 +134,7 @@ engine-enqueue:                     ## plan, then write the next tasks to the qu
 	@d=$$(cat ops/.engine.current 2>/dev/null); $(PY) engine/planner.py --run-dir runs/$$d --enqueue
 
 engine-start:                       ## start the engine detached in tmux (ASSETS, WORKERS, HOURS)
-	@ASSETS="$(ASSETS)" WORKERS=$(WORKERS) HOURS=$(HOURS) ALLOW_DIRTY=$${ALLOW_DIRTY:-0} \
+	@ASSETS="$(ASSETS)" WORKERS=$(WORKERS) HOURS=$(ENGINE_HOURS) ALLOW_DIRTY=$${ALLOW_DIRTY:-0} \
 		bash ops/engine.sh >runs/.engine-start.log 2>&1 & echo "engine startuje; make engine-status"
 
 engine-smoke:                       ## full DAG on three assets, detached (validation run)
@@ -204,7 +204,7 @@ help:
 	@echo "make clean        Remove local runtime cache"
 	@echo ""
 	@echo "Unattended research chain (survives closing the terminal):"
-	@echo "  make loop-start    Start it detached in tmux '$(SESSION)'  (JOBS=$(JOBS) HOURS=$(HOURS))"
+	@echo "  make loop-start    Start it detached in tmux '$(SESSION)'  (JOBS=$(JOBS) HOURS=$(LOOP_HOURS))"
 	@echo "  make loop-status   Session, lock, control, stages, ledger progress, memory"
 	@echo "  make loop-attach   Watch it live            (detach with Ctrl-b d)"
 	@echo "  make loop-stop     Cooperative halt — finishes the current unit of work"

@@ -57,7 +57,7 @@ SAMPLE = ROOT / "config" / "sample_20.json"
 SPACE_V2 = ROOT / "config" / "xgb_search_space_v2.json"
 DEFAULT_OUT = DATA_DIR / "feature_utility.json"
 HPO_TRIALS = 30
-SEED = 42
+SEED = int(os.environ.get("RESEARCH_SEED", "42"))   # run-scoped przez engine (dispatch), domyślnie 42
 
 # Carried from stage 1: this table produced a degenerate model in 47% of draws even under the
 # rescaled space, where every other table produced none. Flagged rather than dropped, so stage 3

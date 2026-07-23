@@ -59,8 +59,7 @@ DEFAULT_NULL = DATA / "procedure_null_a1.json"
 OUT = DATA / "rung6_survivor_hpo.json"
 
 BUDGET = 20                        # B: equal HPO budget for core and core+survivor (calibratable)
-PERMUTATIONS = 20                  # own-null size (calibratable)
-SEED = 42
+SEED = int(os.environ.get("RESEARCH_SEED", "42"))   # run-scoped przez engine (dispatch), domyślnie 42
 MODE = "quantile"
 
 _CANON = json.loads((ROOT / "config" / "feature_discovery_contract.json").read_text(encoding="utf-8"))
@@ -78,7 +77,19 @@ def _own_null_alpha():
     return float((_CANON.get("max_null") or {}).get("alpha", 0.10))
 
 
+def _own_null_permutations():
+    """Rung 6's own-null size M, from rung_6_survivor_hpo.own_null.permutations (ADMISSIBLE), default 50.
+    Rung 6 is the headline gate, so its null must be no coarser than the max-null above it (M=50): at
+    M=20 the retain/demote boundary (b<=1 vs b>=2) sits within one MC standard deviation, so a marginal
+    unit's verdict is a function of the seed, not the data. M=50 makes it as sharp as max_null; alpha_eff
+    barely moves (2/21=0.095 → 5/51=0.098), so this sharpens the test, it does not lower the bar."""
+    c = RC.contract() or _CANON
+    r6 = c.get("rung_6_survivor_hpo") or {}
+    return int((r6.get("own_null") or {}).get("permutations", 50))
+
+
 ALPHA = _own_null_alpha()
+PERMUTATIONS = _own_null_permutations()      # own-null size (from contract; headline gate = as sharp as max_null)
 
 
 def _pass_b(alpha, perms):

@@ -42,7 +42,7 @@ construction, and no amount of care downstream removes it.
 Ten questions, in order, as a directed acyclic graph: each node has inputs, a statistic, a threshold
 fixed before the data is seen, a negative control, a stop condition, a cost, an artifact, and one
 admissible next step. A node that fails ends the walk — later nodes cannot repair an earlier one,
-they can only inherit its error. Rungs 0–5 are built and run; Rung 6 is built; Rungs 7 and 9 are
+they can only inherit its error. Rungs 0–6 are built and run; Rungs 7 and 9 are
 specified and frozen; Rung 8 aggregates what the earlier rungs wrote.
 
 | Rung | Question | Status |
@@ -200,7 +200,10 @@ a distinction the whole earlier procedure could not see.
 
 ### Rung 5 — Is the edge bigger than the maximum a search produces by itself?
 
-**Specified, not yet executed.** The contract defines it; these results do not include it.
+**Executed.** The block-permutation null ran on every cross-fit-accepted arm in three forms — A1
+(marginal), A2 (regime), B (conditional); a *stable survivor* passes all three (A1∩A2∩B). The live
+counts are in the funnel (`make methodology-report`), and Rung 6 re-tunes each stable survivor against
+its own null to yield the confirmed set.
 
 > **H₀:** optional features carry no incremental information over the frozen core, and the observed
 > maximum gain is what searching a pool of candidates produces by itself.

@@ -85,11 +85,12 @@
     "ORLY/1 flat 112",
     "ORLY/1 hierarchical oscillator_rsi"
    ],
-   "_same_feature": "both retained arms resolve to representative 112 on ORLY/1 — two discovery paths (flat ranking, hierarchical family) to one feature; the funnel counts arms, so 2",
-   "_finding": "GOOG (+0.037) and NVR (+0.087) had POSITIVE tuned deltas yet were demoted (b=2, own-null) — tuning a block-permuted noise column matched the gain, so it was hyper-parameter-search overfitting, not the feature.",
-   "_correction": "Supersedes the pre-correction funnel 11->4. Rung 6 had been fed A1-only survivors (so it retained IDXX/2 208 and BKNG/0 volume, which A2/B rejected) and applied b<=4 (calibrated for M=50) at M=20 (admitting p=0.238). Corrected: fed A1∩A2∩B (9 survivors) and b<=floor(alpha*(M+1)-1)=1 at M=20; own-null seed reproducible under PYTHONHASHSEED=0.",
+   "_same_feature": "both retained arms resolve to representative 112 on ORLY/1 — two discovery paths (flat, hierarchical family) to one feature; the funnel counts arms, so 2",
+   "_evidence": "flat 112: b=0/50 (p_mc=0.020); hierarchical oscillator_rsi: b=1/50 (p_mc=0.039) — both well inside alpha=0.10 at M=50. The 7 demoted all reached b=5 (futility). Clean partition; no unit within one MC standard deviation of the boundary.",
+   "_finding": "GOOG (+0.037) and NVR (+0.087) had POSITIVE tuned deltas yet were demoted (b=5, own-null) — tuning a block-permuted noise column matched the gain, so it was hyper-parameter-search overfitting, not the feature.",
+   "_correction": "Supersedes the pre-correction funnel 11->4. Rung 6 had been fed A1-only survivors (retained IDXX/2 208 and BKNG/0 volume, which A2/B rejected) and applied b<=4 (calibrated for M=50) at M=20 (admitting p=0.238). Corrected: fed A1∩A2∩B (9); threshold b<=floor(alpha*(M+1)-1) derived from alpha; own_null M raised 20->50 so the headline gate is no coarser than max_null (at M=20 the retain/demote boundary sat within one MC sd — a marginal unit's verdict was a function of the seed, e.g. ORLY/1 flat 112 flipped b=0<->2). Reproducible under PYTHONHASHSEED=0, jobs-independent.",
    "budget_B": 20,
-   "own_null_permutations": 20,
+   "own_null_permutations": 50,
    "invariant_held": "retained (2) <= survivors (9); Rung 6 only demotes"
   },
   "question": "The ladder measures a feature's utility at hyper-parameters frozen on core. It does not measure the maximum utility of that feature under an optimally tuned core + feature.",
@@ -100,9 +101,10 @@
   "phase": "MAXIMUM OPTIMIZATION, after the FAST SCREENING phase closes",
   "alpha": 0.1,
   "own_null": {
-   "permutations": 20,
+   "permutations": 50,
    "pass_condition": "retain iff b <= floor(alpha*(permutations+1)-1); at M=20, alpha=0.10 -> b<=1 (p_mc<=2/21=0.095<=alpha)",
-   "alpha_binding": "= max_null.alpha (0.10); one lab significance level. The b<=4 constant it replaced was calibrated for M=50 (5/51=0.098) and silently admitted p=5/21=0.238 at M=20. Phase B: contract_lint to enforce ==max_null.alpha."
+   "alpha_binding": "= max_null.alpha (0.10); one lab significance level. The b<=4 constant it replaced was calibrated for M=50 (5/51=0.098) and silently admitted p=5/21=0.238 at M=20. Phase B: contract_lint to enforce ==max_null.alpha.",
+   "_upgrade": "M 20→50: bramka headline nie może być rzadsza od max_null (M=50). Przy M=20 granica retain/demote (b≤1 vs b≥2) leży w zasięgu jednego odchylenia MC — werdykt jednostki marginalnej był funkcją ziarna (ORLY/1 flat 112: b=0↔b=2 z ziarnem), nie danych. M=50: alpha_eff 0.095→0.098 (bez zmiany poprzeczki), ostrość jak max_null. Legalne (rung_6 ∈ ADMISSIBLE)."
   }
  },
  "rung_7_interactions": {

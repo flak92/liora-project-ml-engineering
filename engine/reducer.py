@@ -47,11 +47,12 @@ def _asset_results(run_dir, rung):
 
 def assemble_feature_utility(run_dir):
     """xgb/data/feature_utility.json from per-asset Rung 3 artifacts — the register cross-fit reads."""
-    c = CT.load(run_dir)["contract"]
+    snap = CT.load(run_dir)
+    c = snap["contract"]
     tables = _asset_results(run_dir, 3)
     if not tables:
         return None
-    doc = {"hpo_trials": c["model_space"]["hpo_trials"], "seed": 42,
+    doc = {"hpo_trials": c["model_space"]["hpo_trials"], "seed": snap.get("seed", 42),
            "viability": c["viability"], "operating_point": c["operating_point"],
            "_generated": "engine reducer from per-asset Rung 3 artifacts", "tables": tables}
     write_json_atomic(workspace(run_dir) / "feature_utility.json", doc)
