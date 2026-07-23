@@ -85,6 +85,12 @@ def test_patch_guard():
     _guard_is("pole: model_space.hpo_trials=60 PRZECHODZI", {"model_space": {"hpo_trials": 60}}, True)
     _guard_is("pole: puste rung_6 (extension placeholder) PRZECHODZI", {"rung_6_survivor_hpo": {}}, True)
     _guard_is("pole: data_boundary top-level nadal ODRZUCONE", {"data_boundary": {"oos_start": "9999-01-01"}}, False)
+    # a hypothesis patch must not WRITE into a result/status/provenance subtree — those are the fields the
+    # inventory skips, so without this the skip would be a hole into the audit record. (regression: a patch
+    # could set rung_6_survivor_hpo.result.own_null_permutations, the record verify_calibration_docs reads.)
+    _guard_is("rekord: rung_6.result.own_null_permutations ODRZUCONE (edycja rekordu audytu)",
+              {"rung_6_survivor_hpo": {"result": {"own_null_permutations": 5}}}, False)
+    _guard_is("rekord: model_space._note (proweniencja) ODRZUCONE", {"model_space": {"_note": "x"}}, False)
 
     # self-policing inventory: the field-level allowlist cannot silently rot. The current contract is
     # fully classified; a NEW field under an admissible section is unclassified (contract_lint reddens),

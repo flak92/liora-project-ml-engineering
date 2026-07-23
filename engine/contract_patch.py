@@ -126,6 +126,16 @@ ADMISSIBLE_LEAVES = frozenset({
 })
 
 
+def _is_descriptive_leaf(leaf):
+    """True if any path segment is a descriptive / provenance key (result, status, question, protocol,
+    phase) or a `_`-prefixed field — a RECORD of an outcome or prose, never a hypothesis knob. The guard
+    refuses these so a hypothesis patch cannot write into a result/status subtree: those are exactly the
+    fields the inventory skips (to stay quiet on value edits), so without this the skip would be a hole —
+    e.g. rung_6_survivor_hpo.result.own_null_permutations passes section+leaf checks and edits the very
+    record verify_calibration_docs.py audits."""
+    return any(seg in _DESCRIPTIVE_KEYS or seg.startswith("_") for seg in leaf.split("."))
+
+
 def admissible_section_leaves(contract):
     """Dotted knob-leaf paths under the ADMISSIBLE sections of an assembled contract. Descriptive
     subtrees (result/status/question/protocol/phase) and provenance keys (`_*`) are skipped, so a value
@@ -177,10 +187,16 @@ def guard(patch):
     if outside:
         raise PatchRejected(f"patch poza dopuszczalną przestrzenią hipotez: {sorted(outside)} "
                             f"(dozwolone: {sorted(ADMISSIBLE)})")
-    frozen_leaves = sorted(p for p in _leaf_paths(patch) if _is_frozen_leaf(p))
+    leaves = list(_leaf_paths(patch))
+    frozen_leaves = sorted(p for p in leaves if _is_frozen_leaf(p))
     if frozen_leaves:
         raise PatchRejected(f"patch narusza ZAMROŻONE pole w dopuszczalnej sekcji: {frozen_leaves} — "
                             f"sekcję wolno wariować, ale nie ten proof-standard leaf (FROZEN_PATHS)")
+    record_leaves = sorted(p for p in leaves if _is_descriptive_leaf(p))
+    if record_leaves:
+        raise PatchRejected(f"patch pisze REKORD/opis, nie hipotezę: {record_leaves} — wariant hipotezy "
+                            f"wariuje przestrzeń hipotez, nigdy nie edytuje wyników/statusów/proweniencji "
+                            f"(to ten sam rekord, który audytuje verify_calibration_docs.py)")
     return touched
 
 
