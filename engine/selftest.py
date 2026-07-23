@@ -2,19 +2,18 @@
 """Prove the engine's execution guarantees — fast, without running a single science runner.
 
 Each check targets one promise the engine makes about HOW it runs, not about what the science finds:
-the queue hands a task to exactly one worker, a task under the wrong contract is refused before any
-compute, published artifacts are immutable and the newest is the state, the two ledgers stay
+a task under the wrong contract is refused before any compute, published artifacts are immutable and
+a divergent re-run is a FAILED_INTEGRITY (not silently overwritten), state is a function of artifacts
+alone, the viability floor comes from the contract, Rung 5 needs A1∩A2∩B, the two ledgers stay
 separate and hash-consistent, and the science runners still carry their OOS purge assertion. None of
 this touches XGBoost — the scientific correctness is the runners' own business, proven elsewhere.
 
-    make engine-selftest
+    make iteration-selftest        # runs this as its inner-loop group
 """
 import json
-import os
 import shutil
 import sys
 import tempfile
-from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +21,6 @@ sys.path.insert(0, str(ROOT / "engine"))
 sys.path.insert(0, str(ROOT / "scripts"))
 import states as ST                                                        # noqa: E402
 import schemas as SC                                                       # noqa: E402
-from taskqueue import Queue                                                    # noqa: E402
 from exec_ledger import ExecLedger                                         # noqa: E402
 from method_ledger import MethodLedger                                     # noqa: E402
 
@@ -54,55 +52,27 @@ def _mk_artifact(d, run_id, rung, asset, result):
     return th
 
 
-def _drain(run_dir):
-    q = Queue(run_dir)
-    claimed = []
-    while True:
-        t = q.claim()
-        if t is None:
-            break
-        claimed.append(t["task_hash"])
-        q.finish(t, "done")
-    return claimed
-
-
-def test_queue_atomicity():
-    """The atomic rename must hand each task to exactly one worker under real concurrency."""
-    print("\n1. kolejka: atomowy claim pod współbieżnością")
-    d = Path(tempfile.mkdtemp())
-    q = Queue(d)
-    N = 120
-    for i in range(N):
-        q.enqueue(SC.make_task("r", f"A{i}", 1, "h", 42))
-    with ProcessPoolExecutor(max_workers=4) as ex:
-        results = list(ex.map(_drain, [str(d)] * 4))
-    all_claimed = [h for r in results for h in r]
-    check("każde zadanie odebrane dokładnie raz", len(all_claimed) == N == len(set(all_claimed)),
-          f"{len(all_claimed)} odebrań, {len(set(all_claimed))} unikalnych, {N} zadań")
-    check("kolejka pusta po drenażu", q.counts()["pending"] == 0 and q.counts()["running"] == 0)
-    shutil.rmtree(d, ignore_errors=True)
-
-
 def test_contract_enforcement():
-    """A task whose contract_hash does not match the run's frozen contract is refused before compute."""
-    print("\n2. egzekucja kontraktu: zły contract_hash odrzucony przed dispatchem")
+    """A task whose contract_hash does not match the run's frozen contract is refused before compute —
+    the one scientific gate the executor owns (worker.execute_task), independent of any queue."""
+    print("\n1. egzekucja kontraktu: zły contract_hash odrzucony przed dispatchem")
+    import worker as WK
+    import reducer as RD
     d = Path(tempfile.mkdtemp())
     _mk_run(d)
-    q = Queue(d)
-    q.enqueue(SC.make_task("r", "A", 1, "WRONG", 42))       # mismatched hash
-    import worker as WK
     ST._CONTRACT.clear()
-    r = WK.run_one(str(d), "worker-01")
-    check("zadanie z błędnym hashem odrzucone", r and r["outcome"] == "contract_mismatch", str(r and r.get("outcome")))
+    task = SC.make_task("r", "A", 1, "WRONG", 42)              # mismatched hash
+    r = WK.execute_task(str(d), task, RD.workspace(str(d), "A"), "worker-01", ExecLedger(str(d)))
+    check("zadanie z błędnym hashem odrzucone", r and r["outcome"] == "contract_mismatch",
+          str(r and r.get("outcome")))
     check("żaden artefakt nie powstał", ST.read_artifact(str(d), 1, "A") is None)
-    check("zadanie w failed/", q.counts()["failed"] == 1)
     shutil.rmtree(d, ignore_errors=True)
 
 
 def test_idempotent_publish():
     """One deterministic path per unit: identical retry is a no-op success, a divergent result is
     FAILED_INTEGRITY (not silently overwritten)."""
-    print("\n3. idempotentny retry: identyczny = no-op, rozbieżny = FAILED_INTEGRITY")
+    print("\n2. idempotentny retry: identyczny = no-op, rozbieżny = FAILED_INTEGRITY")
     import worker as WK
     d = Path(tempfile.mkdtemp())
     _mk_run(d)
@@ -123,7 +93,7 @@ def test_idempotent_publish():
 
 def test_state_from_artifacts_not_ledger():
     """State is a function of artifacts + contract, reconstructible with no ledger present at all."""
-    print("\n4. stan wyprowadzany z artefaktów, nie z ledgera")
+    print("\n3. stan wyprowadzany z artefaktów, nie z ledgera")
     d = Path(tempfile.mkdtemp())
     _mk_run(d)
     ST._CONTRACT.clear()
@@ -136,7 +106,7 @@ def test_state_from_artifacts_not_ledger():
 
 def test_viability_both_gates():
     """The viability floor is BOTH split_nodes AND pred_std, read from the contract — not the engine."""
-    print("\n4b. viability: obie bramki z kontraktu (split_nodes I pred_std)")
+    print("\n3b. viability: obie bramki z kontraktu (split_nodes I pred_std)")
     d = Path(tempfile.mkdtemp())
     _mk_run(d)
     ST._CONTRACT.clear()
@@ -153,7 +123,7 @@ def test_viability_both_gates():
 def test_rung5_stable_survivor():
     """NULL_VALIDATED requires a stable survivor across A1 ∩ A2 ∩ B — A1 alone is not enough, and the
     a1/a2/b result shape (not `folds` at the top level) is read correctly."""
-    print("\n4c. werdykt Rung 5: kanoniczny A1∩A2∩B, nie samo A1")
+    print("\n3c. werdykt Rung 5: kanoniczny A1∩A2∩B, nie samo A1")
     import rung5_verdict as RV
     passed = {"folds": [{"outer_fold": 0, "arms": {"hierarchical": {"verdict": "passed", "unit": "macd"}}}]}
     rej = {"folds": [{"outer_fold": 0, "arms": {"hierarchical": {"verdict": "rejected_early", "unit": "macd"}}}]}
@@ -173,7 +143,7 @@ def test_rung5_stable_survivor():
 
 def test_ledger_separation():
     """Execution and methodology ledgers are two files, each hash-consistent."""
-    print("\n5. dwa ledgery: techniczny i metodologiczny, oddzielne i spójne")
+    print("\n4. dwa ledgery: techniczny i metodologiczny, oddzielne i spójne")
     d = Path(tempfile.mkdtemp())
     ex = ExecLedger(d)
     task = SC.make_task("r", "A", 1, "h", 42)
@@ -195,7 +165,7 @@ def test_oos_purge_present():
     and every dispatched runner builds its folds with a boundary-aware mechanism (an explicit
     oos_start_idx purge assertion, purged walk-forward folds, or the outer-fold carver — all of which
     keep validation strictly inside Train)."""
-    print("\n6. granica OOS: kontrakt oos_reads=0 + runnery używają foldów świadomych granicy")
+    print("\n5. granica OOS: kontrakt oos_reads=0 + runnery używają foldów świadomych granicy")
     import contract_loader as CL
     oos_reads = CL.assemble().get("data_boundary", {}).get("oos_reads")
     check("kontrakt deklaruje oos_reads = 0", oos_reads == 0, f"oos_reads={oos_reads}")
@@ -213,7 +183,7 @@ def test_oos_purge_present():
 
 def main():
     print("engine selftest — gwarancje wykonania (bez uruchamiania nauki)")
-    for t in (test_queue_atomicity, test_contract_enforcement, test_idempotent_publish,
+    for t in (test_contract_enforcement, test_idempotent_publish,
               test_state_from_artifacts_not_ledger, test_viability_both_gates,
               test_rung5_stable_survivor, test_ledger_separation, test_oos_purge_present):
         try:

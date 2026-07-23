@@ -5,12 +5,11 @@ It is the Feature Discovery Compiler's front half: it reads each asset's state (
 result artifacts) and names the smallest next experiment the contract permits. It changes no
 scientific parameter, invents no rule, and never applies a contract patch — a state that cannot
 proceed under the current rules returns NEEDS_CONTRACT and asks a human to mint a new contract
-version. Planning and enqueuing are separate, so the whole plan can be read before a single worker
-starts:
+version. It is read-only: `NEXT_RUNG` drives `engine/asset_driver.py`, and the CLI prints the plan
+for inspection without scheduling anything.
 
-    make engine-plan             # print the plan, enqueue nothing
-    make engine-plan DRY_RUN=1   # same, explicit
-    make engine-enqueue          # plan, then write tasks to the queue
+    python3 engine/planner.py --run-dir runs/<id>            # print the plan
+    python3 engine/planner.py --run-dir runs/<id> --json     # same, machine-readable
 
 Rung 2 (operating-point transfer) is validated inside Rungs 3-4 on this panel, so the executable path
 is 1 -> 3 -> 4 -> 5 -> 6; the state machine still names OPERATING_POINT_VALID conceptually.
@@ -28,8 +27,6 @@ import dispatch as DP                                                      # noq
 import reducer as RD                                                       # noqa: E402
 import schemas as SC                                                       # noqa: E402
 import states as ST                                                        # noqa: E402
-from taskqueue import Queue                                                    # noqa: E402
-from method_ledger import MethodLedger                                     # noqa: E402
 
 DATA = ROOT / "xgb" / "data"
 
@@ -79,31 +76,9 @@ def plan(run_dir, assemble=True):
     return [next_action(run_dir, a, contract) for a in contract["assets"]]
 
 
-def enqueue(run_dir, actions):
-    q = Queue(run_dir)
-    led = MethodLedger(run_dir)
-    n = 0
-    for a in actions:
-        if a.get("task"):
-            if q.enqueue(a["task"]):
-                n += 1
-            led.record(a["asset"], a["rung"], a.get("question", ""),
-                       verdict=a["state"], stop_reason=None, next_step=a["next_action"])
-        elif a["next_action"] is None and a["state"] in ("RESOLVED", "RESOLVED_EMPTY"):
-            led.record(a["asset"], 0, "terminal", verdict=a["state"],
-                       stop_reason=a.get("reason"), next_step=None)
-        elif a["state"] == "NEEDS_CONTRACT":
-            led.record(a["asset"], 0, "needs_contract", verdict="NEEDS_CONTRACT",
-                       stop_reason=a.get("reason"),
-                       next_step=a.get("required_human_action", "mint_new_contract_version"))
-    return n
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--run-dir", required=True)
-    ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--enqueue", action="store_true")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
 
@@ -116,14 +91,9 @@ def main():
             nxt = a["next_action"] or "—"
             tail = a.get("question") or a.get("reason") or ""
             print(f"{a['asset']:<7}{a['state']:<22}{nxt:<16}{tail[:48]}")
-
-    if args.enqueue and not args.dry_run:
-        n = enqueue(args.run_dir, actions)
-        print(f"\nzakolejkowano {n} zadań")
-    else:
-        sched = sum(1 for a in actions if a.get("task"))
-        print(f"\n(dry-run) {sched} zadań do zakolejkowania; "
-              f"terminalnych: {sum(1 for a in actions if a['next_action'] is None)}")
+    sched = sum(1 for a in actions if a.get("task"))
+    print(f"\n{sched} zadań gotowych do uruchomienia; "
+          f"terminalnych: {sum(1 for a in actions if a['next_action'] is None)}")
     return 0
 
 

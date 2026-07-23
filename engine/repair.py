@@ -1,31 +1,28 @@
 #!/usr/bin/env python3
 """The Repair Loop — the third layer, and the one allowed to touch nothing scientific.
 
-It reads the execution ledger and decides what to do with technical failures: retry the transient
-ones, and stop retrying the ones a retry cannot fix. Its whole vocabulary is execution-layer —
-worker crashes, timeouts, a non-reproducible artifact — and it is forbidden, structurally, from
-reaching a threshold, a fold, a null, or the OOS boundary. A `FAILED_TECHNICAL` unit is not a
-scientific verdict; it is a machine that broke, kept apart from `NEEDS_CONTRACT` (a science stop) on
-purpose.
+It reads the execution ledger and classifies technical failures: which are transient, and which a
+retry cannot fix. Its whole vocabulary is execution-layer — worker crashes, timeouts, a
+non-reproducible artifact — and it is forbidden, structurally, from reaching a threshold, a fold, a
+null, or the OOS boundary. A `FAILED_TECHNICAL` unit is not a scientific verdict; it is a machine that
+broke, kept apart from `NEEDS_CONTRACT` (a science stop) on purpose.
 
 The diagnosis is a pure function of a unit's ledger history, so it is testable without a machine that
 actually crashes:
 
     exit 95 (FAILED_INTEGRITY)      -> quarantine: a retry produced different bytes; never retry, never
-                                       overwrite. The experiment was not reproducible — that is a
-                                       finding, recorded, not papered over.
+                                       overwrite. The experiment was not reproducible — a finding.
     exit 7 / 92 (contract / schema) -> failed_technical: deterministic; a retry is futile.
     other non-zero, attempts < N    -> safe_retry: a transient (OOM, timeout) with budget left.
     other non-zero, attempts >= N   -> failed_technical: transient but exhausted.
-    a later 'completed' for the unit -> repaired (an earlier failure the loop already recovered).
+    a later 'completed' for the unit -> repaired (an earlier failure already recovered).
 
-`handle()` performs the safe retries by moving the task file failed/ -> pending/ (the same atomic
-rename the queue uses everywhere) and returns the terminal-technical units so the orchestrator can
-overlay a FAILED_TECHNICAL state onto the asset. It never elevates a science stop and never edits a
-result artifact.
+The driver (engine/asset_driver.py) acts on this: a transient failure re-runs the asset's DAG once
+(idempotent via immutable artifacts, so finished rungs are skipped), and `technical_terminal` gives
+the orchestrator the units to overlay as FAILED_TECHNICAL. It never elevates a science stop and never
+edits a result artifact.
 """
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -85,34 +82,6 @@ def diagnose(rec, max_retries):
     return "safe_retry"                                     # transient with budget left
 
 
-def _requeue_failed(run_dir, task_hash):
-    """Move one failed task back to pending for retry — the same atomic rename the queue uses. Returns
-    True if it moved. (Kept here rather than in taskqueue so the live queue module is untouched.)"""
-    q = Path(run_dir) / "queue"
-    src = q / "failed" / f"{task_hash}.json"
-    if not src.exists():
-        return False
-    os.rename(src, q / "pending" / f"{task_hash}.json")     # atomic within one filesystem
-    return True
-
-
-def handle(run_dir, max_retries=2):
-    """Classify, then act: requeue safe retries, leave terminal-technical units in failed/ for audit.
-
-    Returns a summary the orchestrator logs into iteration_trace and overlays onto per-asset state:
-    {repaired, safe_retry, quarantine_integrity, failed_technical} — each a list of unit records."""
-    buckets = {"repaired": [], "safe_retry": [], "quarantine_integrity": [], "failed_technical": []}
-    for rec in classify(run_dir).values():
-        d = diagnose(rec, max_retries)
-        if d == "ok":
-            continue
-        entry = {**rec, "label": EXIT_LABEL.get(rec["last_exit"], rec["last_exit"])}
-        if d == "safe_retry":
-            entry["requeued"] = _requeue_failed(run_dir, rec["task_hash"])
-        buckets[d].append(entry)
-    return buckets
-
-
 def technical_terminal(run_dir, max_retries=2):
     """{asset: reason} for assets blocked by a terminal technical failure — what the orchestrator
     overlays as FAILED_TECHNICAL (kept strictly apart from the scientific NEEDS_CONTRACT)."""
@@ -129,20 +98,10 @@ def main():
     ap = argparse.ArgumentParser(description="Repair Loop — classify technical failures.")
     ap.add_argument("--run-dir", required=True)
     ap.add_argument("--max-retries", type=int, default=2)
-    ap.add_argument("--act", action="store_true", help="wykonaj bezpieczne retry (przenieś failed→pending)")
     args = ap.parse_args()
-    if args.act:
-        b = handle(args.run_dir, args.max_retries)
-        for k, v in b.items():
-            if v:
-                items = [(e["asset"], "rung%s" % e["rung"], e["label"]) for e in v]
-                print("  %s: %s" % (k, items))
-        if not any(b.values()):
-            print("  brak awarii technicznych")
-    else:
-        for rec in classify(args.run_dir).values():
-            print(f"  {rec['asset']:<6} rung{rec['rung']} attempts={rec['attempts']} "
-                  f"fail={rec['failures']} -> {diagnose(rec, args.max_retries)}")
+    for rec in classify(args.run_dir).values():
+        print(f"  {rec['asset']:<6} rung{rec['rung']} attempts={rec['attempts']} "
+              f"fail={rec['failures']} -> {diagnose(rec, args.max_retries)}")
     return 0
 
 

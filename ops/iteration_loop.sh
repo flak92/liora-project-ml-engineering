@@ -2,10 +2,11 @@
 # iteration_loop.sh — detached entry for the Iterative Calibration Loop (the ladder orchestrator).
 #
 # It is the outer supervisor, and it is deliberately thin: it takes its own lock, opens its own tmux
-# session, and runs `engine/iteration_planner.py --mode external`, which walks the pre-authorized
-# ladder of frozen contract versions and shells the PROVEN per-epoch supervisor (`ops/engine.sh`) once
-# per version. Nothing here is a second execution platform — the inner loop is the engine you already
-# have; this only sequences epochs, gates on integrity, and stops at convergence.
+# session, and runs `engine/iteration_planner.py`, which walks the pre-authorized ladder of frozen
+# contract versions and drives each to a fixpoint with the parallel-over-assets driver
+# (`engine/asset_driver.py` — private per-asset workspace, RAM-capped fork pool, no queue/guard/
+# scheduler). Nothing here is a second execution platform; this only sequences epochs, gates on
+# integrity, and stops at convergence.
 #
 # Detached like the engine: the tmux SERVER is the daemon, so closing the terminal leaves the loop
 # running. A DISTINCT session name and lock let it coexist with a plain `engine-*` run. No SIGTERM
@@ -56,7 +57,7 @@ ASSET_FLAG=""; [[ -n "$ASSETS" ]] && ASSET_FLAG="--assets $ASSETS"
 # COMPLETED. `9>&-` so the tmux server never inherits/pins the lock. `; bash` keeps the pane for logs.
 tmux new-session -d -s "$SESSION" -c "$ROOT" -n loop \
   "PY=$PY ALLOW_DIRTY=$ALLOW_DIRTY \
-   '$PY' '$ENG/iteration_planner.py' --ladder-dir '$LADDER_DIR' --mode external \
+   '$PY' '$ENG/iteration_planner.py' --ladder-dir '$LADDER_DIR' \
         --seed $SEED --policy '$POLICY' $ASSET_FLAG $DIRTY_FLAG 9>&-; \
    '$PY' '$ENG/iteration_report.py' --ladder-dir '$LADDER_DIR'; \
    '$PY' -c \"import json,time; p='$LADDER_DIR/supervisor.json'; d=json.load(open(p)); \

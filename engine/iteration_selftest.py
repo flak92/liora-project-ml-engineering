@@ -146,13 +146,10 @@ def test_repair_mining():
         check("D 1×fail (<max_retries) = safe_retry", diag.get("D") == "safe_retry")
         check("E completed-THEN-exit95 = quarantine_integrity (nie 'repaired')",
               diag.get("E") == "quarantine_integrity", "diag_E=%s" % diag.get("E"))
-        # handle() requeues D: create its failed queue file, expect it moved to pending
-        q = Path(d) / "queue"
-        (q / "failed").mkdir(parents=True, exist_ok=True); (q / "pending").mkdir(parents=True, exist_ok=True)
-        (q / "failed" / "h4.json").write_text("{}")
-        RP.handle(d, 2)
-        check("safe_retry przenosi failed→pending", (q / "pending" / "h4.json").exists()
-              and not (q / "failed" / "h4.json").exists())
+        # D (1×fail, budget left) is safe_retry — the driver re-runs the asset's DAG once, idempotently
+        # via immutable artifacts (no queue requeue); classify/diagnose is the pure decision it acts on.
+        check("safe_retry to decyzja diagnose (driver re-runuje asset raz, bez kolejki)",
+              diag.get("D") == "safe_retry")
 
 
 def test_budget_cap():
@@ -226,32 +223,6 @@ def test_contract_injection():
         os.environ.pop(RC.ENV, None)
         if saved is not None:
             os.environ[RC.ENV] = saved
-
-
-def test_task_heartbeat():
-    """A live long task refreshes its running-file mtime (worker heartbeat), so the guard's stale sweep
-    (age >= STALE_TASK) never reclaims it into a concurrent duplicate; os.utime must NOT recreate a file
-    the guard just moved. (regression: the 2h45m-null FAILED_INTEGRITY caused by stale-requeue.)"""
-    import os
-    import time
-    print("\n8. heartbeat: żywy long-task nie requeue'owany + brak re-kreacji przeniesionego pliku")
-    STALE = 5400
-    with tempfile.TemporaryDirectory() as d:
-        rf = Path(d) / "running.json"
-        rf.write_text("{}")
-        os.utime(rf, None)
-        check("świeży mtime → nie stale", (time.time() - rf.stat().st_mtime) < STALE)
-        os.utime(rf, (time.time() - 9900, time.time() - 9900))          # symuluj 2h45m bez heartbeatu
-        check("2h45m bez heartbeatu → stale (age>=STALE)", (time.time() - rf.stat().st_mtime) >= STALE)
-        os.utime(rf, None)                                              # heartbeat bije
-        check("po heartbeacie → znów świeży, nie stale", (time.time() - rf.stat().st_mtime) < STALE)
-        rf.unlink()                                                     # guard przeniósł plik
-        try:
-            os.utime(rf, None)
-            recreated = rf.exists()
-        except OSError:
-            recreated = False
-        check("os.utime na przeniesionym pliku NIE rekreuje (brak phantom running)", not recreated)
 
 
 def test_confirmed_excludes_failed():
@@ -414,7 +385,7 @@ def main():
     print("iteration-selftest — gwarancje Iterative Calibration Loop (bez uruchamiania nauki)")
     for t in (test_engine_selftest, test_patch_guard, test_convergence, test_repair_mining,
               test_budget_cap, test_ladder_guard, test_integrity_tampering, test_contract_injection,
-              test_task_heartbeat, test_confirmed_excludes_failed, test_determinism_guard,
+              test_confirmed_excludes_failed, test_determinism_guard,
               test_full_strength_guardrail, test_seal_science_only,
               test_rung6_stable_survivors, test_rung6_threshold_from_alpha,
               test_report_retained_intersect, test_smoke_pass_not_science):

@@ -1,28 +1,22 @@
 #!/usr/bin/env python3
-"""One worker step: claim a task, run the science runner it names, publish an immutable result, and
-record what happened. The worker knows nothing about rung transitions — that is the planner's job.
+"""Execute one task: run the science runner it names, publish an immutable result, record what happened.
+The executor knows nothing about rung transitions (the planner's job) or work assignment (the driver's).
 
-    claim -> verify contract hash -> dispatch runner -> validate envelope -> atomic publish
-          -> execution ledger -> move task to done/failed
+    contract gate -> dispatch runner (in a workspace) -> validate envelope -> idempotent/integrity
+                     publish -> execution ledger
 
-The worker's only scientific responsibility is a negative one: it refuses to run a task whose
+The executor's only scientific responsibility is a negative one: it refuses to run a task whose
 `contract_hash` does not match the run's frozen contract, so no result is ever produced under rules
 different from the ones the run declared. Everything it writes is immutable and self-describing — a
 result file names the task, the contract, the runner exit code and its own content hash — so the
-reducer and the report can trust it without re-deriving anything.
-
-    python3 engine/worker.py --run-dir runs/<id> --worker worker-01        # one step
-    python3 engine/worker.py --run-dir runs/<id> --worker worker-01 --loop # until the queue drains
+reducer and the report can trust it without re-deriving anything. `engine/asset_driver.py` calls
+`execute_task` once per (asset, rung) in the asset's private workspace.
 """
-import argparse
-import os
 import sys
-import threading
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-HEARTBEAT_SEC = 60          # how often a running task refreshes its own liveness (< guard STALE_TASK)
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "engine"))
 import runtime_init                                                        # noqa: E402,F401
@@ -30,11 +24,8 @@ runtime_init.apply()
 from artifact_io import write_json_atomic                                  # noqa: E402
 import contract as CT                                                      # noqa: E402
 import dispatch as DP                                                      # noqa: E402
-import reducer as RD                                                       # noqa: E402
 import schemas as SC                                                       # noqa: E402
-from taskqueue import Queue                                                # noqa: E402
 from states import RUNG_DIR                                                # noqa: E402
-from exec_ledger import ExecLedger                                         # noqa: E402
 
 
 def _publish(run_dir, task, envelope):
@@ -67,11 +58,11 @@ def _publish(run_dir, task, envelope):
 
 
 def execute_task(run_dir, task, ws, worker_id, led):
-    """The queueless core: contract gate -> dispatch (in `ws`) -> validate -> idempotent/integrity
-    publish -> ledger. The caller owns work assignment and liveness (no claim, no heartbeat). Shared by
-    the legacy queue worker (run_one) and the asset_driver (parallel-over-assets). Returns
-    {**task, outcome, ...}; outcome in {contract_mismatch, failed, invalid, failed_integrity, published,
-    idempotent}. The one scientific gate the executor owns is the contract_hash check."""
+    """The queueless execution core: contract gate -> dispatch (in `ws`) -> validate ->
+    idempotent/integrity publish -> ledger. The caller owns work assignment and liveness (no claim,
+    no heartbeat). Returns {**task, outcome, ...}; outcome in {contract_mismatch, failed, invalid,
+    failed_integrity, published, idempotent}. The one scientific gate the executor owns is the
+    contract_hash check."""
     snap = CT.load(run_dir)
     if task.get("contract_hash") != snap["contract_hash"]:
         led.failed(task, worker_id, 0.0, 7, "contract_hash mismatch")
@@ -97,66 +88,3 @@ def execute_task(run_dir, task, ws, worker_id, led):
         return {**task, "outcome": "failed_integrity", "existing_sha": sha}
     led.done(task, worker_id, secs, rc, sha)
     return {**task, "outcome": pub, "seconds": round(secs, 1), "artifact_sha256": sha}
-
-
-def run_one(run_dir, worker_id):
-    """Legacy queue path: claim -> heartbeat -> execute_task -> finish. Returns task-with-outcome or None.
-
-    The heartbeat keeps the running-file mtime fresh so the guard's stale sweep never requeues a
-    legitimately long task into a concurrent duplicate; `os.utime` (not touch) never recreates a file the
-    guard just moved. (The asset_driver needs neither queue nor heartbeat — nothing requeues a running
-    task there.)"""
-    q = Queue(run_dir)
-    led = ExecLedger(run_dir)
-    task = q.claim()
-    if task is None:
-        return None
-    running_file = Path(run_dir) / "queue" / "running" / f"{task['task_hash']}.json"
-    stop_hb = threading.Event()
-
-    def _beat():
-        while not stop_hb.wait(HEARTBEAT_SEC):
-            try:
-                os.utime(running_file, None)
-            except OSError:
-                return                              # file gone (finished/requeued) -> stop quietly
-
-    hb = threading.Thread(target=_beat, daemon=True)
-    hb.start()
-    try:
-        r = execute_task(run_dir, task, RD.workspace(run_dir), worker_id, led)
-    finally:
-        stop_hb.set()
-        hb.join(timeout=2)
-    q.finish(task, "done" if r["outcome"] in ("published", "idempotent") else "failed")
-    return r
-
-
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--run-dir", required=True)
-    ap.add_argument("--worker", default="worker-00")
-    ap.add_argument("--loop", action="store_true", help="claim until the queue is empty")
-    ap.add_argument("--idle-exit", type=int, default=1, help="empty claims before a loop worker exits")
-    args = ap.parse_args()
-
-    if not args.loop:
-        r = run_one(args.run_dir, args.worker)
-        print("brak zadań" if r is None else f"{r['asset']}/rung{r['rung']}: {r['outcome']}")
-        return 0
-
-    idle = 0
-    while idle < args.idle_exit:
-        r = run_one(args.run_dir, args.worker)
-        if r is None:
-            idle += 1
-            time.sleep(2)
-            continue
-        idle = 0
-        print(f"[{args.worker}] {r['asset']}/rung{r['rung']}: {r['outcome']}"
-              + (f" ({r.get('seconds')}s)" if r.get("seconds") else ""), flush=True)
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())

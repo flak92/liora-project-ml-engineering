@@ -1,6 +1,5 @@
 .PHONY: setup on off verify clean help lint-contract verify-calibration-docs replay verify-replay \
-        methodology-report engine-plan engine-enqueue engine-start engine-smoke \
-        engine-status engine-attach engine-stop engine-report engine-selftest \
+        methodology-report engine-selftest \
         iteration-start iteration-status iteration-plan iteration-report iteration-stop \
         iteration-smoke iteration-selftest \
         loop-start loop-status loop-attach loop-stop loop-kill loop-logs loop-selftest
@@ -128,46 +127,17 @@ replay:                             ## build methodology_replay.html from the sn
 verify-replay:                      ## fail if the built replay's seal drifted from contract/snapshot/guard
 	@$(PY) scripts/verify_replay.py
 
-# --- methodology execution engine (branch `methodology`) --------------------------------------
+# --- methodology (branch `methodology`) --------------------------------------------------------
 # Two ways to use the branch. PRESENTATION reads frozen artifacts and prints the funnel in a blink;
-# REPRODUCTION runs the Calibration DAG per asset in a detached tmux session and produces new ones.
+# REPRODUCTION walks the ladder per asset in a detached tmux session (make iteration-start), driving
+# each frozen contract version to a fixpoint with the parallel-over-assets driver.
 ASSETS  ?=
 WORKERS ?= 4
-ENGINE_HOURS ?= 8
 
 methodology-report:                 ## presentation: funnel + per-asset descriptions from the snapshot
 	@$(PY) engine/report.py --snapshot --parity 26 11 9 2
 
-engine-plan:                        ## deterministic plan (enqueue nothing); DRY_RUN=1 for explicit dry
-	@d=$$(cat ops/.engine.current 2>/dev/null); [ -n "$$d" ] || { echo "brak runu; make engine-start"; exit 1; }; \
-	$(PY) engine/planner.py --run-dir runs/$$d
-
-engine-enqueue:                     ## plan, then write the next tasks to the queue
-	@d=$$(cat ops/.engine.current 2>/dev/null); $(PY) engine/planner.py --run-dir runs/$$d --enqueue
-
-engine-start:                       ## start the engine detached in tmux (ASSETS, WORKERS, HOURS)
-	@ASSETS="$(ASSETS)" WORKERS=$(WORKERS) HOURS=$(ENGINE_HOURS) ALLOW_DIRTY=$${ALLOW_DIRTY:-0} \
-		bash ops/engine.sh >runs/.engine-start.log 2>&1 & echo "engine startuje; make engine-status"
-
-engine-smoke:                       ## full DAG on three assets, detached (validation run)
-	@ASSETS="AZO ADBE GOOG" WORKERS=3 HOURS=6 ALLOW_DIRTY=1 \
-		bash ops/engine.sh >runs/.engine-smoke.log 2>&1 & echo "smoke startuje; make engine-status"
-
-engine-status:                      ## session, queue, per-asset states, ledgers, memory
-	@bash ops/status.sh
-
-engine-attach:                      ## watch the engine live (detach with Ctrl-b d)
-	@tmux attach -t golden-calibration
-
-engine-stop:                        ## cooperative halt — finishes the current tasks
-	@d=$$(cat ops/.engine.current 2>/dev/null); \
-	$(PY) -c "import json,os;p='runs/'+'$$d'+'/control.json';c=json.load(open(p));c['halt']=True;open(p+'.t','w').write(json.dumps(c));os.replace(p+'.t',p)" \
-		&& echo "halt ustawiony (runs/$$d)"
-
-engine-report:                      ## rebuild the run report from a live/finished run
-	@d=$$(cat ops/.engine.current 2>/dev/null); $(PY) engine/report.py --run-dir runs/$$d
-
-engine-selftest:                    ## prove queue claim atomicity, contract enforcement, resume, OOS
+engine-selftest:                    ## prove execution guarantees: contract gate, idempotent publish, ledgers, OOS
 	@$(PY) engine/selftest.py
 
 # --- Iterative Calibration Loop (ladder of frozen contract versions) ---------------------------
@@ -192,16 +162,12 @@ iteration-report:                   ## (re)generate iteration_summary.md from th
 
 iteration-stop:                     ## cooperative halt — finishes the current epoch, stops the ladder
 	@d=$$(cat ops/.iteration.current 2>/dev/null); [ -n "$$d" ] || { echo "brak drabiny do zatrzymania"; exit 1; }; \
-	$(PY) -c "import json,os;p='runs/'+'$$d'+'/control.json';c=json.load(open(p));c['halt']=True;open(p+'.t','w').write(json.dumps(c));os.replace(p+'.t',p)" && echo "halt drabiny ustawiony (runs/$$d)"; \
-	e=$$(cat ops/.engine.current 2>/dev/null); \
-	if [ -n "$$e" ] && [ -f runs/$$e/control.json ]; then \
-	  $(PY) -c "import json,os;p='runs/'+'$$e'+'/control.json';c=json.load(open(p));c['halt']=True;open(p+'.t','w').write(json.dumps(c));os.replace(p+'.t',p)" && echo "halt bieżącej epoki ustawiony (runs/$$e)"; \
-	fi
+	$(PY) -c "import json,os;p='runs/'+'$$d'+'/control.json';c=json.load(open(p));c['halt']=True;open(p+'.t','w').write(json.dumps(c));os.replace(p+'.t',p)" && echo "halt drabiny ustawiony (runs/$$d)"
 
 iteration-smoke:                    ## FAST dev gate: reduced null strength (mechanics only, 0 confirmations)
 	@id=icl_smoke_$$(git rev-parse --short HEAD); \
 	RESEARCH_SMOKE_PERMS=5 RESEARCH_SMOKE_FOLDS=1 \
-	$(PY) engine/iteration_planner.py --ladder-dir runs/$$id --assets AZO ADBE GOOG --mode inproc --allow-dirty && \
+	$(PY) engine/iteration_planner.py --ladder-dir runs/$$id --assets AZO ADBE GOOG --allow-dirty && \
 	$(PY) engine/iteration_report.py --ladder-dir runs/$$id; \
 	echo "UWAGA: smoke = obniżona siła (perms=5, folds=1) → waliduje ORKIESTRACJĘ; guardrail wymusza 0 potwierdzeń. Pełna nauka: make iteration-start (bez RESEARCH_SMOKE_*)."
 
