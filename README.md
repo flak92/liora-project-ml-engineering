@@ -97,9 +97,9 @@ make engine-plan               # the deterministic plan, read before anything ru
 make engine-selftest           # prove the execution guarantees (no science runs)
 ```
 
-## The five pages
+## The six pages
 
-`make on` opens a read-only Streamlit console — five pages, flat sidebar, counts derived from the store,
+`make on` opens a read-only Streamlit console — six pages, flat sidebar, counts derived from the store,
 nothing trains at runtime:
 
 - **Data Flow 3D Visualization** — the pipeline as a moving graph.
@@ -107,6 +107,7 @@ nothing trains at runtime:
 - **Basket Simulator** — build a basket and read what the sealed models did with it.
 - **Data Pipeline Lego Plan** — the procedure as an 18-brick board.
 - **Calibration Configurables** — every tunable number as a range, its FROZEN/ADMISSIBLE state, and which knob to widen when a step comes up empty.
+- **Methodology Replay** — the real run time-compressed into seven epistemic acts, reconstructed from the committed snapshot panels; the field-level guard runs live on each visit.
 
 ## Reproducibility — what runs from a fresh clone, and what does not
 

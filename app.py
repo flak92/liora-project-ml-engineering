@@ -1,9 +1,10 @@
-"""Entry point: `streamlit run app.py` (or `make on`). Five read-only pages, flat.
+"""Entry point: `streamlit run app.py` (or `make on`). Six read-only pages, flat.
 
 A list rather than a dict: st.navigation only draws section headers when it is given
-groups, and five pages do not need three headers over them. Order is the reading order —
-the build path, then the result, then the thing to play with, then the procedure in full.
-Overview stays the landing page; it is the one that answers "what came out of this".
+groups, and six pages do not need three headers over them. Order is the reading order —
+the build path, then the result, then the thing to play with, then the procedure in full,
+then the procedure re-lived as a timed replay. Overview stays the landing page; it is the
+one that answers "what came out of this".
 """
 import sys
 from pathlib import Path
@@ -24,5 +25,6 @@ pages = st.navigation([
     st.Page("app/pages/simulator.py", title="Basket Simulator", url_path="simulator"),
     st.Page("app/pages/blueprint.py", title="Data Pipeline Lego Plan", url_path="blueprint"),
     st.Page("app/pages/calibration.py", title="Calibration Configurables", url_path="calibration"),
+    st.Page("app/pages/methodology_replay.py", title="Methodology Replay", url_path="replay"),
 ], expanded=True)
 pages.run()

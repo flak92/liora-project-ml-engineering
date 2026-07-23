@@ -1,4 +1,4 @@
-.PHONY: setup on off verify clean help lint-contract verify-calibration-docs \
+.PHONY: setup on off verify clean help lint-contract verify-calibration-docs replay verify-replay \
         methodology-report engine-plan engine-enqueue engine-start engine-smoke \
         engine-status engine-attach engine-stop engine-report engine-selftest \
         iteration-start iteration-status iteration-plan iteration-report iteration-stop \
@@ -118,6 +118,15 @@ lint-contract:
 
 verify-calibration-docs:            ## fail if the calibration docs' seal drifted from contract/snapshot
 	@$(PY) scripts/verify_calibration_docs.py
+
+# The methodology replay: a BUILT artifact reconstructed from the snapshot panels — never hand-edited.
+# `replay` regenerates methodology_replay.html; `verify-replay` fails if its embedded seal (contract
+# hash, funnel, live guard message) drifted from the current contract/snapshot/guard.
+replay:                             ## build methodology_replay.html from the snapshot (never hand-edit it)
+	@$(PY) scripts/build_replay.py
+
+verify-replay:                      ## fail if the built replay's seal drifted from contract/snapshot/guard
+	@$(PY) scripts/verify_replay.py
 
 # --- methodology execution engine (branch `methodology`) --------------------------------------
 # Two ways to use the branch. PRESENTATION reads frozen artifacts and prints the funnel in a blink;
