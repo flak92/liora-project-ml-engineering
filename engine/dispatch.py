@@ -51,8 +51,15 @@ def _tmp(ws, suffix=".json"):
 
 
 def _entry(out_path, asset):
+    """Extract one asset's SCIENCE result. A sealed artifact holds only science; operational fields
+    (timing, host, pid) live in the ledger and run_manifest — so `seconds` is dropped here. The hashed
+    result must be byte-identical across re-runs, and wall-time never is; the per-unit cost it duplicated
+    is already in the exec ledger (`per-unit cost for cost_report.py`)."""
     doc = json.loads(Path(out_path).read_text(encoding="utf-8"))
-    return doc.get("tables", {}).get(asset)
+    e = doc.get("tables", {}).get(asset)
+    if isinstance(e, dict):
+        e.pop("seconds", None)          # operational, not science → never in the hashed seal
+    return e
 
 
 _SINGLE = {1: (SCRIPTS / "model_viability.py", 1800),
@@ -87,16 +94,24 @@ def _smoke_args():
     return a
 
 
+def _fold_args():
+    """Within-ticker fold parallelism (#2, fork-after-prepare, byte-identical). RESEARCH_FOLD_JOBS ->
+    --fold-jobs; unset -> 1 (serial). The engine dispatches one ticker per null task (--jobs 1), so
+    the task's cores go to its folds. Byte-identical to serial by construction (folds independent)."""
+    fj = os.environ.get("RESEARCH_FOLD_JOBS")
+    return ["--fold-jobs", str(int(fj))] if fj else []
+
+
 def _dispatch_null(task, ws):
     asset = task["asset"]
     scratch = ws / "scratch" / f"null_{asset}_{int(time.time())}"
-    smoke = _smoke_args()
+    extra = _smoke_args() + _fold_args()
     tmps = {}
     try:
         tmps["a1"] = _tmp(ws)
         rc, _o, err = _run([PY, str(SCRIPTS / "procedure_null.py"), asset, "--null", "a1",
                             "--jobs", "1", "--out", tmps["a1"], "--run-dir", str(scratch / "a1")]
-                           + smoke, 5400, ws)
+                           + extra, 5400, ws)
         if rc != 0:
             return None, rc, err[-400:]
         a1 = _entry(tmps["a1"], asset)
@@ -109,7 +124,7 @@ def _dispatch_null(task, ws):
             tmps[kind] = _tmp(ws)
             rc, _o, err = _run([PY, str(SCRIPTS / "procedure_null.py"), asset, "--null", kind,
                                 "--jobs", "1", "--survivors-from", tmps["a1"], "--out", tmps[kind],
-                                "--run-dir", str(scratch / kind)] + smoke, 5400, ws)
+                                "--run-dir", str(scratch / kind)] + extra, 5400, ws)
             if rc != 0:
                 return None, rc, f"{kind}: {err[-300:]}"
             result[kind] = _entry(tmps[kind], asset)

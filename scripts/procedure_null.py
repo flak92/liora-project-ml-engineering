@@ -447,103 +447,122 @@ def halted(control):
     return bool(d.get("halt"))
 
 
-def run_ticker(job):
-    """All scoped outer folds of one ticker, checkpointing every permutation."""
-    ticker, scope, real, null_kind, run_id, block_mult, ledger_path, control, m_max = job
-    led = Ledger(ledger_path)
-    stage = f"null_{null_kind}"
-    # One pass over the ledger, not one per permutation: a resume late in a long run would
-    # otherwise re-read and re-parse the whole file for every unit it skips.
-    cache = {Ledger.key(u): p for u, p in led.payloads(stage)}
+_FORK = {}   # COW-inherited across fork(); NEVER pickled — the per-ticker context fold-workers read
 
+
+def _run_fold(ctx, ticker, ofold, arms, stage, ledger_path, control, m_max):
+    """One outer fold's null realisation: its OWN sequential permutation loop, its OWN futility stop
+    and executed count. Folds are byte-independent, so this is the unit of parallelism — running folds
+    in separate fork()ed processes changes only wall-clock. ctx is read-only here (and COW-isolated
+    per process, so any subtle in-place mutation inside one_permutation cannot leak across folds)."""
+    led = Ledger(ledger_path)
+    cache = {Ledger.key(u): p for u, p in led.payloads(stage)}      # this fold's finished units (resume)
+    state = {a: {"exceed": 0, "null": [], "stopped_at": None} for a in arms}
+    executed = 0
+    prov_last = {}
+    rot_deltas, hashes, disp_fracs = [], [], []
+
+    for pid in range(m_max):
+        unit = {"ticker": ticker, "outer_fold": ofold, "permutation_id": pid}
+        cached = cache.get(Ledger.key(unit))
+        if cached is None:
+            if halted(control):
+                break
+            if all(s["stopped_at"] is not None for s in state.values()):
+                break
+            led.append(stage, unit, "running")
+            _u0 = time.time()
+            cached = one_permutation(ctx, ofold, pid)
+            led.append(stage, unit, "completed", payload={
+                "T_flat": cached["T_flat"], "T_hierarchical": cached["T_hierarchical"],
+                "rotation_deltas": cached["rotation_deltas"],
+                "index_hash": cached["index_hash"], "n_blocks": cached["n_blocks"],
+                "displaced": cached.get("displaced"),
+                "seconds": round(time.time() - _u0, 2)})    # per-unit cost for cost_report.py
+        executed = pid + 1
+        prov_last = cached
+        rot_deltas.append(cached.get("rotation_deltas"))
+        d, nb = cached.get("displaced"), cached.get("n_blocks")
+        if d is not None and nb:
+            disp_fracs.append(d / nb)
+        h = cached.get("index_hash")
+        if h in hashes:
+            raise RuntimeError(
+                f"powtórzona permutacja {h} w {ticker}/{ofold} — losowanie nie jest niezależne")
+        hashes.append(h)
+        for a, s in state.items():
+            if s["stopped_at"] is not None:
+                continue
+            v = cached["T_flat"] if a == "flat" else cached["T_hierarchical"]
+            s["null"].append(v)
+            if v >= arms[a]["real_statistic"]:
+                s["exceed"] += 1
+            if s["exceed"] >= FUTILITY_B:
+                s["stopped_at"] = executed
+
+    prov = {k: v for k, v in prov_last.items()
+            if k not in ("T_flat", "T_hierarchical", "rotation_deltas")}
+    prov["min_displaced_fraction"] = round(min(disp_fracs), 4) if disp_fracs else None
+    row = {"ticker": ticker, "outer_fold": ofold, "permutations_executed": executed,
+           "provenance": prov,
+           "index_hashes": hashes,
+           "rotation_level_diagnostic": {
+               "_role": ("paired by-product: the rotation-level null from the SAME permutations, "
+                         "so 'how many conclusions change when the whole rule is aggregated' "
+                         "is a paired comparison rather than two independent draws"),
+               "_must_not": "be used as the max-null verdict",
+               "null_deltas_per_permutation": rot_deltas},
+           "arms": {}}
+    for a, s in state.items():
+        n = s["stopped_at"] or executed
+        b = s["exceed"]
+        if b >= FUTILITY_B:
+            v = {"verdict": "rejected_early", "permutations_executed": n, "exceedances": b,
+                 "final_p_lower_bound": round((1 + b) / (m_max + 1), 6)}
+        elif executed >= m_max:
+            v = {"verdict": "passed", "permutations_executed": n, "exceedances": b,
+                 "p_mc": round((1 + b) / (m_max + 1), 6)}
+        else:
+            v = {"verdict": "incomplete", "permutations_executed": n, "exceedances": b}
+        row["arms"][a] = dict(arms[a], **v, null_statistics=s["null"])
+    return row
+
+
+def _fold_worker(task):
+    """ProcessPoolExecutor entry: reads the fork-inherited per-ticker context (COW, never pickled);
+    only the tiny (ofold, arms) tuple crosses as a pickled argument."""
+    ofold, arms = task
+    f = _FORK
+    return _run_fold(f["ctx"], f["ticker"], ofold, arms, f["stage"],
+                     f["ledger_path"], f["control"], f["m_max"])
+
+
+def run_ticker(job):
+    """All scoped outer folds of one ticker, checkpointing every permutation. Folds are byte-independent
+    and run in parallel via fork() (COW-shared ctx, no pickle, no re-prepare) when fold_jobs > 1; the
+    result is sorted by outer_fold, so it is byte-identical to the serial path."""
+    ticker, scope, real, null_kind, run_id, block_mult, ledger_path, control, m_max, fold_jobs = job
+    stage = f"null_{null_kind}"
     t_start = time.time()
     ctx = prepare(ticker, scope, null_kind, run_id, block_mult)
 
-    folds_out = []
-    for (tk, ofold) in sorted(scope):
-        if tk != ticker or ofold not in ctx["inner"]:
-            continue
-        arms = {a: v for a, v in real[(tk, ofold)].items()}
-        state = {a: {"exceed": 0, "null": [], "stopped_at": None} for a in arms}
-        executed = 0
-        prov_last = {}
-        rot_deltas, hashes, disp_fracs = [], [], []
+    fold_ids = [of for (tk, of) in sorted(scope) if tk == ticker and of in ctx["inner"]]
+    tasks = [(of, dict(real[(ticker, of)])) for of in fold_ids]
+    if fold_jobs and fold_jobs > 1 and len(tasks) > 1:
+        # fork AFTER prepare(): children inherit ctx copy-on-write. Populate the module global BEFORE
+        # the pool forks, so ctx is inherited, not pickled (only the (ofold, arms) tuple is pickled).
+        _FORK.update(ctx=ctx, ticker=ticker, stage=stage, ledger_path=ledger_path,
+                     control=control, m_max=m_max)
+        from concurrent.futures import ProcessPoolExecutor
+        from multiprocessing import get_context
+        with ProcessPoolExecutor(max_workers=min(fold_jobs, len(tasks)),
+                                 mp_context=get_context("fork")) as ex:
+            rows = list(ex.map(_fold_worker, tasks))     # ex.map preserves task order
+    else:
+        rows = [_run_fold(ctx, ticker, of, arms, stage, ledger_path, control, m_max)
+                for of, arms in tasks]
 
-        # Replay whatever the ledger already holds, so a resume neither repeats work nor loses
-        # the exceedance counts that drive futility stopping.
-        for pid in range(m_max):
-            unit = {"ticker": ticker, "outer_fold": ofold, "permutation_id": pid}
-            cached = cache.get(Ledger.key(unit))
-            if cached is None:
-                if halted(control):
-                    break
-                if all(s["stopped_at"] is not None for s in state.values()):
-                    break
-                led.append(stage, unit, "running")
-                _u0 = time.time()
-                cached = one_permutation(ctx, ofold, pid)
-                led.append(stage, unit, "completed", payload={
-                    "T_flat": cached["T_flat"], "T_hierarchical": cached["T_hierarchical"],
-                    "rotation_deltas": cached["rotation_deltas"],
-                    "index_hash": cached["index_hash"], "n_blocks": cached["n_blocks"],
-                    "displaced": cached.get("displaced"),
-                    "seconds": round(time.time() - _u0, 2)})    # per-unit cost for cost_report.py
-            executed = pid + 1
-            prov_last = cached
-            rot_deltas.append(cached.get("rotation_deltas"))
-            # The displacement fraction is summarised per fold, not sampled from the last
-            # permutation: draw_permutation guarantees each draw moves >= MIN_DISPLACED of the
-            # blocks or raises, so a completed unit already implies the invariant. Persisting it
-            # per unit lets the gate re-check the fold's WORST permutation even after a resume
-            # rebuilds the fold from cache. Legacy units written before this field contribute None.
-            d, nb = cached.get("displaced"), cached.get("n_blocks")
-            if d is not None and nb:
-                disp_fracs.append(d / nb)
-            h = cached.get("index_hash")
-            if h in hashes:
-                raise RuntimeError(
-                    f"powtórzona permutacja {h} w {ticker}/{ofold} — losowanie nie jest niezależne")
-            hashes.append(h)
-            for a, s in state.items():
-                if s["stopped_at"] is not None:
-                    continue
-                v = cached["T_flat"] if a == "flat" else cached["T_hierarchical"]
-                s["null"].append(v)
-                if v >= arms[a]["real_statistic"]:
-                    s["exceed"] += 1
-                if s["exceed"] >= FUTILITY_B:
-                    s["stopped_at"] = executed
-
-        prov = {k: v for k, v in prov_last.items()
-                if k not in ("T_flat", "T_hierarchical", "rotation_deltas")}
-        # Worst displacement over the whole fold — reliably persisted, so the gate survives a
-        # resume. None only when every unit predates the field (a pure-cache legacy replay), which
-        # the gate treats as "guaranteed at generation, not re-checkable" rather than a violation.
-        prov["min_displaced_fraction"] = round(min(disp_fracs), 4) if disp_fracs else None
-        row = {"ticker": ticker, "outer_fold": ofold, "permutations_executed": executed,
-               "provenance": prov,
-               "index_hashes": hashes,
-               "rotation_level_diagnostic": {
-                   "_role": ("paired by-product: the rotation-level null from the SAME permutations, "
-                             "so 'how many conclusions change when the whole rule is aggregated' "
-                             "is a paired comparison rather than two independent draws"),
-                   "_must_not": "be used as the max-null verdict",
-                   "null_deltas_per_permutation": rot_deltas},
-               "arms": {}}
-        for a, s in state.items():
-            n = s["stopped_at"] or executed
-            b = s["exceed"]
-            if b >= FUTILITY_B:
-                v = {"verdict": "rejected_early", "permutations_executed": n, "exceedances": b,
-                     "final_p_lower_bound": round((1 + b) / (m_max + 1), 6)}
-            elif executed >= m_max:
-                v = {"verdict": "passed", "permutations_executed": n, "exceedances": b,
-                     "p_mc": round((1 + b) / (m_max + 1), 6)}
-            else:
-                v = {"verdict": "incomplete", "permutations_executed": n, "exceedances": b}
-            row["arms"][a] = dict(arms[a], **v, null_statistics=s["null"])
-        folds_out.append(row)
-
+    folds_out = sorted((r for r in rows if r), key=lambda r: r["outer_fold"])
     return {"ticker": ticker, "seconds": round(time.time() - t_start, 1), "folds": folds_out}
 
 
@@ -580,7 +599,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("tickers", nargs="*")
     ap.add_argument("--null", choices=("a1", "a2", "b"), default="a1")
-    ap.add_argument("--jobs", type=int, default=1)
+    ap.add_argument("--jobs", type=int, default=1, help="parallelize across TICKERS")
+    ap.add_argument("--fold-jobs", type=int, default=1,
+                    help="parallelize outer folds WITHIN a ticker (fork-after-prepare, byte-identical)")
     ap.add_argument("--folds", type=int, default=0, help="smoke gate: cap the number of outer folds")
     ap.add_argument("--permutations", type=int, default=M_MAX)
     ap.add_argument("--block-mult", type=int, default=1)
@@ -624,8 +645,12 @@ def main():
                       workers=args.jobs).start({"scope_outer_folds": len(scope), "null": args.null,
                                                 "block_bars": L_BLOCK * args.block_mult})
 
+    # Fold-parallelism runs INSIDE a ticker; disable it when tickers are already pooled (--jobs>1) so
+    # the two process pools never nest. The engine dispatches one ticker per task (--jobs 1), so it
+    # gets the fold pool; a standalone multi-ticker sweep gets the ticker pool.
+    fold_jobs = args.fold_jobs if args.jobs == 1 else 1
     jobs = [(t, scope, real, args.null, run_id, args.block_mult, ledger_path,
-             args.control, args.permutations) for t in tickers]
+             args.control, args.permutations, fold_jobs) for t in tickers]
     results = {}
     try:
         if args.jobs > 1:
@@ -652,6 +677,7 @@ def main():
 
     sha = write_json_atomic(out, {
         "contract": {"null": args.null, "permutations_max": args.permutations,
+                     "folds_cap": args.folds,
                      "pass_b": PASS_B, "futility_b": FUTILITY_B,
                      "block_length_bars": L_BLOCK * args.block_mult,
                      "segments": G_SEGMENTS if args.null in ("a2", "b") else None,

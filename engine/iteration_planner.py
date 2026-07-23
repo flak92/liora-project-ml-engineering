@@ -114,8 +114,9 @@ def epoch_full_strength(epoch_dir):
     src = Path(epoch_dir) / "results" / "panels"
     try:
         frozen_max = int(CT.load(epoch_dir)["contract"]["max_null"]["permutations_max"])
-    except Exception:                                                       # noqa: BLE001
-        frozen_max = 50
+    except Exception as e:                                                  # noqa: BLE001
+        # Fail-closed: an unverifiable proof standard confirms NOTHING (never guess a max).
+        return False, f"nie odczytano frozen permutations_max ({type(e).__name__}) — fail-closed"
     return RV.full_strength(read_json(src / "procedure_null_a1.json"),
                             read_json(src / "crossfit_selection.json"), frozen_max)
 

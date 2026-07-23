@@ -74,6 +74,12 @@ def full_strength(a1_panel, crossfit_panel, frozen_max):
     cap = (a1_panel.get("contract") or {}).get("permutations_max")
     if cap is None or cap < frozen_max:
         return False, f"permutations_max={cap} < {frozen_max} (smoke cap)"
+    # Explicit fold-axis signal recorded by the runner (procedure_null contract.folds_cap). Checked
+    # directly so the fold axis never stops defending silently — the crossfit comparison below is a
+    # belt for legacy artifacts that predate the field, not the primary guard.
+    folds_cap = (a1_panel.get("contract") or {}).get("folds_cap")
+    if folds_cap:
+        return False, f"folds_cap={folds_cap} (smoke --folds)"
     null_folds = {(t, f.get("outer_fold")) for t, rec in a1_panel.get("tables", {}).items()
                   for f in (rec.get("folds") or [])}
     scope = set()

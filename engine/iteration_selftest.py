@@ -270,12 +270,26 @@ def test_full_strength_guardrail():
     check("foldy niepokryte (--folds cap) → odrzucony", not ok, r)
 
 
+def test_seal_science_only():
+    """A sealed artifact holds ONLY science — operational fields (timing) never enter the hashed result,
+    so result_sha256 is byte-identical across re-runs. (regression: `seconds` was in the hashed result.)"""
+    import json as _json
+    import dispatch as DP
+    print("\n12. pieczęć = tylko nauka: dispatch._entry usuwa 'seconds' (byte-repro result_sha256)")
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / "null.json"
+        p.write_text(_json.dumps({"tables": {"X": {"ticker": "X", "seconds": 9.9, "folds": [1, 2]}}}))
+        e = DP._entry(str(p), "X")
+        check("'seconds' (timing) usunięte z entry", "seconds" not in e, str(e))
+        check("nauka zachowana (folds)", e.get("folds") == [1, 2])
+
+
 def main():
     print("iteration-selftest — gwarancje Iterative Calibration Loop (bez uruchamiania nauki)")
     for t in (test_engine_selftest, test_patch_guard, test_convergence, test_repair_mining,
               test_budget_cap, test_ladder_guard, test_integrity_tampering, test_contract_injection,
               test_task_heartbeat, test_confirmed_excludes_failed, test_determinism_guard,
-              test_full_strength_guardrail):
+              test_full_strength_guardrail, test_seal_science_only):
         try:
             t()
         except Exception as e:                                              # noqa: BLE001

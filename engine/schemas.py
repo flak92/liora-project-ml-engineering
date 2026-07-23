@@ -59,7 +59,11 @@ def validate_result(doc):
 
 
 def wrap_result(task, result, exit_code, produced_utc):
-    """Envelope a runner's per-asset output as an immutable, self-describing artifact."""
+    """Envelope a runner's per-asset output as an immutable, self-describing artifact.
+
+    Invariant: a sealed `result` contains ONLY science; everything operational (timing, host, pid)
+    belongs in the ledger and run_manifest, never here — so `result_sha256` is byte-identical across
+    re-runs of the same task (the extractor drops `seconds` for exactly this reason)."""
     payload = json.dumps(result, sort_keys=True, ensure_ascii=False).encode("utf-8")
     return {"task": task, "result": result, "runner_exit_code": int(exit_code),
             "contract_hash": task["contract_hash"], "produced_utc": produced_utc,
