@@ -73,15 +73,30 @@ def _dispatch_single(task, ws):
         Path(tmp).unlink(missing_ok=True)
 
 
+def _smoke_args():
+    """Reduced null strength for a FAST dev gate: RESEARCH_SMOKE_PERMS/FOLDS -> --permutations/--folds.
+    A run capped here records a low permutations_max in its artifact, and the confirmation guardrail
+    (rung5_verdict.full_strength) then refuses to count it — a smoke validates the ORCHESTRATION, never
+    the science. Unset -> full strength, so a real run is untouched."""
+    a = []
+    p, f = os.environ.get("RESEARCH_SMOKE_PERMS"), os.environ.get("RESEARCH_SMOKE_FOLDS")
+    if p:
+        a += ["--permutations", str(int(p))]
+    if f:
+        a += ["--folds", str(int(f))]
+    return a
+
+
 def _dispatch_null(task, ws):
     asset = task["asset"]
     scratch = ws / "scratch" / f"null_{asset}_{int(time.time())}"
+    smoke = _smoke_args()
     tmps = {}
     try:
         tmps["a1"] = _tmp(ws)
         rc, _o, err = _run([PY, str(SCRIPTS / "procedure_null.py"), asset, "--null", "a1",
-                            "--jobs", "1", "--out", tmps["a1"], "--run-dir", str(scratch / "a1")],
-                           5400, ws)
+                            "--jobs", "1", "--out", tmps["a1"], "--run-dir", str(scratch / "a1")]
+                           + smoke, 5400, ws)
         if rc != 0:
             return None, rc, err[-400:]
         a1 = _entry(tmps["a1"], asset)
@@ -94,7 +109,7 @@ def _dispatch_null(task, ws):
             tmps[kind] = _tmp(ws)
             rc, _o, err = _run([PY, str(SCRIPTS / "procedure_null.py"), asset, "--null", kind,
                                 "--jobs", "1", "--survivors-from", tmps["a1"], "--out", tmps[kind],
-                                "--run-dir", str(scratch / kind)], 5400, ws)
+                                "--run-dir", str(scratch / kind)] + smoke, 5400, ws)
             if rc != 0:
                 return None, rc, f"{kind}: {err[-300:]}"
             result[kind] = _entry(tmps[kind], asset)

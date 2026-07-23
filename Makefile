@@ -186,10 +186,12 @@ iteration-stop:                     ## cooperative halt — finishes the current
 	  $(PY) -c "import json,os;p='runs/'+'$$e'+'/control.json';c=json.load(open(p));c['halt']=True;open(p+'.t','w').write(json.dumps(c));os.replace(p+'.t',p)" && echo "halt bieżącej epoki ustawiony (runs/$$e)"; \
 	fi
 
-iteration-smoke:                    ## 2-version ladder on three assets, inproc (deterministic validation)
+iteration-smoke:                    ## FAST dev gate: reduced null strength (mechanics only, 0 confirmations)
 	@id=icl_smoke_$$(git rev-parse --short HEAD); \
+	RESEARCH_SMOKE_PERMS=5 RESEARCH_SMOKE_FOLDS=1 \
 	$(PY) engine/iteration_planner.py --ladder-dir runs/$$id --assets AZO ADBE GOOG --mode inproc --allow-dirty && \
-	$(PY) engine/iteration_report.py --ladder-dir runs/$$id
+	$(PY) engine/iteration_report.py --ladder-dir runs/$$id; \
+	echo "UWAGA: smoke = obniżona siła (perms=5, folds=1) → waliduje ORKIESTRACJĘ; guardrail wymusza 0 potwierdzeń. Pełna nauka: make iteration-start (bez RESEARCH_SMOKE_*)."
 
 iteration-selftest:                 ## engine guarantees + ladder guard, convergence, repair, budget
 	@$(PY) engine/iteration_selftest.py

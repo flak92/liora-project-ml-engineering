@@ -110,8 +110,10 @@ def _null_p(v):
     return {"p": None, "basis": v["verdict"]}
 
 
-def compile_ticker(ticker, crossfit, nulls, n_candidates):
-    """One resolved record. `nulls` maps kind -> index (or None); the strongest available null decides."""
+def compile_ticker(ticker, crossfit, nulls, n_candidates, full_strength=True):
+    """One resolved record. `nulls` maps kind -> index (or None); the strongest available null decides.
+    `full_strength=False` (a --permutations/--folds smoke) forbids any 'resolved' verdict — a capped run
+    validates mechanics, never confirms a feature."""
     rec = crossfit["tables"].get(ticker)
     if rec is None:
         return {"ticker": ticker, "model": "xgb", "status": "absent",
@@ -161,6 +163,12 @@ def compile_ticker(ticker, crossfit, nulls, n_candidates):
         status, stop = "resolved_empty", "no unit exceeded the procedure-level max-null"
     else:
         status, stop = "resolved_empty", "cross-fit accepted nothing (no provisional survivor)"
+
+    # A run below FULL strength (--permutations/--folds smoke) has no power to CONFIRM. Downgrade any
+    # resolved verdict to 'smoke_only' so it is never counted as a confirmation (the ADBE-class guard).
+    if not full_strength and status in ("resolved", "resolved_conditional"):
+        status = "smoke_only"
+        stop = "null poniżej pełnej siły (smoke cap) — mechanika, nie potwierdzenie"
 
     out = {
         "ticker": ticker, "model": "xgb",
@@ -234,10 +242,23 @@ def main():
     n_candidates = _candidate_count()
     tickers = args.tickers or sorted(crossfit["tables"])
 
+    # Was the primary null run at FULL strength? A capped smoke may not confirm anything.
+    import rung5_verdict as RV
+    frozen_max = 50
+    try:
+        import contract_loader as CL
+        frozen_max = int(CL.assemble()["max_null"]["permutations_max"])
+    except Exception:                                                  # noqa: BLE001
+        pass
+    a1_doc = read_json(NULLS["a1"]) or read_json(NULLS["a1_smoke"])
+    strong, sreason = RV.full_strength(a1_doc, crossfit, frozen_max)
+    if not strong:
+        print(f"  UWAGA: null poniżej pełnej siły ({sreason}) — wyniki to MECHANIKA, nie potwierdzenia\n")
+
     outdir = Path(args.outdir)
     records = []
     for t in tickers:
-        rec = compile_ticker(t, crossfit, nulls, n_candidates)
+        rec = compile_ticker(t, crossfit, nulls, n_candidates, full_strength=strong)
         records.append(rec)
         if not args.to_stdout:
             write_json_atomic(outdir / f"{t}.json", rec)

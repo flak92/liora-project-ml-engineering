@@ -41,6 +41,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "engine"))
 sys.path.insert(0, str(ROOT / "scripts"))
+import contract as CT                                                       # noqa: E402
 import contract_patch as CP                                                 # noqa: E402
 import integrity as IG                                                      # noqa: E402
 import planner as PL                                                        # noqa: E402
@@ -49,7 +50,7 @@ import repair as RP                                                         # no
 import report as RE                                                         # noqa: E402
 import states as ST                                                         # noqa: E402
 import worker as WK                                                         # noqa: E402
-from artifact_io import write_json_atomic                                   # noqa: E402
+from artifact_io import read_json, write_json_atomic                        # noqa: E402
 from ledger import Ledger                                                   # noqa: E402
 
 SCI_TERMINAL = {"RESOLVED", "RESOLVED_EMPTY", "NEEDS_CONTRACT"}
@@ -105,15 +106,33 @@ def label_outcome(epoch_dir, asset, state):
     return state
 
 
+def epoch_full_strength(epoch_dir):
+    """Did this epoch's null EARN the right to confirm? rung5_verdict.full_strength on the panels vs the
+    run's FROZEN permutations_max. A fast smoke (--permutations/--folds) is not full strength — its
+    survivors validate orchestration, never science. Returns (ok, reason)."""
+    import rung5_verdict as RV
+    src = Path(epoch_dir) / "results" / "panels"
+    try:
+        frozen_max = int(CT.load(epoch_dir)["contract"]["max_null"]["permutations_max"])
+    except Exception:                                                       # noqa: BLE001
+        frozen_max = 50
+    return RV.full_strength(read_json(src / "procedure_null_a1.json"),
+                            read_json(src / "crossfit_selection.json"), frozen_max)
+
+
 def confirmed_pairs(epoch_dir, exclude_assets=()):
     """The (asset, feature) pairs this epoch confirmed = null-validated stable survivors (A1∩A2∩B).
     Rung 6 refines survivors but adds no new feature, so this is the monotone 'what did this hypothesis
     space prove' set the convergence metric compares across epochs.
 
-    An asset in `exclude_assets` (FAILED_TECHNICAL — e.g. its null was non-reproducible and quarantined)
-    contributes NOTHING: a survivor drawn from a result the integrity guard refused to trust must never
-    count as a confirmed feature. The panel funnel is built from the first published artifact and is
-    unaware of the quarantine, so the filter is applied here, at the point the confirmed set is formed."""
+    Two filters guard the confirmed set:
+    - A run below FULL strength (a --permutations/--folds smoke) confirms NOTHING — it had no power to.
+    - An asset in `exclude_assets` (FAILED_TECHNICAL — its null was quarantined) contributes nothing.
+    The funnel is built from the first published artifact and is unaware of either, so both are applied
+    here, at the point the confirmed set is formed."""
+    ok, _reason = epoch_full_strength(epoch_dir)
+    if not ok:
+        return set()                                    # smoke / capped run — mechanics only, no science
     src = Path(epoch_dir) / "results" / "panels"
     excl = set(exclude_assets)
     pairs = set()

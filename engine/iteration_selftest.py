@@ -220,15 +220,16 @@ def test_confirmed_excludes_failed():
     import iteration_planner as IP
     import report as RE
     print("\n9. księgowanie: survivor z FAILED_TECHNICAL nie liczy się jako potwierdzony")
-    orig = RE.funnel
+    orig_f, orig_s = RE.funnel, IP.epoch_full_strength
     RE.funnel = lambda src: {"stable_units": ["ADBE/momentum_return", "GOOG/205"]}
+    IP.epoch_full_strength = lambda ed: (True, "ok")     # izoluj filtr wykluczeń od guardrailu siły
     try:
         allp = IP.confirmed_pairs("/nonexistent")
         check("bez wykluczeń: obie pary", allp == {("ADBE", "momentum_return"), ("GOOG", "205")}, str(allp))
         filt = IP.confirmed_pairs("/nonexistent", exclude_assets={"ADBE"})
         check("ADBE FAILED_TECHNICAL wykluczony → tylko GOOG", filt == {("GOOG", "205")}, str(filt))
     finally:
-        RE.funnel = orig
+        RE.funnel, IP.epoch_full_strength = orig_f, orig_s
 
 
 def test_determinism_guard():
@@ -249,11 +250,32 @@ def test_determinism_guard():
           "BYTE-LEVEL" in rt.get("_reproducibility_standard", ""))
 
 
+def test_full_strength_guardrail():
+    """A --permutations/--folds smoke may NEVER count as a confirmation. rung5_verdict.full_strength
+    gates BOTH axes: full permutation budget AND full fold scope. (regression: the fast dev-gate #1.)"""
+    import rung5_verdict as RV
+    print("\n11. guardrail siły: smoke (capped null) nie może potwierdzać")
+    cross = {"tables": {"A": {"folds": [{"outer_fold": 0, "verdict": {
+        "flat": {"accepted": True, "T": 1.0}, "hierarchical": {"accepted": False, "T": 0}}}]}}}
+    full = {"contract": {"permutations_max": 50},
+            "tables": {"A": {"folds": [{"outer_fold": 0, "arms": {}}]}}}
+    ok, _ = RV.full_strength(full, cross, 50)
+    check("pełny (perms=50, foldy pokryte) → potwierdza", ok)
+    capped = {"contract": {"permutations_max": 5},
+              "tables": {"A": {"folds": [{"outer_fold": 0, "arms": {}}]}}}
+    ok, r = RV.full_strength(capped, cross, 50)
+    check("perms=5 < 50 → odrzucony (nie potwierdza)", not ok, r)
+    foldcap = {"contract": {"permutations_max": 50}, "tables": {}}
+    ok, r = RV.full_strength(foldcap, cross, 50)
+    check("foldy niepokryte (--folds cap) → odrzucony", not ok, r)
+
+
 def main():
     print("iteration-selftest — gwarancje Iterative Calibration Loop (bez uruchamiania nauki)")
     for t in (test_engine_selftest, test_patch_guard, test_convergence, test_repair_mining,
               test_budget_cap, test_ladder_guard, test_integrity_tampering, test_contract_injection,
-              test_task_heartbeat, test_confirmed_excludes_failed, test_determinism_guard):
+              test_task_heartbeat, test_confirmed_excludes_failed, test_determinism_guard,
+              test_full_strength_guardrail):
         try:
             t()
         except Exception as e:                                              # noqa: BLE001

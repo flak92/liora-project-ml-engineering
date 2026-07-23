@@ -54,3 +54,36 @@ def stable_units(rung5_result):
     """The confirmed candidates (for the report / compiler output)."""
     r = rung5_result or {}
     return sorted({u for _, _, u in stable_survivors(r.get("a1"), r.get("a2"), r.get("b"))})
+
+
+def full_strength(a1_panel, crossfit_panel, frozen_max):
+    """Did this null run EARN the right to confirm? A survivor counts ONLY from a full-strength run,
+    on BOTH axes — else a fast smoke (--permutations / --folds) would silently manufacture a
+    confirmation it had no power to make (exactly the ADBE class: a 'discovery' from a run that could
+    not confirm it). Returns (ok, reason); ok=True only when:
+
+      permutation budget:  a1_panel.contract.permutations_max >= frozen_max (no --permutations cap)
+      fold scope:          every crossfit-accepted (ticker, outer_fold) with T>0 is covered by a1
+                           (no --folds cap)
+
+    A weak run's PASSED verdicts are mechanics evidence, never confirmations. The byte-level integrity
+    guard stays orthogonal — this gates SCIENTIFIC power, not reproducibility.
+    """
+    if not a1_panel:
+        return False, "brak panelu a1"
+    cap = (a1_panel.get("contract") or {}).get("permutations_max")
+    if cap is None or cap < frozen_max:
+        return False, f"permutations_max={cap} < {frozen_max} (smoke cap)"
+    null_folds = {(t, f.get("outer_fold")) for t, rec in a1_panel.get("tables", {}).items()
+                  for f in (rec.get("folds") or [])}
+    scope = set()
+    for t, rec in (crossfit_panel or {}).get("tables", {}).items():
+        for f in rec.get("folds", []):
+            for arm in ("flat", "hierarchical"):
+                v = (f.get("verdict") or {}).get(arm, {})
+                if v.get("accepted") and float(v.get("T", 0) or 0) > 0:
+                    scope.add((t, f.get("outer_fold")))
+    missing = scope - null_folds
+    if missing:
+        return False, f"foldy ograniczone (--folds): {len(missing)}/{len(scope)} scope niepokryte"
+    return True, "pełna siła"
