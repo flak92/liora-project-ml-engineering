@@ -15,11 +15,14 @@ reducer and the report can trust it without re-deriving anything.
     python3 engine/worker.py --run-dir runs/<id> --worker worker-01 --loop # until the queue drains
 """
 import argparse
+import os
 import sys
+import threading
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+HEARTBEAT_SEC = 60          # how often a running task refreshes its own liveness (< guard STALE_TASK)
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "engine"))
 import runtime_init                                                        # noqa: E402,F401
@@ -78,8 +81,30 @@ def run_one(run_dir, worker_id):
         return {**task, "outcome": "contract_mismatch"}
 
     led.running(task, worker_id)
+    # Keep this task's running-file mtime fresh while its (possibly multi-hour) runner executes, so the
+    # guard's mtime-based stale sweep never mistakes a legitimately long task for a dead-worker orphan
+    # and requeues it into a CONCURRENT duplicate run (the root cause of the FAILED_INTEGRITY seen on a
+    # 2h45m null). os.utime — not touch — never RECREATES a file the guard just moved, so it cannot race
+    # a requeue into a phantom running-file. A dead worker stops beating, its file ages, and the guard
+    # then correctly reclaims it.
+    running_file = Path(run_dir) / "queue" / "running" / f"{task['task_hash']}.json"
+    stop_hb = threading.Event()
+
+    def _beat():
+        while not stop_hb.wait(HEARTBEAT_SEC):
+            try:
+                os.utime(running_file, None)
+            except OSError:
+                return                              # file gone (finished/requeued) -> stop quietly
+
+    hb = threading.Thread(target=_beat, daemon=True)
+    hb.start()
     t0 = time.time()
-    result, rc, err = DP.dispatch(task, run_dir)
+    try:
+        result, rc, err = DP.dispatch(task, run_dir)
+    finally:
+        stop_hb.set()
+        hb.join(timeout=2)
     secs = time.time() - t0
 
     if result is None or rc != 0:

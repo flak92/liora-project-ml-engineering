@@ -95,12 +95,17 @@ def test_repair_mining():
         led.failed(task("B", "h2"), "w", 1.0, 95, "integrity")
         led.failed(task("C", "h3"), "w", 1.0, 1, "t"); led.failed(task("C", "h3"), "w", 1.0, 1, "t")
         led.failed(task("D", "h4"), "w", 1.0, 1, "t")
+        # E: completed, THEN re-run to a divergent non-reproducible artifact (exit 95). The latched
+        # `completed` must NOT mask the integrity failure — last event decides. (regression: review)
+        led.done(task("E", "h5"), "w", 1.0, 0, "sha"); led.failed(task("E", "h5"), "w", 1.0, 95, "integrity")
         cls = RP.classify(d)
         diag = {rec["asset"]: RP.diagnose(rec, 2) for rec in cls.values()}
         check("A failed→completed = repaired", diag.get("A") == "repaired", str(diag))
         check("B exit95 = quarantine_integrity", diag.get("B") == "quarantine_integrity")
         check("C 2×fail (>=max_retries) = failed_technical", diag.get("C") == "failed_technical")
         check("D 1×fail (<max_retries) = safe_retry", diag.get("D") == "safe_retry")
+        check("E completed-THEN-exit95 = quarantine_integrity (nie 'repaired')",
+              diag.get("E") == "quarantine_integrity", "diag_E=%s" % diag.get("E"))
         # handle() requeues D: create its failed queue file, expect it moved to pending
         q = Path(d) / "queue"
         (q / "failed").mkdir(parents=True, exist_ok=True); (q / "pending").mkdir(parents=True, exist_ok=True)
@@ -151,10 +156,104 @@ def test_integrity_tampering():
         check("podmieniony contract_hash → czerwona", not ok2 and "contract_self_consistent" in rep2["problems"])
 
 
+def test_contract_injection():
+    """A ladder patch must actually REACH the runners: RESEARCH_CONTRACT overrides the operating-point
+    grid, the base snapshot reproduces the canonical grid bit-identically, and unset changes nothing.
+    (regression: the review blocker — patches were provenance-only and every variant was a placebo.)"""
+    import os
+    import run_contract as RC
+    import contract_loader as CL
+    print("\n7. wstrzykiwanie kontraktu: patch drabiny realnie dociera do runnerów")
+    Q = [float(x) for x in CL.assemble()["operating_point"]["grid"]]
+    os.environ.pop("RC_ENV_SET", None)
+    saved = os.environ.pop(RC.ENV, None)
+    try:
+        check("unset -> grid = kanoniczny default (bit-identyczny)",
+              RC.operating_point_grid(Q) == Q and RC.contract() is None)
+        with tempfile.TemporaryDirectory() as d:
+            base = Path(d) / "base"
+            CP.snapshot_version(base, ["A"], "base", {}, allow_dirty=True)
+            os.environ[RC.ENV] = str(base / "contract.json")
+            check("baza snapshot -> grid == Q_GRID (epoka bazowa niezmieniona)",
+                  RC.operating_point_grid(Q) == Q)
+            pat = Path(d) / "pat"
+            CP.snapshot_version(pat, ["A"], "coarser", {"operating_point": {"grid": [0.8, 0.9, 0.95]}},
+                                allow_dirty=True)
+            os.environ[RC.ENV] = str(pat / "contract.json")
+            g = RC.operating_point_grid(Q)
+            check("patch operating_point REALNIE zmienia grid runnera", g == [0.8, 0.9, 0.95] and g != Q)
+    finally:
+        os.environ.pop(RC.ENV, None)
+        if saved is not None:
+            os.environ[RC.ENV] = saved
+
+
+def test_task_heartbeat():
+    """A live long task refreshes its running-file mtime (worker heartbeat), so the guard's stale sweep
+    (age >= STALE_TASK) never reclaims it into a concurrent duplicate; os.utime must NOT recreate a file
+    the guard just moved. (regression: the 2h45m-null FAILED_INTEGRITY caused by stale-requeue.)"""
+    import os
+    import time
+    print("\n8. heartbeat: żywy long-task nie requeue'owany + brak re-kreacji przeniesionego pliku")
+    STALE = 5400
+    with tempfile.TemporaryDirectory() as d:
+        rf = Path(d) / "running.json"
+        rf.write_text("{}")
+        os.utime(rf, None)
+        check("świeży mtime → nie stale", (time.time() - rf.stat().st_mtime) < STALE)
+        os.utime(rf, (time.time() - 9900, time.time() - 9900))          # symuluj 2h45m bez heartbeatu
+        check("2h45m bez heartbeatu → stale (age>=STALE)", (time.time() - rf.stat().st_mtime) >= STALE)
+        os.utime(rf, None)                                              # heartbeat bije
+        check("po heartbeacie → znów świeży, nie stale", (time.time() - rf.stat().st_mtime) < STALE)
+        rf.unlink()                                                     # guard przeniósł plik
+        try:
+            os.utime(rf, None)
+            recreated = rf.exists()
+        except OSError:
+            recreated = False
+        check("os.utime na przeniesionym pliku NIE rekreuje (brak phantom running)", not recreated)
+
+
+def test_confirmed_excludes_failed():
+    """A survivor drawn from a FAILED_TECHNICAL asset (quarantined, non-reproducible null) must NOT count
+    as a confirmed feature. (regression: iteration-smoke counted ADBE's quarantined survivor as the 4th.)"""
+    import iteration_planner as IP
+    import report as RE
+    print("\n9. księgowanie: survivor z FAILED_TECHNICAL nie liczy się jako potwierdzony")
+    orig = RE.funnel
+    RE.funnel = lambda src: {"stable_units": ["ADBE/momentum_return", "GOOG/205"]}
+    try:
+        allp = IP.confirmed_pairs("/nonexistent")
+        check("bez wykluczeń: obie pary", allp == {("ADBE", "momentum_return"), ("GOOG", "205")}, str(allp))
+        filt = IP.confirmed_pairs("/nonexistent", exclude_assets={"ADBE"})
+        check("ADBE FAILED_TECHNICAL wykluczony → tylko GOOG", filt == {("GOOG", "205")}, str(filt))
+    finally:
+        RE.funnel = orig
+
+
+def test_determinism_guard():
+    """Byte-level reproducibility (RATIFIED, FROZEN) holds iff the determinism conditions hold. Assert the
+    code enforces exactly what the contract declares — a regression that unpinned any of these would
+    reintroduce the max-null false-alarm (PYTHONHASHSEED-driven bytes)."""
+    import contract_loader as CL
+    import runtime_init
+    print("\n10. determinizm: kod egzekwuje warunki byte-reprodukowalności z kontraktu")
+    rt = CL.assemble()["runtime"]
+    applied = runtime_init.apply()
+    check("runtime_init pinuje pule wątków = 1", all(applied[v] == "1" for v in runtime_init.THREAD_VARS))
+    check("kontrakt: thread_pools = 1", all(v == 1 for v in rt["thread_pools"].values()))
+    check("kontrakt: python_hash_seed = 0", rt.get("python_hash_seed") == 0)
+    src = (ROOT / "engine" / "dispatch.py").read_text(encoding="utf-8")
+    check("dispatch ustawia PYTHONHASHSEED w env runnera", 'PYTHONHASHSEED="0"' in src)
+    check("kontrakt: standard = BYTE-LEVEL (guard nie luzowany)",
+          "BYTE-LEVEL" in rt.get("_reproducibility_standard", ""))
+
+
 def main():
     print("iteration-selftest — gwarancje Iterative Calibration Loop (bez uruchamiania nauki)")
     for t in (test_engine_selftest, test_patch_guard, test_convergence, test_repair_mining,
-              test_budget_cap, test_ladder_guard, test_integrity_tampering):
+              test_budget_cap, test_ladder_guard, test_integrity_tampering, test_contract_injection,
+              test_task_heartbeat, test_confirmed_excludes_failed, test_determinism_guard):
         try:
             t()
         except Exception as e:                                              # noqa: BLE001

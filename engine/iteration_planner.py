@@ -105,15 +105,21 @@ def label_outcome(epoch_dir, asset, state):
     return state
 
 
-def confirmed_pairs(epoch_dir):
+def confirmed_pairs(epoch_dir, exclude_assets=()):
     """The (asset, feature) pairs this epoch confirmed = null-validated stable survivors (A1∩A2∩B).
     Rung 6 refines survivors but adds no new feature, so this is the monotone 'what did this hypothesis
-    space prove' set the convergence metric compares across epochs."""
+    space prove' set the convergence metric compares across epochs.
+
+    An asset in `exclude_assets` (FAILED_TECHNICAL — e.g. its null was non-reproducible and quarantined)
+    contributes NOTHING: a survivor drawn from a result the integrity guard refused to trust must never
+    count as a confirmed feature. The panel funnel is built from the first published artifact and is
+    unaware of the quarantine, so the filter is applied here, at the point the confirmed set is formed."""
     src = Path(epoch_dir) / "results" / "panels"
+    excl = set(exclude_assets)
     pairs = set()
     for s in RE.funnel(src).get("stable_units", []):
         parts = s.split("/")
-        if len(parts) >= 2:
+        if len(parts) >= 2 and parts[0] not in excl:
             pairs.add((parts[0], parts[-1]))                # (ticker, unit)
     return pairs
 
@@ -220,10 +226,17 @@ def run_epoch_external(epoch_dir, assets, policy, ladder_dir, k, version_id, bud
     _trace(ladder_dir, "epoch_exec", {"epoch": k, "version_id": version_id, "backend": "engine.sh",
                                       "run_rel": run_rel})
     try:
-        subprocess.run(["bash", str(ROOT / "ops" / "engine.sh")], cwd=str(ROOT), env=env,
-                       timeout=int(policy.get("budget", {}).get("wall_hours_per_epoch", 8)) * 3600 + 600)
+        proc = subprocess.run(["bash", str(ROOT / "ops" / "engine.sh")], cwd=str(ROOT), env=env,
+                              timeout=int(policy.get("budget", {}).get("wall_hours_per_epoch", 8)) * 3600 + 600)
     except subprocess.TimeoutExpired:
-        return "HALTED_BUDGET", states_map(epoch_dir, assets, max_retries)
+        # a wall-timeout is a stall (fixpoint not reached), NOT a core-hour budget halt
+        _trace(ladder_dir, "epoch_stalled", {"epoch": k, "version_id": version_id, "cause": "wall_timeout"})
+        return "EPOCH_STALLED", states_map(epoch_dir, assets, max_retries)
+    if proc.returncode != 0:
+        # engine.sh die()'d (lock contention, no tmux, snapshot failure) — the epoch never ran
+        _trace(ladder_dir, "epoch_stalled", {"epoch": k, "version_id": version_id,
+                                             "cause": f"engine.sh exit {proc.returncode}"})
+        return "EPOCH_STALLED", states_map(epoch_dir, assets, max_retries)
     ok, ig = IG.verify(epoch_dir)
     if not ok:
         _trace(ladder_dir, "integrity", {"epoch": k, "version_id": version_id, "problems": ig["problems"]})
@@ -288,8 +301,16 @@ def run_ladder(ladder_dir, assets, seed=42, mode="inproc", allow_dirty=False, po
                                    budget_spent)
         budget_spent += core_seconds(epoch_dir)
 
-        pairs = confirmed_pairs(epoch_dir)
-        cumulative, delta, no_improve = convergence_update(cumulative, pairs, no_improve)
+        # A FAILED_TECHNICAL asset (non-reproducible/quarantined null) contributes no confirmed feature.
+        failed_tech = {a for a, s in st.items() if s == "FAILED_TECHNICAL"}
+        pairs = confirmed_pairs(epoch_dir, exclude_assets=failed_tech)
+        # Only a fixpoint epoch (every asset terminal) may update the convergence state. A stalled or
+        # halted epoch's confirmed set is incomplete, so folding it in could undercount a variant's
+        # features and fire a false CONVERGED. Record its delta for audit, but leave the state alone.
+        if ep_outcome == "EPOCH_DONE":
+            cumulative, delta, no_improve = convergence_update(cumulative, pairs, no_improve)
+        else:
+            delta = sorted(pairs - cumulative)
         labeled = {a: label_outcome(epoch_dir, a, s) for a, s in st.items()}
 
         epoch_rec = {"epoch": k, "version_id": rung["version_id"],
@@ -312,8 +333,10 @@ def run_ladder(ladder_dir, assets, seed=42, mode="inproc", allow_dirty=False, po
             "no_improve_streak": no_improve, "core_seconds": round(core_seconds(epoch_dir), 1),
             "n_terminal": sum(1 for s in st.values() if is_loop_terminal(s))})
 
-        if ep_outcome in ("HALTED", "HALTED_BUDGET", "INTEGRITY_FAILED"):
-            outcome = ep_outcome
+        # Any non-fixpoint outcome stops the ladder BEFORE the convergence check — we never declare
+        # convergence on an epoch that did not resolve every asset.
+        if ep_outcome != "EPOCH_DONE":
+            outcome = "STALLED" if ep_outcome == "EPOCH_STALLED" else ep_outcome
             break
         # Budget at the epoch boundary — so the cap halts the external backend too (engine.sh runs a
         # whole epoch to completion; its own wall deadline is separate from this core-hour cap).

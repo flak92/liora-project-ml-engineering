@@ -125,14 +125,18 @@ def choose_operating_point(P, dfx, fold_data, mode):
     import math
     import numpy as np
     import op_select
+    import run_contract as RC
 
     os_ = P.operating_space()
     if mode == "absolute":
         return P.score_shared_operating_point(dfx, [(sc, lo, hi) for sc, lo, hi, _ in fold_data])
 
+    # The quantile grid is the operating-point HYPOTHESIS. A ladder epoch may vary it via its frozen
+    # contract snapshot (RESEARCH_CONTRACT); unset -> the canonical Q_GRID, so a normal run is unchanged.
+    q_grid = RC.operating_point_grid(Q_GRID)
     E0 = P.PIPELINE_PARAMETERS["INITIAL_CAPITAL_USD"]
     grid = []
-    for q in Q_GRID:
+    for q in q_grid:
         gs, ns, cuts = [], [], []
         for sc, lo, hi, p_train in fold_data:
             cut = float(np.quantile(p_train, q))
@@ -143,7 +147,7 @@ def choose_operating_point(P, dfx, fold_data, mode):
         grid.append({"theta": float(q), "lambda": None, "fold_growth": gs,
                      "fold_trades": ns, "cuts": cuts})
     return op_select.select_operating_point(grid, min_oof_trades=int(os_["min_oof_trades"]),
-                                            theta_spectrum=[float(q) for q in Q_GRID])
+                                            theta_spectrum=[float(q) for q in q_grid])
 
 
 def eval_subset(dfx, dfb, tev, bnds, params, names, seed, mode):

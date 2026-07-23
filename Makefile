@@ -175,10 +175,11 @@ iteration-plan:                     ## print the ladder (guard-checked), compute
 	@$(PY) engine/iteration_planner.py --ladder-dir /tmp/iteration-plan --plan-only
 
 iteration-report:                   ## (re)generate iteration_summary.md from the ladder's artifacts
-	@d=$$(cat ops/.iteration.current 2>/dev/null); $(PY) engine/iteration_report.py --ladder-dir runs/$$d
+	@d=$$(cat ops/.iteration.current 2>/dev/null); [ -n "$$d" ] || { echo "brak drabiny; make iteration-start"; exit 1; }; \
+	$(PY) engine/iteration_report.py --ladder-dir runs/$$d
 
 iteration-stop:                     ## cooperative halt — finishes the current epoch, stops the ladder
-	@d=$$(cat ops/.iteration.current 2>/dev/null); \
+	@d=$$(cat ops/.iteration.current 2>/dev/null); [ -n "$$d" ] || { echo "brak drabiny do zatrzymania"; exit 1; }; \
 	$(PY) -c "import json,os;p='runs/'+'$$d'+'/control.json';c=json.load(open(p));c['halt']=True;open(p+'.t','w').write(json.dumps(c));os.replace(p+'.t',p)" && echo "halt drabiny ustawiony (runs/$$d)"; \
 	e=$$(cat ops/.engine.current 2>/dev/null); \
 	if [ -n "$$e" ] && [ -f runs/$$e/control.json ]; then \

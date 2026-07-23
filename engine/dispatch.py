@@ -30,7 +30,16 @@ import reducer as RD                                                        # no
 
 
 def _run(cmd, timeout, ws):
-    env = dict(os.environ, LIORA_RESEARCH_DATA_DIR=str(ws))
+    # PYTHONHASHSEED fixed so any set->list ordering in a runner's result is process-independent — a
+    # runner's published bytes must be reproducible across re-runs, and str-set iteration order is the
+    # one source of per-process variation that sort_keys (dict keys only) does not canonicalize.
+    env = dict(os.environ, LIORA_RESEARCH_DATA_DIR=str(ws), PYTHONHASHSEED="0")
+    # Point the runners at THIS run's frozen contract so a ladder epoch's admissible hypothesis
+    # (operating_point grid, model_space) actually reaches the science. ws = run_dir/workspace/xgb/data,
+    # so the snapshot is ws.parents[2]/contract.json. Absent -> runners keep their canonical default.
+    contract = ws.parents[2] / "contract.json"
+    if contract.exists():
+        env["RESEARCH_CONTRACT"] = str(contract)
     p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, cwd=str(ROOT), env=env)
     return p.returncode, p.stdout, p.stderr
 

@@ -14,7 +14,12 @@ TICK="${GUARD_TICK_SEC:-30}"
 GRACE="${GUARD_DEADLINE_GRACE_SEC:-120}"
 MIN_AVAIL_MB="${GUARD_MIN_AVAIL_MB:-700}"
 MIN_WORKERS="${GUARD_MIN_WORKERS:-2}"
-STALE_TASK="${GUARD_STALE_TASK_SEC:-5400}"   # longer than any single task (Rung 5 ~35-40 min)
+STALE_TASK="${GUARD_STALE_TASK_SEC:-5400}"   # DEAD-WORKER timeout: a live task refreshes its own
+                                             # running-file mtime every 60s (worker.py heartbeat), so
+                                             # only a task whose worker died (no beat for 90 min) goes
+                                             # stale. Do NOT size this to "longer than any task" — the
+                                             # null can run hours; the heartbeat, not this bound, keeps
+                                             # a long LIVE task from being reclaimed into a duplicate.
 
 CONTROL="$RUN_DIR/control.json"
 _ctl() { "$PY" -c "import json,sys;print(json.load(open(sys.argv[1])).get(sys.argv[2],''))" "$CONTROL" "$1" 2>/dev/null; }

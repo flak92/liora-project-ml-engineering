@@ -65,11 +65,16 @@ def classify(run_dir):
 
 
 def diagnose(rec, max_retries):
-    """What the Repair Loop should do with one unit — a pure function of its ledger history."""
-    if rec["completed"]:
-        return "repaired" if rec["failures"] else "ok"      # a later success superseded any failure
+    """What the Repair Loop should do with one unit — a pure function of its ledger history.
+
+    The CURRENT status (last event) decides, not the latched `completed` flag: a unit that completed
+    and was then re-run to a divergent, non-reproducible artifact (exit 95) ends `failed`, and must be
+    quarantined — never masked as `repaired` because it once succeeded.
+    """
+    if rec["last_status"] == "completed":
+        return "repaired" if rec["failures"] else "ok"      # last event is success -> done/repaired
     if rec["last_status"] != "failed":
-        return "ok"                                         # running, or never failed
+        return "ok"                                         # running, or never ran
     code = rec["last_exit"]
     if code == 95:
         return "quarantine_integrity"                       # non-reproducible — never retry/overwrite

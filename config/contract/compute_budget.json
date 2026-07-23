@@ -24,10 +24,13 @@
    "NUMEXPR_NUM_THREADS": 1,
    "XGBOOST_N_JOBS": 1
   },
+  "python_hash_seed": 0,
   "workers": 4,
   "scratch": "scratch/<run_id>/<ticker>/<pid>/",
   "_measured": "Capping the pools: 12.33 s -> 8.15 s at three workers (1.51x). Worker benchmark over eight tables: 63.90 s / 33.71 / 24.62 / 19.72 wall at jobs 1..4, core-seconds 63.88 / 65.73 / 65.96 / 67.88 — wall falls monotonically while core-seconds rise 6%, so four workers are Pareto-optimal.",
-  "_reproducibility": "Capping does not touch the arithmetic: stage 3 re-run on TDG reproduced [-0.09471459, -0.11062278, +0.04853174, +0.24495527] exactly."
+  "_reproducibility_standard": "BYTE-LEVEL: a task's result_sha256 is identical across re-runs. The integrity guard (worker._publish) enforces it strictly and is NEVER loosened — a divergent re-run is a real defect, quarantined, not tolerated.",
+  "_reproducibility_conditions": "Byte-level holds iff ALL of: single-thread numeric pools (above), seeded RNG (seed 42 + per-permutation default_rng), PYTHONHASHSEED=0 (pins str-set iteration order, else per-process order-dependent float accumulation flips a futility exceedance and changes bytes), and NO concurrent duplicate execution of one task (per-task heartbeat prevents the guard from requeuing a live long task).",
+  "_reproducibility": "Capping does not touch the arithmetic: stage 3 re-run on TDG reproduced [-0.09471459, -0.11062278, +0.04853174, +0.24495527] exactly. 2026-07-23: the max-null verified byte-identical across two clean re-runs on ADBE (near-tie, coarser grid) and AZO (survivor) once PYTHONHASHSEED was pinned — the earlier FAILED_INTEGRITY was a false alarm from an unpinned hash seed under a stale-requeue duplicate, not a scientific non-reproducibility."
  },
  "cost_model_core_seconds_per_ticker": {
   "viability_register": 90,
