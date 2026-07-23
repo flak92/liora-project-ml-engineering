@@ -317,15 +317,14 @@ document.getElementById('chash').textContent = SEAL.contract_hash;
 
 // ---------- build the timed event stream from DATA (deterministic; counts exact) ----------
 // Replay-seconds budget per act (compressed). Real per-unit seconds set the compression FACTOR badge.
+// Four acts — the maximally compressed arc: the result, the loop that cannot cheat (LIVE),
+// the null that proves it, and the honest failures. (The seal is in the badge; the fuller
+// ladder/limits live in the Configurables tab and docs/SMART_METHODOLOGY.md.)
 const ACTS = [
-  {id:'0',  t:'Ending, up front',        dur:30},
-  {id:'1',  t:'The seal',                dur:60},
-  {id:'1b', t:'The guard — truly live',  dur:30, live:true},
-  {id:'2',  t:'Three assets, same procedure', dur:180},
-  {id:'3',  t:'The null',                dur:180},
+  {id:'0',  t:'The result, up front',    dur:30},
+  {id:'1b', t:'The guard — truly live',  dur:40, live:true},
+  {id:'3',  t:'The null',                dur:150},
   {id:'4',  t:'Honest failures',         dur:90},
-  {id:'5',  t:'The boundary of autonomy',dur:60},
-  {id:'6',  t:'What this is not',        dur:45},
 ];
 let AT0={}, tacc=0; ACTS.forEach(a=>{a.start=tacc; AT0[a.id]=tacc; tacc+=a.dur;}); const TOTAL=tacc;
 const realSecs = Object.values(DATA.assets).reduce((s,a)=>s+(a.seconds||0),0)*1; // sum of story per-unit seconds (a1)

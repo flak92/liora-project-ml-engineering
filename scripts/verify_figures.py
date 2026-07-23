@@ -26,8 +26,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DB = ROOT / "data" / "results.db"
-BLUEPRINT = ROOT / "data_pipeline_lego_plan.html"
-FLOW = ROOT / "data_flow_3d_visualization.html"
+BLUEPRINT = ROOT / "docs" / "archive" / "figures" / "data_pipeline_lego_plan.html"
+FLOW = ROOT / "docs" / "archive" / "figures" / "data_flow_3d_visualization.html"
 APP = ROOT / "app.py"
 README = ROOT / "README.md"
 
@@ -222,15 +222,12 @@ def main():
     WORDS = ("zero one two three four five six seven eight nine ten eleven twelve thirteen "
              "fourteen fifteen sixteen seventeen eighteen nineteen twenty").split()
     word = WORDS[n_pages] if n_pages < len(WORDS) else str(n_pages)
-    # The knob names the count; how the sidebar is grouped is not this gate's business, so
-    # it matches "pages=N" and stops there. Pinning the section wording too made the gate
-    # fail on a sidebar change that had nothing to do with the number it exists to guard.
-    check("page count (blueprint knob)", f"pages={n_pages}", BLUEPRINT)
-    check("page count (blueprint prose)", f"a {word}-page", BLUEPRINT)
+    # README is the only LIVE surface that states the count now (the two pipeline maps are
+    # archived under docs/archive/figures and no longer track the console), so it is the only
+    # one pinned to app.py's truth.
     check("page count (README)", f"## The {word} pages", README)
     stale = [w for i, w in enumerate(WORDS) if i != n_pages and i > 1
-             and (f"The {w} pages" in README.read_text(encoding="utf-8")
-                  or f"a {w}-page" in BLUEPRINT.read_text(encoding="utf-8"))]
+             and f"The {w} pages" in README.read_text(encoding="utf-8")]
     print(f"  {'PASS' if not stale else 'FAIL'}  no stale page count survives: "
           f"{n_pages} pages in app.py{'' if not stale else '  — found ' + ', '.join(stale)}")
     if stale:

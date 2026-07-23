@@ -1,10 +1,10 @@
-"""Entry point: `streamlit run app.py` (or `make on`). Six read-only pages, flat.
+"""Entry point: `streamlit run app.py` (or `make on`). Three read-only pages, flat.
 
-A list rather than a dict: st.navigation only draws section headers when it is given
-groups, and six pages do not need three headers over them. Order is the reading order —
-the build path, then the result, then the thing to play with, then the procedure in full,
-then the procedure re-lived as a timed replay. Overview stays the landing page; it is the
-one that answers "what came out of this".
+A list rather than a dict: st.navigation only draws section headers when it is given groups,
+and three pages do not need headers over them. Order is the reading order — the result first,
+then the thing to play with, then the method in full. Overview stays the landing page; it is
+the one that answers "what came out of this". The build-path maps and the full configurables
+catalog now live under docs/archive/ (deep-dive), reachable from docs/SMART_METHODOLOGY.md.
 """
 import sys
 from pathlib import Path
@@ -20,11 +20,8 @@ st.set_page_config(
 )
 
 pages = st.navigation([
-    st.Page("app/pages/flow.py", title="Data Flow 3D Visualization", url_path="flow"),
     st.Page("app/pages/overview.py", title="Overview", url_path="overview", default=True),
     st.Page("app/pages/simulator.py", title="Basket Simulator", url_path="simulator"),
-    st.Page("app/pages/blueprint.py", title="Data Pipeline Lego Plan", url_path="blueprint"),
-    st.Page("app/pages/calibration.py", title="Calibration Configurables", url_path="calibration"),
-    st.Page("app/pages/methodology_replay.py", title="Methodology Replay", url_path="replay"),
+    st.Page("app/pages/methodology.py", title="Smart Methodology", url_path="methodology"),
 ], expanded=True)
 pages.run()

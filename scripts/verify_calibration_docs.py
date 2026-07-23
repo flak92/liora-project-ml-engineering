@@ -20,7 +20,7 @@ sys.path.insert(0, str(ROOT / "engine"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 SNAPSHOT = ROOT / "results" / "methodology_snapshot"
-DOCS = [ROOT / "docs" / "CALIBRATION_CONFIGURABLES.md", ROOT / "calibration_configurables.html"]
+DOCS = [ROOT / "docs" / "SMART_METHODOLOGY.md", ROOT / "calibration_configurables.html"]
 MARK = "CALIBRATION-SEAL"
 
 

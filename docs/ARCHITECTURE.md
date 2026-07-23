@@ -159,6 +159,6 @@ docs/                       METHODOLOGY.md, ARCHITECTURE.md
 
 Version/epoch names do not appear in public paths, in the console, in README or in the
 presentation database; they may persist as immutable provenance inside the hash-sealed
-artifact JSONs. The written audits under `docs-facts-infos/` are the deliberate exception:
+artifact JSONs. The written audits under `docs/archive/facts-infos/` are the deliberate exception:
 they are dated records of the research tree and name its epoch, which is why they also
 state how the identity fields were anonymized here (`Raport_Spojnosci_Badan.md` §2).
