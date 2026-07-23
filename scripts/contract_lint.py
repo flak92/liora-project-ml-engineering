@@ -97,6 +97,22 @@ def _pn_const(name):
     return getattr(PN, name, None)
 
 
+def check_admissible_leaf_coverage():
+    """Every knob-leaf under an ADMISSIBLE section must be CLASSIFIED — frozen (FROZEN_PATHS) or listed
+    in ADMISSIBLE_LEAVES. A new, unclassified field reddens the lint, so the hand-authored field-level
+    allowlist cannot silently rot: adding a field (e.g. a future LSTM viability probe under model_space)
+    forces a human to declare it admissible or frozen, rather than defaulting to tunable."""
+    sys.path.insert(0, str(ROOT / "engine"))
+    import contract_patch as CP
+    uncovered, stale = CP.classify_admissible_leaves(CL.assemble())
+    problems = [f"nowe niesklasyfikowane pole pod ADMISSIBLE: {lf} — dodaj do "
+                f"contract_patch.ADMISSIBLE_LEAVES (strojalne) lub FROZEN_PATHS (proof standard)"
+                for lf in sorted(uncovered)]
+    problems += [f"inwentarz nieaktualny: {lf} już nie istnieje w kontrakcie — usuń z ADMISSIBLE_LEAVES"
+                 for lf in sorted(stale)]
+    return problems
+
+
 def stale_report(since):
     """Which split files a diff touched, and what each one's `invalidates` edge says is now stale."""
     try:
@@ -116,7 +132,8 @@ def main():
 
     checks = [("tagi na plikach", check_tags()),
               ("monolit == assemble(podział)", check_round_trip()),
-              ("brak dryfu kod<->kontrakt", check_drift())]
+              ("brak dryfu kod<->kontrakt", check_drift()),
+              ("field-level: liście ADMISSIBLE sklasyfikowane", check_admissible_leaf_coverage())]
     ok = True
     print("contract_lint — spójność podzielonego kontraktu\n")
     for name, problems in checks:

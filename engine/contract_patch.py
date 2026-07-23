@@ -108,6 +108,58 @@ def _is_frozen_leaf(leaf):
                for fp in FROZEN_PATHS)
 
 
+# The self-policing INVENTORY of hypothesis-knob leaves under the ADMISSIBLE sections. FROZEN_PATHS +
+# this set is the FULL field-level classification; contract_lint recomputes the leaves under the
+# admissible sections and reddens if any leaf is neither frozen nor listed here. So the default INSIDE
+# an admissible section is no longer "allow" — a NEW field (e.g. a future LSTM viability probe added
+# under model_space) cannot be silently tunable; a human must classify it, here or in FROZEN_PATHS.
+# (The list is an inventory of PATHS, not semantics: descriptive prose leaves are included so a value
+# edit never trips the lint — only a new path does.)
+_DESCRIPTIVE_KEYS = {"result", "status", "question", "protocol", "phase"}
+ADMISSIBLE_LEAVES = frozenset({
+    "arms.flat", "arms.hierarchical", "arms.stability_unit.flat", "arms.stability_unit.hierarchical",
+    "model_space.file", "model_space.hessian_relative", "model_space.hpo_target", "model_space.hpo_trials",
+    "operating_point.applied_to", "operating_point.candidate_dependent", "operating_point.chosen_on",
+    "operating_point.cut_source", "operating_point.grid",
+    "rung_6_survivor_hpo.open_question", "rung_6_survivor_hpo.own_null.alpha_binding",
+    "rung_7_interactions.own_gate", "rung_7_interactions.reuse", "rung_7_interactions.scope",
+})
+
+
+def admissible_section_leaves(contract):
+    """Dotted knob-leaf paths under the ADMISSIBLE sections of an assembled contract. Descriptive
+    subtrees (result/status/question/protocol/phase) and provenance keys (`_*`) are skipped, so a value
+    change or a recorded result never trips the lint — only a NEW tunable path does."""
+    out = set()
+
+    def walk(d, path):
+        for k, v in d.items():
+            if k.startswith("_") or k in _DESCRIPTIVE_KEYS:
+                continue
+            here = f"{path}.{k}" if path else k
+            if isinstance(v, dict) and v:
+                walk(v, here)
+            else:
+                out.add(here)
+
+    for sec in ADMISSIBLE:
+        sub = contract.get(sec)
+        if isinstance(sub, dict):
+            walk(sub, sec)
+        elif sub is not None:
+            out.add(sec)
+    return out
+
+
+def classify_admissible_leaves(contract):
+    """(uncovered_new, stale_missing): leaves under ADMISSIBLE sections that are neither frozen nor in
+    the inventory (new fields a human must classify), and inventory entries that no longer exist."""
+    leaves = admissible_section_leaves(contract)
+    uncovered = {lf for lf in leaves if lf not in ADMISSIBLE_LEAVES and not _is_frozen_leaf(lf)}
+    stale = {lf for lf in ADMISSIBLE_LEAVES if lf not in leaves}
+    return uncovered, stale
+
+
 def guard(patch):
     """Reject a patch that reaches beyond the admissible hypothesis space. Classification is FIELD-LEVEL:
     a patch may vary an ADMISSIBLE top-level section, but not a FROZEN sub-field nested inside one — e.g.

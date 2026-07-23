@@ -86,6 +86,22 @@ def test_patch_guard():
     _guard_is("pole: puste rung_6 (extension placeholder) PRZECHODZI", {"rung_6_survivor_hpo": {}}, True)
     _guard_is("pole: data_boundary top-level nadal ODRZUCONE", {"data_boundary": {"oos_start": "9999-01-01"}}, False)
 
+    # self-policing inventory: the field-level allowlist cannot silently rot. The current contract is
+    # fully classified; a NEW field under an admissible section is unclassified (contract_lint reddens),
+    # so a human must declare it — e.g. a future LSTM viability probe must not default to tunable.
+    import contract_loader as CL2
+    unc0, stale0 = CP.classify_admissible_leaves(CL2.assemble())
+    check("inwentarz: bieżący kontrakt w pełni sklasyfikowany", not unc0 and not stale0,
+          f"unc={sorted(unc0)} stale={sorted(stale0)}")
+    probed = CL2.assemble(); probed["model_space"]["lstm_probe_threshold"] = 0.5
+    unc1, _ = CP.classify_admissible_leaves(probed)
+    check("inwentarz: nowe pole pod model_space → niesklasyfikowane (lint by zczerwieniał)",
+          "model_space.lstm_probe_threshold" in unc1)
+    frozen_probe = CL2.assemble(); frozen_probe.setdefault("viability", {})["lstm_probe_threshold"] = 0.5
+    unc2, _ = CP.classify_admissible_leaves(frozen_probe)
+    check("inwentarz: sonda pod viability (mit#1) → NIE flagowana (warstwa 1 top-level FROZEN chroni)",
+          "viability.lstm_probe_threshold" not in unc2)
+
 
 def test_convergence():
     """convergence_update + should_converge stop exactly at the first variant that adds nothing."""
