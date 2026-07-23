@@ -49,6 +49,7 @@ import reducer as RD                                                        # no
 import repair as RP                                                         # noqa: E402
 import report as RE                                                         # noqa: E402
 import states as ST                                                         # noqa: E402
+import asset_driver as AD                                                   # noqa: E402
 import worker as WK                                                         # noqa: E402
 from artifact_io import read_json, write_json_atomic                        # noqa: E402
 from ledger import Ledger                                                   # noqa: E402
@@ -186,80 +187,31 @@ def render_trace(ladder_dir):
 
 # ---- inner loop (one frozen contract to fixpoint) -------------------------------------------------
 
-def run_epoch_inproc(epoch_dir, assets, policy, ladder_dir, k, version_id, budget_spent_before):
-    """Drive one epoch to a fixpoint with a single in-process worker. Deterministic; the smoke and
-    selftest run this. Returns (outcome, states)."""
+def run_epoch(epoch_dir, assets, policy, ladder_dir, k, version_id, budget_spent_before):
+    """Drive one epoch to a fixpoint with the parallel-over-assets driver (engine/asset_driver): each
+    asset runs its DAG 1→3→4→5→6 in a PRIVATE workspace (no queue, no shared write, no guard/scheduler),
+    the pool is RAM-capped and honours the epoch wall deadline and the cooperative halt. The integrity
+    gate (oos_reads==0, boundary markers, self-consistent hash) is PRESERVED — it runs AFTER the panel
+    and fails the epoch closed. The Repair Loop's technical-terminal overlay still applies via
+    states_map; a dead child is re-run once inside the driver (idempotent via immutable artifacts).
+    Byte-identical to the old queue path (validated by a per-asset result_sha256 parity harness on a
+    three-asset smoke). Returns (outcome, states)."""
     max_retries = int(policy.get("repair", {}).get("max_retries", 2))
-    max_cycles = int(policy.get("execution", {}).get("max_cycles", 80))
-    cap_core_s = _core_cap_seconds(policy)
-
-    for cycle in range(max_cycles):
-        if halt_requested(ladder_dir):
-            return "HALTED", states_map(epoch_dir, assets, max_retries)
-        ok, ig = IG.verify(epoch_dir)
-        if not ok:
-            _trace(ladder_dir, "integrity", {"epoch": k, "version_id": version_id,
-                                             "problems": ig["problems"]})
-            return "INTEGRITY_FAILED", states_map(epoch_dir, assets, max_retries)
-
-        rep = RP.handle(epoch_dir, max_retries)             # requeue safe retries; leave terminals
-        st = states_map(epoch_dir, assets, max_retries)
-        if all(is_loop_terminal(s) for s in st.values()):
-            return "EPOCH_DONE", st
-
-        spent = budget_spent_before + core_seconds(epoch_dir)
-        if cap_core_s is not None and spent >= cap_core_s:
-            return "HALTED_BUDGET", st
-
-        actions = PL.plan(epoch_dir)                        # assembles panels, derives next steps
-        n = PL.enqueue(epoch_dir, actions)
-        done = 0
-        while True:
-            r = WK.run_one(epoch_dir, "worker-inproc")
-            if r is None:
-                break
-            done += 1
-
-        _trace(ladder_dir, "cycle", {
-            "epoch": k, "version_id": version_id, "cycle": cycle,
-            "states": st, "enqueued": n, "ran": done,
-            "repair": {kk: len(vv) for kk, vv in rep.items() if vv}})
-
-        if done == 0 and n == 0:                            # no progress possible this cycle
-            break
-
-    st = states_map(epoch_dir, assets, max_retries)
-    return ("EPOCH_DONE" if all(is_loop_terminal(s) for s in st.values()) else "EPOCH_STALLED"), st
-
-
-def run_epoch_external(epoch_dir, assets, policy, ladder_dir, k, version_id, budget_spent_before):
-    """Drive one epoch by shelling the proven detached supervisor (`ops/engine.sh`) on this epoch's
-    run dir, then verifying what it produced. engine.sh runs its own tmux worker pool + guard +
-    scheduler until every asset is terminal, then tears the session down and returns."""
-    max_retries = int(policy.get("repair", {}).get("max_retries", 2))
-    run_rel = str(Path(epoch_dir).resolve().relative_to((ROOT / "runs").resolve()))
-    env = dict(os.environ,
-               RESUME_RUN=run_rel,                          # use the pre-snapshotted patched contract
-               WORKERS=str(policy.get("execution", {}).get("workers", 4)),
-               HOURS=str(policy.get("budget", {}).get("wall_hours_per_epoch", 8)),
-               ALLOW_DIRTY=os.environ.get("ALLOW_DIRTY", "1"))
-    _trace(ladder_dir, "epoch_exec", {"epoch": k, "version_id": version_id, "backend": "engine.sh",
-                                      "run_rel": run_rel})
-    try:
-        proc = subprocess.run(["bash", str(ROOT / "ops" / "engine.sh")], cwd=str(ROOT), env=env,
-                              timeout=int(policy.get("budget", {}).get("wall_hours_per_epoch", 8)) * 3600 + 600)
-    except subprocess.TimeoutExpired:
-        # a wall-timeout is a stall (fixpoint not reached), NOT a core-hour budget halt
-        _trace(ladder_dir, "epoch_stalled", {"epoch": k, "version_id": version_id, "cause": "wall_timeout"})
-        return "EPOCH_STALLED", states_map(epoch_dir, assets, max_retries)
-    if proc.returncode != 0:
-        # engine.sh die()'d (lock contention, no tmux, snapshot failure) — the epoch never ran
-        _trace(ladder_dir, "epoch_stalled", {"epoch": k, "version_id": version_id,
-                                             "cause": f"engine.sh exit {proc.returncode}"})
-        return "EPOCH_STALLED", states_map(epoch_dir, assets, max_retries)
+    if halt_requested(ladder_dir):
+        return "HALTED", states_map(epoch_dir, assets, max_retries)
+    control = str(Path(ladder_dir) / "control.json")
+    wall_h = policy.get("budget", {}).get("wall_hours_per_epoch")
+    deadline = (time.time() + float(wall_h) * 3600.0) if wall_h else None
+    seed = int(CT.load(epoch_dir).get("seed", 42))
+    max_parallel = policy.get("execution", {}).get("workers")
+    AD.run_panel(str(epoch_dir), assets, seed=seed, control=control,
+                 deadline_epoch=deadline, max_parallel=max_parallel)
+    if halt_requested(ladder_dir):
+        return "HALTED", states_map(epoch_dir, assets, max_retries)
     ok, ig = IG.verify(epoch_dir)
     if not ok:
-        _trace(ladder_dir, "integrity", {"epoch": k, "version_id": version_id, "problems": ig["problems"]})
+        _trace(ladder_dir, "integrity", {"epoch": k, "version_id": version_id,
+                                         "problems": ig["problems"]})
         return "INTEGRITY_FAILED", states_map(epoch_dir, assets, max_retries)
     st = states_map(epoch_dir, assets, max_retries)
     return ("EPOCH_DONE" if all(is_loop_terminal(s) for s in st.values()) else "EPOCH_STALLED"), st
@@ -292,7 +244,6 @@ def run_ladder(ladder_dir, assets, seed=42, mode="inproc", allow_dirty=False, po
     policy = policy or load_policy()
     rungs = ladder_from_policy(policy)                      # guard-checks every patch up front
     patience = int(policy.get("convergence", {}).get("patience", 1))
-    run_epoch = run_epoch_inproc if mode == "inproc" else run_epoch_external
 
     manifest = {"ladder_dir": str(ladder_dir), "mode": mode, "assets": list(assets),
                 "rungs": [r["version_id"] for r in rungs], "epochs": []}

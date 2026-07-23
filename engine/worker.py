@@ -30,8 +30,9 @@ runtime_init.apply()
 from artifact_io import write_json_atomic                                  # noqa: E402
 import contract as CT                                                      # noqa: E402
 import dispatch as DP                                                      # noqa: E402
+import reducer as RD                                                       # noqa: E402
 import schemas as SC                                                       # noqa: E402
-from taskqueue import Queue                                                    # noqa: E402
+from taskqueue import Queue                                                # noqa: E402
 from states import RUNG_DIR                                                # noqa: E402
 from exec_ledger import ExecLedger                                         # noqa: E402
 
@@ -65,28 +66,51 @@ def _publish(run_dir, task, envelope):
     return new_sha, "published"
 
 
+def execute_task(run_dir, task, ws, worker_id, led):
+    """The queueless core: contract gate -> dispatch (in `ws`) -> validate -> idempotent/integrity
+    publish -> ledger. The caller owns work assignment and liveness (no claim, no heartbeat). Shared by
+    the legacy queue worker (run_one) and the asset_driver (parallel-over-assets). Returns
+    {**task, outcome, ...}; outcome in {contract_mismatch, failed, invalid, failed_integrity, published,
+    idempotent}. The one scientific gate the executor owns is the contract_hash check."""
+    snap = CT.load(run_dir)
+    if task.get("contract_hash") != snap["contract_hash"]:
+        led.failed(task, worker_id, 0.0, 7, "contract_hash mismatch")
+        return {**task, "outcome": "contract_mismatch"}
+    led.running(task, worker_id)
+    t0 = time.time()
+    result, rc, err = DP.dispatch(task, run_dir, ws=ws)
+    secs = time.time() - t0
+    if result is None or rc != 0:
+        led.failed(task, worker_id, secs, rc, err)
+        return {**task, "outcome": "failed", "exit_code": rc, "error": err}
+    envelope = SC.wrap_result(task, result, rc,
+                              time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
+    problems = SC.validate_result(envelope)
+    if problems:
+        led.failed(task, worker_id, secs, 92, f"schema: {problems}")
+        return {**task, "outcome": "invalid", "problems": problems}
+    sha, pub = _publish(run_dir, task, envelope)
+    if pub == "integrity_mismatch":
+        # A re-run produced different bytes — the experiment was not reproducible. A scientific-integrity
+        # failure, not transient; never overwritten, never retried.
+        led.failed(task, worker_id, secs, 95, f"FAILED_INTEGRITY: sha {sha} != {envelope['result_sha256']}")
+        return {**task, "outcome": "failed_integrity", "existing_sha": sha}
+    led.done(task, worker_id, secs, rc, sha)
+    return {**task, "outcome": pub, "seconds": round(secs, 1), "artifact_sha256": sha}
+
+
 def run_one(run_dir, worker_id):
-    """Claim and execute a single task. Returns the task (with outcome) or None if the queue is empty."""
+    """Legacy queue path: claim -> heartbeat -> execute_task -> finish. Returns task-with-outcome or None.
+
+    The heartbeat keeps the running-file mtime fresh so the guard's stale sweep never requeues a
+    legitimately long task into a concurrent duplicate; `os.utime` (not touch) never recreates a file the
+    guard just moved. (The asset_driver needs neither queue nor heartbeat — nothing requeues a running
+    task there.)"""
     q = Queue(run_dir)
     led = ExecLedger(run_dir)
     task = q.claim()
     if task is None:
         return None
-
-    # Contract enforcement — the one scientific gate the worker owns.
-    snap = CT.load(run_dir)
-    if task.get("contract_hash") != snap["contract_hash"]:
-        led.failed(task, worker_id, 0.0, 7, "contract_hash mismatch")
-        q.finish(task, "failed")
-        return {**task, "outcome": "contract_mismatch"}
-
-    led.running(task, worker_id)
-    # Keep this task's running-file mtime fresh while its (possibly multi-hour) runner executes, so the
-    # guard's mtime-based stale sweep never mistakes a legitimately long task for a dead-worker orphan
-    # and requeues it into a CONCURRENT duplicate run (the root cause of the FAILED_INTEGRITY seen on a
-    # 2h45m null). os.utime — not touch — never RECREATES a file the guard just moved, so it cannot race
-    # a requeue into a phantom running-file. A dead worker stops beating, its file ages, and the guard
-    # then correctly reclaims it.
     running_file = Path(run_dir) / "queue" / "running" / f"{task['task_hash']}.json"
     stop_hb = threading.Event()
 
@@ -99,37 +123,13 @@ def run_one(run_dir, worker_id):
 
     hb = threading.Thread(target=_beat, daemon=True)
     hb.start()
-    t0 = time.time()
     try:
-        result, rc, err = DP.dispatch(task, run_dir)
+        r = execute_task(run_dir, task, RD.workspace(run_dir), worker_id, led)
     finally:
         stop_hb.set()
         hb.join(timeout=2)
-    secs = time.time() - t0
-
-    if result is None or rc != 0:
-        led.failed(task, worker_id, secs, rc, err)
-        q.finish(task, "failed")
-        return {**task, "outcome": "failed", "exit_code": rc, "error": err}
-
-    envelope = SC.wrap_result(task, result, rc,
-                              time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
-    problems = SC.validate_result(envelope)
-    if problems:
-        led.failed(task, worker_id, secs, 92, f"schema: {problems}")
-        q.finish(task, "failed")
-        return {**task, "outcome": "invalid", "problems": problems}
-
-    sha, pub = _publish(run_dir, task, envelope)
-    if pub == "integrity_mismatch":
-        # A retry produced different bytes than the first run — the experiment was not reproducible.
-        # This is a scientific-integrity failure, not a transient one; do not overwrite, do not retry.
-        led.failed(task, worker_id, secs, 95, f"FAILED_INTEGRITY: sha {sha} != {envelope['result_sha256']}")
-        q.finish(task, "failed")
-        return {**task, "outcome": "failed_integrity", "existing_sha": sha}
-    led.done(task, worker_id, secs, rc, sha)
-    q.finish(task, "done")
-    return {**task, "outcome": pub, "seconds": round(secs, 1), "artifact_sha256": sha}
+    q.finish(task, "done" if r["outcome"] in ("published", "idempotent") else "failed")
+    return r
 
 
 def main():

@@ -25,12 +25,16 @@ import contract as CT                                                      # noq
 import states as ST                                                        # noqa: E402
 
 
-def workspace(run_dir):
-    """The run's private panel directory. Runners are pointed here via LIORA_RESEARCH_DATA_DIR, so a
-    run's assembled panels never touch the canonical xgb/data or another run's — two runs, or a
-    report during a run, cannot read each other's overwritten registers. Bars and the parquet scratch
-    stay canonical (read-only, deterministic), so only the mutable panel registers are isolated."""
-    d = Path(run_dir) / "workspace" / "xgb" / "data"
+def workspace(run_dir, asset=None):
+    """A run's private panel directory (via LIORA_RESEARCH_DATA_DIR), so a run's assembled panels never
+    touch the canonical xgb/data or another run's. With `asset`, a PER-ASSET private workspace — each
+    asset's registers live under workspace/<asset>/, so parallel-over-assets writes no shared file and
+    cannot race (the class of bug the queue/guard existed to prevent). Without `asset`, the shared
+    workspace (legacy queue-worker path). Bars/parquet scratch stay canonical (read-only, deterministic)."""
+    d = Path(run_dir) / "workspace"
+    if asset is not None:
+        d = d / str(asset)
+    d = d / "xgb" / "data"
     d.mkdir(parents=True, exist_ok=True)
     return d
 
@@ -90,6 +94,37 @@ def assemble_inputs(run_dir):
             "procedure_null_a1": assemble_null(run_dir, "a1"),
             "procedure_null_a2": assemble_null(run_dir, "a2"),
             "procedure_null_b": assemble_null(run_dir, "b")}
+
+
+def assemble_asset_inputs(run_dir, asset):
+    """Per-asset ONE-ROW registers into the asset's PRIVATE workspace, from that asset's OWN artifacts —
+    the parallel-over-assets counterpart of assemble_inputs. The structure mirrors assemble_feature_utility
+    / assemble_crossfit / assemble_null EXACTLY (same contract-derived fields, same `_generated`); only
+    `tables` holds the single asset. A runner reads only tables[asset] plus the frozen contract-derived
+    fields, so a one-row table is byte-identical INPUT to the shared-panel path — no other asset's row is
+    ever read, so no shared write and no concurrency. Idempotent; called before each of the asset's rungs."""
+    snap = CT.load(run_dir)
+    c = snap["contract"]
+    ws = workspace(run_dir, asset)
+    a3 = ST.latest_artifact(run_dir, 3, asset)
+    if a3 is not None:
+        write_json_atomic(ws / "feature_utility.json", {
+            "hpo_trials": c["model_space"]["hpo_trials"], "seed": snap.get("seed", 42),
+            "viability": c["viability"], "operating_point": c["operating_point"],
+            "_generated": "engine reducer from per-asset Rung 3 artifacts",
+            "tables": {asset: a3["result"]}})
+    a4 = ST.latest_artifact(run_dir, 4, asset)
+    if a4 is not None:
+        write_json_atomic(ws / "crossfit_selection.json", {
+            "contract": {"rule": "max-over-eligible", "_generated": "engine reducer"},
+            "tables": {asset: a4["result"]}})
+    a5 = ST.latest_artifact(run_dir, 5, asset)
+    if a5 is not None:
+        for kind in ("a1", "a2", "b"):
+            if a5["result"].get(kind):
+                write_json_atomic(ws / f"procedure_null_{kind}.json", {
+                    "contract": {"null": kind, "_generated": "engine reducer"},
+                    "tables": {asset: a5["result"][kind]}})
 
 
 def has_asset(panel_path, asset):

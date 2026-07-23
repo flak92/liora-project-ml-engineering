@@ -37,10 +37,11 @@ def _run(cmd, timeout, ws):
     # one source of per-process variation that sort_keys (dict keys only) does not canonicalize.
     env = dict(os.environ, LIORA_RESEARCH_DATA_DIR=str(ws), PYTHONHASHSEED="0")
     # Point the runners at THIS run's frozen contract so a ladder epoch's admissible hypothesis
-    # (operating_point grid, model_space) actually reaches the science. ws = run_dir/workspace/xgb/data,
-    # so the snapshot is ws.parents[2]/contract.json. Absent -> runners keep their canonical default.
-    contract = ws.parents[2] / "contract.json"
-    if contract.exists():
+    # (operating_point grid, model_space) actually reaches the science. _contract_for walks up from the
+    # workspace — robust for BOTH the shared (run_dir/workspace/xgb/data) and a per-asset workspace
+    # (run_dir/workspace/<asset>/xgb/data). Absent -> runners keep their canonical default.
+    contract = _contract_for(ws)
+    if contract:
         env["RESEARCH_CONTRACT"] = str(contract)
         # The run's DECLARED seed must reach the runners (they read RESEARCH_SEED, default 42) — else a
         # run snapshotting seed=N would silently execute at the hardcoded 42, a provenance lie. One
@@ -51,6 +52,19 @@ def _run(cmd, timeout, ws):
             pass
     p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, cwd=str(ROOT), env=env)
     return p.returncode, p.stdout, p.stderr
+
+
+def _contract_for(ws):
+    """Walk up from the workspace to the run dir's contract.json — robust for BOTH the shared workspace
+    (run_dir/workspace/xgb/data) and a per-asset one (run_dir/workspace/<asset>/xgb/data)."""
+    p = Path(ws)
+    for _ in range(6):
+        if (p / "contract.json").exists():
+            return p / "contract.json"
+        if p.parent == p:
+            break
+        p = p.parent
+    return None
 
 
 def _tmp(ws, suffix=".json"):
@@ -211,9 +225,11 @@ NEEDS = {1: [], 3: [], 4: ["feature_utility.json"],
          6: ["procedure_null_a1.json", "crossfit_selection.json", "feature_utility.json"]}
 
 
-def dispatch(task, run_dir):
-    """Run the rung's runner for one asset in the run's workspace; return (result|None, rc, stderr)."""
+def dispatch(task, run_dir, ws=None):
+    """Run the rung's runner for one asset; return (result|None, rc, stderr). `ws` overrides the
+    workspace (the asset_driver passes a PER-ASSET private workspace); default = the shared run
+    workspace (legacy queue-worker path)."""
     fn = DISPATCH.get(task["rung"])
     if fn is None:
         return None, 90, f"rung {task['rung']} bez dispatchu"
-    return fn(task, RD.workspace(run_dir))
+    return fn(task, ws if ws is not None else RD.workspace(run_dir))
