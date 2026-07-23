@@ -26,7 +26,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "engine"))
 PY = str(ROOT / ".venv" / "bin" / "python3")
 SCRIPTS = ROOT / "scripts"
+sys.path.insert(0, str(SCRIPTS))
 import reducer as RD                                                        # noqa: E402
+import rung5_verdict as RV                                                  # noqa: E402 — one definition of "stable"
 
 
 def _run(cmd, timeout, ws):
@@ -116,7 +118,10 @@ def _dispatch_null(task, ws):
             return None, rc, err[-400:]
         a1 = _entry(tmps["a1"], asset)
         result = {"a1": a1, "a2": None, "b": None}
-        passed = a1 and any(v.get("verdict") == "passed"
+        # ORCHESTRATION gate (which arms get a2/b), not a science verdict: accept smoke_pass too so a
+        # reduced smoke still exercises a2/b. The SCIENCE selector (rung5_verdict.passed_arms) stays
+        # strict "passed", so a smoke never reaches NULL_VALIDATED — only real strength confirms.
+        passed = a1 and any(v.get("verdict") in ("passed", "smoke_pass")
                             for f in a1.get("folds", []) for v in f.get("arms", {}).values())
         for kind in ("a2", "b"):
             if not passed:
@@ -136,20 +141,46 @@ def _dispatch_null(task, ws):
         shutil.rmtree(scratch, ignore_errors=True)
 
 
+def _panel_entry(path, asset):
+    """One asset's entry from a null panel in the workspace, or None (file/asset absent). A2/B are
+    absent when the asset never reached them (a1 produced no survivor) — None then makes
+    stable_survivors treat that leg as failed, which is the correct fail-closed reading."""
+    try:
+        return json.loads(Path(path).read_text(encoding="utf-8")).get("tables", {}).get(asset)
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def _stable_entry(a1_entry, stable):
+    """The a1 entry filtered to ONLY its stable arms (A1∩A2∩B), each kept `passed` — the survivors
+    file Rung 6 reads. rung6.survivors() then extracts exactly the stable arms, so Rung 6 optimizes
+    the intersection, never A1 alone (else it would 'retain' features A2/B already rejected)."""
+    folds = []
+    for f in a1_entry.get("folds", []):
+        of = f.get("outer_fold")
+        arms = {arm: v for arm, v in (f.get("arms", {}) or {}).items()
+                if v.get("verdict") == "passed" and (of, arm, str(v.get("unit"))) in stable}
+        if arms:
+            folds.append({**f, "arms": arms})
+    return {**a1_entry, "folds": folds}
+
+
 def _dispatch_hpo(task, ws):
     asset = task["asset"]
-    a1_panel = ws / "procedure_null_a1.json"                  # assembled by the reducer into the workspace
-    try:
-        panel = json.loads(a1_panel.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return None, 93, "brak panelu procedure_null_a1.json w workspace (reducer nie złożył)"
-    entry = panel.get("tables", {}).get(asset)
-    if entry is None:
-        return None, 94, f"asset {asset} nieobecny w panelu A1"
+    a1e = _panel_entry(ws / "procedure_null_a1.json", asset)  # assembled by the reducer into the workspace
+    if a1e is None:
+        return None, 93, "brak panelu/wpisu procedure_null_a1.json w workspace (reducer nie złożył)"
+    # Rung 6 optimizes ONLY the stable survivors A1∩A2∩B (canonical rung5_verdict.stable_survivors,
+    # fail-closed when a2/b absent) — feeding the A1 panel alone lets Rung 6 retain arms A2/B rejected.
+    a2e, be = _panel_entry(ws / "procedure_null_a2.json", asset), _panel_entry(ws / "procedure_null_b.json", asset)
+    stable = RV.stable_survivors(a1e, a2e, be)
+    if not stable:
+        return {"results": [], "retained": 0, "demoted": 0, "budget_B": None}, 0, ""
     one, out = _tmp(ws), _tmp(ws)
     scratch = ws / "scratch" / f"hpo_{asset}_{int(time.time())}"
     try:
-        Path(one).write_text(json.dumps({"contract": {"null": "a1"}, "tables": {asset: entry}}))
+        Path(one).write_text(json.dumps({"contract": {"null": "a1a2b_stable"},
+                                         "tables": {asset: _stable_entry(a1e, stable)}}))
         rc, _o, err = _run([PY, str(SCRIPTS / "rung6_survivor_hpo.py"), "--survivors-from", one,
                             "--jobs", "1", "--out", out, "--run-dir", str(scratch)], 5400, ws)
         if rc != 0:

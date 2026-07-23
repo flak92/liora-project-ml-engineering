@@ -78,27 +78,32 @@
  "rung_6_survivor_hpo": {
   "status": "EXECUTED",
   "result": {
-   "survivors_in": 11,
-   "retained": 4,
+   "survivors_in": 9,
+   "retained": 2,
    "demoted": 7,
    "retained_units": [
-    "ORLY/1 oscillator_rsi",
-    "ORLY/1 112",
-    "IDXX/2 208",
-    "BKNG/0 volume"
+    "ORLY/1 flat 112",
+    "ORLY/1 hierarchical oscillator_rsi"
    ],
-   "_finding": "GOOG (+0.037) and NVR (+0.087) had POSITIVE tuned deltas yet were demoted at b=5 — tuning a block-permuted (noise) column matched the improvement, so the gain was the hyper-parameter search overfitting the extra column, not the feature. The own-null caught the winner's-curse-of-tuning a naive core-vs-core+feature comparison would have missed.",
-   "_most_robust": "ORLY/1 oscillator_rsi (rep 112) — the only arm stable across A1/A2/B AND retained by Rung 6",
+   "_same_feature": "both retained arms resolve to representative 112 on ORLY/1 — two discovery paths (flat ranking, hierarchical family) to one feature; the funnel counts arms, so 2",
+   "_finding": "GOOG (+0.037) and NVR (+0.087) had POSITIVE tuned deltas yet were demoted (b=2, own-null) — tuning a block-permuted noise column matched the gain, so it was hyper-parameter-search overfitting, not the feature.",
+   "_correction": "Supersedes the pre-correction funnel 11->4. Rung 6 had been fed A1-only survivors (so it retained IDXX/2 208 and BKNG/0 volume, which A2/B rejected) and applied b<=4 (calibrated for M=50) at M=20 (admitting p=0.238). Corrected: fed A1∩A2∩B (9 survivors) and b<=floor(alpha*(M+1)-1)=1 at M=20; own-null seed reproducible under PYTHONHASHSEED=0.",
    "budget_B": 20,
    "own_null_permutations": 20,
-   "invariant_held": "retained (4) <= survivors (11); only demotion"
+   "invariant_held": "retained (2) <= survivors (9); Rung 6 only demotes"
   },
   "question": "The ladder measures a feature's utility at hyper-parameters frozen on core. It does not measure the maximum utility of that feature under an optimally tuned core + feature.",
   "protocol": "for each survivor of confirmation AND the null: tune core with a local budget B, tune core + survivor with the SAME budget B, tuning on discovery folds only, then compare on an untouched confirmation fold",
   "_why_legitimate_here_and_not_earlier": "Tuning on the superset co-adapts the parameters to features the baseline lacks and inflates every gain, which is why screening freezes core. Rung 6 relaxes that deliberately and only after the screening verdict exists, so the relaxation cannot manufacture a survivor — it can only measure how much more a confirmed one is worth.",
   "_must_not": "overturn a rung-5 rejection; if it could, the screening was pointless",
   "open_question": "whether the hyper-parameter search reintroduces winner's curse and therefore needs its own null, and whether a confirmation fold reused from rungs 4-5 is still untouched",
-  "phase": "MAXIMUM OPTIMIZATION, after the FAST SCREENING phase closes"
+  "phase": "MAXIMUM OPTIMIZATION, after the FAST SCREENING phase closes",
+  "alpha": 0.1,
+  "own_null": {
+   "permutations": 20,
+   "pass_condition": "retain iff b <= floor(alpha*(permutations+1)-1); at M=20, alpha=0.10 -> b<=1 (p_mc<=2/21=0.095<=alpha)",
+   "alpha_binding": "= max_null.alpha (0.10); one lab significance level. The b<=4 constant it replaced was calibrated for M=50 (5/51=0.098) and silently admitted p=5/21=0.238 at M=20. Phase B: contract_lint to enforce ==max_null.alpha."
+  }
  },
  "rung_7_interactions": {
   "status": "SPECIFIED, NOT EXECUTED",

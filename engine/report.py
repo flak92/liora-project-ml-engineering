@@ -65,16 +65,25 @@ def funnel(source):
 
     prov = _accepted_arms(crossfit)
     pa1, pa2, pb = _passed(a1), _passed(a2), _passed(b)
-    stable = pa1 & (pa2 if a2 else pa1) & (pb if b else pa1)
-    retained = sum(1 for r in (r6 or {}).get("results", []) if r.get("verdict") == "retained")
+    # Fail-closed: a missing sensitivity null cannot confirm stability (identical rule to
+    # rung5_verdict.stable_survivors). _passed(None) is empty, so an absent a2/b empties the
+    # intersection — never the old fail-OPEN fallback to pa1 that counted A1-only as stable.
+    stable = pa1 & pa2 & pb
+    # Retained counts ONLY stable arms: Rung 6 optimizes survivors and can report `retained` for an
+    # arm A2/B rejected (the A1-only-survivor-set bug, or an older artifact). Such an arm is NOT a
+    # confirmed feature — the funnel's terminal count is stable ∩ Rung-6-retained, nothing else.
+    r6_retained = {(r.get("ticker"), r.get("outer_fold"), r.get("arm"), str(r.get("unit")))
+                   for r in (r6 or {}).get("results", []) if r.get("verdict") == "retained"}
+    retained_keys = stable & r6_retained
 
     return {
         "provisional_crossfit": prov,
         "passed_a1_marginal": len(pa1),
         "stable_a1_a2_b": len(stable),
-        "retained_rung6": retained,
+        "retained_rung6": len(retained_keys),
         "_note": "derived from artifacts; a fresh panel may differ and still be correct",
         "stable_units": sorted(f"{t}/{o}/{a}/{u}" for t, o, a, u in stable),
+        "retained_units": sorted(f"{t}/{o}/{a}/{u}" for t, o, a, u in retained_keys),
     }
 
 

@@ -284,12 +284,100 @@ def test_seal_science_only():
         check("nauka zachowana (folds)", e.get("folds") == [1, 2])
 
 
+def test_rung6_stable_survivors():
+    """Rung 6 is fed the STABLE set A1∩A2∩B, never A1 alone: dispatch._stable_entry keeps only stable
+    arms, dropping one that passed A1 but was rejected by A2/B. (regression: P0-1 — Rung 6 fed the A1
+    panel retained IDXX/2 208 and BKNG/0 volume, which A2/B had already rejected.)"""
+    import dispatch as DP
+    import rung5_verdict as RV
+    print("\n13. Rung 6 dostaje A1∩A2∩B, nie samo A1 (P0-1)")
+
+    def entry(arms):     # arms: {(outer_fold, arm, unit): verdict}
+        folds = {}
+        for (of, arm, unit), verd in arms.items():
+            folds.setdefault(of, {"ticker": "A", "outer_fold": of, "arms": {}})
+            folds[of]["arms"][arm] = {"verdict": verd, "unit": unit}
+        return {"folds": list(folds.values())}
+
+    a1 = entry({(0, "flat", "111"): "passed", (0, "hierarchical", "222"): "passed"})
+    a2 = entry({(0, "flat", "111"): "passed", (0, "hierarchical", "222"): "rejected_early"})
+    b = entry({(0, "flat", "111"): "passed", (0, "hierarchical", "222"): "passed"})
+    stable = RV.stable_survivors(a1, a2, b)
+    check("stable = tylko arm w A1∩A2∩B (flat/111)", stable == {(0, "flat", "111")}, str(stable))
+    arms_fed = {(f["outer_fold"], arm) for f in DP._stable_entry(a1, stable)["folds"] for arm in f["arms"]}
+    check("_stable_entry karmi TYLKO flat/111, odrzuca hierarchical/222 (padł A2)",
+          arms_fed == {(0, "flat")}, str(arms_fed))
+    check("brak a2/b → fail-closed pusty (nic do Rung 6)", RV.stable_survivors(a1, None, None) == set())
+
+
+def test_rung6_threshold_from_alpha():
+    """Rung 6's own-null pass threshold is DERIVED from alpha and the permutation count, not a constant
+    calibrated to a different M. (regression: P0-2 — b<=4 was calibrated for M=50 but ran at M=20, where
+    it admitted p_mc=5/21=0.238 against a declared alpha of 0.10.)"""
+    import rung6_survivor_hpo as R6
+    print("\n14. próg Rung 6 wywiedziony z alfy, nie stała pod inne M (P0-2)")
+    check("alpha czytana z kontraktu = 0.10", R6.ALPHA == 0.1, f"ALPHA={R6.ALPHA}")
+    check("M=20, alpha=0.10 → pass_b=1 (p_max=2/21=0.095 ≤ 0.10)", R6._pass_b(0.1, 20) == 1)
+    check("M=50, alpha=0.10 → pass_b=4 (odtwarza skalibrowaną wartość)", R6._pass_b(0.1, 50) == 4)
+    check("stary błąd udokumentowany: b≤4 przy M=20 dopuszczał p=5/21=0.238 > alpha", round(5 / 21, 3) == 0.238)
+
+
+def test_report_retained_intersect():
+    """The funnel's retained is stable ∩ Rung-6-retained, and stable is fail-closed — a missing a2/b
+    empties it, never falls back to A1. (regression: P1-4 — retained counted A2/B-rejected arms and
+    stable fell OPEN to pa1 when a2/b were absent.)"""
+    import report as RE
+    print("\n15. raport: retained = stable ∩ rung6_retained, stable fail-closed (P1-4)")
+    with tempfile.TemporaryDirectory() as d:
+        dd = Path(d)
+
+        def null(name, passed):
+            (dd / name).write_text(json.dumps({"tables": {"A": {"folds": [
+                {"ticker": "A", "outer_fold": of, "arms": {arm: {"verdict": "passed", "unit": unit}}}
+                for (of, arm, unit) in passed]}}}))
+
+        (dd / "crossfit_selection.json").write_text(json.dumps({"tables": {"A": {"folds": [
+            {"outer_fold": 0, "verdict": {"flat": {"accepted": True}, "hierarchical": {"accepted": True}}}]}}}))
+        null("procedure_null_a1.json", [(0, "flat", "111"), (0, "hierarchical", "222")])
+        null("procedure_null_a2.json", [(0, "flat", "111")])                       # 222 fails A2
+        null("procedure_null_b.json", [(0, "flat", "111")])
+        (dd / "rung6_survivor_hpo.json").write_text(json.dumps({"results": [
+            {"ticker": "A", "outer_fold": 0, "arm": "flat", "unit": "111", "verdict": "retained"},
+            {"ticker": "A", "outer_fold": 0, "arm": "hierarchical", "unit": "222", "verdict": "retained"}]}))
+        fn = RE.funnel(dd)
+        check("stable = 1 (flat/111; hierarchical/222 padł A2)", fn["stable_a1_a2_b"] == 1, str(fn["stable_units"]))
+        check("retained = stable ∩ rung6 = 1 (222 'retained' NIE liczony)", fn["retained_rung6"] == 1,
+              str(fn["retained_units"]))
+        (dd / "procedure_null_a2.json").unlink()                                    # a2 znika
+        fn2 = RE.funnel(dd)
+        check("brak a2 → stable=0 (fail-closed, NIE fallback do A1=2)", fn2["stable_a1_a2_b"] == 0,
+              str(fn2["stable_units"]))
+
+
+def test_smoke_pass_not_science():
+    """A reduced (smoke) null verdicts `smoke_pass`, never `passed`; rung5_verdict.passed_arms keys
+    strictly on `passed`, so a smoke never enters the science as a survivor and cannot reach
+    NULL_VALIDATED. (regression: P1-5 — a --permutations 5 run emitted `passed`.)"""
+    import rung5_verdict as RV
+    print("\n16. smoke ≠ passed: reduced → smoke_pass, selektor nauki go pomija (P1-5)")
+    smoke = {"folds": [{"outer_fold": 0, "arms": {"flat": {"verdict": "smoke_pass", "unit": "111"}}}]}
+    full = {"folds": [{"outer_fold": 0, "arms": {"flat": {"verdict": "passed", "unit": "111"}}}]}
+    check("passed_arms POMIJA smoke_pass (0 survivorów)", RV.passed_arms(smoke) == set())
+    check("passed_arms liczy passed (1 survivor)", RV.passed_arms(full) == {(0, "flat", "111")})
+    check("smoke a1 → brak stabilnych → NIE NULL_VALIDATED",
+          not RV.null_validated({"a1": smoke, "a2": full, "b": full}))
+    check("pełny a1∩a2∩b → NULL_VALIDATED",
+          RV.null_validated({"a1": full, "a2": full, "b": full}))
+
+
 def main():
     print("iteration-selftest — gwarancje Iterative Calibration Loop (bez uruchamiania nauki)")
     for t in (test_engine_selftest, test_patch_guard, test_convergence, test_repair_mining,
               test_budget_cap, test_ladder_guard, test_integrity_tampering, test_contract_injection,
               test_task_heartbeat, test_confirmed_excludes_failed, test_determinism_guard,
-              test_full_strength_guardrail, test_seal_science_only):
+              test_full_strength_guardrail, test_seal_science_only,
+              test_rung6_stable_survivors, test_rung6_threshold_from_alpha,
+              test_report_retained_intersect, test_smoke_pass_not_science):
         try:
             t()
         except Exception as e:                                              # noqa: BLE001

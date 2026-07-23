@@ -450,11 +450,17 @@ def halted(control):
 _FORK = {}   # COW-inherited across fork(); NEVER pickled — the per-ticker context fold-workers read
 
 
-def _run_fold(ctx, ticker, ofold, arms, stage, ledger_path, control, m_max):
+def _run_fold(ctx, ticker, ofold, arms, stage, ledger_path, control, m_max, reduced=False):
     """One outer fold's null realisation: its OWN sequential permutation loop, its OWN futility stop
     and executed count. Folds are byte-independent, so this is the unit of parallelism — running folds
     in separate fork()ed processes changes only wall-clock. ctx is read-only here (and COW-isolated
-    per process, so any subtle in-place mutation inside one_permutation cannot leak across folds)."""
+    per process, so any subtle in-place mutation inside one_permutation cannot leak across folds).
+
+    `reduced` is True for a smoke run (fewer permutations than the frozen budget, or --folds capped):
+    a full-budget completion emits the scientific verdict `passed`, a reduced one emits `smoke_pass` —
+    never `passed`. So a smoke, which lacks the power to confirm, cannot manufacture a confirmation the
+    canonical selectors (rung5_verdict.passed_arms, which keys strictly on "passed") would count. The
+    verdict is honest at the source; nothing downstream has to know the run's strength."""
     led = Ledger(ledger_path)
     cache = {Ledger.key(u): p for u, p in led.payloads(stage)}      # this fold's finished units (resume)
     state = {a: {"exceed": 0, "null": [], "stopped_at": None} for a in arms}
@@ -520,8 +526,8 @@ def _run_fold(ctx, ticker, ofold, arms, stage, ledger_path, control, m_max):
             v = {"verdict": "rejected_early", "permutations_executed": n, "exceedances": b,
                  "final_p_lower_bound": round((1 + b) / (m_max + 1), 6)}
         elif executed >= m_max:
-            v = {"verdict": "passed", "permutations_executed": n, "exceedances": b,
-                 "p_mc": round((1 + b) / (m_max + 1), 6)}
+            v = {"verdict": "smoke_pass" if reduced else "passed", "permutations_executed": n,
+                 "exceedances": b, "p_mc": round((1 + b) / (m_max + 1), 6)}
         else:
             v = {"verdict": "incomplete", "permutations_executed": n, "exceedances": b}
         row["arms"][a] = dict(arms[a], **v, null_statistics=s["null"])
@@ -534,14 +540,14 @@ def _fold_worker(task):
     ofold, arms = task
     f = _FORK
     return _run_fold(f["ctx"], f["ticker"], ofold, arms, f["stage"],
-                     f["ledger_path"], f["control"], f["m_max"])
+                     f["ledger_path"], f["control"], f["m_max"], f["reduced"])
 
 
 def run_ticker(job):
     """All scoped outer folds of one ticker, checkpointing every permutation. Folds are byte-independent
     and run in parallel via fork() (COW-shared ctx, no pickle, no re-prepare) when fold_jobs > 1; the
     result is sorted by outer_fold, so it is byte-identical to the serial path."""
-    ticker, scope, real, null_kind, run_id, block_mult, ledger_path, control, m_max, fold_jobs = job
+    ticker, scope, real, null_kind, run_id, block_mult, ledger_path, control, m_max, fold_jobs, reduced = job
     stage = f"null_{null_kind}"
     t_start = time.time()
     ctx = prepare(ticker, scope, null_kind, run_id, block_mult)
@@ -552,14 +558,14 @@ def run_ticker(job):
         # fork AFTER prepare(): children inherit ctx copy-on-write. Populate the module global BEFORE
         # the pool forks, so ctx is inherited, not pickled (only the (ofold, arms) tuple is pickled).
         _FORK.update(ctx=ctx, ticker=ticker, stage=stage, ledger_path=ledger_path,
-                     control=control, m_max=m_max)
+                     control=control, m_max=m_max, reduced=reduced)
         from concurrent.futures import ProcessPoolExecutor
         from multiprocessing import get_context
         with ProcessPoolExecutor(max_workers=min(fold_jobs, len(tasks)),
                                  mp_context=get_context("fork")) as ex:
             rows = list(ex.map(_fold_worker, tasks))     # ex.map preserves task order
     else:
-        rows = [_run_fold(ctx, ticker, of, arms, stage, ledger_path, control, m_max)
+        rows = [_run_fold(ctx, ticker, of, arms, stage, ledger_path, control, m_max, reduced)
                 for of, arms in tasks]
 
     folds_out = sorted((r for r in rows if r), key=lambda r: r["outer_fold"])
@@ -578,9 +584,11 @@ def real_statistics(path, survivors_from=None):
     keep = None
     if survivors_from:
         prev = read_json(survivors_from)
+        # Which arms a2/b re-test — orchestration plumbing, not a science verdict: accept smoke_pass so
+        # a reduced smoke still runs a2/b on the same arms. Confirmation still needs strict "passed".
         keep = {(f["ticker"], f["outer_fold"], a)
                 for t in prev["tables"].values() for f in t["folds"]
-                for a, v in f["arms"].items() if v["verdict"] == "passed"}
+                for a, v in f["arms"].items() if v["verdict"] in ("passed", "smoke_pass")}
     out = {}
     for ticker, rec in doc["tables"].items():
         for f in rec["folds"]:
@@ -649,8 +657,11 @@ def main():
     # the two process pools never nest. The engine dispatches one ticker per task (--jobs 1), so it
     # gets the fold pool; a standalone multi-ticker sweep gets the ticker pool.
     fold_jobs = args.fold_jobs if args.jobs == 1 else 1
+    # A run below the frozen budget on EITHER axis is a smoke: its completions verdict `smoke_pass`,
+    # never `passed`, so a fast dev run cannot enter the science as a confirmation.
+    reduced = (args.permutations < M_MAX) or bool(args.folds)
     jobs = [(t, scope, real, args.null, run_id, args.block_mult, ledger_path,
-             args.control, args.permutations, fold_jobs) for t in tickers]
+             args.control, args.permutations, fold_jobs, reduced) for t in tickers]
     results = {}
     try:
         if args.jobs > 1:

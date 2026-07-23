@@ -50,6 +50,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from artifact_io import read_json, write_json_atomic                       # noqa: E402
 from ledger import Ledger                                                  # noqa: E402
+import run_contract as RC                                                  # noqa: E402 — admissible override
 
 DATA = DATA_DIR
 CROSSFIT = DATA / "crossfit_selection.json"
@@ -59,10 +60,33 @@ OUT = DATA / "rung6_survivor_hpo.json"
 
 BUDGET = 20                        # B: equal HPO budget for core and core+survivor (calibratable)
 PERMUTATIONS = 20                  # own-null size (calibratable)
-PASS_B = 4
-FUTILITY_B = PASS_B + 1
 SEED = 42
 MODE = "quantile"
+
+_CANON = json.loads((ROOT / "config" / "feature_discovery_contract.json").read_text(encoding="utf-8"))
+
+
+def _own_null_alpha():
+    """Rung 6's own-null significance level. Read from the run's rung_6_survivor_hpo.alpha (ADMISSIBLE,
+    via RESEARCH_CONTRACT) else the canonical rung_6 alpha, else the frozen max_null.alpha (0.10). One
+    lab significance; the pass threshold is DERIVED from it and the permutation count, never a constant
+    calibrated to a different M (the b<=4 constant was for M=50 → it admitted p=5/21=0.238 at M=20)."""
+    c = RC.contract() or _CANON
+    r6 = c.get("rung_6_survivor_hpo") or {}
+    if r6.get("alpha") is not None:
+        return float(r6["alpha"])
+    return float((_CANON.get("max_null") or {}).get("alpha", 0.10))
+
+
+ALPHA = _own_null_alpha()
+
+
+def _pass_b(alpha, perms):
+    """Max exceedances b still consistent with `alpha` at `perms` permutations: retain iff
+    p_mc = (1+b)/(perms+1) <= alpha  <=>  b <= alpha*(perms+1) - 1. At M=20, alpha=0.10 → b <= 1
+    (p_mc <= 2/21 = 0.095). Futility stops one exceedance past that."""
+    import math
+    return max(0, math.floor(alpha * (perms + 1) - 1))
 
 
 def survivors(null_path):
@@ -179,7 +203,8 @@ def _tuned_delta(dfx, dfb, tev, disc, conf, core, plus, H, budget, seed, core_si
 
 def evaluate_survivor(job):
     """One survivor: real tuned delta, then its own permutation null; a verdict that can only demote."""
-    s, budget, perms, run_id, ledger_path = job
+    s, budget, perms, alpha, run_id, ledger_path = job
+    futility_b = _pass_b(alpha, perms) + 1     # retain iff b <= _pass_b; stop one past it
     import numpy as np
     import feature_search as FS
     import model_viability as MV
@@ -245,7 +270,7 @@ def evaluate_survivor(job):
     rng = np.random.default_rng(SEED + 7 * ofold + hash(str(unit)) % 1000)
     exceed = sum(1 for d in null_deltas if d >= real["delta"])
     m = len(null_deltas)
-    while m < perms and exceed < FUTILITY_B:
+    while m < perms and exceed < futility_b:
         order, _ = PN.draw_permutation(blocks, rng)
         permuted = PN.apply_block_order(base_col, blocks, order)
         dfp = dfb.copy(deep=False)
@@ -260,7 +285,7 @@ def evaluate_survivor(job):
     led.append(stage, s, "completed", payload={"null_deltas": null_deltas})
 
     b = exceed
-    if b >= FUTILITY_B:
+    if b >= futility_b:
         verdict = {"verdict": "demoted_by_own_null", "exceedances": b,
                    "final_p_lower_bound": round((1 + b) / (perms + 1), 6)}
     elif real["delta"] <= 0:
@@ -297,11 +322,13 @@ def main():
     ledger_path = run_dir / "ledger.jsonl"
     Ledger(ledger_path).reconcile_orphans("rung6")
 
+    pass_b = _pass_b(ALPHA, args.permutations)
+    futility = pass_b + 1
     print(f"Rung 6 — survivor-specific HPO\n  {len(surv)} survivor(ów), budżet B={args.budget}, "
-          f"własny null {args.permutations} permutacji, futility b={FUTILITY_B}\n"
+          f"własny null {args.permutations} permutacji, alpha={ALPHA}, retain b<={pass_b}, futility b={futility}\n"
           f"  może TYLKO degradować — nigdy nie wskrzesza odrzucenia Rung 5\n")
 
-    jobs = [(s, args.budget, args.permutations, run_id, ledger_path) for s in surv]
+    jobs = [(s, args.budget, args.permutations, ALPHA, run_id, ledger_path) for s in surv]
     results = []
     if args.jobs > 1:
         from concurrent.futures import ProcessPoolExecutor
@@ -316,6 +343,8 @@ def main():
     demoted = [r for r in results if str(r.get("verdict", "")).startswith("demoted")]
     sha = write_json_atomic(args.out, {
         "budget_B": args.budget, "permutations": args.permutations, "seed": SEED,
+        "alpha": ALPHA, "pass_b": pass_b, "futility_b": futility,
+        "_threshold": f"retain iff b <= {pass_b} (p_mc=(1+b)/{args.permutations+1} <= alpha={ALPHA})",
         "survivors": len(surv), "retained": len(retained), "demoted": len(demoted),
         "_invariant": "Rung 6 can only demote; retained <= Rung-5 survivors always",
         "results": results})

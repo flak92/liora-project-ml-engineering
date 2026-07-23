@@ -124,7 +124,7 @@ WORKERS ?= 4
 HOURS   ?= 8
 
 methodology-report:                 ## presentation: funnel + per-asset descriptions from the snapshot
-	@$(PY) engine/report.py --snapshot --parity 26 11 9 4
+	@$(PY) engine/report.py --snapshot --parity 26 11 9 2
 
 engine-plan:                        ## deterministic plan (enqueue nothing); DRY_RUN=1 for explicit dry
 	@d=$$(cat ops/.engine.current 2>/dev/null); [ -n "$$d" ] || { echo "brak runu; make engine-start"; exit 1; }; \
