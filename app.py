@@ -23,5 +23,6 @@ pages = st.navigation([
     st.Page("app/pages/overview.py", title="Overview", url_path="overview", default=True),
     st.Page("app/pages/simulator.py", title="Basket Simulator", url_path="simulator"),
     st.Page("app/pages/blueprint.py", title="Data Pipeline Lego Plan", url_path="blueprint"),
+    st.Page("app/pages/calibration.py", title="Calibration Configurables", url_path="calibration"),
 ], expanded=True)
 pages.run()

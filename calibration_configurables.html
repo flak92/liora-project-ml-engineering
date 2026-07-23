@@ -1,0 +1,250 @@
+<title>Calibration configurables — tunable numbers of the Golden Calibration ladder</title>
+<style>
+  /* Single dark theme — matches the operational console (app/theme.py). Green = ADMISSIBLE
+     (tunable), amber = FROZEN (proof standard, locked); the word is always written, colour reinforces. */
+  :root{
+    --ground:#0D1117; --surface:#161B22; --surface-2:#1c2230; --raise:#222b38;
+    --ink:#E6EDF3; --ink-soft:#8B949E; --ink-faint:#6E7681;
+    --hairline:#30363D; --hairline-strong:#3a424e;
+    --accent:#6EA8CF;
+    --frozen:#D29922; --frozen-bg:#2a2412; --frozen-line:#D29922;
+    --adm:#3FB950; --adm-bg:#10331b; --adm-line:#3FB950;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+    line-height:1.55;-webkit-font-smoothing:antialiased;font-size:15px}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(20px,4vw,52px) clamp(16px,4vw,40px) 80px}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+  a:hover{border-bottom-color:var(--accent)}
+  code,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+  /* ---- header ---- */
+  header{border-bottom:1px solid var(--hairline);padding-bottom:26px;margin-bottom:30px}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-faint);margin:0 0 12px}
+  h1{font-size:clamp(26px,4.4vw,40px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;
+    font-weight:680;text-wrap:balance;max-width:20ch}
+  .lede{font-size:clamp(15px,1.7vw,17px);color:var(--ink-soft);max-width:66ch;margin:0}
+  .lede b{color:var(--ink);font-weight:620}
+
+  /* ---- class legend ---- */
+  .classes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:28px 0 8px}
+  .cls{background:var(--surface);border:1px solid var(--hairline);border-radius:11px;padding:13px 15px;
+    border-left:3px solid var(--stripe,var(--hairline-strong))}
+  .cls h3{margin:0 0 3px;font-size:13.5px;letter-spacing:.01em}
+  .cls p{margin:0;font-size:12.5px;color:var(--ink-soft)}
+  .cls .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase}
+
+  /* ---- flow diagram ---- */
+  section{margin-top:46px}
+  h2{font-size:13px;font-family:var(--mono);letter-spacing:.13em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 4px;font-weight:600}
+  .sub{color:var(--ink-soft);font-size:13.5px;margin:0 0 18px;max-width:70ch}
+  .flowcard{background:var(--surface);border:1px solid var(--hairline);border-radius:14px;
+    padding:22px clamp(16px,3vw,26px)}
+  .chain{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px}
+  .node{flex:1 1 150px;min-width:130px;background:var(--surface-2);border:1px solid var(--hairline);
+    border-radius:10px;padding:11px 13px}
+  .node .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:3px}
+  .node .v{font-size:13.5px;font-weight:560}
+  .arrow{align-self:center;color:var(--ink-faint);font-size:18px;flex:0 0 auto}
+  .gate{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .branch{border-radius:10px;padding:12px 14px;border:1px solid var(--hairline);background:var(--surface-2);
+    border-left:3px solid var(--bl,var(--hairline-strong))}
+  .branch .h{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+    margin-bottom:4px;color:var(--bl)}
+  .branch p{margin:0;font-size:12.5px;color:var(--ink-soft)}
+  .branch b{color:var(--ink)}
+
+  /* ---- tables ---- */
+  .scroll{overflow-x:auto;border:1px solid var(--hairline);border-radius:13px;background:var(--surface)}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:720px}
+  thead th{position:sticky;top:0;background:var(--raise);text-align:left;font-weight:600;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--ink-soft);padding:10px 13px;white-space:nowrap;border-bottom:1px solid var(--hairline-strong)}
+  tbody td{padding:10px 13px;border-bottom:1px solid var(--hairline);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr{border-left:3px solid transparent}
+  tr.adm{border-left-color:var(--adm-line)}
+  tr.frz{border-left-color:var(--frozen-line)}
+  td.name{font-family:var(--mono);font-weight:560;white-space:nowrap;color:var(--ink)}
+  td.range{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+  td.dim{color:var(--ink-soft)}
+  td.widen{color:var(--ink-soft);font-size:12.5px}
+  td.na{color:var(--ink-faint)}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.04em;
+    padding:2px 8px;border-radius:999px;white-space:nowrap;font-weight:600}
+  .chip.adm{background:var(--adm-bg);color:var(--adm)}
+  .chip.frz{background:var(--frozen-bg);color:var(--frozen)}
+  .cl{font-family:var(--mono);font-size:11px;color:var(--ink-faint);white-space:nowrap}
+  .rmul{color:var(--adm);font-weight:600}   /* ×H marker */
+
+  .grp{margin:34px 0 12px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .grp h3{margin:0;font-size:18px;letter-spacing:-.01em}
+  .grp .note{color:var(--ink-soft);font-size:13px}
+
+  .callout{margin-top:16px;background:var(--surface-2);border:1px solid var(--hairline);
+    border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;
+    font-size:13px;color:var(--ink-soft)}
+  .callout b{color:var(--ink)}
+
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--hairline);
+    color:var(--ink-faint);font-size:12.5px}
+  footer code{color:var(--ink-soft)}
+  @media (max-width:560px){body{font-size:14px}}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">Golden Calibration · methodology branch</p>
+  <h1>Calibration configurables</h1>
+  <p class="lede">Every tunable number in the ladder, as a <b>range</b> — with where it is calibrated, what
+  it depends on, and which knob to widen when a step comes up empty. The distinction that runs through the
+  whole page: a <span class="chip adm">ADMISSIBLE</span> number is a hypothesis you may widen; a
+  <span class="chip frz">FROZEN</span> number is the standard of proof and may not be tuned away.</p>
+
+  <div class="classes">
+    <div class="cls" style="--stripe:var(--frozen-line)">
+      <h3>Structural</h3><p><span class="tag">frozen @ Rung 0</span> — interval, label horizon, barriers, costs, embargo, the OOS ban. One value; moving it changes the problem.</p></div>
+    <div class="cls" style="--stripe:var(--adm-line)">
+      <h3>Calibratable</h3><p><span class="tag">data-fitted range</span> — gamma, min_child_weight, θ-grid, block length, permutation count, HPO budget. Never one absolute number across assets.</p></div>
+    <div class="cls" style="--stripe:var(--adm-line)">
+      <h3>Searched</h3><p><span class="tag">the objects</span> — features, families, interactions, subsets. What the ladder looks for, gated at each rung.</p></div>
+    <div class="cls" style="--stripe:var(--frozen-line)">
+      <h3>Methodology-governing</h3><p><span class="tag">proof standard</span> — viability floor, rotations, α, early-stop. Frozen so a null result cannot be tuned away.</p></div>
+  </div>
+</header>
+
+<section>
+  <h2>Dependency order &amp; the widen loop</h2>
+  <p class="sub">Inside one outer fold the series calibrate in order — the feature set feeds HPO, HPO freezes,
+  selection runs at frozen params, and the operating point θ is chosen <b>last</b>. A stuck rung never
+  auto-widens: it stops and asks for the next hand-authored contract version.</p>
+  <div class="flowcard">
+    <div class="chain">
+      <div class="node"><div class="k">Features</div><div class="v">candidate manifest</div></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node"><div class="k">HPO</div><div class="v">params frozen on core</div></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node"><div class="k">Selection</div><div class="v">at frozen params</div></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node"><div class="k">θ · last</div><div class="v">chosen on inner folds</div></div>
+    </div>
+    <div class="gate">
+      <div class="branch" style="--bl:var(--adm-line)"><div class="h">gate passes</div><p>advance to the next rung.</p></div>
+      <div class="branch" style="--bl:var(--frozen-line)"><div class="h">honest empty</div><p><b>RESOLVED_EMPTY</b> — the evidence supports no feature here. A real answer, not a failure.</p></div>
+      <div class="branch" style="--bl:var(--accent)"><div class="h">cannot proceed</div><p><b>NEEDS_CONTRACT</b> → a human mints a new contract version and widens <b>ADMISSIBLE only</b>; the guard rejects any FROZEN touch. Forward-only, never a backtrack.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>The catalog</h2>
+  <p class="sub">Grouped by the three dependency series the pipeline chains — HPO, strategy/θ, features —
+  plus the frozen proof-standard gates. Every value is current on the <code>methodology</code> branch;
+  the <span class="rmul">×H</span> marker means the range is scaled by each fold's own hessian.</p>
+
+  <!-- SERIES A -->
+  <div class="grp"><h3>A · HPO / XGB</h3><span class="note">two regimes: research random-search (hessian-relative) &amp; sealed Optuna TPE</span></div>
+  <div class="scroll"><table>
+    <thead><tr><th>Configurable</th><th>Range / value</th><th>Class</th><th>State</th><th>Calibrated&nbsp;@</th><th>Depends on</th><th>If it can't calibrate → widen</th></tr></thead>
+    <tbody>
+      <tr class="adm"><td class="name">hpo_trials</td><td class="range">30</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1 / 3</td><td class="dim">—</td><td class="widen">itself (ladder → 60)</td></tr>
+      <tr class="adm"><td class="name">max_depth</td><td class="range">2 – 5</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1 · draw</td><td class="dim">—</td><td class="widen">this space</td></tr>
+      <tr class="adm"><td class="name">eta</td><td class="range">0.02 – 0.3 <span class="cl">log</span></td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">—</td><td class="widen">this space</td></tr>
+      <tr class="adm"><td class="name">subsample</td><td class="range">0.6 – 1.0</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">—</td><td class="widen">this space</td></tr>
+      <tr class="adm"><td class="name">colsample_bytree</td><td class="range">0.6 – 1.0</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">—</td><td class="widen">this space</td></tr>
+      <tr class="adm"><td class="name">min_child_weight</td><td class="range">0.002 – 0.05 <span class="rmul">× H</span></td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">fold hessian H</td><td class="widen">this space</td></tr>
+      <tr class="adm"><td class="name">reg_lambda</td><td class="range">0.5 – 5.0</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">—</td><td class="widen">this space</td></tr>
+      <tr class="adm"><td class="name">reg_alpha</td><td class="range">0.0 – 5.0</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">—</td><td class="widen">this space</td></tr>
+      <tr class="adm"><td class="name">gamma</td><td class="range">0.0 – 0.004 <span class="rmul">× H</span></td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">fold hessian H</td><td class="widen">this space</td></tr>
+      <tr class="adm"><td class="name">n_estimators</td><td class="range">40 – 300</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 1</td><td class="dim">—</td><td class="widen">this space</td></tr>
+      <tr class="adm"><td class="name">budget_B <span class="cl">(rung 6)</span></td><td class="range">20</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 6</td><td class="dim">stable survivors</td><td class="widen">itself</td></tr>
+      <tr class="frz"><td class="name">N_TRIALS <span class="cl">(sealed Optuna)</span></td><td class="range">80</td><td class="cl">Calibratable</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L7</td><td class="dim">—</td><td class="na">— sealed-epoch identity</td></tr>
+      <tr class="frz"><td class="name">sampler / pruner</td><td class="range">TPE · MedianPruner w2</td><td class="cl">Method-gov</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L7</td><td class="dim">—</td><td class="na">—</td></tr>
+      <tr class="frz"><td class="name">gamma / mcw <span class="cl">(sealed v1)</span></td><td class="range">0–5 / 1–10 <span class="cl">abs</span></td><td class="cl">Calibratable</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L7</td><td class="dim">—</td><td class="na">— not comparable with v2</td></tr>
+    </tbody>
+  </table></div>
+
+  <!-- SERIES B -->
+  <div class="grp"><h3>B · Strategy / operating point θ</h3><span class="note">θ is a grid, candidate-dependent, chosen last &amp; applied fixed</span></div>
+  <div class="scroll"><table>
+    <thead><tr><th>Configurable</th><th>Range / value</th><th>Class</th><th>State</th><th>Calibrated&nbsp;@</th><th>Depends on</th><th>If it can't calibrate → widen</th></tr></thead>
+    <tbody>
+      <tr class="adm"><td class="name">operating_point.grid θ</td><td class="range">0.75 · 0.82 · 0.88 · 0.92 · 0.96 · 0.99</td><td class="cl">Calibratable</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 2 (in 3–5)</td><td class="dim">candidate</td><td class="widen">alter/coarsen grid (→ [0.80,0.90,0.95])</td></tr>
+      <tr class="frz"><td class="name">theta (sealed)</td><td class="range">0.40 … 0.60 · step 0.02</td><td class="cl">Calibratable</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L8</td><td class="dim">—</td><td class="na">—</td></tr>
+      <tr class="frz"><td class="name">min_oof_trades</td><td class="range">8</td><td class="cl">Method-gov</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 3–5</td><td class="dim">—</td><td class="na">— a floor, not a knob</td></tr>
+      <tr class="frz"><td class="name">kelly lambda</td><td class="range">0.5 – 1.0 <span class="cl">inert all-in</span></td><td class="cl">Calibratable</td><td><span class="chip frz">FROZEN</span></td><td class="dim">sealed L8</td><td class="dim">CAPITAL_MODE</td><td class="na">—</td></tr>
+      <tr class="frz"><td class="name">H · label horizon</td><td class="range">24</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">— a new problem</td></tr>
+      <tr class="frz"><td class="name">triple-barrier TP / SL</td><td class="range">2.0 / 1.0</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">—</td></tr>
+      <tr class="frz"><td class="name">costs · commission / slip</td><td class="range">1 / 2 bps</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">—</td></tr>
+      <tr class="frz"><td class="name">embargo / purge</td><td class="range">35 / 24</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">—</td></tr>
+      <tr class="frz"><td class="name">initial capital</td><td class="range">1000</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">—</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><b>H = 24 is one number in four places</b> — label horizon, <code>data_boundary.label_horizon_bars</code>, the null <code>block_length.floor/value_bars</code>, and the Kelly payoff geometry all derive from it. Moving it invalidates labels, folds and the null at once.</div>
+
+  <!-- SERIES C -->
+  <div class="grp"><h3>C · Features / OHLCV</h3><span class="note">the searched objects — fixed OHLCV over frozen windows; the search is over which families enter</span></div>
+  <div class="scroll"><table>
+    <thead><tr><th>Configurable</th><th>Range / value</th><th>Class</th><th>State</th><th>Calibrated&nbsp;@</th><th>Depends on</th><th>If it can't calibrate → widen</th></tr></thead>
+    <tbody>
+      <tr class="adm"><td class="name">candidate features</td><td class="range">45 <span class="cl">/ 12 families</span></td><td class="cl">Searched</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 3–4</td><td class="dim">—</td><td class="widen">add candidates / families</td></tr>
+      <tr class="adm"><td class="name">families</td><td class="range">12</td><td class="cl">Searched</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 4 · hier.</td><td class="dim">—</td><td class="widen">add a family</td></tr>
+      <tr class="frz"><td class="name">frozen 1h core</td><td class="range">17 ids</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">—</td><td class="na">— the baseline</td></tr>
+      <tr class="frz"><td class="name">OHLCV windows / lags</td><td class="range">lag{1,5,20} MA{20,50} RSI{14} BB{20,2} MACD{12,26,9}</td><td class="cl">Structural</td><td><span class="chip frz">FROZEN</span></td><td class="dim">Rung 0</td><td class="dim">recipe_hash</td><td class="na">— a new literal is a new feature</td></tr>
+      <tr class="adm"><td class="name">arms</td><td class="range">flat / hierarchical</td><td class="cl">Searched</td><td><span class="chip adm">ADMISSIBLE</span></td><td class="dim">Rung 4</td><td class="dim">—</td><td class="widen">add/alter an arm</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Proof-standard gates</h2>
+  <p class="sub"><span class="chip frz">FROZEN</span> — the numbers that decide how much proof is enough.
+  <b>Not ranges, not widenable.</b> The contract kernel forbids any ladder patch from touching them; changing
+  one is a new science, done by hand.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Gate</th><th>Value</th><th>Rung</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr class="frz"><td class="name">viability floor</td><td class="range">split_nodes ≥ 20 · pred_std ≥ 0.005</td><td class="dim">1</td><td class="cl">xgb_search_space_v2.json</td></tr>
+      <tr class="frz"><td class="name">acceptance</td><td class="range">min_rotations 2 · complexity_penalty 0.004 · majority-positive</td><td class="dim">4</td><td class="cl">discovery_contract.json</td></tr>
+      <tr class="frz"><td class="name">max-null</td><td class="range">M = 50 · α = 0.10 · pass b ≤ 4 · futility b = 5</td><td class="dim">5</td><td class="cl">multiplicity_contract.json</td></tr>
+      <tr class="frz"><td class="name">block length</td><td class="range">L = max(H, L_dep) → 24 · max_frac 0.25 · sens [L,2L]</td><td class="dim">5</td><td class="cl">multiplicity_contract.json</td></tr>
+      <tr class="frz"><td class="name">rung-6 own-null</td><td class="range">M = 50 · α = 0.10 (= max_null.α) · b ≤ ⌊α(M+1)−1⌋ = 4</td><td class="dim">6</td><td class="cl">discovery_contract.json</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><b>α = 0.10 is one lab constant</b>, shared by <code>max_null.alpha</code> and
+  <code>rung_6.own_null.alpha</code>; the pass-count bound <code>b</code> is <b>derived</b> from α and M,
+  never hard-coded. The old fixed <code>b ≤ 4</code> applied at M = 20 (admitting p = 5/21 = 0.238) was
+  the bug corrected by raising rung 6 to M = 50 — where the derivation gives <code>b ≤ 4</code> again
+  (p = 5/51 = 0.098) and the headline holds at <b>26 → 11 → 9 → 2</b> on the sharper test.</div>
+</section>
+
+<section>
+  <h2>Widen protocol</h2>
+  <p class="sub">Which knob when a rung yields nothing. Only <b>NEEDS_CONTRACT</b> widens, and only the
+  ADMISSIBLE space — widen a range where the object is a hypothesis, never where it is the standard of proof.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Rung yields nothing</th><th>State</th><th>Widen-target (next contract version)</th></tr></thead>
+    <tbody>
+      <tr class="adm"><td class="name">1 · no viable model</td><td><span class="chip frz">NEEDS_CONTRACT</span></td><td class="widen"><b>model_space</b> ranges / <b>hpo_trials</b> — never the viability floor</td></tr>
+      <tr class="adm"><td class="name">3 · no marginal candidate</td><td><span class="chip frz">RESOLVED_EMPTY</span></td><td class="widen">feature families / candidates, or the θ-grid</td></tr>
+      <tr class="adm"><td class="name">4 · no confirmed feature</td><td><span class="chip frz">RESOLVED_EMPTY</span></td><td class="widen">θ-grid / arms</td></tr>
+      <tr class="frz"><td class="name">5 · no stable survivor</td><td><span class="chip frz">RESOLVED_EMPTY</span></td><td class="na">— the null <b>is</b> the proof standard; a negative is the result</td></tr>
+      <tr class="frz"><td class="name">6 · retained = 0</td><td><span class="chip adm">RESOLVED</span></td><td class="na">— a valid, complete outcome</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  Sourced from the <code>methodology</code> branch — <code>config/feature_discovery_contract.json</code>,
+  <code>config/contract/*.json</code>, <code>config/xgb_search_space_v2.json</code>,
+  <code>xgb/src/config/*</code>. Full ordered method: <code>docs/FEATURE_DISCOVERY_METHODOLOGY.md</code> ·
+  version-ladder mechanics: <code>docs/ITERATIVE_CALIBRATION_LOOP.md</code> · catalog:
+  <code>docs/CALIBRATION_CONFIGURABLES.md</code>.
+</footer>
+</div>
