@@ -19,12 +19,14 @@ On the twenty-asset development panel, the ladder discriminated hard:
 26 provisional (cross-fit accepted)
    → 11 passed the procedure-level max-null (marginal)
       → 9 stable across all three nulls (marginal × regime × conditional)
-         → 4 retained after survivor-specific tuning
+         → 2 retained after survivor-specific tuning
 ```
 
-The single most robust finding: **ORLY/1 `oscillator_rsi`** — the only arm stable across every null
-*and* retained once the model was allowed to tune around it. Everything else showed dependence on the
-asset, the regime, or the tuning. That is the point of the method: it does not chase one universal
+The retained set is **both `ORLY/1` arms** — `flat 112` and `hierarchical oscillator_rsi` — two
+discovery paths that resolve to the *same* feature (representative 112): stable across every null
+*and* retained once the model was allowed to tune around it, each decisively (b = 0/50 and 1/50
+against its own tuning null, p = 0.020 and 0.039). Everything else showed dependence on the asset,
+the regime, or the tuning. That is the point of the method: it does not chase one universal
 strategy, it shows **which OHLCV relationships hold, where, and how strongly** — and returns an empty
 set, honestly, when the evidence does not support one.
 
@@ -93,6 +95,22 @@ make engine-plan               # the deterministic plan, read before anything ru
 
 make engine-selftest           # prove the execution guarantees (no science runs)
 ```
+
+## Reproducibility — what runs from a fresh clone, and what does not
+
+Two dependency tiers, deliberately separate:
+
+- **Presentation** needs only `pip install -r requirements.txt` (streamlit/pandas/plotly). It reads the
+  frozen artifacts under `results/methodology_snapshot/` and prints the funnel — no numeric stack, no data.
+- **Reproduction** additionally needs `pip install -r requirements-research.txt` (numpy, xgboost, optuna,
+  duckdb, scikit-learn, …) — the stack the Calibration DAG, the null and the engine actually import.
+
+Honest limits of a fresh clone: the pipeline source (`xgb/src`, `xgb/tools`) and the bar store
+(`xgb/data/liora.duckdb`) live under the top-level `/xgb/` tree, which is **gitignored** — so a clone can
+install the deps and read every published artifact, but cannot run a *new* research pass without that
+private tree. The methodology, the frozen contract, the per-asset artifacts and the selftests are fully
+public; the raw bars and the deployable pipeline code are not. Every calibratable number and its range is
+catalogued in [`docs/CALIBRATION_CONFIGURABLES.md`](docs/CALIBRATION_CONFIGURABLES.md).
 
 ## What the project is actually about
 

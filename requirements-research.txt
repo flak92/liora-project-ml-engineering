@@ -1,0 +1,19 @@
+# Research / reproduction dependencies — the Calibration DAG, the engine and the null.
+#
+# requirements.txt covers ONLY the Streamlit presentation app (it reads frozen artifacts).
+# Running the pipeline itself (Rungs 1-6, the block-permutation null, the Iterative
+# Calibration Loop) additionally needs the numeric/ML stack below. Install with:
+#     python3 -m venv .venv && .venv/bin/pip install -r requirements-research.txt
+#
+# NOTE on reproducibility: the pipeline source lives under xgb/src + xgb/tools and the
+# bar store xgb/data/liora.duckdb — the top-level /xgb/ tree is gitignored, so a fresh
+# clone has the deps but not the code/data to run a real research pass. See README
+# "Reproducibility" for what is and is not published.
+numpy==2.5.0
+pandas==2.2.3
+scipy==1.18.0
+scikit-learn==1.7.2
+xgboost==3.3.0
+optuna==4.8.0
+duckdb==1.5.4
+pyarrow==24.0.0
