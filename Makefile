@@ -1,5 +1,5 @@
-.PHONY: setup on off verify clean help lint-contract verify-calibration-docs replay verify-replay data-journey verify-data-journey \
-        methodology-report engine-selftest \
+.PHONY: setup demo on off status on-lstm off-lstm status-lstm verify clean help lint-contract verify-calibration-docs replay verify-replay data-journey verify-data-journey \
+        methodology-report family-transfer family-transfer-panel6 family-transfer-selftest engine-selftest \
         iteration-start iteration-status iteration-plan iteration-report iteration-stop \
         iteration-smoke iteration-selftest \
         loop-start loop-status loop-attach loop-stop loop-kill loop-logs loop-selftest
@@ -7,18 +7,55 @@
 PY := .venv/bin/python3
 ST := .venv/bin/streamlit
 PORT ?= 8503
+LSTM_PORT ?= 8502
 
 OPS     := ops
 SESSION ?= liora-golden
 JOBS    ?= 4
 LOOP_HOURS ?= 12
 
+# Fixed six-asset study panel for Rung 8 family transfer (config/panel_6.json). A runtime default only:
+# it flows into the ladder via ASSETS and does NOT edit sample_20.json, so contract_hash is untouched.
+ASSETS ?= AZO ADBE GOOG NVDA ORLY GWW
+
 setup:
 	python3 -m venv .venv
 	.venv/bin/pip install -r requirements.txt
 
-on:
-	$(ST) run app.py --server.port $(PORT)
+demo: on                            ## alias: run the XGB methodology presentation
+
+on:                                 ## XGB methodology app (native Plotly, read-only) on :8503
+	@if ss -ltnH "sport = :$(PORT)" 2>/dev/null | grep -q .; then \
+		pid=$$(ss -ltnpH "sport = :$(PORT)" 2>/dev/null | grep -o 'pid=[0-9]*' | head -1 | cut -d= -f2); \
+		cwd=$$(readlink -f /proc/$$pid/cwd 2>/dev/null || true); \
+		cmd=$$(tr '\0' ' ' </proc/$$pid/cmdline 2>/dev/null || true); \
+		case "$$cmd" in \
+			*"streamlit run app.py --server.port $(PORT)"*) \
+				if [ "$$cwd" = "$(CURDIR)" ]; then \
+					echo "XGB app already UP → http://localhost:$(PORT) (pid $$pid)"; \
+					exit 0; \
+				fi ;; \
+		esac; \
+		echo "port $(PORT) is already in use$${pid:+ (pid $$pid)}"; \
+		echo "use another port: make on PORT=8601"; \
+		exit 1; \
+	else \
+		exec $(ST) run app.py --server.port $(PORT) --server.headless true --browser.gatherUsageStats false; \
+	fi
+
+status:                             ## is the XGB app listening on :8503?
+	@ss -ltnH "sport = :$(PORT)" 2>/dev/null | grep -q . && echo "XGB app UP on :$(PORT)" || echo "XGB app DOWN"
+
+on-lstm:                            ## LSTM methodology app (native Plotly, read-only) on :8502
+	$(ST) run lstm/app.py --server.port $(LSTM_PORT)
+
+off-lstm:                           ## stop ONLY the LSTM console on :8502, by pid (never pkill)
+	@pid=$$(ss -ltnpH "sport = :$(LSTM_PORT)" 2>/dev/null | grep -o 'pid=[0-9]*' | head -1 | cut -d= -f2); \
+	if [ -z "$$pid" ]; then echo "nothing is listening on port $(LSTM_PORT)"; \
+	else kill $$pid 2>/dev/null; echo "stopped the LSTM console on port $(LSTM_PORT) (pid $$pid)"; fi
+
+status-lstm:                        ## is the LSTM app listening on :8502?
+	@ss -ltnH "sport = :$(LSTM_PORT)" 2>/dev/null | grep -q . && echo "LSTM app UP on :$(LSTM_PORT)" || echo "LSTM app DOWN"
 
 # Stops ONLY the process listening on our port, by pid. Never `pkill -f streamlit`:
 # that pattern would also kill consoles belonging to other projects or other shells,
@@ -137,11 +174,21 @@ verify-data-journey:                ## fail if the built data-journey board's se
 # Two ways to use the branch. PRESENTATION reads frozen artifacts and prints the funnel in a blink;
 # REPRODUCTION walks the ladder per asset in a detached tmux session (make iteration-start), driving
 # each frozen contract version to a fixpoint with the parallel-over-assets driver.
-ASSETS  ?=
+# ASSETS default is the fixed six-asset study panel, set at the top of this file.
 WORKERS ?= 4
 
-methodology-report:                 ## presentation: funnel + per-asset descriptions from the snapshot
+methodology-report:                 ## presentation: funnel + per-asset descriptions + Rung 8 from the snapshot
 	@$(PY) engine/report.py --snapshot --parity 26 11 9 2
+
+family-transfer:                    ## Rung 8: build the canonical family_transfer.json from the frozen snapshot
+	@$(PY) scripts/family_transfer.py --snapshot
+	@echo "  (six-asset study view: make family-transfer-panel6 · fresh 6-asset run: make iteration-start then --run-dir)"
+
+family-transfer-panel6:             ## Rung 8: the six-asset study-panel view (development experiment, not certification)
+	@$(PY) scripts/family_transfer.py --snapshot --panel config/panel_6.json --out results/methodology_snapshot/family_transfer_panel6.json
+
+family-transfer-selftest:           ## Rung 8: registry · determinism · fail-closed · dedup · leakage · parity
+	@$(PY) scripts/family_transfer_selftest.py
 
 engine-selftest:                    ## prove execution guarantees: contract gate, idempotent publish, ledgers, OOS
 	@$(PY) engine/selftest.py
@@ -182,6 +229,7 @@ iteration-selftest:                 ## engine guarantees + ladder guard, converg
 
 help:
 	@echo "make setup        Install presentation dependencies"
+	@echo "make demo         Run the XGB presentation (alias for make on)"
 	@echo "make on           Run the Streamlit presentation on port $(PORT)"
 	@echo "make off          Stop whatever is listening on port $(PORT)"
 	@echo "make verify       Recompute every artifact hash, and check the notebooks against the store"

@@ -212,6 +212,34 @@ def build(ladder_dir):
           f"{len(rec.get('delta_new', []))} | {'✓' if sec['integrity_ok'] else '✗ '+str(sec['integrity']['problems'])} |")
     w("")
 
+    # Rung 8 — panel-level family transfer, from the final epoch's frozen panels (read-only, additive).
+    if sections:
+        last_rec, _ = sections[-1]
+        last_panels = ladder_dir / "epochs" / f"e{last_rec['epoch']}_{last_rec['version_id']}" / "results" / "panels"
+        ft = RE.family_transfer_summary(last_panels)
+        w("## Rung 8 — Family Transfer (które rodziny przenoszą się między aktywami)\n")
+        if not ft.get("available"):
+            w(f"*Niedostępny dla tej drabiny ({ft.get('reason','—')}).*\n")
+        else:
+            w(f"Panel-level, wyprowadzony z tych samych zamrożonych artefaktów co lejek "
+              f"(epoka e{last_rec['epoch']}). Statusy rodzin: "
+              + ", ".join(f"{k} {v}" for k, v in ft["status_counts"].items()) + ".\n")
+            w("| rodzina | status | stabilne A1×A2×B | retained R6 | pokrycie aktywów |")
+            w("|---|---|---|---|---|")
+            for f in ft["families"]:
+                w(f"| {f['family']} | {f['status']} | {f['stable_a1_a2_b_count']} | "
+                  f"{f['rung6_retained_count']} | {f['asset_coverage']} |")
+            cov = ft["minimal_panel_coverage"]
+            w(f"\n**Minimalny panelowy zbiór rodzin:** "
+              f"{ft['minimal_panel_family_set'] or '[] (pusty zbiór jest poprawnym wynikiem)'} "
+              f"(pokrycie {cov['confirmed_units_covered']}/{cov['confirmed_units_total']} potwierdzonych jednostek).")
+            review = [k for k, v in ft["taxonomy_suggestions"].items() if v.startswith("REVIEW")]
+            if review:
+                w(f"**Taksonomia do przeglądu:** {', '.join(review)}.")
+            if ft.get("missing_inputs"):
+                w(f"*Braki wejść (metryki single-utility niedostępne): {', '.join(ft['missing_inputs'])}.*")
+            w("")
+
     w("## Zbieżność — korekty w sensownym kierunku do braku poprawy\n")
     w("Cecha potwierdzona = null-validated stabilny survivor (asset/unit). Δ = nowe pary, których "
       "nie było w poprzednich epokach. Zbieżność, gdy Δ przestaje rosnąć:\n")

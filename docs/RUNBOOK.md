@@ -15,19 +15,19 @@ differ and be correct).
 ## Reproduction (the engine)
 
 ```bash
-make engine-smoke                # full DAG on AZO ADBE GOOG, detached (a validation run, ~1–1.5 h)
-make engine-start ASSETS="AZO ADBE GOOG …" WORKERS=4 HOURS=8    # a full run, detached
+make iteration-smoke                # full DAG on AZO ADBE GOOG, detached (a validation run, ~1–1.5 h)
+make iteration-start ASSETS="AZO ADBE GOOG …" WORKERS=4 HOURS=8    # a full run, detached
 ```
-`engine-start` opens the tmux session `golden-calibration` and returns; the tmux server is the
+`iteration-start` opens the tmux session `iterative-calibration` and returns; the tmux server is the
 daemon, so the terminal can be closed. The run ends when every asset is terminal, at the deadline, or
 on a cooperative halt.
 
 ```bash
-make engine-status               # session, queue counts, per-asset states, ledger integrity, memory
-make engine-attach               # watch it live (detach: Ctrl-b d)
-make engine-plan                 # the deterministic plan — read before anything runs
-make engine-report               # rebuild the run report from a live/finished run
-make engine-stop                 # cooperative halt — finishes the current tasks, then stops
+make iteration-status               # session, queue counts, per-asset states, ledger integrity, memory
+tmux attach -t iterative-calibration   # watch it live (detach: Ctrl-b d)
+make iteration-plan                 # the deterministic plan — read before anything runs
+make iteration-report               # rebuild the run report from a live/finished run (incl. Rung 8 family transfer)
+make iteration-stop                 # cooperative halt — finishes the current tasks, then stops
 ```
 
 ## Reading the states

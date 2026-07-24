@@ -23,5 +23,6 @@ st.set_page_config(
 pages = st.navigation([
     st.Page("app/pages/data_journey.py", title="Data Journey", url_path="data-journey", default=True),
     st.Page("app/pages/methodology.py", title="Smart Methodology", url_path="methodology"),
+    st.Page("app/pages/family_transfer.py", title="Family Transfer · Rung 8", url_path="family-transfer"),
 ], expanded=True)
 pages.run()

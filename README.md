@@ -45,19 +45,22 @@ parallel, deterministic, without an operator hand-picking favourable results. It
 [`engine/`](engine/) and [`ops/`](ops/). The engine executes the science; it never changes it. Every
 transition between rungs comes from an immutable artifact and the frozen contract.
 
-## The two pages
+## The three pages
 
-`make on` opens a read-only Streamlit console — two pages, flat sidebar, counts derived from the
-store, nothing trains at runtime:
+`make on` opens a read-only Streamlit console (native Plotly, :8503) — three pages, flat sidebar, every
+number read from the frozen snapshot, nothing trains at runtime:
 
-- **Data Journey** — the methodology as the road the data travels, because you cannot show the method
-  without showing how the data is prepared first: raw OHLCV → warmup → Train/OOS split (purge + embargo,
-  oos_reads = 0) → feature search (Train-only) → the rung ladder → OOS verdict, on seven real assets, one
-  arc through every terminal of the funnel.
-- **Smart Methodology** — the calibration-configurables map and the run replay (the field-level guard
-  runs live on every visit), in two tabs.
+- **Data Journey** — where the features come from and the wall the data never crosses: raw OHLCV →
+  frozen 1h core (17) → 45 candidates / 12 families → Train-only validation → the OOS boundary
+  (`oos_reads = 0`).
+- **Smart Methodology** — the Rung 0–9 ladder and the five-number funnel (`26 → 11 → 9 → 2 → 1`), with
+  the field-level guard re-run live on every visit (the proof standard cannot loosen itself).
+- **Family Transfer · Rung 8** — which OHLCV families travel across assets: the transfer funnel, the
+  12-family status table, coverage, the minimal panel family set, and the taxonomy review — from
+  `family_transfer.json` (`make family-transfer`).
 
-The sealed-model product console (per-asset outcomes across the 498/495 universe, the basket simulator)
+The **LSTM** methodology console is a separate app: `make on-lstm` (native Plotly, :8502). The
+sealed-model product console (per-asset outcomes across the 498/495 universe, the basket simulator)
 lives on the `main` branch; this branch is the method, not the sealed models.
 
 ## Reproducibility — what runs from a fresh clone, and what does not

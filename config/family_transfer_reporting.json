@@ -1,0 +1,24 @@
+{
+  "schema_version": "family_transfer_reporting.v1",
+  "_meta": {
+    "purpose": "Reporting-only thresholds for Rung 8 family classification and taxonomy diagnostics. This file governs how scripts/family_transfer.py LABELS families and shapes the minimal-panel tie-break — it never touches the scientific proof standard (acceptance, nulls, alpha, OOS, viability live in config/contract/* and are frozen). Editing this file changes only the report's labels, not who survived the null. Kept out of contract_hash by design.",
+    "governs": "family status labels, taxonomy suggestions, minimal-panel tie-break order",
+    "does_not_govern": "acceptance statistic, null pass condition, alpha, permutations, OOS boundary, viability floor"
+  },
+  "family_status": {
+    "panel_stable_min_distinct_assets": 2,
+    "_note_panel_stable": "A retained family is PANEL_STABLE only if its retained arms appear on at least this many distinct assets; otherwise ASSET_CONDITIONAL. Two is 'more than one independent asset', per the semantics."
+  },
+  "taxonomy": {
+    "representative_switch_rate_review_split": 0.5,
+    "family_width_review_split": 6,
+    "between_family_overlap_review_merge": 0.6,
+    "min_representatives_for_consistency": 2,
+    "sign_heterogeneity_flags_split": true,
+    "_note": "REVIEW_SPLIT when a wide family switches its representative more than half the time or shows opposite-sign confirmation deltas; REVIEW_MERGE when two families overlap in chosen representatives above the merge threshold; KEEP otherwise; INSUFFICIENT_EVIDENCE when there is not enough measured evidence."
+  },
+  "minimal_panel": {
+    "tie_break_order": ["fewer_families", "smaller_total_complexity", "better_confirmation_sign", "family_name"],
+    "_note": "Set-cover tie-break, applied in this order. Deterministic; family_name is the final total order."
+  }
+}

@@ -93,12 +93,41 @@ Every confirmation is judged by the frozen proof standard; OOS reads stay `0` in
 
 Both retained arms — `ORLY/1 flat 112` and `ORLY/1 hierarchical oscillator_rsi` — resolve to the *same* feature (rep **112**), decisively against their own tuning null: `b = 0/50` (p = 0.020) and `b = 1/50` (p = 0.039). The 7 demoted arms hit `b = 5` early — **CENSORED** by futility. Everything else showed dependence on the asset, the regime, or the tuning. These numbers are a **snapshot of one run, not a target** — a fresh panel may produce `30 → 7 → 2 → 0` and be exactly as correct.
 
+## 6b. Rung 8 — Family Transfer Across Assets
+
+Rungs 1–6 answer *per asset*. Rung 8 asks the **panel** question: **which OHLCV feature families carry stable information across assets, and which are only a single asset's quirk?** It is a pure, read-only aggregator (`scripts/family_transfer.py`) — it never trains, never opens the bar store, never reads OOS. It reads the SAME frozen per-asset artifacts the funnel reads (`crossfit_selection`, `procedure_null_{a1,a2,b}`, `rung6_survivor_hpo`, `compiled/`), so its counters share one definition of "who survived" with `report.py` (snapshot parity `26 → 11 → 9 → 2 → 1`).
+
+It does not chase "the best indicator". It looks for the **smallest set of independent OHLCV mechanism families whose representatives survive the honest procedure and transfer between assets** — and it is honest when that set is empty. Each of the 12 families gets exactly one status by the furthest funnel stage its arms reached:
+
+| status | meaning |
+|---|---|
+| `PANEL_STABLE` | passed cross-fit + `A1×A2×B`, kept by Rung 6, on **> 1** independent asset-fold |
+| `ASSET_CONDITIONAL` | passed the full procedure, but only for one asset / a very narrow fold set |
+| `CROSSFIT_UNSTABLE` | looks good in discovery, does not confirm on rotating folds |
+| `SEARCH_INFLATED` | passes cross-fit, does not beat the procedure-level A1 max-null |
+| `REGIME_DEPENDENT` | passes A1, not A2 |
+| `CORE_CONDITIONAL_FAILURE` | passes the marginal null, not the conditional residual null B |
+| `TUNING_DEPENDENT` | passes `A1×A2×B`, demoted by Rung 6 own-null |
+| `NO_POSITIVE_UTILITY` | no candidate shows positive marginal utility under a learnable core |
+| `INSUFFICIENT_EVIDENCE` | not enough correct folds / viable models to judge |
+
+On the frozen snapshot **no family is `PANEL_STABLE`** — the one retained feature (rep 112, `oscillator_rsi`) transfers on ORLY alone, so `oscillator_rsi` is `ASSET_CONDITIONAL` and the `minimal_panel_family_set` is `[oscillator_rsi]` covering one confirmed asset-fold. That is the methodology's *asset-specificity does not travel* observation, made mechanical. A `taxonomy_diagnostics` block flags whether the current 12-family split is right (`KEEP / REVIEW_SPLIT / REVIEW_MERGE`) — a suggestion only; changing `feature_families_xgb.json` is a new search epoch, never an automatic edit.
+
+The classification labels (e.g. the `PANEL_STABLE` minimum asset count) live in a versioned **reporting** contract, `config/family_transfer_reporting.json` — kept out of `contract_hash` because it governs report *labels*, never the proof standard. Study scope is the six-asset panel `config/panel_6.json` (a runtime default via `ASSETS`, never an edit to `sample_20.json`); a run over those six is a **development experiment, not a certification**.
+
+```bash
+make family-transfer            # canonical family_transfer.json from the frozen snapshot (parity)
+make family-transfer-panel6     # the six-asset study-panel view (development experiment)
+make family-transfer-selftest   # registry · determinism · fail-closed · dedup · leakage · parity
+```
+
 ## 7. Present · Reproduce · Deep-dive
 
 ```bash
-make methodology-report        # print the funnel from the frozen snapshot, in a blink
-make on                        # read-only Streamlit console (Overview · Simulator · Smart Methodology)
-make engine-smoke              # the full DAG on three assets (a validation run)
+make methodology-report        # print the funnel + Rung 8 family transfer from the frozen snapshot, in a blink
+make on                        # XGB read-only Streamlit console (Data Journey · Smart Methodology · Family Transfer) on :8503
+make on-lstm                   # LSTM read-only Streamlit console on :8502
+make iteration-smoke           # the full DAG on three assets (a fast validation run)
 ```
 
 - **Present:** `results/methodology_snapshot/` + `make methodology-report` (no numeric stack, no data).

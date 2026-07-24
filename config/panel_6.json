@@ -1,0 +1,9 @@
+{
+  "schema_version": "panel.v1",
+  "assets": ["AZO", "ADBE", "GOOG", "NVDA", "ORLY", "GWW"],
+  "chosen_from": "sample_20.json",
+  "purpose": "Family Transfer development panel (Rung 8). Six assets picked from sample_20 for their DIFFERENT behaviours under the methodology — no confirmed features, cross-fit-then-null-rejected, null-passed-then-tuning-demoted, a retained survivor, and elevated model-space degeneracy — so the panel exercises every branch of the family-transfer report.",
+  "affects_contract_hash": false,
+  "certification_panel": false,
+  "_note": "This is a runtime study scope, NOT a change of the problem's identity. It is consumed via the Makefile ASSETS default and the aggregator's --panel flag. It does NOT edit sample_20.json and therefore does NOT change sample_sha256 or contract_hash. A run over these six assets is a development experiment, never a certification."
+}

@@ -95,6 +95,37 @@ def compiled(source):
     return {}
 
 
+def family_transfer_summary(source, panel=None):
+    """Rung 8 — the panel-level family view, from the SAME frozen artifacts as the funnel.
+
+    Additive and guarded: this is a pure read (scripts/family_transfer.py), and any edge — a missing
+    input, an older snapshot — degrades to a compact 'unavailable' note rather than disturbing the
+    funnel. Never trains, never reads OOS; the aggregator enforces that.
+    """
+    try:
+        import family_transfer as FT
+        rep = FT.build(source, panel=panel,
+                       source_label="snapshot" if Path(source) == SNAPSHOT else "run-dir")
+    except Exception as e:                                            # noqa: BLE001 — reporting must not die
+        return {"available": False, "reason": str(e)}
+    from collections import Counter
+    return {
+        "available": True,
+        "funnel": rep["funnel"],
+        "n_families": rep["panel"]["family_count"],
+        "status_counts": dict(sorted(Counter(f["status"] for f in rep["families"]).items())),
+        "families": [{"family": f["family"], "status": f["status"],
+                      "stable_a1_a2_b_count": f["stable_a1_a2_b_count"],
+                      "rung6_retained_count": f["rung6_retained_count"],
+                      "asset_coverage": f["asset_coverage"]} for f in rep["families"]],
+        "minimal_panel_family_set": rep["minimal_panel_family_set"],
+        "minimal_panel_coverage": rep["minimal_panel"]["coverage"],
+        "taxonomy_suggestions": {t["family"]: t["suggestion"] for t in rep["taxonomy_diagnostics"]},
+        "integrity": rep["integrity"]["status"],
+        "missing_inputs": rep["integrity"]["missing_inputs"],
+    }
+
+
 def build(source, out=None):
     fn = funnel(source)
     comp = compiled(source)
@@ -106,7 +137,8 @@ def build(source, out=None):
                                   "resolved_empty": empty, "total": len(comp)},
               "assets": {a: {"status": c.get("status"),
                              "selected_features": c.get("selected_features", [])}
-                         for a, c in comp.items()}}
+                         for a, c in comp.items()},
+              "family_transfer": family_transfer_summary(source)}
     if out:
         write_json_atomic(out, report)
     return report
@@ -130,6 +162,19 @@ def main():
     print(f"  → stabilne A1×A2×B             {fn['stable_a1_a2_b']}")
     print(f"  → retained Rung 6              {fn['retained_rung6']}")
     print(f"\n  compiler: {rep['compiled_counts']}")
+
+    ft = rep.get("family_transfer") or {}
+    if ft.get("available"):
+        print("\n  Rung 8 — Family Transfer (panel-level):")
+        print(f"    statusy rodzin: {ft['status_counts']}")
+        print(f"    minimal panel family set: {ft['minimal_panel_family_set'] or '[] (pusty zbiór jest poprawny)'}")
+        rs = [k for k, v in ft.get("taxonomy_suggestions", {}).items() if v in ('REVIEW_SPLIT', 'REVIEW_MERGE')]
+        if rs:
+            print(f"    taksonomia do przeglądu: {rs}")
+        if ft.get("missing_inputs"):
+            print(f"    braki wejść (single-utility niedostępne): {ft['missing_inputs']}")
+    elif ft:
+        print(f"\n  Rung 8 — Family Transfer: niedostępny ({ft.get('reason', '—')})")
 
     if args.parity:
         got = [fn["provisional_crossfit"], fn["passed_a1_marginal"],
