@@ -45,15 +45,20 @@ parallel, deterministic, without an operator hand-picking favourable results. It
 [`engine/`](engine/) and [`ops/`](ops/). The engine executes the science; it never changes it. Every
 transition between rungs comes from an immutable artifact and the frozen contract.
 
-## The three pages
+## The two pages
 
-`make on` opens a read-only Streamlit console — three pages, flat sidebar, counts derived from the
+`make on` opens a read-only Streamlit console — two pages, flat sidebar, counts derived from the
 store, nothing trains at runtime:
 
-- **Overview** — what came out of this: per-asset verdicts and the funnel.
-- **Basket Simulator** — build a basket and read what the sealed models did with it.
+- **Data Journey** — the methodology as the road the data travels, because you cannot show the method
+  without showing how the data is prepared first: raw OHLCV → warmup → Train/OOS split (purge + embargo,
+  oos_reads = 0) → feature search (Train-only) → the rung ladder → OOS verdict, on seven real assets, one
+  arc through every terminal of the funnel.
 - **Smart Methodology** — the calibration-configurables map and the run replay (the field-level guard
   runs live on every visit), in two tabs.
+
+The sealed-model product console (per-asset outcomes across the 498/495 universe, the basket simulator)
+lives on the `main` branch; this branch is the method, not the sealed models.
 
 ## Reproducibility — what runs from a fresh clone, and what does not
 

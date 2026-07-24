@@ -1,4 +1,4 @@
-.PHONY: setup on off verify clean help lint-contract verify-calibration-docs replay verify-replay \
+.PHONY: setup on off verify clean help lint-contract verify-calibration-docs replay verify-replay data-journey verify-data-journey \
         methodology-report engine-selftest \
         iteration-start iteration-status iteration-plan iteration-report iteration-stop \
         iteration-smoke iteration-selftest \
@@ -126,6 +126,12 @@ replay:                             ## build methodology_replay.html from the sn
 
 verify-replay:                      ## fail if the built replay's seal drifted from contract/snapshot/guard
 	@$(PY) scripts/verify_replay.py
+
+data-journey:                       ## build data_journey.html from the snapshot (never hand-edit it)
+	@$(PY) scripts/build_data_journey.py
+
+verify-data-journey:                ## fail if the built data-journey board's seal drifted from contract/snapshot
+	@$(PY) scripts/verify_data_journey.py
 
 # --- methodology (branch `methodology`) --------------------------------------------------------
 # Two ways to use the branch. PRESENTATION reads frozen artifacts and prints the funnel in a blink;

@@ -1,10 +1,11 @@
-"""Entry point: `streamlit run app.py` (or `make on`). Three read-only pages, flat.
+"""Entry point: `streamlit run app.py` (or `make on`). Two read-only pages, flat.
 
-A list rather than a dict: st.navigation only draws section headers when it is given groups,
-and three pages do not need headers over them. Order is the reading order — the result first,
-then the thing to play with, then the method in full. Overview stays the landing page; it is
-the one that answers "what came out of this". The build-path maps and the full configurables
-catalog now live under docs/archive/ (deep-dive), reachable from docs/SMART_METHODOLOGY.md.
+A list rather than a dict: st.navigation only draws section headers when it is given groups, and two
+pages do not need headers over them. Order is the reading order — the data journey first (how the
+methodology prepares data and walks it through the ladder on real assets), then Smart Methodology (the
+configurables map and the run replay). Both read the frozen snapshot; nothing trains at runtime. The
+sealed-model product console (per-asset outcomes, the basket simulator) lives on the `main` branch —
+this branch is the method, not the sealed models.
 """
 import sys
 from pathlib import Path
@@ -20,8 +21,7 @@ st.set_page_config(
 )
 
 pages = st.navigation([
-    st.Page("app/pages/overview.py", title="Overview", url_path="overview", default=True),
-    st.Page("app/pages/simulator.py", title="Basket Simulator", url_path="simulator"),
+    st.Page("app/pages/data_journey.py", title="Data Journey", url_path="data-journey", default=True),
     st.Page("app/pages/methodology.py", title="Smart Methodology", url_path="methodology"),
 ], expanded=True)
 pages.run()
