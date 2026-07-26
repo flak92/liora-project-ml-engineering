@@ -1,0 +1,27 @@
+{
+  "files.watcherExclude": {
+    "**/.venv/**": true,
+    "**/venv/**": true,
+    "**/__pycache__/**": true,
+    "**/.git/objects/**": true,
+    "**/.publish_stage/**": true,
+    "**/artifacts/**": true,
+    "**/xgb/Assets/**": true,
+    "**/lstm/Assets/**": true,
+    "**/lstm/cache/**": true,
+    "**/mac-2026-06-08/**": true,
+    "**/mac-2026-06-09-full-6y/**": true
+  },
+  "search.exclude": {
+    "**/.venv": true,
+    "**/__pycache__": true,
+    "**/.publish_stage": true,
+    "**/artifacts": true,
+    "**/xgb/Assets": true,
+    "**/lstm/Assets": true,
+    "**/mac-2026-06-08": true,
+    "**/mac-2026-06-09-full-6y": true
+  },
+  "python.analysis.exclude": ["**/.venv/**", "**/artifacts/**", "**/.publish_stage/**"],
+  "python.analysis.indexing": false
+}

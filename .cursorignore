@@ -1,0 +1,28 @@
+# Cursor: nie indeksuj i nie watchuj. Repo ma ~97k plikow przy limicie inotify 60129,
+# co zawieszalo fileWatcher. 82% z tego to .venv.
+
+# --- srodowisko Pythona: 79.5k plikow, zero wartosci dla podpowiedzi ---
+.venv/
+venv/
+**/__pycache__/
+*.pyc
+
+# --- artefakty generowane, nie zrodla ---
+.publish_stage/
+artifacts/
+xgb/Assets/
+lstm/Assets/
+lstm/cache/
+
+# --- snapshoty danych (393M) ---
+mac-2026-06-08/
+mac-2026-06-09-full-6y/
+
+# --- dane binarne i backupy SQLite ---
+*.parquet
+*.db
+*.db-shm
+*.db-wal
+*.bak
+*.bak-shm
+*.bak-wal
